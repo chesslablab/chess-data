@@ -175,4 +175,54 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $piece = $board->getPieceToMove($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
+
+    public function testIsLegalMoveNc3InDefaultBoard()
+    {
+        $board = new Board;
+        $move = PGN::arrayizeMove('w', 'Nc3');
+        $piece = $board->getPieceToMove($move);
+        $this->assertEquals(true, $board->isLegalMove($piece, $move));
+    }
+
+    public function testIsLegalMoveNd2InDefaultBoard()
+    {
+        $board = new Board;
+        $move = PGN::arrayizeMove('w', 'Nd2');
+        $piece = $board->getPieceToMove($move);
+        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+    }
+
+    public function testIsLegalMoveCaptureNxd2InDefaultBoard()
+    {
+        $board = new Board;
+        $move = PGN::arrayizeMove('w', 'Nxd2');
+        $piece = $board->getPieceToMove($move);
+        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+    }
+
+    public function testIsLegalMoveCaptureNxc3InDefaultBoard()
+    {
+        $board = new Board;
+        $move = PGN::arrayizeMove('w', 'Nxc3');
+        $piece = $board->getPieceToMove($move);
+        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+    }
+
+    public function testIsLegalCaptureNxc3InCustomBoard()
+    {
+        $pieces = [
+            new Knight(PGN::COLOR_WHITE, 'b1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Pawn(PGN::COLOR_WHITE, 'g6'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'c3'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $move = PGN::arrayizeMove('w', 'Nxc3');
+        $piece = $board->getPieceToMove($move);
+        $this->assertEquals(true, $board->isLegalMove($piece, $move));
+    }
+
 }

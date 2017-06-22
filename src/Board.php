@@ -121,7 +121,7 @@ class Board extends \SplObjectStorage
         while ($this->valid())
         {
             $piece = $this->current();
-            // prioritize the matching of the less ambiguous piece
+            // prioritize the matching of the less ambiguous piece according to the PGN format
             if (
                 $piece->getColor() === $move->color &&
                 $piece->getIdentity() === $move->identity &&
@@ -177,6 +177,21 @@ class Board extends \SplObjectStorage
                 break;
 
             case $move->type == PGN::MOVE_TYPE_KNIGHT:
+                $scope = $piece->getPosition()->scope;
+                foreach($scope->jumps as $square)
+                {
+                    if (
+                        !in_array($square, $this->status->squares->used->{$piece->getColor()}) &&
+                        !in_array($square, $this->status->squares->used->{$piece->getOppositeColor()})
+                    )
+                    {
+                        $legalMoves[] = $square;
+                    }
+                    else if (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
+                    {
+                        $legalMoves[] = $square;
+                    }
+                }
                 break;
 
             case $move->type == PGN::MOVE_TYPE_PAWN:
@@ -207,6 +222,14 @@ class Board extends \SplObjectStorage
                 break;
 
             case $move->type == PGN::MOVE_TYPE_KNIGHT_CAPTURES:
+                $scope = $piece->getPosition()->scope;
+                foreach($scope->jumps as $square)
+                {
+                    if (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
+                    {
+                        $legalMoves[] = $square;
+                    }
+                }
                 break;
 
             case  $move->type == PGN::MOVE_TYPE_PAWN_CAPTURES:

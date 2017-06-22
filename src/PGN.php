@@ -15,15 +15,15 @@ class PGN
 
     const SQUARE = '[a-h]{1}[1-8]{1}';
 
-    const MOVE_TYPE_KING = 'K{1}' . self::SQUARE;
+    const MOVE_TYPE_KING = 'K' . self::SQUARE;
     const MOVE_TYPE_PIECE = '[BRQ]{1}[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
-    const MOVE_TYPE_KNIGHT = 'N{1}[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
+    const MOVE_TYPE_KNIGHT = 'N[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
     const MOVE_TYPE_PAWN = self::SQUARE;
     const MOVE_TYPE_LONG_CASTLING = 'O-O-O';
     const MOVE_TYPE_SHORT_CASTLING = 'O-O';
-    const MOVE_TYPE_KING_CAPTURES = 'K{1}x' . self::SQUARE;
+    const MOVE_TYPE_KING_CAPTURES = 'Kx' . self::SQUARE;
     const MOVE_TYPE_PIECE_CAPTURES = '[BRQ]{1}[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
-    const MOVE_TYPE_KNIGHT_CAPTURES = 'N{1}[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
+    const MOVE_TYPE_KNIGHT_CAPTURES = 'N[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
     const MOVE_TYPE_PAWN_CAPTURES = '[a-h]{1}x' . self::SQUARE;
 
     public static function color($color)

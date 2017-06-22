@@ -8,7 +8,7 @@ class Knight extends AbstractPiece
 {
     public function __construct($color, $position)
     {
-        parent::__construct($color, $position, PGN::PIECE_BISHOP);
+        parent::__construct($color, $position, PGN::PIECE_KNIGHT);
         $this->position->scope = (object)[
             'jumps' => []
         ];
@@ -105,6 +105,6 @@ class Knight extends AbstractPiece
             }
         }
         catch (\InvalidArgumentException $e) {}
-            
+
     }
 }

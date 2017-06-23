@@ -12,6 +12,8 @@ abstract class AbstractPiece implements Piece
 
     protected $identity;
 
+    protected $nextMove;
+
     public function __construct($color, $square, $identity)
     {
         PGN::color($color) ? $this->color = $color : false;
@@ -53,9 +55,19 @@ abstract class AbstractPiece implements Piece
         return $this->identity;
     }
 
+    public function getNextMove()
+    {
+        return $this->nextMove;
+    }
+
     public function setPosition(\stdClass $position)
     {
         $this->position = $position;
+    }
+
+    public function setNextMove(\stdClass $move)
+    {
+        $this->nextMove = $move;
     }
 
 }

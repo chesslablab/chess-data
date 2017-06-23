@@ -33,19 +33,19 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     public function testMoveUa5ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('w', 'Ua5');
+        PGN::objectizeMove('w', 'Ua5');
     }
 
     public function testMove3a5ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('w', '3a5');
+        PGN::objectizeMove('w', '3a5');
     }
 
     public function testMovecb3b7()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('w', 'cb3b7');
+        PGN::objectizeMove('w', 'cb3b7');
     }
 
     public function testMoveBg5()
@@ -60,7 +60,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' =>'g5'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
 
     public function testMoveRa5()
@@ -75,7 +75,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'a5'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 
     public function testMoveQbb7()
@@ -90,7 +90,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'b7'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 
     public function testMoveNdb4()
@@ -105,7 +105,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'b4'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 
     public function testMoveKg7()
@@ -120,7 +120,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
 
     public function testMoveQh8g7()
@@ -135,7 +135,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 
     // move pawns
@@ -143,19 +143,19 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     public function testMoveaThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('b', 'a');
+        PGN::objectizeMove('b', 'a');
     }
 
     public function testMove3ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('b', '3');
+        PGN::objectizeMove('b', '3');
     }
 
     public function testMoveK3ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('b', 'K3');
+        PGN::objectizeMove('b', 'K3');
     }
 
     public function testMovec3()
@@ -170,7 +170,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'c3'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
 
     public function testMoveh4()
@@ -185,7 +185,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'h3'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
 
     // castling
@@ -193,13 +193,13 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     public function testMoveShortCastlingThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('w', 'a-a');
+        PGN::objectizeMove('w', 'a-a');
     }
 
     public function testMoveLongCastlingThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('b', 'c-c-c');
+        PGN::objectizeMove('b', 'c-c-c');
     }
 
     public function testMoveShortCastling()
@@ -210,7 +210,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             'color' => 'w',
             'identity' => 'K'
         ];
-        $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
 
     public function testMoveLongCastling()
@@ -221,7 +221,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             'color' => 'w',
             'identity' => 'K'
         ];
-        $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
 
     // captures
@@ -229,7 +229,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     public function testMoveCaptureThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        PGN::arrayizeMove('b', 'Fxa7');
+        PGN::objectizeMove('b', 'Fxa7');
     }
 
     public function testMoveCapturefxg5()
@@ -244,7 +244,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g5'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 
     public function testMoveCaptureNxe4()
@@ -259,7 +259,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'e4'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 
     public function testMoveCaptureQ7xg7()
@@ -274,6 +274,6 @@ class PGNTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(PGN::arrayizeMove('b', $move), $example);
+        $this->assertEquals(PGN::objectizeMove('b', $move), $example);
     }
 }

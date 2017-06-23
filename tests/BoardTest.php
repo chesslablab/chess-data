@@ -37,31 +37,25 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getStatus()->squares->used->b), 3);
     }
 
-    public function testGetPieceToMoveQg3()
+    public function testMoveQg3()
     {
         $board = new Board;
-        $piece = $board->getPieceToBeMoved(PGN::arrayizeMove('w', 'Qg3'));
-        $this->assertInstanceOf(Queen::class, $piece);
-        $this->assertEquals($piece->getPosition()->current, 'd1');
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('b', 'Qg5')));
     }
 
-    public function testGetPieceToMoveRh3()
+    public function testMoveRh3()
     {
         $board = new Board;
-        $piece = $board->getPieceToBeMoved(PGN::arrayizeMove('w', 'Rh3'));
-        $this->assertInstanceOf(Rook::class, $piece);
-        $this->assertEquals($piece->getPosition()->current, 'a1');
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Rh3')));
     }
 
-    public function testIsLegalMoveRa6InDefaultBoard()
+    public function testMoveRa6()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Ra6');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Ra6')));
     }
 
-    public function testIsLegalMoveRa6InCustomBoard()
+    public function testMoveRa6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -98,36 +92,28 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $move = PGN::arrayizeMove('w', 'Ra6');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(true, $board->isLegalMove($piece, $move));
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Ra6')));
     }
 
-    public function testIsLegalMoveCaptureRxa6InDefaultBoard()
+    public function testMoveRxa6()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Rxa6');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('b', 'Rxa6')));
     }
 
-    public function testIsLegalMoveCaptureBxe5InDefaultBoard()
+    public function testMoveBxe5()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Bxe5');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Bxe5')));
     }
 
-    public function testIsLegalMoveCaptureexd4InDefaultBoard()
+    public function testMoveexd4()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'exd4');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'exd4')));
     }
 
-    public function testIsLegalMoveCaptureRxa6InCustomBoard()
+    public function testMoveRxa6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -138,12 +124,10 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $move = PGN::arrayizeMove('w', 'Rxa6');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(true, $board->isLegalMove($piece, $move));
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Rxa6')));
     }
 
-    /* public function testIsLegalMoveh6InCustomBoard()
+    public function testMoveh6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -154,12 +138,10 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $move = PGN::arrayizeMove('b', 'h6');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(true, $board->isLegalMove($piece, $move));
-    } */
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'h6')));
+    }
 
-    /* public function testIsLegalCaptureh6InCustomBoard()
+    public function testMovehxg6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -171,44 +153,34 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $move = PGN::arrayizeMove('b', 'hxg6');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(true, $board->isLegalMove($piece, $move));
-    }*/
-
-    public function testIsLegalMoveNc3InDefaultBoard()
-    {
-        $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Nc3');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(true, $board->isLegalMove($piece, $move));
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'hxg6')));
     }
 
-    public function testIsLegalMoveNd2InDefaultBoard()
+    public function testMoveNc3()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Nd2');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Nc3')));
     }
 
-    public function testIsLegalMoveCaptureNxd2InDefaultBoard()
+    public function testMoveNc6()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Nxd2');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'Nc6')));
     }
 
-    public function testIsLegalMoveCaptureNxc3InDefaultBoard()
+    public function testMoveNxd2()
     {
         $board = new Board;
-        $move = PGN::arrayizeMove('w', 'Nxc3');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Nxd2')));
     }
 
-    public function testIsLegalCaptureNxc3InCustomBoard()
+    public function testMoveNxc3()
+    {
+        $board = new Board;
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Nxc3')));
+    }
+
+    public function testMoveNxc3InCustomBoard()
     {
         $pieces = [
             new Knight(PGN::COLOR_WHITE, 'b1'),
@@ -220,17 +192,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $move = PGN::arrayizeMove('w', 'Nxc3');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(true, $board->isLegalMove($piece, $move));
-    }
-
-    public function testWhiteKingTryingToCastleInDefaultBoard()
-    {
-        $board = new Board;
-        $move = PGN::arrayizeMove('w', 'O-O');
-        $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isCastling($piece, $move));
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Nxc3')));
     }
 
 }

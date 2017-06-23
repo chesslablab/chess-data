@@ -8,7 +8,7 @@ use PGNChess\Piece\Bishop;
 
 class King extends AbstractPiece
 {
-    private $castling;
+    private $castlingInfo;
 
     private $rook;
 
@@ -21,7 +21,7 @@ class King extends AbstractPiece
         switch ($this->color)
         {
             case PGN::COLOR_WHITE:
-                $this->castling = (object) [
+                $this->castlingInfo = (object) [
                     PGN::PIECE_KING => (object) [
                         'long' => (object) [
                             'freeSquares' => (object) [
@@ -63,7 +63,7 @@ class King extends AbstractPiece
                 break;
 
             case PGN::COLOR_BLACK:
-                $this->castling = (object) [
+                $this->castlingInfo = (object) [
                     PGN::PIECE_KING => (object) [
                         'long' => (object) [
                             'freeSquares' => (object) [
@@ -110,9 +110,9 @@ class King extends AbstractPiece
         $this->scope();
     }
 
-    public function getCastling()
+    public function getCastlingInfo()
     {
-        return $this->castling;
+        return $this->castlingInfo;
     }
 
     protected function scope()

@@ -46,7 +46,7 @@ class PGN
         return true;
     }
 
-    static public function arrayizeMove($color, $pgn)
+    static public function objectizeMove($color, $pgn)
     {
         switch(true)
         {
@@ -66,9 +66,10 @@ class PGN
                 $result = (object) [
                     'type' => self::MOVE_TYPE_KING_CASTLING_LONG,
                     'color' => $color,
-                    'identity' => self::PIECE_KING
-                    // the position can't be arrayized from the entry since it
-                    // depends on the color
+                    'identity' => self::PIECE_KING,
+                    'position' => PGN::CASTLING_LONG
+                    // in the castling case, the position can't be objectized
+                    // from the PGN entry since it depends on the color
                 ];
                 break;
 
@@ -76,9 +77,10 @@ class PGN
                 $result = (object) [
                     'type' => self::MOVE_TYPE_KING_CASTLING_SHORT,
                     'color' => $color,
-                    'identity' => self::PIECE_KING
-                    // the position can't be arrayized from the entry since it
-                    // depends on the color
+                    'identity' => self::PIECE_KING,
+                    'position' => PGN::CASTLING_SHORT
+                    // in the castling case, the position can't be objectized
+                    // from the PGN entry since it depends on the color
                 ];
                 break;
 

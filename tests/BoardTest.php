@@ -192,7 +192,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Nxc3')));
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Nxc3')));
     }
 
 }

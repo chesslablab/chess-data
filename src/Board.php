@@ -131,8 +131,6 @@ class Board extends \SplObjectStorage
     {
         $piece = $this->pickPieceToMove($move);
 
-        // print_r($piece); Exit;
-
         if ($this->canPieceBeMoved($piece))
         {
             // castling move
@@ -190,7 +188,7 @@ class Board extends \SplObjectStorage
                         $piece->setNextMove($move);
                         return $piece;
                         break;
-                        
+
                     // is it a disambiguation move? For example, Rbe8, Q7g7. If so,
                     // the piece is obtained from the board by looking at its current
                     // position on it.

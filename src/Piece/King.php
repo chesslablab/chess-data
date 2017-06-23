@@ -14,9 +14,9 @@ class King extends AbstractPiece
 
     private $bishop;
 
-    public function __construct($color, $position)
+    public function __construct($color, $square)
     {
-        parent::__construct($color, $position, PGN::PIECE_KING);
+        parent::__construct($color, $square, PGN::PIECE_KING);
 
         switch ($this->color)
         {
@@ -105,8 +105,8 @@ class King extends AbstractPiece
                 break;
         }
 
-        $this->rook = new Rook($color, $position, PGN::PIECE_ROOK);
-        $this->bishop = new Bishop($color, $position, PGN::PIECE_BISHOP);
+        $this->rook = new Rook($color, $square, PGN::PIECE_ROOK);
+        $this->bishop = new Bishop($color, $square, PGN::PIECE_BISHOP);
         $this->scope();
     }
 

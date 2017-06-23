@@ -2,6 +2,7 @@
 namespace PGNChess;
 
 use PGNChess\PGN;
+use PGNChess\Piece\Piece;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
 use PGNChess\Piece\Knight;
@@ -13,7 +14,7 @@ class Board extends \SplObjectStorage
 {
     protected $status;
 
-    public function __construct($pieces=null)
+    public function __construct(array $pieces=null)
     {
         if (empty($pieces))
         {
@@ -82,6 +83,11 @@ class Board extends \SplObjectStorage
 
     private function updateStatus()
     {
+        // update the user's turn
+        $this->status->turn === PGN::COLOR_WHITE ? PGN::COLOR_BLACK : PGN::COLOR_WHITE;
+        // update squares used
+        $this->status->squares->used->{PGN::COLOR_WHITE} = [];
+        $this->status->squares->used->{PGN::COLOR_BLACK} = [];
         $this->rewind();
         while ($this->valid())
         {
@@ -92,30 +98,50 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
-    private function setTurn($turn)
+    private function setTurn(string $turn)
     {
         $this->status->turn = $turn;
     }
 
-    public function movePiece($move)
+    public function castle(string $type, King $king)
     {
-        // TODO now coding this part...
-        $piece = $this->getPieceToBeMoved($move);
+        switch($type)
+        {
+            case PGN::CASTLING_LONG:
+                // TODO ...
+                break;
+
+            case PGN::CASTLING_SHORT:
+                // TODO ...
+                break;
+        }
+
+        $this->status->castled->{$king->getColor()}->true;
+    }
+
+    private function swap(Piece $a, Piece $b)
+    {
+        $this->detach($b);
+        $this->attach($a);
+    }
+
+    // TODO now coding this method...
+    public function movePiece(Piece $piece, array $move)
+    {
         if ($this->isLegalMove($piece, $move))
         {
-            $this->detach($piece); // better swapping than detaching/attaching...
+            $pieceMoved = clone $piece;
             $position = $piece->getPosition();
             $position->current = $move->position->next;
-            $piece->setPosition($position);
-            $this->attach($piece);
-            // ...
-            $this->setStatusSquares(); // don't forget to udpate the square list...
+            $pieceMoved->setPosition($position);
+            $this->swap($pieceMoved, $piece);
+            $this->updateStatus();
+            return true;
         }
-        else // what if can't be moved?
+        else
         {
-
+            throw new \InvalidArgumentException("This is not a legal move: {$move->identity} to {$move->position->next}");
         }
-        return $piece;
     }
 
     public function getPiecesByColor($color)
@@ -131,7 +157,7 @@ class Board extends \SplObjectStorage
         return $pieces;
     }
 
-    public function getPieceToBeMoved($move)
+    public function getPieceToBeMoved(\stdClass $move)
     {
         $pieces = $this->getPiecesByColor($move->color);
         $found = null;
@@ -169,7 +195,7 @@ class Board extends \SplObjectStorage
         return $found;
     }
 
-    public function getLegalMoves($piece, $move)
+    public function getLegalMoves(Piece $piece, \stdClass $move)
     {
         $legalMoves = [];
 
@@ -300,8 +326,13 @@ class Board extends \SplObjectStorage
         return $legalMoves;
     }
 
+    public function isCastling(Piece $piece, \stdClass $move)
+    {
+        return  in_array(PGN::CASTLING_LONG, $this->getLegalMoves($piece, $move)) ||
+                in_array(PGN::CASTLING_SHORT, $this->getLegalMoves($piece, $move));
+    }
 
-    public function isLegalMove($piece, $move)
+    public function isLegalMove(Piece $piece, \stdClass $move)
     {
         return in_array($move->position->next, $this->getLegalMoves($piece, $move));
     }

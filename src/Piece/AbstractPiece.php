@@ -1,9 +1,10 @@
 <?php
 namespace PGNChess\Piece;
 
+use PGNChess\Piece\Piece;
 use PGNChess\PGN;
 
-abstract class AbstractPiece
+abstract class AbstractPiece implements Piece
 {
     protected $color;
 
@@ -11,12 +12,12 @@ abstract class AbstractPiece
 
     protected $identity;
 
-    public function __construct($color, $position, $identity)
+    public function __construct($color, $square, $identity)
     {
         PGN::color($color) ? $this->color = $color : false;
 
         $this->position = (object) [
-            'current' => PGN::square($position) ? $position : null,
+            'current' => PGN::square($square) ? $square : null,
             'scope' => []
         ];
 
@@ -52,7 +53,7 @@ abstract class AbstractPiece
         return $this->identity;
     }
 
-    public function setPosition($position)
+    public function setPosition(\stdClass $position)
     {
         $this->position = $position;
     }

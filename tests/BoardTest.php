@@ -225,12 +225,12 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
-    /* public function testWhiteKingTryingToCastleInDefaultBoard()
+    public function testWhiteKingTryingToCastleInDefaultBoard()
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'O-O');
         $piece = $board->getPieceToBeMoved($move);
-        $this->assertEquals(false, $board->isLegalMove($piece, $move));
-    }*/
+        $this->assertEquals(false, $board->isCastling($piece, $move));
+    }
 
 }

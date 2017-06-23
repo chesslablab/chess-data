@@ -6,9 +6,9 @@ use PGNChess\Piece\AbstractPiece;
 
 class Rook extends AbstractPiece
 {
-    public function __construct($color, $position)
+    public function __construct($color, $square)
     {
-        parent::__construct($color, $position, PGN::PIECE_ROOK);
+        parent::__construct($color, $square, PGN::PIECE_ROOK);
         $this->position->scope = (object)[
             'up' => [],
             'bottom' => [],

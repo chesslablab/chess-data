@@ -8,9 +8,9 @@ class Pawn extends AbstractPiece
 {
     private $ranks;
 
-    public function __construct($color, $position)
+    public function __construct($color, $square)
     {
-        parent::__construct($color, $position, PGN::PIECE_PAWN);
+        parent::__construct($color, $square, PGN::PIECE_PAWN);
 
         switch ($this->color)
         {

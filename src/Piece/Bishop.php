@@ -6,9 +6,9 @@ use PGNChess\Piece\AbstractPiece;
 
 class Bishop extends AbstractPiece
 {
-    public function __construct($color, $position)
+    public function __construct($color, $square)
     {
-        parent::__construct($color, $position, PGN::PIECE_BISHOP);
+        parent::__construct($color, $square, PGN::PIECE_BISHOP);
         $this->position->scope = (object)[
             'upLeft' => [],
             'upRight' => [],

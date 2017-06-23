@@ -6,9 +6,9 @@ use PGNChess\Piece\AbstractPiece;
 
 class Knight extends AbstractPiece
 {
-    public function __construct($color, $position)
+    public function __construct($color, $square)
     {
-        parent::__construct($color, $position, PGN::PIECE_KNIGHT);
+        parent::__construct($color, $square, PGN::PIECE_KNIGHT);
         $this->position->scope = (object)[
             'jumps' => []
         ];

@@ -13,15 +13,17 @@ class PGN
     const PIECE_QUEEN = 'Q';
     const PIECE_ROOK = 'R';
 
+    const CASTLING_LONG = 'O-O-O';
+    const CASTLING_SHORT = 'O-O';
     const SQUARE = '[a-h]{1}[1-8]{1}';
 
     const MOVE_TYPE_KING = 'K' . self::SQUARE;
+    const MOVE_TYPE_KING_CASTLING_LONG = self::CASTLING_LONG;
+    const MOVE_TYPE_KING_CASTLING_SHORT = self::CASTLING_SHORT;
+    const MOVE_TYPE_KING_CAPTURES = 'Kx' . self::SQUARE;
     const MOVE_TYPE_PIECE = '[BRQ]{1}[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
     const MOVE_TYPE_KNIGHT = 'N[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
     const MOVE_TYPE_PAWN = self::SQUARE;
-    const MOVE_TYPE_LONG_CASTLING = 'O-O-O';
-    const MOVE_TYPE_SHORT_CASTLING = 'O-O';
-    const MOVE_TYPE_KING_CAPTURES = 'Kx' . self::SQUARE;
     const MOVE_TYPE_PIECE_CAPTURES = '[BRQ]{1}[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
     const MOVE_TYPE_KNIGHT_CAPTURES = 'N[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
     const MOVE_TYPE_PAWN_CAPTURES = '[a-h]{1}x' . self::SQUARE;
@@ -51,6 +53,38 @@ class PGN
             case preg_match('/^' . self::MOVE_TYPE_KING . '$/', $pgn):
                 $result = (object) [
                     'type' => self::MOVE_TYPE_KING,
+                    'color' => $color,
+                    'identity' => self::PIECE_KING,
+                    'position' => (object) [
+                        'current' => null,
+                        'next' => mb_substr($pgn, -2)
+                    ]
+                ];
+                break;
+
+            case $pgn === self::MOVE_TYPE_KING_CASTLING_LONG:
+                $result = (object) [
+                    'type' => self::MOVE_TYPE_KING_CASTLING_LONG,
+                    'color' => $color,
+                    'identity' => self::PIECE_KING
+                    // the position can't be arrayized from the entry since it
+                    // depends on the color
+                ];
+                break;
+
+            case $pgn === self::MOVE_TYPE_KING_CASTLING_SHORT:
+                $result = (object) [
+                    'type' => self::MOVE_TYPE_KING_CASTLING_SHORT,
+                    'color' => $color,
+                    'identity' => self::PIECE_KING
+                    // the position can't be arrayized from the entry since it
+                    // depends on the color
+                ];
+                break;
+
+            case preg_match('/^' . self::MOVE_TYPE_KING_CAPTURES . '$/', $pgn):
+                $result = (object) [
+                    'type' => self::MOVE_TYPE_KING_CAPTURES,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
                     'position' => (object) [
@@ -94,64 +128,6 @@ class PGN
                     'position' => (object) [
                         'current' => mb_substr($pgn, 0, 1),
                         'next' => $pgn
-                    ]
-                ];
-                break;
-
-            case $pgn === self::MOVE_TYPE_LONG_CASTLING:
-                $result = (object) [
-                    [
-                        'type' => self::MOVE_TYPE_LONG_CASTLING,
-                        'color' => $color,
-                        'identity' => self::PIECE_KING,
-                        'position' => (object) [
-                            'current' => $color == self::COLOR_WHITE ? 'e1' : 'e8',
-                            'next' => $color == self::COLOR_WHITE ? 'c1' : 'c8'
-                        ]
-                    ],
-                    [
-                        'type' => self::MOVE_TYPE_LONG_CASTLING,
-                        'color' => $color,
-                        'identity' => self::PIECE_ROOK,
-                        'position' => (object) [
-                            'current' => $color == self::COLOR_WHITE ? 'a1' : 'a8',
-                            'next' => $color == self::COLOR_WHITE ? 'd1' : 'd8'
-                        ]
-                    ]
-                ];
-                break;
-
-            case $pgn === self::MOVE_TYPE_SHORT_CASTLING:
-                $result = (object) [
-                    [
-                        'type' => self::MOVE_TYPE_SHORT_CASTLING,
-                        'color' => $color,
-                        'identity' => self::PIECE_KING,
-                        'position' => (object) [
-                            'current' => $color == self::COLOR_WHITE ? 'e1' : 'e8',
-                            'next' => $color == self::COLOR_WHITE ? 'g1' : 'g8'
-                        ]
-                    ],
-                    [
-                        'type' => self::MOVE_TYPE_SHORT_CASTLING,
-                        'color' => $color,
-                        'identity' => self::PIECE_ROOK,
-                        'position' => (object) [
-                            'current' => $color == self::COLOR_WHITE ? 'h1' : 'h8',
-                            'next' => $color == self::COLOR_WHITE ? 'f1' : 'f8'
-                        ]
-                    ]
-                ];
-                break;
-
-            case preg_match('/^' . self::MOVE_TYPE_KING_CAPTURES . '$/', $pgn):
-                $result = (object) [
-                    'type' => self::MOVE_TYPE_KING_CAPTURES,
-                    'color' => $color,
-                    'identity' => self::PIECE_KING,
-                    'position' => (object) [
-                        'current' => null,
-                        'next' => mb_substr($pgn, -2)
                     ]
                 ];
                 break;

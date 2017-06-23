@@ -206,24 +206,9 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'O-O';
         $example = (object) [
-            [
-                'type' => PGN::MOVE_TYPE_SHORT_CASTLING,
-                'color' => 'w',
-                'identity' => 'K',
-                'position' => (object) [
-                    'current' => 'e1',
-                    'next' => 'g1'
-                ]
-            ],
-            [
-                'type' => PGN::MOVE_TYPE_SHORT_CASTLING,
-                'color' => 'w',
-                'identity' => 'R',
-                'position' => (object) [
-                    'current' => 'h1',
-                    'next' => 'f1'
-                ]
-            ]
+            'type' => PGN::MOVE_TYPE_KING_CASTLING_SHORT,
+            'color' => 'w',
+            'identity' => 'K'
         ];
         $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
     }
@@ -232,24 +217,9 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'O-O-O';
         $example = (object) [
-            [
-                'type' => PGN::MOVE_TYPE_LONG_CASTLING,
-                'color' => 'w',
-                'identity' => 'K',
-                'position' => (object) [
-                    'current' => 'e1',
-                    'next' => 'c1'
-                ]
-            ],
-            [
-                'type' => PGN::MOVE_TYPE_LONG_CASTLING,
-                'color' => 'w',
-                'identity' => 'R',
-                'position' => (object) [
-                    'current' => 'a1',
-                    'next' => 'd1'
-                ]
-            ]
+            'type' => PGN::MOVE_TYPE_KING_CASTLING_LONG,
+            'color' => 'w',
+            'identity' => 'K'
         ];
         $this->assertEquals(PGN::arrayizeMove('w', $move), $example);
     }

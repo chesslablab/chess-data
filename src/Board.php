@@ -85,7 +85,7 @@ class Board extends \SplObjectStorage
     {
         // update the user's turn
         $this->status->turn === PGN::COLOR_WHITE ? PGN::COLOR_BLACK : PGN::COLOR_WHITE;
-        // update squares used on the board
+        // update the squares being currently used on the board
         $this->status->squares->used->{PGN::COLOR_WHITE} = [];
         $this->status->squares->used->{PGN::COLOR_BLACK} = [];
         $this->rewind();
@@ -98,6 +98,13 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
+    /**
+     * Runs a castling move.
+     *
+     * @param PGNChess\Piece\King $king
+     *
+     * @return boolean
+     */
     private function castle(King $king)
     {
         try
@@ -127,6 +134,13 @@ class Board extends \SplObjectStorage
         return true;
     }
 
+    /**
+     * Moves a piece.
+     *
+     * @param PGNChess\Piece\Piece $piece
+     *
+     * @return boolean true if the move is performed; otherwise false
+     */
     private function move(Piece $piece)
     {
         try
@@ -153,23 +167,37 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
+    /**
+     * Runs a chess move(s) on the board.
+     *
+     * @param stdClass $move
+     *
+     * @return boolean true if the move is successfully run; otherwise false
+     */
     public function play(\stdClass $move)
     {
-    	$piece = $this->pickPieceToMove($move);
+        $piece = $this->pickPieceToMove($move);
         if ($this->isMovable($piece))
         {
             return $this->move($piece);
         }
         else if($this->isCastleable($piece))
         {
-    		return $this->castle($piece);
-    	}
+            return $this->castle($piece);
+        }
         else
-    	{
-    		return false;
-    	}
+        {
+            return false;
+        }
     }
 
+    /**
+     * Gets from the board all pieces by color.
+     *
+     * @param string $color
+     *
+     * @return array
+     */
     public function getPiecesByColor($color)
     {
         $pieces = [];
@@ -183,6 +211,13 @@ class Board extends \SplObjectStorage
         return $pieces;
     }
 
+    /**
+     * Picks from the board the piece to be moved by the user.
+     *
+     * @param stdClass $move
+     *
+     * @return use PGNChess\Piece\Piece
+     */
     private function pickPieceToMove(\stdClass $move)
     {
         $pieces = $this->getPiecesByColor($move->color);
@@ -204,17 +239,13 @@ class Board extends \SplObjectStorage
                         return $piece;
                         break;
 
-                    // is this a disambiguation move? For example, Rbe8, Q7g7. If so,
-                    // the piece is obtained from the board by looking at its current
-                    // position on it.
+                    // is this a disambiguation move? For example, Rbe8, Q7g7
                     case preg_match("/{$move->position->current}/", $piece->getPosition()->current):
                         $piece->setNextMove($move);
                         return $piece;
                         break;
 
-                    // otherwise, this is a usual move such as Nxd2, Nd2. This means
-                    // that the current piece can be obtained from the board without
-                    // specifying its current position.
+                    // otherwise, this is a usual move such as Nxd2 or Nd2
                     default:
                         $piece->setNextMove($move);
                         $found = $piece;

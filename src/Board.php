@@ -98,12 +98,12 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
-    private function setTurn(string $turn)
+    private function setTurn($turn)
     {
         $this->status->turn = $turn;
     }
 
-    public function castle(string $type, King $king)
+    public function castle($type, King $king)
     {
         switch($type)
         {

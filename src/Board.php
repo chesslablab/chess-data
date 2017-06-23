@@ -135,41 +135,35 @@ class Board extends \SplObjectStorage
     {
         $pieces = $this->getPiecesByColor($move->color);
         $found = null;
-        // prioritize the matching of the less ambiguous piece according to the PGN format
         foreach($pieces as $piece)
         {
-            // is the move a long castling?
-            if (
-                count($move) == 2 &&
-                $move[0]->type == PGN::MOVE_TYPE_KING_CASTLING_LONG &&
-                $move[1]->type == PGN::MOVE_TYPE_KING_CASTLING_LONG)
+            if ($piece->getIdentity() === $move->identity)
             {
+                // prioritize the matching of the less ambiguous piece according to the PGN format
+                switch(true)
+                {
+                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_LONG:
+                        return $piece;
+                        break;
 
-            }
-            // is it a short castling?
-            elseif (
-                count($move) == 2 &&
-                $move[0]->type == PGN::MOVE_TYPE_KING_CASTLING_SHORT &&
-                $move[1]->type == PGN::MOVE_TYPE_KING_CASTLING_SHORT)
-            {
+                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_SHORT:
+                        return $piece;
+                        break;
 
-            }
-            // is it a disambiguation move? For example, Rbe8, Q7g7. If so,
-            // the piece is obtained from the board by looking at its current
-            // position on it.
-            elseif (
-                $piece->getIdentity() === $move->identity &&
-                preg_match("/{$move->position->current}/", $piece->getPosition()->current)
-            )
-            {
-                return $piece;
-            }
-            // otherwise, this is a usual move such as Nxd2, Nd2. This means
-            // that the current piece can be obtained from the board without specifying
-            // its current position on the board.
-            elseif ($piece->getIdentity() === $move->identity)
-            {
-                $found = $piece;
+                    // is it a disambiguation move? For example, Rbe8, Q7g7. If so,
+                    // the piece is obtained from the board by looking at its current
+                    // position on it.
+                    case preg_match("/{$move->position->current}/", $piece->getPosition()->current):
+                        return $piece;
+                        break;
+
+                    // otherwise, this is a usual move such as Nxd2, Nd2. This means
+                    // that the current piece can be obtained from the board without
+                    // specifying its current position.
+                    default:
+                        return $piece;
+                        break;
+                }
             }
         }
         return $found;

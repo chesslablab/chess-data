@@ -143,7 +143,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
-    public function testIsLegalMoveh6InCustomBoard()
+    /* public function testIsLegalMoveh6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -157,9 +157,9 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $move = PGN::arrayizeMove('b', 'h6');
         $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
-    }
+    } */
 
-    public function testIsLegalCaptureh6InCustomBoard()
+    /* public function testIsLegalCaptureh6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -174,7 +174,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $move = PGN::arrayizeMove('b', 'hxg6');
         $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
-    }
+    }*/
 
     public function testIsLegalMoveNc3InDefaultBoard()
     {
@@ -224,5 +224,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
+
+    /* public function testWhiteKingTryingToCastleInDefaultBoard()
+    {
+        $board = new Board;
+        $move = PGN::arrayizeMove('w', 'O-O');
+        $piece = $board->getPieceToBeMoved($move);
+        $this->assertEquals(false, $board->isLegalMove($piece, $move));
+    }*/
 
 }

@@ -12,7 +12,6 @@ use PGNChess\Piece\Rook;
 
 class BoardTest extends \PHPUnit_Framework_TestCase
 {
-    /*
     public function testInstantiateDefaultBoard()
     {
         $board = new Board;
@@ -38,25 +37,25 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getStatus()->squares->used->b), 3);
     }
 
-    public function testMoveQg3()
+    public function testPlayQg3()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('b', 'Qg5')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('b', 'Qg5')));
     }
 
-    public function testMoveRh3()
+    public function testPlayRh3()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Rh3')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Rh3')));
     }
 
-    public function testMoveRa6()
+    public function testPlayRa6()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Ra6')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Ra6')));
     }
 
-    public function testMoveRa6InCustomBoard()
+    public function testPlayRa6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -93,28 +92,28 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Ra6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Ra6')));
     }
 
-    public function testMoveRxa6()
+    public function testPlayRxa6()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('b', 'Rxa6')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('b', 'Rxa6')));
     }
 
-    public function testMoveBxe5()
+    public function testPlayBxe5()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Bxe5')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Bxe5')));
     }
 
-    public function testMoveexd4()
+    public function testPlayexd4()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'exd4')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'exd4')));
     }
 
-    public function testMoveRxa6InCustomBoard()
+    public function testPlayRxa6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -125,10 +124,10 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Rxa6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Rxa6')));
     }
 
-    public function testMoveh6InCustomBoard()
+    public function testPlayh6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -139,10 +138,10 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'h6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'h6')));
     }
 
-    public function testMovehxg6InCustomBoard()
+    public function testPlayhxg6InCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -154,34 +153,34 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'hxg6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'hxg6')));
     }
 
-    public function testMoveNc3()
+    public function testPlayNc3()
     {
         $board = new Board;
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Nc3')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Nc3')));
     }
 
-    public function testMoveNc6()
+    public function testPlayNc6()
     {
         $board = new Board;
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'Nc6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nc6')));
     }
 
-    public function testMoveNxd2()
+    public function testPlayNxd2()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Nxd2')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Nxd2')));
     }
 
-    public function testMoveNxc3()
+    public function testPlayNxc3()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'Nxc3')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Nxc3')));
     }
 
-    public function testMoveNxc3InCustomBoard()
+    public function testPlayNxc3InCustomBoard()
     {
         $pieces = [
             new Knight(PGN::COLOR_WHITE, 'b1'),
@@ -193,22 +192,22 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Nxc3')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Nxc3')));
     }
 
-    public function testMoveShortCastling()
+    public function testPlayShortCastling()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'O-O')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
     }
 
-    public function testMoveLongCastling()
+    public function testPlayLongCastling()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'O-O-O')));
-    } */
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O-O')));
+    }
 
-    public function testMoveShortCastlingInCustomBoard()
+    public function testPlayShortCastlingInCustomBoard()
     {
         $pieces = [
             new Rook(PGN::COLOR_WHITE, 'a1'),
@@ -245,7 +244,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'O-O')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'O-O')));
     }
 
 }

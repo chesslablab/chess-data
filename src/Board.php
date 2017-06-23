@@ -98,30 +98,52 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
-    private function setTurn($turn)
-    {
-        $this->status->turn = $turn;
-    }
-
-    // TODO precondition: the castling rook exists
     private function castle(King $king)
     {
-        // prepare castling
-        $rook = $this->getCastlingRook($king);
-        $kingMoved = clone $king;
-        $rookMoved = clone $rook;
-        // move king
-        $kingsNewPosition = $king->getPosition();
-        $kingsNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_KING}->{$king->getNextMove()->type}->move->next;
-        $kingMoved->setPosition($kingsNewPosition);
-        $this->swap($kingMoved, $king);
-        // move rook
-        $rooksNewPosition = $rook->getPosition();
-        $rooksNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->next;
-        $rookMoved->setPosition($rooksNewPosition);
-        $this->swap($rookMoved, $rook);
-        // update board's status
-        $this->status->castled->{$king->getColor()} = true;
+        try
+        {
+            // prepare castling
+            $rook = $this->getCastlingRook($king);
+            $kingMoved = clone $king;
+            $rookMoved = clone $rook;
+            // move king
+            $kingsNewPosition = $king->getPosition();
+            $kingsNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_KING}->{$king->getNextMove()->type}->move->next;
+            $kingMoved->setPosition($kingsNewPosition);
+            $this->swap($kingMoved, $king);
+            // move rook
+            $rooksNewPosition = $rook->getPosition();
+            $rooksNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->next;
+            $rookMoved->setPosition($rooksNewPosition);
+            $this->swap($rookMoved, $rook);
+            // update board's status
+            $this->status->castled->{$king->getColor()} = true;
+        }
+        catch (\Exception $e)
+        {
+            // TODO log exception...
+            return false;
+        }
+        return true;
+    }
+
+    private function move(Piece $piece)
+    {
+        try
+        {
+            $pieceMoved = clone $piece;
+            $newPosition = $piece->getPosition();
+            $newPosition->current = $piece->getNextMove()->position->next;
+            $pieceMoved->setPosition($newPosition);
+            $this->swap($pieceMoved, $piece);
+            $this->updateStatus();
+        }
+        catch (\Exception $e)
+        {
+            // TODO log exception...
+            return false;
+        }
+        return true;
     }
 
     private function swap(Piece $a, Piece $b)
@@ -131,33 +153,21 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
-    public function move(\stdClass $move)
+    public function play(\stdClass $move)
     {
-        $piece = $this->pickPieceToMove($move);
-
-        if ($this->canPieceBeMoved($piece))
+    	$piece = $this->pickPieceToMove($move);
+        if ($this->isMovable($piece))
         {
-            // castling move
-            if ($move->type === PGN::CASTLING_LONG || $move->type === PGN::CASTLING_SHORT)
-            {
-                $this->castle($piece);
-            }
-            // non-castling move
-            else
-            {
-                $pieceMoved = clone $piece;
-                $newPosition = $piece->getPosition();
-                $newPosition->current = $move->position->next;
-                $pieceMoved->setPosition($newPosition);
-                $this->swap($pieceMoved, $piece);
-            }
-            $this->updateStatus();
-            return true;
+            return $this->move($piece);
         }
+        else if($this->isCastleable($piece))
+        {
+    		return $this->castle($piece);
+    	}
         else
-        {
-            return false;
-        }
+    	{
+    		return false;
+    	}
     }
 
     public function getPiecesByColor($color)
@@ -367,25 +377,30 @@ class Board extends \SplObjectStorage
         return $legalMoves;
     }
 
-    private function canPieceBeMoved(Piece $piece)
+    // TODO Add check constraint...
+    private function isCastleable(Piece $piece)
     {
-        $legalMoves = $this->getLegalMoves($piece);
-        // TODO
-        // this method is a bit weird, needs some refactoring...
-        // check if the castling rook exists!
-        // castling move, remember: the next position can't be objectized from the PGN entry since
-        // it depends on the color, which means there's no $move->position->stdClass object,
-        // but a 'O-O' or a 'O-O-O' string instead
-        if
-        (
-            ($piece->getNextMove()->position === PGN::CASTLING_LONG || $piece->getNextMove()->position === PGN::CASTLING_SHORT) &&
-            in_array($piece->getNextMove()->position, $legalMoves)
-        )
+        if (
+            ($piece->getNextMove()->type === PGN::CASTLING_LONG || $piece->getNextMove()->type === PGN::CASTLING_SHORT) &&
+            !empty($this->getCastlingRook($piece)) &&
+            in_array($piece->getNextMove()->position, $this->getLegalMoves($piece))
+            )
         {
             return true;
         }
-        // non-castling move
-        elseif (in_array($piece->getNextMove()->position->next, $legalMoves))
+        else
+        {
+            return false;
+        }
+    }
+
+    private function isMovable(Piece $piece)
+    {
+        if (
+            $piece->getNextMove()->type !== PGN::CASTLING_LONG &&
+            $piece->getNextMove()->type !== PGN::CASTLING_SHORT &&
+            in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece))
+            )
         {
             return true;
         }

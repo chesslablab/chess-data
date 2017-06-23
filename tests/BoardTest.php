@@ -40,7 +40,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testGetPieceToMoveQg3()
     {
         $board = new Board;
-        $piece = $board->getPieceToMove(PGN::arrayizeMove('w', 'Qg3'));
+        $piece = $board->getPieceToBeMoved(PGN::arrayizeMove('w', 'Qg3'));
         $this->assertInstanceOf(Queen::class, $piece);
         $this->assertEquals($piece->getPosition()->current, 'd1');
     }
@@ -48,7 +48,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testGetPieceToMoveRh3()
     {
         $board = new Board;
-        $piece = $board->getPieceToMove(PGN::arrayizeMove('w', 'Rh3'));
+        $piece = $board->getPieceToBeMoved(PGN::arrayizeMove('w', 'Rh3'));
         $this->assertInstanceOf(Rook::class, $piece);
         $this->assertEquals($piece->getPosition()->current, 'a1');
     }
@@ -57,7 +57,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Ra6');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -99,7 +99,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $move = PGN::arrayizeMove('w', 'Ra6');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
@@ -107,7 +107,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Rxa6');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -115,7 +115,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Bxe5');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -123,7 +123,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'exd4');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -139,7 +139,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $move = PGN::arrayizeMove('w', 'Rxa6');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
@@ -155,7 +155,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $move = PGN::arrayizeMove('b', 'h6');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
@@ -172,7 +172,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $move = PGN::arrayizeMove('b', 'hxg6');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
@@ -180,7 +180,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Nc3');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 
@@ -188,7 +188,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Nd2');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -196,7 +196,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Nxd2');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -204,7 +204,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $move = PGN::arrayizeMove('w', 'Nxc3');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(false, $board->isLegalMove($piece, $move));
     }
 
@@ -221,7 +221,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $move = PGN::arrayizeMove('w', 'Nxc3');
-        $piece = $board->getPieceToMove($move);
+        $piece = $board->getPieceToBeMoved($move);
         $this->assertEquals(true, $board->isLegalMove($piece, $move));
     }
 

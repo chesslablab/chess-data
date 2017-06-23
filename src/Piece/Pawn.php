@@ -57,7 +57,7 @@ class Pawn extends AbstractPiece
         {
             $this->position->scope->up[] = $this->position->current[0] . ($this->ranks->initial + 2);
         }
-        else if ($this->position->current[1] == 7 && $this->ranks->initial == 7)
+        elseif ($this->position->current[1] == 7 && $this->ranks->initial == 7)
         {
             $this->position->scope->up[] = $this->position->current[0] . ($this->ranks->initial - 2);
         }

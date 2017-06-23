@@ -65,6 +65,10 @@ class Board extends \SplObjectStorage
                     PGN::COLOR_WHITE => [],
                     PGN::COLOR_BLACK => []
                 ]
+            ],
+            'castled' => (object) [
+                PGN::COLOR_WHITE => false,
+                PGN::COLOR_BLACK => false
             ]
         ];
 
@@ -96,7 +100,7 @@ class Board extends \SplObjectStorage
     public function movePiece($move)
     {
         // TODO now coding this part...
-        $piece = $this->getPieceToMove($move);
+        $piece = $this->getPieceToBeMoved($move);
         if ($this->isLegalMove($piece, $move))
         {
             $this->detach($piece); // better swapping than detaching/attaching...
@@ -114,28 +118,59 @@ class Board extends \SplObjectStorage
         return $piece;
     }
 
-    public function getPieceToMove($move)
+    public function getPiecesByColor($color)
     {
-        $found = null;
+        $pieces = [];
         $this->rewind();
         while ($this->valid())
         {
             $piece = $this->current();
-            // prioritize the matching of the less ambiguous piece according to the PGN format
+            $piece->getColor() === $color ? $pieces[] = $piece : false;
+            $this->next();
+        }
+        return $pieces;
+    }
+
+    public function getPieceToBeMoved($move)
+    {
+        $pieces = $this->getPiecesByColor($move->color);
+        $found = null;
+        // prioritize the matching of the less ambiguous piece according to the PGN format
+        foreach($pieces as $piece)
+        {
+            // is the move a long castling?
             if (
-                $piece->getColor() === $move->color &&
+                count($move) == 2 &&
+                $move[0]->type == PGN::MOVE_TYPE_LONG_CASTLING &&
+                $move[1]->type == PGN::MOVE_TYPE_LONG_CASTLING)
+            {
+
+            }
+            // is it a short castling?
+            elseif (
+                count($move) == 2 &&
+                $move[0]->type == PGN::MOVE_TYPE_SHORT_CASTLING &&
+                $move[1]->type == PGN::MOVE_TYPE_SHORT_CASTLING)
+            {
+
+            }
+            // is it a disambiguation move? For example, Rbe8, Q7g7. If so,
+            // the piece is obtained from the board by looking at its current
+            // position on it.
+            elseif (
                 $piece->getIdentity() === $move->identity &&
                 preg_match("/{$move->position->current}/", $piece->getPosition()->current)
             )
             {
                 return $piece;
             }
-            // match any piece fulfilling the condition
-            else if ($piece->getColor() === $move->color && $piece->getIdentity() === $move->identity)
+            // otherwise, this is a usual moves such as Nxd2, Nd2. This means
+            // that the current piece can be obtained from the board without specifying
+            // its current position on the board.
+            elseif ($piece->getIdentity() === $move->identity)
             {
                 $found = $piece;
             }
-            $this->next();
         }
         return $found;
     }
@@ -163,12 +198,12 @@ class Board extends \SplObjectStorage
                         {
                             $legalMoves[] = $square;
                         }
-                        else if (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
+                        elseif (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
                         {
                             $legalMoves[] = $square;
                             break 1;
                         }
-                        else if (in_array($square, $this->status->squares->used->{$piece->getColor()}))
+                        elseif (in_array($square, $this->status->squares->used->{$piece->getColor()}))
                         {
                             break 1;
                         }
@@ -187,7 +222,7 @@ class Board extends \SplObjectStorage
                     {
                         $legalMoves[] = $square;
                     }
-                    else if (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
+                    elseif (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
                     {
                         $legalMoves[] = $square;
                     }

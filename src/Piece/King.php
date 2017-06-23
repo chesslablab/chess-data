@@ -23,7 +23,7 @@ class King extends AbstractPiece
             case PGN::COLOR_WHITE:
                 $this->castlingInfo = (object) [
                     PGN::PIECE_KING => (object) [
-                        'long' => (object) [
+                        PGN::CASTLING_LONG => (object) [
                             'freeSquares' => (object) [
                                 'b' => 'b1',
                                 'c' => 'c1',
@@ -34,7 +34,7 @@ class King extends AbstractPiece
                                 'next' => 'c1'
                             ]
                         ],
-                        'short' => (object) [
+                        PGN::CASTLING_SHORT => (object) [
                             'freeSquares' => (object) [
                                 'f' => 'f1',
                                 'g' => 'g1'
@@ -46,13 +46,13 @@ class King extends AbstractPiece
                         ],
                     ],
                     PGN::PIECE_ROOK => (object) [
-                        'long' => (object) [
+                        PGN::CASTLING_LONG => (object) [
                             'move' => (object) [
                                 'current' => 'a1',
                                 'next' => 'd1'
                             ]
                         ],
-                        'short' => (object) [
+                        PGN::CASTLING_SHORT => (object) [
                             'move' => (object) [
                                 'current' => 'h1',
                                 'next' => 'f1'
@@ -65,7 +65,7 @@ class King extends AbstractPiece
             case PGN::COLOR_BLACK:
                 $this->castlingInfo = (object) [
                     PGN::PIECE_KING => (object) [
-                        'long' => (object) [
+                        PGN::CASTLING_LONG => (object) [
                             'freeSquares' => (object) [
                                 'b' => 'b8',
                                 'c' => 'c8',
@@ -76,7 +76,7 @@ class King extends AbstractPiece
                                 'next' => 'c8'
                             ]
                         ],
-                        'short' => (object) [
+                        PGN::CASTLING_SHORT => (object) [
                             'freeSquares' => (object) [
                                 'f' => 'f8',
                                 'g' => 'g8'
@@ -88,13 +88,13 @@ class King extends AbstractPiece
                         ],
                     ],
                     PGN::PIECE_ROOK => (object) [
-                        'long' => (object) [
+                        PGN::CASTLING_LONG => (object) [
                             'move' => (object) [
                                 'current' => 'a8',
                                 'next' => 'd8'
                             ]
                         ],
-                        'short' => (object) [
+                        PGN::CASTLING_SHORT => (object) [
                             'move' => (object) [
                                 'current' => 'h8',
                                 'next' => 'f8'

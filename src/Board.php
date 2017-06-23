@@ -85,7 +85,7 @@ class Board extends \SplObjectStorage
     {
         // update the user's turn
         $this->status->turn === PGN::COLOR_WHITE ? PGN::COLOR_BLACK : PGN::COLOR_WHITE;
-        // update squares used
+        // update squares used on the board
         $this->status->squares->used->{PGN::COLOR_WHITE} = [];
         $this->status->squares->used->{PGN::COLOR_BLACK} = [];
         $this->rewind();
@@ -103,20 +103,25 @@ class Board extends \SplObjectStorage
         $this->status->turn = $turn;
     }
 
-    public function castle(King $king, \stdClass $move)
+    // TODO precondition: the castling rook exists
+    private function castle(King $king)
     {
-        switch($move->type)
-        {
-            case PGN::CASTLING_LONG:
-                // TODO ...
-                break;
-
-            case PGN::CASTLING_SHORT:
-                // TODO ...
-                break;
-        }
-
-        $this->status->castled->{$king->getColor()}->true;
+        // prepare castling
+        $rook = $this->getCastlingRook($king);
+        $kingMoved = clone $king;
+        $rookMoved = clone $rook;
+        // move king
+        $kingsNewPosition = $king->getPosition();
+        $kingsNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_KING}->{$king->getNextMove()->type}->move->next;
+        $kingMoved->setPosition($kingsNewPosition);
+        $this->swap($kingMoved, $king);
+        // move rook
+        $rooksNewPosition = $rook->getPosition();
+        $rooksNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->next;
+        $rookMoved->setPosition($rooksNewPosition);
+        $this->swap($rookMoved, $rook);
+        // update board's status
+        $this->status->castled->{$king->getColor()} = true;
     }
 
     private function swap(Piece $a, Piece $b)
@@ -126,7 +131,6 @@ class Board extends \SplObjectStorage
         return $this;
     }
 
-    // TODO now coding this method...
     public function move(\stdClass $move)
     {
         $piece = $this->pickPieceToMove($move);
@@ -136,17 +140,18 @@ class Board extends \SplObjectStorage
             // castling move
             if ($move->type === PGN::CASTLING_LONG || $move->type === PGN::CASTLING_SHORT)
             {
-                $this->castle($piece, $move);
+                $this->castle($piece);
             }
             // non-castling move
             else
             {
                 $pieceMoved = clone $piece;
-                $position = $piece->getPosition();
-                $position->current = $move->position->next;
-                $pieceMoved->setPosition($position);
-                $this->swap($pieceMoved, $piece)->updateStatus();
+                $newPosition = $piece->getPosition();
+                $newPosition->current = $move->position->next;
+                $pieceMoved->setPosition($newPosition);
+                $this->swap($pieceMoved, $piece);
             }
+            $this->updateStatus();
             return true;
         }
         else
@@ -189,7 +194,7 @@ class Board extends \SplObjectStorage
                         return $piece;
                         break;
 
-                    // is it a disambiguation move? For example, Rbe8, Q7g7. If so,
+                    // is this a disambiguation move? For example, Rbe8, Q7g7. If so,
                     // the piece is obtained from the board by looking at its current
                     // position on it.
                     case preg_match("/{$move->position->current}/", $piece->getPosition()->current):
@@ -211,15 +216,24 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Gets the legal moves that can be performed on the board by a  piece.
+     * Gets the legal moves that can be performed on the board by any piece.
      *
      * These moves are computed by considering the piece itself and the
-     * next move that the player wants to carry out.
+     * next move that the player wants to carry out. Specifically, the present
+     * implementation for computing legal moves uses the concept of scope.
+     *
+     * A piece's scope represents all the squares under its control on an empty board.
+     * Therefore, roughly speaking, the legal moves that such piece can perform is
+     * nothing but a subtraction between its scope and the squares used by
+     * both players.
+     *
+     * This idea is specially relevant for calculating the moves of R (Rook),
+     * B (Bishop), and Q (Queen).
      *
      * @param Piece $piece
      * @param stdClass $move
      *
-     * @return array The legal moves that $piece can perform.
+     * @return array The legal moves that the given $piece can perform.
      */
     private function getLegalMoves(Piece $piece)
     {
@@ -227,6 +241,7 @@ class Board extends \SplObjectStorage
 
         switch(true)
         {
+            // TODO Add check constraint...
             case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING:
                 break;
 
@@ -297,12 +312,12 @@ class Board extends \SplObjectStorage
             case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_LONG:
                 $castlingInfo = $piece->getCastlingInfo();
                 if (
-                    !in_array($castlingInfo->K->long->freeSquares->b, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->K->long->freeSquares->b, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingInfo->K->long->freeSquares->c, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->K->long->freeSquares->c, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingInfo->K->long->freeSquares->d, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->K->long->freeSquares->d, $this->status->squares->used->{$piece->getOppositeColor()})
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, $this->status->squares->used->{$piece->getOppositeColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, $this->status->squares->used->{$piece->getOppositeColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, $this->status->squares->used->{$piece->getOppositeColor()})
                 )
                 {
                     $legalMoves[] = $piece->getNextMove()->position; // this is PGN::CASTLING_LONG
@@ -313,10 +328,10 @@ class Board extends \SplObjectStorage
             case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_SHORT:
                 $castlingInfo = $piece->getCastlingInfo();
                 if (
-                    !in_array($castlingInfo->K->short->freeSquares->f, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->K->short->freeSquares->f, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingInfo->K->short->freeSquares->g, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->K->short->freeSquares->g, $this->status->squares->used->{$piece->getOppositeColor()})
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, $this->status->squares->used->{$piece->getOppositeColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, $this->status->squares->used->{$piece->getOppositeColor()})
                 )
                 {
                     $legalMoves[] = $piece->getNextMove()->position; // this is PGN::CASTLING_SHORT
@@ -352,29 +367,50 @@ class Board extends \SplObjectStorage
         return $legalMoves;
     }
 
-    public function canPieceBeMoved(Piece $piece)
+    private function canPieceBeMoved(Piece $piece)
     {
         $legalMoves = $this->getLegalMoves($piece);
-        // castling move, remember: the position can't be objectized from the
-        // PGN entry since it depends on the color, which means there's
-        // no $move->position object
+        // TODO
+        // this method is a bit weird, needs some refactoring...
+        // check if the castling rook exists!
+        // castling move, remember: the next position can't be objectized from the PGN entry since
+        // it depends on the color, which means there's no $move->position->stdClass object,
+        // but a 'O-O' or a 'O-O-O' string instead
         if
         (
             ($piece->getNextMove()->position === PGN::CASTLING_LONG || $piece->getNextMove()->position === PGN::CASTLING_SHORT) &&
-            !in_array($piece->getNextMove()->position, $legalMoves)
+            in_array($piece->getNextMove()->position, $legalMoves)
         )
-        {
-            return false;
-        }
-        // non-castling move
-        elseif (!in_array($piece->getNextMove()->position->next, $legalMoves))
-        {
-            return false;
-        }
-        else
         {
             return true;
         }
+        // non-castling move
+        elseif (in_array($piece->getNextMove()->position->next, $legalMoves))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private function getCastlingRook(King $king)
+    {
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            if (
+                $piece->getIdentity() === PGN::PIECE_ROOK &&
+                $piece->getPosition()->current === $king->getCastlingInfo()->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->current
+            )
+            {
+                return $piece;
+            }
+            $this->next();
+        }
+        return null;
     }
 
 }

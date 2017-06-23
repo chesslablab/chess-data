@@ -12,6 +12,7 @@ use PGNChess\Piece\Rook;
 
 class BoardTest extends \PHPUnit_Framework_TestCase
 {
+    /*
     public function testInstantiateDefaultBoard()
     {
         $board = new Board;
@@ -193,6 +194,58 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->move(PGN::objectizeMove('w', 'Nxc3')));
+    }
+
+    public function testMoveShortCastling()
+    {
+        $board = new Board;
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testMoveLongCastling()
+    {
+        $board = new Board;
+        $this->assertEquals(false, $board->move(PGN::objectizeMove('w', 'O-O-O')));
+    } */
+
+    public function testMoveShortCastlingInCustomBoard()
+    {
+        $pieces = [
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Knight(PGN::COLOR_WHITE, 'b1'),
+            new Bishop(PGN::COLOR_WHITE, 'c1'),
+            new Queen(PGN::COLOR_WHITE, 'd1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Bishop(PGN::COLOR_WHITE, 'f1'),
+            new Knight(PGN::COLOR_WHITE, 'g1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'b2'),
+            new Pawn(PGN::COLOR_WHITE, 'c2'),
+            new Pawn(PGN::COLOR_WHITE, 'd2'),
+            new Pawn(PGN::COLOR_WHITE, 'e2'),
+            new Pawn(PGN::COLOR_WHITE, 'f2'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_BLACK, 'a8'),
+            new Knight(PGN::COLOR_BLACK, 'b8'),
+            new Bishop(PGN::COLOR_BLACK, 'c8'),
+            new Queen(PGN::COLOR_BLACK, 'd8'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            // new Bishop(PGN::COLOR_BLACK, 'f8'),
+            // new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'a7'),
+            new Pawn(PGN::COLOR_BLACK, 'b7'),
+            new Pawn(PGN::COLOR_BLACK, 'c7'),
+            new Pawn(PGN::COLOR_BLACK, 'd7'),
+            // new Pawn(PGN::COLOR_BLACK, 'e7'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->move(PGN::objectizeMove('b', 'O-O')));
     }
 
 }

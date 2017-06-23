@@ -208,7 +208,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
         $example = (object) [
             'type' => PGN::MOVE_TYPE_KING_CASTLING_SHORT,
             'color' => 'w',
-            'identity' => 'K'
+            'identity' => 'K',
+            'position' => PGN::CASTLING_SHORT
         ];
         $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
@@ -219,7 +220,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
         $example = (object) [
             'type' => PGN::MOVE_TYPE_KING_CASTLING_LONG,
             'color' => 'w',
-            'identity' => 'K'
+            'identity' => 'K',
+            'position' => PGN::CASTLING_LONG
         ];
         $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }

@@ -42,7 +42,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
         PGN::objectizeMove('w', '3a5');
     }
 
-    public function testMovecb3b7()
+    public function testMovecb3b7ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
         PGN::objectizeMove('w', 'cb3b7');

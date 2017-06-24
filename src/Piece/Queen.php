@@ -6,12 +6,33 @@ use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Bishop;
 
+/**
+ * Class that represents a queen.
+ *
+ * This class uses a rook and a bishop to keep things simple.
+ *
+ * @author Jordi Bassagañas <info@programarivm.com>
+ * @link https://programarivm.com
+ * @license MIT
+ */
 class Queen extends AbstractPiece
 {
+    /**
+     * @var PGNChess\Piece\Rook
+     */
     private $rook;
 
+    /**
+     * @var PGNChess\Piece\Bishop
+     */
     private $bishop;
 
+    /**
+     * Constructor.
+     *
+     * @param string $color
+     * @param string $square
+     */
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_QUEEN);
@@ -20,6 +41,9 @@ class Queen extends AbstractPiece
         $this->scope();
     }
 
+    /**
+     * Calculates the piece's scope.
+     */
     protected function scope()
     {
         $this->position->scope = (object) array_merge(

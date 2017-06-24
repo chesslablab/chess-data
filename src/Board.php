@@ -10,10 +10,24 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
 
+/**
+ * Class that represents a chess board.
+ *
+ * @author Jordi Bassagañas <info@programarivm.com>
+ * @link https://programarivm.com
+ * @license MIT
+ */
 class Board extends \SplObjectStorage
 {
+    /**
+     * @var stdClass
+     */
     private $status;
 
+    /**
+     * Constructor.
+     * @param null|array $pieces
+     */
     public function __construct(array $pieces=null)
     {
         if (empty($pieces))
@@ -76,11 +90,21 @@ class Board extends \SplObjectStorage
         $this->updateStatus();
     }
 
+    /**
+     * Gets the current board's status.
+     *
+     * @return stdClass
+     */
     public function getStatus()
     {
         return $this->status;
     }
 
+    /**
+     * Updates the board's status.
+     *
+     * @return PGNChess\Board
+     */
     private function updateStatus()
     {
         // update the user's turn
@@ -99,11 +123,11 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Runs a castling move.
+     * Castles the king.
      *
      * @param PGNChess\Piece\King $king
      *
-     * @return boolean
+     * @return boolean true if the castling is successfully run; otherwise false.
      */
     private function castle(King $king)
     {
@@ -139,7 +163,7 @@ class Board extends \SplObjectStorage
      *
      * @param PGNChess\Piece\Piece $piece
      *
-     * @return boolean true if the move is performed; otherwise false
+     * @return boolean true if the move is successfully performed; otherwise false
      */
     private function move(Piece $piece)
     {
@@ -160,6 +184,15 @@ class Board extends \SplObjectStorage
         return true;
     }
 
+    /**
+     * Swaps piece $a with piece $b.
+     * This method is actually used for moving the pieces of the board.
+     *
+     * @param Piece $a PGNChess\Piece
+     * @param Piece $b PGNChess\Piece
+     *
+     * @return PGNChess\Board
+     */
     private function swap(Piece $a, Piece $b)
     {
         $this->detach($b);
@@ -168,7 +201,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Runs a chess move(s) on the board.
+     * Runs a chess move on the board.
      *
      * @param stdClass $move
      *
@@ -215,7 +248,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Picks from the board the piece to be moved by the user.
+     * Picks from the board the piece to be moved.
      *
      * @param stdClass $move
      *
@@ -411,6 +444,12 @@ class Board extends \SplObjectStorage
         return $legalMoves;
     }
 
+    /**
+     * Checks if the given piece can be moved according to chess rules.
+     *
+     * @param Piece $piece
+     * @return boolean true if the piece can be moved; otherwise false.
+     */
     private function isMovable(Piece $piece)
     {
         if (in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece)))
@@ -423,6 +462,12 @@ class Board extends \SplObjectStorage
         }
     }
 
+    /**
+     * Gets the castling rook associated to the king's next move.
+     *
+     * @param King $king
+     * @return null|PGNChess\Piece\Rook
+     */
     private function getCastlingRook(King $king)
     {
         $this->rewind();
@@ -440,5 +485,4 @@ class Board extends \SplObjectStorage
         }
         return null;
     }
-
 }

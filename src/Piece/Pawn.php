@@ -4,10 +4,26 @@ namespace PGNChess\Piece;
 use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
 
+/**
+ * Class that represents a pawn.
+ *
+ * @author Jordi Bassagañas <info@programarivm.com>
+ * @link https://programarivm.com
+ * @license MIT
+ */
 class Pawn extends AbstractPiece
 {
+    /**
+     * @var array
+     */
     private $ranks;
 
+    /**
+     * Constructor.
+     *
+     * @param string $color
+     * @param string $square
+     */
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_PAWN);
@@ -39,6 +55,9 @@ class Pawn extends AbstractPiece
         $this->scope();
     }
 
+    /**
+     * Calculates the pawn's scope.
+     */
     protected function scope()
     {
         try // next rank
@@ -81,6 +100,5 @@ class Pawn extends AbstractPiece
             }
         }
         catch (\InvalidArgumentException $e) {}
-
     }
 }

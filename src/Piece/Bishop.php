@@ -4,8 +4,21 @@ namespace PGNChess\Piece;
 use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
 
+/**
+ * Class that represents a bishop.
+ *
+ * @author Jordi Bassagañas <info@programarivm.com>
+ * @link https://programarivm.com
+ * @license MIT
+ */
 class Bishop extends AbstractPiece
 {
+    /**
+     * Constructor.
+     *
+     * @param string $color
+     * @param string $square
+     */
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_BISHOP);
@@ -18,6 +31,9 @@ class Bishop extends AbstractPiece
         $this->scope();
     }
 
+    /**
+     * Calculates the bishop's scope.
+     */
     protected function scope()
     {
         try // top left diagonal

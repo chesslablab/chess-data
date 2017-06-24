@@ -15,7 +15,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateDefaultBoard()
     {
         $board = new Board;
-        $foo = $board->getStatus();
         $this->assertEquals(count($board), 32);
         $this->assertEquals(count($board->getStatus()->squares->used->w), 16);
         $this->assertEquals(count($board->getStatus()->squares->used->b), 16);
@@ -44,10 +43,50 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('b', 'Qg5')));
     }
 
-    public function testPlayRh3()
+    public function testSquaresControlledByWhiteInDefaultBoard()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Rh3')));
+        $example = [
+            'a3',
+            'b3',
+            'c3',
+            'd3',
+            'e3',
+            'f3',
+            'g3',
+            'h3'
+        ];
+        $this->assertEquals($example, $board->getStatus()->squares->controlled->w);
+    }
+
+    public function testSquaresControlledByBlackInDefaultBoard()
+    {
+        $board = new Board;
+        $example = [
+            'a6',
+            'b6',
+            'c6',
+            'd6',
+            'e6',
+            'f6',
+            'g6',
+            'h6'
+        ];
+        $this->assertEquals($example, $board->getStatus()->squares->controlled->b);
+    }
+
+    public function testPlayRaInDefaultBoard()
+    {
+        $board = new Board;
+        $squares = [];
+        $letter = 'a';
+        for($i=0; $i<8; $i++)
+        {
+            for($j=1; $j<=8; $j++)
+            {
+                $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Ra' . chr((ord('a') + $i)) . $j)));
+            }
+        }
     }
 
     public function testPlayRa6()

@@ -105,6 +105,19 @@ class Board extends \SplObjectStorage
         return $this->status;
     }
 
+    private function allSquares()
+    {
+        $squares = [];
+        for($i=0; $i<8; $i++)
+        {
+            for($j=1; $j<=8; $j++)
+            {
+                $squares[] = chr((ord('a') + $i)) . $j;
+            }
+        }
+        return $squares;
+    }
+
     private function usedSquares()
     {
         $squares = (object) [
@@ -123,25 +136,12 @@ class Board extends \SplObjectStorage
 
     private function freeSquares()
     {
-        // compute all squares
-        $allSquares = [];
-        $letter = 'a';
-        for($i=0; $i<8; $i++)
-        {
-            for($j=1; $j<=8; $j++)
-            {
-                $allSquares[] = chr((ord('a') + $i)) . $j;
-            }
-        }
-        // compute used squares
-        $usedSquares = $this->usedSquares();
-        // return difference reindexing array -- key starts from zero
         return array_values(
             array_diff(
-                $allSquares,
+                $this->allSquares(),
                 array_merge(
-                    $usedSquares->{PGN::COLOR_WHITE},
-                    $usedSquares->{PGN::COLOR_BLACK}
+                    $this->status->squares->used->{PGN::COLOR_WHITE},
+                    $this->status->squares->used->{PGN::COLOR_BLACK}
                 )
             )
         );
@@ -153,17 +153,47 @@ class Board extends \SplObjectStorage
             PGN::COLOR_WHITE => [],
             PGN::COLOR_BLACK => []
         ];
-        $freeSquares = $this->freeSquares();
-        $this->rewind();
-        while ($this->valid())
+
+        $pieces = iterator_to_array($this, false);
+
+        for ($i=0; $i<count($pieces); $i++)
         {
-            $piece = $this->current();
-            foreach($freeSquares as $freeSquare)
+            for ($j=0; $j<count($this->status->squares->free); $j++)
             {
-                // TODO...
+                $pieces[$i]->getIdentity() === 'P'
+                    ? $pgn = $this->status->squares->free[$j]
+                    : $pgn = $pieces[$i]->getIdentity() . $this->status->squares->free[$j];
+
+                $move = PGN::objectizeMove($pieces[$i]->getColor(), $pgn);
+                $piece = $this->pickPieceToMove($move);
+
+                if ($this->isMovable($piece))
+                {
+                    if ($piece->getIdentity() === 'P')
+                    {
+                        $controlledSquares->{$piece->getColor()} = array_unique(
+                            array_merge(
+                                $controlledSquares->{$piece->getColor()},
+                                $piece->getPosition()->capture
+                            )
+                        );
+                    }
+                    else
+                    {
+                        $controlledSquares->{$piece->getColor()} = array_unique(
+                            array_merge(
+                                $controlledSquares->{$piece->getColor()},
+                                $this->getLegalMoves($piece)
+                            )
+                        );
+                    }
+                }
             }
-            $this->next();
         }
+
+        sort($controlledSquares->{PGN::COLOR_WHITE});
+        sort($controlledSquares->{PGN::COLOR_BLACK});
+
         return $controlledSquares;
     }
 
@@ -174,15 +204,12 @@ class Board extends \SplObjectStorage
      */
     private function updateStatus()
     {
-        $this->status = (object) [
-            'turn' => $this->status->turn === PGN::COLOR_WHITE ? PGN::COLOR_BLACK : PGN::COLOR_WHITE,
-            'squares' => (object) [
-                'used' => $this->usedSquares(),
-                'free' => $this->freeSquares(),
-                'controlled' => $this->controlledSquares()
-            ],
-            'castled' => $this->status->castled
-        ];
+        $this->status->turn === PGN::COLOR_WHITE
+            ? $this->status->turn = PGN::COLOR_BLACK
+            : $this->status->turn = PGN::COLOR_WHITE;
+        $this->status->squares->used = $this->usedSquares();
+        $this->status->squares->free = $this->freeSquares();
+        $this->status->squares->controlled = $this->controlledSquares();
         return $this;
     }
 

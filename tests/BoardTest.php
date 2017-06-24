@@ -43,9 +43,24 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('b', 'Qg5')));
     }
 
+    // TODO testing this method...
     public function testSquaresControlledByWhiteInDefaultBoard()
     {
-        $board = new Board;
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_BLACK, 'g3'),
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
         $example = [
             'a3',
             'b3',
@@ -73,6 +88,22 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             'h6'
         ];
         $this->assertEquals($example, $board->getStatus()->squares->controlled->b);
+    }
+
+    public function testSquaresControlledByWhiteInCustomBoard()
+    {
+        $board = new Board;
+        $example = [
+            'a3',
+            'b3',
+            'c3',
+            'd3',
+            'e3',
+            'f3',
+            'g3',
+            'h3'
+        ];
+        $this->assertEquals($example, $board->getStatus()->squares->controlled->w);
     }
 
     public function testPlayRaInDefaultBoard()

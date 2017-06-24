@@ -105,6 +105,28 @@ class Board extends \SplObjectStorage
         return $this->status;
     }
 
+    /**
+     * Updates the board's status.
+     *
+     * @return PGNChess\Board
+     */
+    private function updateStatus()
+    {
+        $this->status->turn === PGN::COLOR_WHITE
+            ? $this->status->turn = PGN::COLOR_BLACK
+            : $this->status->turn = PGN::COLOR_WHITE;
+        $this->status->squares->used = $this->usedSquares();
+        $this->status->squares->free = $this->freeSquares();
+        $this->status->squares->controlled = $this->controlledSquares();
+        return $this;
+    }
+
+    /**
+     * Returns an array containing all the board's squares. This is useful in
+     * order to perform a number of operations such as subtraction of squares, etc.
+     *
+     * @return array
+     */
     private function allSquares()
     {
         $squares = [];
@@ -118,6 +140,11 @@ class Board extends \SplObjectStorage
         return $squares;
     }
 
+    /**
+     * Returns an array containing the squares currently being used by both players.
+     *
+     * @return array
+     */
     private function usedSquares()
     {
         $squares = (object) [
@@ -134,6 +161,11 @@ class Board extends \SplObjectStorage
         return $squares;
     }
 
+    /**
+     * Returns an array containing all free squares on the board.
+     *
+     * @return array
+     */
     private function freeSquares()
     {
         return array_values(
@@ -147,6 +179,11 @@ class Board extends \SplObjectStorage
         );
     }
 
+    /**
+     * Returns an array containing the squares currently being controlled by both players.
+     *
+     * @return array
+     */
     private function controlledSquares()
     {
         $controlledSquares = (object) [
@@ -173,17 +210,14 @@ class Board extends \SplObjectStorage
                     {
                         $controlledSquares->{$piece->getColor()} = array_unique(
                             array_merge(
-                                $controlledSquares->{$piece->getColor()},
-                                $piece->getPosition()->capture
-                            )
+                                $controlledSquares->{$piece->getColor()}, $piece->getPosition()->capture)
                         );
                     }
                     else
                     {
                         $controlledSquares->{$piece->getColor()} = array_unique(
                             array_merge(
-                                $controlledSquares->{$piece->getColor()},
-                                $this->getLegalMoves($piece)
+                                $controlledSquares->{$piece->getColor()}, $this->getLegalMoves($piece)
                             )
                         );
                     }
@@ -195,22 +229,6 @@ class Board extends \SplObjectStorage
         sort($controlledSquares->{PGN::COLOR_BLACK});
 
         return $controlledSquares;
-    }
-
-    /**
-     * Updates the board's status.
-     *
-     * @return PGNChess\Board
-     */
-    private function updateStatus()
-    {
-        $this->status->turn === PGN::COLOR_WHITE
-            ? $this->status->turn = PGN::COLOR_BLACK
-            : $this->status->turn = PGN::COLOR_WHITE;
-        $this->status->squares->used = $this->usedSquares();
-        $this->status->squares->free = $this->freeSquares();
-        $this->status->squares->controlled = $this->controlledSquares();
-        return $this;
     }
 
     /**
@@ -543,14 +561,7 @@ class Board extends \SplObjectStorage
      */
     private function isMovable(Piece $piece)
     {
-        if (in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece)))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece));
     }
 
     /**

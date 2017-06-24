@@ -209,7 +209,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             'type' => PGN::MOVE_TYPE_KING_CASTLING_SHORT,
             'color' => 'w',
             'identity' => 'K',
-            'position' => PGN::CASTLING_SHORT
+            'position' => PGN::castling('w')->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position
         ];
         $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
@@ -221,7 +221,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             'type' => PGN::MOVE_TYPE_KING_CASTLING_LONG,
             'color' => 'w',
             'identity' => 'K',
-            'position' => PGN::CASTLING_LONG
+            'position' => PGN::castling('w')->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position
         ];
         $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
@@ -277,5 +277,53 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $this->assertEquals(PGN::objectizeMove('b', $move), $example);
+    }
+
+    // castling info
+
+    public function testWhiteLongCastlingInfo()
+    {
+        $castlingInfo = PGN::castling('w');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, 'b1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, 'c1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, 'd1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position->current, 'e1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position->next, 'c1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_LONG}->position->current, 'a1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_LONG}->position->next, 'd1');
+    }
+
+    public function testBlackLongCastlingInfo()
+    {
+        $castlingInfo = PGN::castling('b');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, 'b8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, 'c8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, 'd8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position->current, 'e8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position->next, 'c8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_LONG}->position->current, 'a8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_LONG}->position->next, 'd8');
+    }
+
+    public function testWhiteShortCastlingInfo()
+    {
+        $castlingInfo = PGN::castling('w');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, 'f1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, 'g1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position->current, 'e1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position->next, 'g1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_SHORT}->position->current, 'h1');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_SHORT}->position->next, 'f1');
+    }
+
+    public function testBlackShortCastlingInfo()
+    {
+        $castlingInfo = PGN::castling('b');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, 'f8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, 'g8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position->current, 'e8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position->next, 'g8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_SHORT}->position->current, 'h8');
+        $this->assertEquals($castlingInfo->{PGN::PIECE_ROOK}->{PGN::CASTLING_SHORT}->position->next, 'f8');
     }
 }

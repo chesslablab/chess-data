@@ -115,12 +115,12 @@ class Board extends \SplObjectStorage
             $rookMoved = clone $rook;
             // move king
             $kingsNewPosition = $king->getPosition();
-            $kingsNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_KING}->{$king->getNextMove()->type}->move->next;
+            $kingsNewPosition->current = $king->getNextMove()->position->{PGN::PIECE_KING}->{$king->getNextMove()->type}->move->next;
             $kingMoved->setPosition($kingsNewPosition);
             $this->swap($kingMoved, $king);
             // move rook
             $rooksNewPosition = $rook->getPosition();
-            $rooksNewPosition->current = $king->getCastlingInfo()->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->next;
+            $rooksNewPosition->current = $king->getNextMove()->position->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->next;
             $rookMoved->setPosition($rooksNewPosition);
             $this->swap($rookMoved, $rook);
             // update board's status
@@ -179,11 +179,14 @@ class Board extends \SplObjectStorage
         $piece = $this->pickPieceToMove($move);
         if ($this->isMovable($piece))
         {
-            return $this->move($piece);
-        }
-        else if($this->isCastleable($piece))
-        {
-            return $this->castle($piece);
+            if($piece->getNextMove() === PGN::CASTLING_SHORT || $piece->getNextMove() === PGN::CASTLING_LONG)
+            {
+                return $this->castle($piece);
+            }
+            else
+            {
+                return $this->move($piece);
+            }
         }
         else
         {
@@ -229,12 +232,12 @@ class Board extends \SplObjectStorage
                 // prioritize the matching of the less ambiguous piece according to the PGN format
                 switch(true)
                 {
-                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_LONG:
+                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_SHORT:
                         $piece->setNextMove($move);
                         return $piece;
                         break;
 
-                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_SHORT:
+                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_LONG:
                         $piece->setNextMove($move);
                         return $piece;
                         break;
@@ -284,6 +287,39 @@ class Board extends \SplObjectStorage
         {
             // TODO Add check constraint...
             case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING:
+                break;
+
+            // TODO Add check constraint...
+            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_SHORT:
+                $castlingShort = PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT};
+                if (
+                    !in_array($castlingShort->freeSquares->f, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingShort->freeSquares->f, $this->status->squares->used->{$piece->getOppositeColor()}) &&
+                    !in_array($castlingShort->freeSquares->g, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingShort->freeSquares->g, $this->status->squares->used->{$piece->getOppositeColor()})
+                )
+                {
+                    $legalMoves[] = !empty($this->getCastlingRook($piece)) ? $piece->getNextMove()->position->next : false;
+                }
+                break;
+
+            // TODO Add check constraint...
+            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_LONG:
+                $castlingLong = PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG};
+                if (
+                    !in_array($castlingLong->freeSquares->b, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingLong->freeSquares->b, $this->status->squares->used->{$piece->getOppositeColor()}) &&
+                    !in_array($castlingLong->freeSquares->c, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingLong->freeSquares->c, $this->status->squares->used->{$piece->getOppositeColor()}) &&
+                    !in_array($castlingLong->freeSquares->d, $this->status->squares->used->{$piece->getColor()}) &&
+                    !in_array($castlingLong->freeSquares->d, $this->status->squares->used->{$piece->getOppositeColor()})
+                )
+                {
+                    $legalMoves[] = !empty($this->getCastlingRook($piece)) ? $piece->getNextMove()->position->next : false;
+                }
+                break;
+
+            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CAPTURES:
                 break;
 
             // BRQ moves and captures
@@ -349,39 +385,6 @@ class Board extends \SplObjectStorage
                 }
                 break;
 
-            // TODO Add check constraint...
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_LONG:
-                $castlingInfo = $piece->getCastlingInfo();
-                if (
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, $this->status->squares->used->{$piece->getOppositeColor()})
-                )
-                {
-                    $legalMoves[] = $piece->getNextMove()->position; // this is PGN::CASTLING_LONG
-                }
-                break;
-
-            // TODO Add check constraint...
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_SHORT:
-                $castlingInfo = $piece->getCastlingInfo();
-                if (
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, $this->status->squares->used->{$piece->getOppositeColor()})
-                )
-                {
-                    $legalMoves[] = $piece->getNextMove()->position; // this is PGN::CASTLING_SHORT
-                }
-                break;
-
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CAPTURES:
-                break;
-
             case $piece->getNextMove()->type == PGN::MOVE_TYPE_KNIGHT_CAPTURES:
                 $scope = $piece->getPosition()->scope;
                 foreach($scope->jumps as $square)
@@ -408,30 +411,9 @@ class Board extends \SplObjectStorage
         return $legalMoves;
     }
 
-    // TODO Add check constraint...
-    private function isCastleable(Piece $piece)
-    {
-        if (
-            ($piece->getNextMove()->type === PGN::CASTLING_LONG || $piece->getNextMove()->type === PGN::CASTLING_SHORT) &&
-            !empty($this->getCastlingRook($piece)) &&
-            in_array($piece->getNextMove()->position, $this->getLegalMoves($piece))
-            )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     private function isMovable(Piece $piece)
     {
-        if (
-            $piece->getNextMove()->type !== PGN::CASTLING_LONG &&
-            $piece->getNextMove()->type !== PGN::CASTLING_SHORT &&
-            in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece))
-            )
+        if (in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece)))
         {
             return true;
         }
@@ -449,7 +431,7 @@ class Board extends \SplObjectStorage
             $piece = $this->current();
             if (
                 $piece->getIdentity() === PGN::PIECE_ROOK &&
-                $piece->getPosition()->current === $king->getCastlingInfo()->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->current
+                $piece->getPosition()->current === PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->position->current
             )
             {
                 return $piece;

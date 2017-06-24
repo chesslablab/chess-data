@@ -15,6 +15,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateDefaultBoard()
     {
         $board = new Board;
+        $foo = $board->getStatus();
         $this->assertEquals(count($board), 32);
         $this->assertEquals(count($board->getStatus()->squares->used->w), 16);
         $this->assertEquals(count($board->getStatus()->squares->used->b), 16);

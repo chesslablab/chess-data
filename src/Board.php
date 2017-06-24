@@ -79,6 +79,11 @@ class Board extends \SplObjectStorage
                 'used' => (object) [
                     PGN::COLOR_WHITE => [],
                     PGN::COLOR_BLACK => []
+                ],
+                'free' => [],
+                'controlled' => (object) [
+                    PGN::COLOR_WHITE => [],
+                    PGN::COLOR_BLACK => []
                 ]
             ],
             'castled' => (object) [
@@ -100,6 +105,68 @@ class Board extends \SplObjectStorage
         return $this->status;
     }
 
+    private function usedSquares()
+    {
+        $squares = (object) [
+            PGN::COLOR_WHITE => [],
+            PGN::COLOR_BLACK => []
+        ];
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            $squares->{$piece->getColor()}[] = $piece->getPosition()->current;
+            $this->next();
+        }
+        return $squares;
+    }
+
+    private function freeSquares()
+    {
+        // compute all squares
+        $allSquares = [];
+        $letter = 'a';
+        for($i=0; $i<8; $i++)
+        {
+            for($j=1; $j<=8; $j++)
+            {
+                $allSquares[] = chr((ord('a') + $i)) . $j;
+            }
+        }
+        // compute used squares
+        $usedSquares = $this->usedSquares();
+        // return difference reindexing array -- key starts from zero
+        return array_values(
+            array_diff(
+                $allSquares,
+                array_merge(
+                    $usedSquares->{PGN::COLOR_WHITE},
+                    $usedSquares->{PGN::COLOR_BLACK}
+                )
+            )
+        );
+    }
+
+    private function controlledSquares()
+    {
+        $controlledSquares = (object) [
+            PGN::COLOR_WHITE => [],
+            PGN::COLOR_BLACK => []
+        ];
+        $freeSquares = $this->freeSquares();
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            foreach($freeSquares as $freeSquare)
+            {
+                // TODO...
+            }
+            $this->next();
+        }
+        return $controlledSquares;
+    }
+
     /**
      * Updates the board's status.
      *
@@ -107,18 +174,15 @@ class Board extends \SplObjectStorage
      */
     private function updateStatus()
     {
-        // update the user's turn
-        $this->status->turn === PGN::COLOR_WHITE ? PGN::COLOR_BLACK : PGN::COLOR_WHITE;
-        // update the squares being currently used on the board
-        $this->status->squares->used->{PGN::COLOR_WHITE} = [];
-        $this->status->squares->used->{PGN::COLOR_BLACK} = [];
-        $this->rewind();
-        while ($this->valid())
-        {
-            $piece = $this->current();
-            $this->status->squares->used->{$piece->getColor()}[] = $piece->getPosition()->current;
-            $this->next();
-        }
+        $this->status = (object) [
+            'turn' => $this->status->turn === PGN::COLOR_WHITE ? PGN::COLOR_BLACK : PGN::COLOR_WHITE,
+            'squares' => (object) [
+                'used' => $this->usedSquares(),
+                'free' => $this->freeSquares(),
+                'controlled' => $this->controlledSquares()
+            ],
+            'castled' => $this->status->castled
+        ];
         return $this;
     }
 

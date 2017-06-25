@@ -101,6 +101,7 @@ class King extends AbstractPiece
                     !in_array($castlingShort->freeSquares->g, $this->squares->used->{$this->getOppositeColor()})
                 )
                 {
+                    // TODO fix this, find an alternative to get the castling rook...
                     $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getNextMove()->position->next : false;
                 }
                 break;

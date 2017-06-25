@@ -127,11 +127,10 @@ class Knight extends AbstractPiece
     public function getLegalMoves()
     {
         $moves = [];
-        $scope = $this->getPosition()->scope;
         switch($this->getNextMove()->type)
         {
             case PGN::MOVE_TYPE_KNIGHT:
-                foreach ($scope->jumps as $square)
+                foreach ($this->getPosition()->scope->jumps as $square)
                 {
                     if (
                         !in_array($square, $this->squares->used->{$this->getColor()}) &&
@@ -148,7 +147,7 @@ class Knight extends AbstractPiece
                 break;
 
             case PGN::MOVE_TYPE_KNIGHT_CAPTURES:
-                foreach ($scope->jumps as $square)
+                foreach ($this->getPosition()->scope->jumps as $square)
                 {
                     in_array($square, $this->squares->used->{$this->getOppositeColor()})
                         ? $moves[] = $square

@@ -26,10 +26,9 @@ abstract class Slider extends AbstractPiece
     public function getLegalMoves()
     {
         $moves = [];
-        $scope = $this->getPosition()->scope;
-        foreach ($scope as $walk)
+        foreach ($this->getPosition()->scope as $direction)
         {
-            foreach ($walk as $square)
+            foreach ($direction as $square)
             {
                 if (
                     !in_array($square, $this->squares->used->{$this->getColor()}) &&

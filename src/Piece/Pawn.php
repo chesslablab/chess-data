@@ -108,8 +108,7 @@ class Pawn extends AbstractPiece
         switch ($this->getNextMove()->type)
         {
             case PGN::MOVE_TYPE_PAWN:
-                $scope = $this->getPosition()->scope;
-                foreach($scope->up as $square)
+                foreach($this->getPosition()->scope->up as $square)
                 {
                     if (
                         !in_array($square, $this->squares->used->{$this->getColor()}) &&
@@ -126,8 +125,7 @@ class Pawn extends AbstractPiece
                 break;
 
             case PGN::MOVE_TYPE_PAWN_CAPTURES:
-                $capture = $this->getPosition()->capture;
-                foreach($capture as $square)
+                foreach($this->getPosition()->capture as $square)
                 {
                     if (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
                     {

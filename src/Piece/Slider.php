@@ -51,9 +51,4 @@ abstract class Slider extends AbstractPiece
         }
         return $moves;
     }
-
-    public function isMovable()
-    {
-        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
-    }
 }

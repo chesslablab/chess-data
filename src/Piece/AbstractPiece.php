@@ -84,6 +84,16 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
+     * Calculates the piece's scope, to be stored in $this->position->scope
+     *
+     * A piece's scope represents the squares under its control on an empty board,
+     * and it is specially relevant in order to calculate the legal moves of the
+     * piece. Roughly speaking, the legal moves that a piece can perform is nothing
+     * but a subtraction between its scope and the squares used by both players.
+     */
+    abstract protected function scope();
+
+    /**
      * Gets the piece's color.
      *
      * @return string
@@ -182,15 +192,8 @@ abstract class AbstractPiece implements Piece
         $this->squares = $squares;
     }
 
-    /**
-     * Calculates the piece's scope, to be stored in $this->position->scope
-     *
-     * A piece's scope represents the squares under its control on an empty board,
-     * and it is specially relevant in order to calculate the legal moves of the
-     * piece. Roughly speaking, the legal moves that a piece can perform is nothing
-     * but a subtraction between its scope and the squares used by both players.
-     */
-    abstract protected function scope();
-
-    abstract public function isMovable();
+    public function isMovable()
+    {
+        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
+    }
 }

@@ -102,11 +102,6 @@ class Pawn extends AbstractPiece
         catch (\InvalidArgumentException $e) {}
     }
 
-    public function isMovable()
-    {
-        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
-    }
-
     public function getLegalMoves()
     {
         $moves = [];

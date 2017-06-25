@@ -12,11 +12,8 @@ class KingTest extends \PHPUnit_Framework_TestCase
         $example = (object) [
             'up' => 'a3',
             'bottom' => 'a1',
-            'left' => null,
             'right' => 'b2',
-            'upLeft' => null,
             'upRight' => 'b3',
-            'bottomLeft' => null,
             'bottomRight' => 'b1'
         ];
         $position = $king->getPosition();

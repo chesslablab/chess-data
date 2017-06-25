@@ -127,15 +127,12 @@ class Knight extends AbstractPiece
     public function getLegalMoves()
     {
         $moves = [];
-        switch($this->getNextMove()->type)
+        foreach ($this->getPosition()->scope->jumps as $square)
         {
-            case PGN::MOVE_TYPE_KNIGHT:
-                foreach ($this->getPosition()->scope->jumps as $square)
-                {
-                    if (
-                        !in_array($square, $this->squares->used->{$this->getColor()}) &&
-                        !in_array($square, $this->squares->used->{$this->getOppositeColor()})
-                    )
+            switch(true)
+            {
+                case null != $this->getMove() && $this->getMove()->isCapture == false:
+                    if (in_array($square, $this->squares->free))
                     {
                         $moves[] = $square;
                     }
@@ -143,17 +140,26 @@ class Knight extends AbstractPiece
                     {
                         $moves[] = $square;
                     }
-                }
-                break;
+                    break;
 
-            case PGN::MOVE_TYPE_KNIGHT_CAPTURES:
-                foreach ($this->getPosition()->scope->jumps as $square)
-                {
-                    in_array($square, $this->squares->used->{$this->getOppositeColor()})
-                        ? $moves[] = $square
-                        : false;
-                }
-                break;
+                case null != $this->getMove() && $this->getMove()->isCapture == true:
+                    if (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
+                    {
+                        $moves[] = $square;
+                    }
+                    break;
+
+                case null == $this->getMove():
+                    if (in_array($square, $this->squares->free))
+                    {
+                        $moves[] = $square;
+                    }
+                    elseif (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
+                    {
+                        $moves[] = $square;
+                    }
+                    break;
+            }
         }
         return $moves;
     }

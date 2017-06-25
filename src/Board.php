@@ -109,8 +109,10 @@ class Board extends \SplObjectStorage
         $this->status->turn === PGN::COLOR_WHITE
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
-        // compute squares statistics
+
+        // compute square statistics
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
+
         // send square statistics to all pieces
         $this->rewind();
         while ($this->valid())
@@ -119,6 +121,9 @@ class Board extends \SplObjectStorage
             $piece->setSquares($this->status->squares);
             $this->next();
         }
+
+        // forbid King's moves
+        $this->forbidKingMoves();
     }
 
     /**
@@ -140,24 +145,24 @@ class Board extends \SplObjectStorage
                 switch(true)
                 {
                     case $move->type === PGN::MOVE_TYPE_KING_CASTLING_SHORT:
-                        $piece->setNextMove($move);
+                        $piece->setMove($move);
                         return $piece;
                         break;
 
                     case $move->type === PGN::MOVE_TYPE_KING_CASTLING_LONG:
-                        $piece->setNextMove($move);
+                        $piece->setMove($move);
                         return $piece;
                         break;
 
                     // is this a disambiguation move? For example, Rbe8, Q7g7
                     case preg_match("/{$move->position->current}/", $piece->getPosition()->current):
-                        $piece->setNextMove($move);
+                        $piece->setMove($move);
                         return $piece;
                         break;
 
                     // otherwise, this is a usual move such as Nxd2 or Nd2
                     default:
-                        $piece->setNextMove($move);
+                        $piece->setMove($move);
                         $found = $piece;
                         break;
                 }
@@ -178,7 +183,7 @@ class Board extends \SplObjectStorage
         $piece = $this->pickPieceToMove($move);
         if ($piece->isMovable())
         {
-            if($piece->getNextMove() === PGN::CASTLING_SHORT || $piece->getNextMove() === PGN::CASTLING_LONG)
+            if($piece->getMove() === PGN::CASTLING_SHORT || $piece->getMove() === PGN::CASTLING_LONG)
             {
                 return $this->castle($piece);
             }
@@ -210,12 +215,12 @@ class Board extends \SplObjectStorage
             $rookMoved = clone $rook;
             // move king
             $kingsNewPosition = $king->getPosition();
-            $kingsNewPosition->current = $king->getNextMove()->position->{PGN::PIECE_KING}->{$king->getNextMove()->type}->move->next;
+            $kingsNewPosition->current = $king->getMove()->position->{PGN::PIECE_KING}->{$king->getMove()->type}->move->next;
             $kingMoved->setPosition($kingsNewPosition);
             $this->swap($kingMoved, $king);
             // move rook
             $rooksNewPosition = $rook->getPosition();
-            $rooksNewPosition->current = $king->getNextMove()->position->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->move->next;
+            $rooksNewPosition->current = $king->getMove()->position->{PGN::PIECE_ROOK}->{$king->getMove()->type}->move->next;
             $rookMoved->setPosition($rooksNewPosition);
             $this->swap($rookMoved, $rook);
             // update board's status
@@ -243,7 +248,7 @@ class Board extends \SplObjectStorage
         {
             $pieceMoved = clone $piece;
             $newPosition = $piece->getPosition();
-            $newPosition->current = $piece->getNextMove()->position->next;
+            $newPosition->current = $piece->getMove()->position->next;
             $pieceMoved->setPosition($newPosition);
             $this->swap($pieceMoved, $piece);
             $this->updateStatus();
@@ -290,5 +295,95 @@ class Board extends \SplObjectStorage
             $this->next();
         }
         return $pieces;
+    }
+
+    /**
+     * Gets the first piece on the board meeting the searching criteria.
+     *
+     * @param string $color
+     * @param string $identity
+     * @return PGNChess\Piece
+     */
+    public function getPiece($color, $identity)
+    {
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            if ($piece->getColor() === $color && $piece->getIdentity() === $identity)
+            {
+                return $piece;
+            }
+            $this->next();
+        }
+        return null;
+    }
+
+    // TODO try to use setInfo instead of swap!
+    public function forbidKingMoves()
+    {
+        $squares = (object) [
+            PGN::COLOR_WHITE => [],
+            PGN::COLOR_BLACK => []
+        ];
+
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            switch($piece->getIdentity())
+            {
+                case 'K':
+                    // do nothing...
+                    break;
+
+                case 'P':
+                    $squares->{$piece->getOppositeColor()} = array_merge(
+                        array_unique($squares->{$piece->getOppositeColor()}),
+                        $piece->getPosition()->capture
+                    );
+                    break;
+
+                default:
+                    $squares->{$piece->getOppositeColor()} = array_merge(
+                        array_unique($squares->{$piece->getOppositeColor()}),
+                        $piece->getLegalMoves()
+                    );
+                    break;
+            }
+            $this->next();
+        }
+
+        sort($squares->{PGN::COLOR_WHITE});
+        sort($squares->{PGN::COLOR_BLACK});
+
+        $whiteKing = $this->getPiece(PGN::COLOR_WHITE, PGN::PIECE_KING);
+        $blackKing = $this->getPiece(PGN::COLOR_BLACK, PGN::PIECE_KING);
+
+        $whiteKingPosition = $whiteKing->getPosition();
+        $blackKingPosition = $blackKing->getPosition();
+
+        $squares->{PGN::COLOR_WHITE} = array_merge(
+            $squares->{PGN::COLOR_WHITE},
+            array_values((array)$blackKingPosition->scope)
+        );
+
+        $squares->{PGN::COLOR_BLACK} = array_merge(
+            $squares->{PGN::COLOR_BLACK},
+            array_values((array)$whiteKingPosition->scope)
+        );
+
+        $whiteKingPosition->forbidden = $squares->{PGN::COLOR_WHITE};
+        $blackKingPosition->forbidden = $squares->{PGN::COLOR_BLACK};
+
+        $updatedWhiteKing = clone $whiteKing;
+        $updatedBlackKing = clone $blackKing;
+
+        $updatedWhiteKing->setPosition($whiteKingPosition);
+        $updatedBlackKing->setPosition($blackKingPosition);
+
+        $this->swap($updatedWhiteKing, $whiteKing);
+        $this->swap($updatedBlackKing, $blackKing);
+
     }
 }

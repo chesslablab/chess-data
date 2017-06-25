@@ -54,7 +54,7 @@ class King extends AbstractPiece
         {
             if (
                 $piece->getIdentity() === PGN::PIECE_ROOK &&
-                $piece->getPosition()->current === PGN::castling($this->getColor())->{PGN::PIECE_ROOK}->{$this->getNextMove()->type}->position->current
+                $piece->getPosition()->current === PGN::castling($this->getColor())->{PGN::PIECE_ROOK}->{$this->getMove()->type}->position->current
             )
             {
                 return $piece;
@@ -76,13 +76,14 @@ class King extends AbstractPiece
         {
             $scope[$key] = !empty($val[0]) ? $val[0] : null;
         }
-        $this->position->scope = (object) $scope;
+        $this->position->scope = (object) array_filter(array_unique($scope));
     }
 
+    // TODO update this
     public function getLegalMoves()
     {
         $moves = [];
-        switch ($this->getNextMove()->type)
+        switch ($this->getMove()->type)
         {
             // TODO
             case PGN::MOVE_TYPE_KING:
@@ -102,7 +103,7 @@ class King extends AbstractPiece
                 )
                 {
                     // TODO fix this, find an alternative to get the castling rook...
-                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getNextMove()->position->next : false;
+                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getMove()->position->next : false;
                 }
                 break;
 
@@ -117,7 +118,7 @@ class King extends AbstractPiece
                     !in_array($castlingLong->freeSquares->d, $this->squares->used->{$this->getOppositeColor()})
                 )
                 {
-                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getNextMove()->position->next : false;
+                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getMove()->position->next : false;
                 }
                 break;
         }

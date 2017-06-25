@@ -105,34 +105,23 @@ class Pawn extends AbstractPiece
     public function getLegalMoves()
     {
         $moves = [];
-        switch ($this->getNextMove()->type)
+        foreach($this->getPosition()->scope->up as $square)
         {
-            case PGN::MOVE_TYPE_PAWN:
-                foreach($this->getPosition()->scope->up as $square)
-                {
-                    if (
-                        !in_array($square, $this->squares->used->{$this->getColor()}) &&
-                        !in_array($square, $this->squares->used->{$this->getOppositeColor()})
-                    )
-                    {
-                        $moves[] = $square;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+            if (in_array($square, $this->squares->free))
+            {
+                $moves[] = $square;
+            }
+            else
+            {
                 break;
-
-            case PGN::MOVE_TYPE_PAWN_CAPTURES:
-                foreach($this->getPosition()->capture as $square)
-                {
-                    if (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
-                    {
-                        $moves[] = $square;
-                    }
-                }
-                break;
+            }
+        }
+        foreach($this->getPosition()->capture as $square)
+        {
+            if (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
+            {
+                $moves[] = $square;
+            }
         }
         return $moves;
     }

@@ -55,7 +55,7 @@ abstract class AbstractPiece implements Piece
      *
      * @var stdClass
      */
-    protected $nextMove;
+    protected $move;
 
     /**
      * The legal moves that the piece can carry out.
@@ -145,9 +145,9 @@ abstract class AbstractPiece implements Piece
      *
      * @return stdClass
      */
-    public function getNextMove()
+    public function getMove()
     {
-        return $this->nextMove;
+        return $this->move;
     }
 
     /**
@@ -182,9 +182,9 @@ abstract class AbstractPiece implements Piece
      *
      * @param stdClass $move
      */
-    public function setNextMove(\stdClass $move)
+    public function setMove(\stdClass $move)
     {
-        $this->nextMove = $move;
+        $this->move = $move;
     }
 
     public function setSquares(\stdClass $squares)
@@ -194,6 +194,6 @@ abstract class AbstractPiece implements Piece
 
     public function isMovable()
     {
-        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
+        return in_array($this->getMove()->position->next, $this->getLegalMoves());
     }
 }

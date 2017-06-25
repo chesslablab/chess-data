@@ -43,7 +43,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('b', 'Qg5')));
     }
 
-    public function testSquaresControlledByWhiteInDefaultBoard()
+    /* public function testSquaresControlledByWhiteInDefaultBoard()
     {
         $pieces = [
             new Pawn(PGN::COLOR_WHITE, 'a2'),
@@ -60,7 +60,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        // print_r($board->getStatus()->squares->controlled->w); exit;
         $example = [
             'a3',
             'b3',
@@ -71,40 +70,9 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             'g3',
             'h3'
         ];
-        $this->assertEquals($example, $board->getStatus()->squares->controlled->w);
-    }
 
-    public function testSquaresControlledByBlackInDefaultBoard()
-    {
-        $board = new Board;
-        $example = [
-            'a6',
-            'b6',
-            'c6',
-            'd6',
-            'e6',
-            'f6',
-            'g6',
-            'h6'
-        ];
-        $this->assertEquals($example, $board->getStatus()->squares->controlled->b);
-    }
-
-    public function testSquaresControlledByWhiteInCustomBoard()
-    {
-        $board = new Board;
-        $example = [
-            'a3',
-            'b3',
-            'c3',
-            'd3',
-            'e3',
-            'f3',
-            'g3',
-            'h3'
-        ];
-        $this->assertEquals($example, $board->getStatus()->squares->controlled->w);
-    }
+        $this->assertEquals($example, $board->getStatus()->squares->kingCantPassThrough->w);
+    } */
 
     public function testPlayRaInDefaultBoard()
     {
@@ -245,6 +213,10 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Nxd2')));
     }
 
+    /**
+     * TODO look at this test: make sure that Xxyn is equivalent to Xyn in all cases
+     * whenever the destination square is empty.
+     */
     public function testPlayNxc3()
     {
         $board = new Board;
@@ -316,6 +288,28 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'O-O')));
+    }
+
+    // TODO now testing this!
+    public function testKingForbiddenMove()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'g3'),
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'f4')));
     }
 
 }

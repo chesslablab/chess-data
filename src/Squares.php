@@ -16,8 +16,7 @@ class Squares
     {
         return (object) [
             'used' => self::getUsed($pieces),
-            'free' => self::getFree($pieces),
-            // 'kingCantPassThrough' => self::getKingCantPassThrough($pieces)
+            'free' => self::getFree($pieces)
         ];
     }
 
@@ -71,32 +70,5 @@ class Squares
                 array_merge($usedSquares->{PGN::COLOR_WHITE}, $usedSquares->{PGN::COLOR_BLACK})
             )
         );
-    }
-
-    /**
-     * TODO
-     * Returns all squares through which the king can't pass.
-     *
-     * @return array
-     */
-    private static function getKingCantPassThrough(array $pieces)
-    {
-        $squares = (object) [
-            PGN::COLOR_WHITE => [],
-            PGN::COLOR_BLACK => []
-        ];
-        foreach ($pieces as $piece)
-        {
-            $move = PGN::objectizeMove($piece->getColor(), $piece->getPosition()->current);
-            $piece->setNextMove($move);
-            $squares->{$piece->getColor()} = array_unique(
-                array_merge(
-                    $squares->{$piece->getColor()}, $piece->getLegalMoves()
-                )
-            );
-        }
-        sort($squares->{PGN::COLOR_WHITE});
-        sort($squares->{PGN::COLOR_BLACK});
-        return $squares;
     }
 }

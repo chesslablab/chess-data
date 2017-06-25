@@ -52,6 +52,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Bg5';
         $example = (object) [
+            'pgn' => 'Bg5',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_PIECE,
             'color' => 'w',
             'identity' => PGN::PIECE_BISHOP,
@@ -67,6 +69,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Ra5';
         $example = (object) [
+            'pgn' => 'Ra5',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_PIECE,
             'color' => 'b',
             'identity' => PGN::PIECE_ROOK,
@@ -82,6 +86,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Qbb7';
         $example = (object) [
+            'pgn' => 'Qbb7',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_PIECE,
             'color' => 'b',
             'identity' => PGN::PIECE_QUEEN,
@@ -97,6 +103,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Ndb4';
         $example = (object) [
+            'pgn' => 'Ndb4',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_KNIGHT,
             'color' => 'b',
             'identity' => PGN::PIECE_KNIGHT,
@@ -112,6 +120,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Kg7';
         $example = (object) [
+            'pgn' => 'Kg7',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_KING,
             'color' => 'w',
             'identity' => PGN::PIECE_KING,
@@ -127,6 +137,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Qh8g7';
         $example = (object) [
+            'pgn' => 'Qh8g7',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_PIECE,
             'color' => 'b',
             'identity' => PGN::PIECE_QUEEN,
@@ -162,6 +174,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'c3';
         $example = (object) [
+            'pgn' => 'c3',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_PAWN,
             'color' => 'w',
             'identity' => PGN::PIECE_PAWN,
@@ -177,6 +191,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'h3';
         $example = (object) [
+            'pgn' => 'h3',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_PAWN,
             'color' => 'w',
             'identity' => PGN::PIECE_PAWN,
@@ -206,6 +222,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'O-O';
         $example = (object) [
+            'pgn' => 'O-O',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_KING_CASTLING_SHORT,
             'color' => 'w',
             'identity' => 'K',
@@ -218,6 +236,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'O-O-O';
         $example = (object) [
+            'pgn' => 'O-O-O',
+            'isCapture' => false,
             'type' => PGN::MOVE_TYPE_KING_CASTLING_LONG,
             'color' => 'w',
             'identity' => 'K',
@@ -238,6 +258,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'fxg5';
         $example = (object) [
+            'pgn' => 'fxg5',
+            'isCapture' => true,
             'type' => PGN::MOVE_TYPE_PAWN_CAPTURES,
             'color' => 'b',
             'identity' => PGN::PIECE_PAWN,
@@ -253,6 +275,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Nxe4';
         $example = (object) [
+            'pgn' => 'Nxe4',
+            'isCapture' => true,
             'type' => PGN::MOVE_TYPE_KNIGHT_CAPTURES,
             'color' => 'b',
             'identity' => PGN::PIECE_KNIGHT,
@@ -268,6 +292,8 @@ class PGNTest extends \PHPUnit_Framework_TestCase
     {
         $move = 'Q7xg7';
         $example = (object) [
+            'pgn' => 'Q7xg7',
+            'isCapture' => true,
             'type' => PGN::MOVE_TYPE_PIECE_CAPTURES,
             'color' => 'b',
             'identity' => PGN::PIECE_QUEEN,

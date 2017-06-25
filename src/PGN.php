@@ -22,10 +22,10 @@ class PGN
     const MOVE_TYPE_KING_CASTLING_LONG = self::CASTLING_LONG;
     const MOVE_TYPE_KING_CAPTURES = 'Kx' . self::SQUARE;
     const MOVE_TYPE_PIECE = '[BRQ]{1}[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
-    const MOVE_TYPE_KNIGHT = 'N[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
-    const MOVE_TYPE_PAWN = self::SQUARE;
     const MOVE_TYPE_PIECE_CAPTURES = '[BRQ]{1}[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
+    const MOVE_TYPE_KNIGHT = 'N[a-h]{0,1}[1-8]{0,1}' . self::SQUARE;
     const MOVE_TYPE_KNIGHT_CAPTURES = 'N[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE;
+    const MOVE_TYPE_PAWN = self::SQUARE;
     const MOVE_TYPE_PAWN_CAPTURES = '[a-h]{1}x' . self::SQUARE;
 
     public static function castling($color)
@@ -142,6 +142,8 @@ class PGN
         {
             case preg_match('/^' . self::MOVE_TYPE_KING . '$/', $pgn):
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
                     'type' => self::MOVE_TYPE_KING,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
@@ -154,6 +156,8 @@ class PGN
 
             case $pgn === self::MOVE_TYPE_KING_CASTLING_SHORT:
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
                     'type' => self::MOVE_TYPE_KING_CASTLING_SHORT,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
@@ -163,6 +167,8 @@ class PGN
 
             case $pgn === self::MOVE_TYPE_KING_CASTLING_LONG:
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
                     'type' => self::MOVE_TYPE_KING_CASTLING_LONG,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
@@ -172,6 +178,8 @@ class PGN
 
             case preg_match('/^' . self::MOVE_TYPE_KING_CAPTURES . '$/', $pgn):
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => true,
                     'type' => self::MOVE_TYPE_KING_CAPTURES,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
@@ -185,6 +193,8 @@ class PGN
             case preg_match('/^' . self::MOVE_TYPE_PIECE . '$/', $pgn):
                 $position = mb_substr(mb_substr($pgn, 0, -2),1);
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
                     'type' => self::MOVE_TYPE_PIECE,
                     'color' => $color,
                     'identity' => mb_substr($pgn, 0, 1),
@@ -198,6 +208,8 @@ class PGN
             case preg_match('/^' . self::MOVE_TYPE_KNIGHT . '$/', $pgn):
                 $position = mb_substr(mb_substr($pgn, 0, -2),1);
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
                     'type' => self::MOVE_TYPE_KNIGHT,
                     'color' => $color,
                     'identity' => self::PIECE_KNIGHT,
@@ -208,8 +220,24 @@ class PGN
                 ];
                 break;
 
+            case preg_match('/^' . self::MOVE_TYPE_KNIGHT_CAPTURES . '$/', $pgn):
+                return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => true,
+                    'type' => self::MOVE_TYPE_KNIGHT_CAPTURES,
+                    'color' => $color,
+                    'identity' => self::PIECE_KNIGHT,
+                    'position' => (object) [
+                        'current' => mb_substr(mb_substr($pgn, 0, -3), 1),
+                        'next' => mb_substr($pgn, -2)
+                    ]
+                ];
+                break;
+
             case preg_match('/^' . self::MOVE_TYPE_PAWN . '$/', $pgn):
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
                     'type' => self::MOVE_TYPE_PAWN,
                     'color' => $color,
                     'identity' => self::PIECE_PAWN,
@@ -222,6 +250,8 @@ class PGN
 
             case preg_match('/^' . self::MOVE_TYPE_PIECE_CAPTURES . '$/', $pgn):
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => true,
                     'type' => self::MOVE_TYPE_PIECE_CAPTURES,
                     'color' => $color,
                     'identity' => mb_substr($pgn, 0, 1),
@@ -232,20 +262,10 @@ class PGN
                 ];
                 break;
 
-            case preg_match('/^' . self::MOVE_TYPE_KNIGHT_CAPTURES . '$/', $pgn):
-                return (object) [
-                    'type' => self::MOVE_TYPE_KNIGHT_CAPTURES,
-                    'color' => $color,
-                    'identity' => self::PIECE_KNIGHT,
-                    'position' => (object) [
-                        'current' => mb_substr(mb_substr($pgn, 0, -3), 1),
-                        'next' => mb_substr($pgn, -2)
-                    ]
-                ];
-                break;
-
             case preg_match('/^' . self::MOVE_TYPE_PAWN_CAPTURES . '$/', $pgn):
                 return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => true,
                     'type' => self::MOVE_TYPE_PAWN_CAPTURES,
                     'color' => $color,
                     'identity' => self::PIECE_PAWN,

@@ -101,4 +101,46 @@ class Pawn extends AbstractPiece
         }
         catch (\InvalidArgumentException $e) {}
     }
+
+    public function isMovable()
+    {
+        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
+    }
+
+    public function getLegalMoves()
+    {
+        $moves = [];
+        switch ($this->getNextMove()->type)
+        {
+            case PGN::MOVE_TYPE_PAWN:
+                $scope = $this->getPosition()->scope;
+                foreach($scope->up as $square)
+                {
+                    if (
+                        !in_array($square, $this->squares->used->{$this->getColor()}) &&
+                        !in_array($square, $this->squares->used->{$this->getOppositeColor()})
+                    )
+                    {
+                        $moves[] = $square;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                break;
+
+            case PGN::MOVE_TYPE_PAWN_CAPTURES:
+                $capture = $this->getPosition()->capture;
+                foreach($capture as $square)
+                {
+                    if (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
+                    {
+                        $moves[] = $square;
+                    }
+                }
+                break;
+        }
+        return $moves;
+    }
 }

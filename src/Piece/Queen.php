@@ -15,7 +15,7 @@ use PGNChess\Piece\Bishop;
  * @link https://programarivm.com
  * @license MIT
  */
-class Queen extends AbstractPiece
+class Queen extends Slider
 {
     /**
      * @var PGNChess\Piece\Rook

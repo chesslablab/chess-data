@@ -5,7 +5,7 @@ use PGNChess\Piece\Piece;
 use PGNChess\PGN;
 
 /**
- * Class that represents a chess piece.
+ * Class that represents any chess piece.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -58,6 +58,15 @@ abstract class AbstractPiece implements Piece
     protected $nextMove;
 
     /**
+     * The legal moves that the piece can carry out.
+     *
+     * @var array
+     */
+    protected $legalMoves;
+
+    protected $squares;
+
+    /**
      * Constructor.
      *
      * @param string $color
@@ -73,16 +82,6 @@ abstract class AbstractPiece implements Piece
         ];
         $this->identity = $identity;
     }
-
-    /**
-     * Calculates the piece's scope, to be stored in $this->position->scope
-     *
-     * A piece's scope represents the squares under its control on an empty board,
-     * and it is specially relevant in order to calculate the legal moves of the
-     * piece. Roughly speaking, the legal moves that a piece can perform is nothing
-     * but a subtraction between its scope and the squares used by both players.
-     */
-    abstract protected function scope();
 
     /**
      * Gets the piece's color.
@@ -142,6 +141,23 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
+     * Gets the legal moves that a piece can perform on the board.
+     *
+     * Specifically, the children's implementation strategy uses the concept of scope.
+     * A piece's scope represents all the squares under its control on an empty board.
+     * Therefore, roughly speaking, the legal moves that pieces can perform is
+     * a subtraction between their scope and the squares used by both players.
+     *
+     * @return array The legal moves that the piece can perform.
+     */
+    abstract public function getLegalMoves();
+
+    public function getSquares()
+    {
+        return $this->squares;
+    }
+
+    /**
      * Sets the piece's position.
      *
      * @param stdClass $position
@@ -160,4 +176,21 @@ abstract class AbstractPiece implements Piece
     {
         $this->nextMove = $move;
     }
+
+    public function setSquares(\stdClass $squares)
+    {
+        $this->squares = $squares;
+    }
+
+    /**
+     * Calculates the piece's scope, to be stored in $this->position->scope
+     *
+     * A piece's scope represents the squares under its control on an empty board,
+     * and it is specially relevant in order to calculate the legal moves of the
+     * piece. Roughly speaking, the legal moves that a piece can perform is nothing
+     * but a subtraction between its scope and the squares used by both players.
+     */
+    abstract protected function scope();
+
+    abstract public function isMovable();
 }

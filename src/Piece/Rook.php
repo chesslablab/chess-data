@@ -11,7 +11,7 @@ use PGNChess\Piece\AbstractPiece;
  * @link https://programarivm.com
  * @license MIT
  */
-class Rook extends AbstractPiece
+class Rook extends Slider
 {
     /**
      * Constructor.

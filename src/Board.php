@@ -93,6 +93,14 @@ class Board extends \SplObjectStorage
         ];
 
         $this->updateStatus();
+
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            $piece->setSquares($this->status->squares);
+            $this->next();
+        }
     }
 
     /**
@@ -117,8 +125,7 @@ class Board extends \SplObjectStorage
             : $this->status->turn = PGN::COLOR_WHITE;
         $this->status->squares->used = $this->usedSquares();
         $this->status->squares->free = $this->freeSquares();
-        $this->status->squares->controlled = $this->controlledSquares();
-        return $this;
+        // $this->status->squares->controlled = $this->getAllCheckableSquares();
     }
 
     /**
@@ -179,14 +186,9 @@ class Board extends \SplObjectStorage
         );
     }
 
-    /**
-     * Returns an array containing the squares currently being controlled by both players.
-     *
-     * @return array
-     */
-    private function controlledSquares()
+    private function getAllCheckableSquares()
     {
-        $controlledSquares = (object) [
+        $squares = (object) [
             PGN::COLOR_WHITE => [],
             PGN::COLOR_BLACK => []
         ];
@@ -195,40 +197,19 @@ class Board extends \SplObjectStorage
 
         for ($i=0; $i<count($pieces); $i++)
         {
-            for ($j=0; $j<count($this->status->squares->free); $j++)
-            {
-                $pieces[$i]->getIdentity() === 'P'
-                    ? $pgn = $this->status->squares->free[$j]
-                    : $pgn = $pieces[$i]->getIdentity() . $this->status->squares->free[$j];
-
-                $move = PGN::objectizeMove($pieces[$i]->getColor(), $pgn);
-                $piece = $this->pickPieceToMove($move);
-
-                if ($this->isMovable($piece))
-                {
-                    if ($piece->getIdentity() === 'P')
-                    {
-                        $controlledSquares->{$piece->getColor()} = array_unique(
-                            array_merge(
-                                $controlledSquares->{$piece->getColor()}, $piece->getPosition()->capture)
-                        );
-                    }
-                    else
-                    {
-                        $controlledSquares->{$piece->getColor()} = array_unique(
-                            array_merge(
-                                $controlledSquares->{$piece->getColor()}, $this->getLegalMoves($piece)
-                            )
-                        );
-                    }
-                }
-            }
+            $move = PGN::objectizeMove($pieces[$i]->getColor(), $pieces[$i]->getPosition()->current);
+            $pieces[$i]->setNextMove($move);
+            $squares->{$pieces[$i]->getColor()} = array_unique(
+                array_merge(
+                    $squares->{$pieces[$i]->getColor()}, $this->getCheckableSquares($pieces[$i])
+                )
+            );
         }
 
-        sort($controlledSquares->{PGN::COLOR_WHITE});
-        sort($controlledSquares->{PGN::COLOR_BLACK});
+        sort($squares->{PGN::COLOR_WHITE});
+        sort($squares->{PGN::COLOR_BLACK});
 
-        return $controlledSquares;
+        return $squares;
     }
 
     /**
@@ -243,7 +224,7 @@ class Board extends \SplObjectStorage
         try
         {
             // prepare castling
-            $rook = $this->getCastlingRook($king);
+            $rook = $king->getCastlingRook(iterator_to_array($this, false));
             $kingMoved = clone $king;
             $rookMoved = clone $rook;
             // move king
@@ -319,7 +300,7 @@ class Board extends \SplObjectStorage
     public function play(\stdClass $move)
     {
         $piece = $this->pickPieceToMove($move);
-        if ($this->isMovable($piece))
+        if ($piece->isMovable())
         {
             if($piece->getNextMove() === PGN::CASTLING_SHORT || $piece->getNextMove() === PGN::CASTLING_LONG)
             {
@@ -357,7 +338,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Picks from the board the piece to be moved.
+     * Picks the piece to be moved from the board.
      *
      * @param stdClass $move
      *
@@ -401,190 +382,13 @@ class Board extends \SplObjectStorage
         return $found;
     }
 
-    /**
-     * Gets the legal moves that can be performed on the board by any piece.
-     *
-     * These moves are computed by considering the piece itself and the
-     * next move that the player wants to carry out. Specifically, the present
-     * implementation for computing legal moves uses the concept of scope.
-     *
-     * A piece's scope represents all the squares under its control on an empty board.
-     * Therefore, roughly speaking, the legal moves that such piece can perform is
-     * nothing but a subtraction between its scope and the squares used by
-     * both players.
-     *
-     * This idea is specially relevant for calculating the moves of R (Rook),
-     * B (Bishop), and Q (Queen).
-     *
-     * @param Piece $piece
-     * @param stdClass $move
-     *
-     * @return array The legal moves that the given $piece can perform.
-     */
-    private function getLegalMoves(Piece $piece)
+    // TODO
+    private function getCheckableSquares(Piece $piece)
     {
-        $legalMoves = [];
+    	$squares = [];
 
-        switch(true)
-        {
-            // TODO Add check constraint...
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING:
-                break;
+    	$squares = $this->getLegalMoves($piece);
 
-            // TODO Add check constraint...
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_SHORT:
-                $castlingShort = PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT};
-                if (
-                    !in_array($castlingShort->freeSquares->f, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingShort->freeSquares->f, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingShort->freeSquares->g, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingShort->freeSquares->g, $this->status->squares->used->{$piece->getOppositeColor()})
-                )
-                {
-                    $legalMoves[] = !empty($this->getCastlingRook($piece)) ? $piece->getNextMove()->position->next : false;
-                }
-                break;
-
-            // TODO Add check constraint...
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CASTLING_LONG:
-                $castlingLong = PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG};
-                if (
-                    !in_array($castlingLong->freeSquares->b, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingLong->freeSquares->b, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingLong->freeSquares->c, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingLong->freeSquares->c, $this->status->squares->used->{$piece->getOppositeColor()}) &&
-                    !in_array($castlingLong->freeSquares->d, $this->status->squares->used->{$piece->getColor()}) &&
-                    !in_array($castlingLong->freeSquares->d, $this->status->squares->used->{$piece->getOppositeColor()})
-                )
-                {
-                    $legalMoves[] = !empty($this->getCastlingRook($piece)) ? $piece->getNextMove()->position->next : false;
-                }
-                break;
-
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KING_CAPTURES:
-                break;
-
-            // BRQ moves and captures
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_PIECE || $piece->getNextMove()->type == PGN::MOVE_TYPE_PIECE_CAPTURES:
-                $scope = $piece->getPosition()->scope;
-                foreach($scope as $walk)
-                {
-                    foreach($walk as $square)
-                    {
-                        if (
-                            !in_array($square, $this->status->squares->used->{$piece->getColor()}) &&
-                            !in_array($square, $this->status->squares->used->{$piece->getOppositeColor()})
-                        )
-                        {
-                            $legalMoves[] = $square;
-                        }
-                        elseif (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
-                        {
-                            $legalMoves[] = $square;
-                            break 1;
-                        }
-                        elseif (in_array($square, $this->status->squares->used->{$piece->getColor()}))
-                        {
-                            break 1;
-                        }
-                    }
-                }
-                break;
-
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KNIGHT:
-                $scope = $piece->getPosition()->scope;
-                foreach($scope->jumps as $square)
-                {
-                    if (
-                        !in_array($square, $this->status->squares->used->{$piece->getColor()}) &&
-                        !in_array($square, $this->status->squares->used->{$piece->getOppositeColor()})
-                    )
-                    {
-                        $legalMoves[] = $square;
-                    }
-                    elseif (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
-                    {
-                        $legalMoves[] = $square;
-                    }
-                }
-                break;
-
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_PAWN:
-                $scope = $piece->getPosition()->scope;
-                foreach($scope->up as $square)
-                {
-                    if (
-                        !in_array($square, $this->status->squares->used->{$piece->getColor()}) &&
-                        !in_array($square, $this->status->squares->used->{$piece->getOppositeColor()})
-                    )
-                    {
-                        $legalMoves[] = $square;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                break;
-
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_KNIGHT_CAPTURES:
-                $scope = $piece->getPosition()->scope;
-                foreach($scope->jumps as $square)
-                {
-                    if (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
-                    {
-                        $legalMoves[] = $square;
-                    }
-                }
-                break;
-
-            case $piece->getNextMove()->type == PGN::MOVE_TYPE_PAWN_CAPTURES:
-                $capture = $piece->getPosition()->capture;
-                foreach($capture as $square)
-                {
-                    if (in_array($square, $this->status->squares->used->{$piece->getOppositeColor()}))
-                    {
-                        $legalMoves[] = $square;
-                    }
-                }
-                break;
-        }
-
-        return $legalMoves;
-    }
-
-    /**
-     * Checks if the given piece can be moved according to chess rules.
-     *
-     * @param Piece $piece
-     * @return boolean true if the piece can be moved; otherwise false.
-     */
-    private function isMovable(Piece $piece)
-    {
-        return in_array($piece->getNextMove()->position->next, $this->getLegalMoves($piece));
-    }
-
-    /**
-     * Gets the castling rook associated to the king's next move.
-     *
-     * @param King $king
-     * @return null|PGNChess\Piece\Rook
-     */
-    private function getCastlingRook(King $king)
-    {
-        $this->rewind();
-        while ($this->valid())
-        {
-            $piece = $this->current();
-            if (
-                $piece->getIdentity() === PGN::PIECE_ROOK &&
-                $piece->getPosition()->current === PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getNextMove()->type}->position->current
-            )
-            {
-                return $piece;
-            }
-            $this->next();
-        }
-        return null;
+    	return $squares;
     }
 }

@@ -42,6 +42,28 @@ class King extends AbstractPiece
     }
 
     /**
+     * Gets the castling rook associated to the king's next move.
+     *
+     * @param array $pieces
+     *
+     * @return null|PGNChess\Piece\Rook
+     */
+    private function getCastlingRook(array $pieces)
+    {
+        foreach ($pieces as $piece)
+        {
+            if (
+                $piece->getIdentity() === PGN::PIECE_ROOK &&
+                $piece->getPosition()->current === PGN::castling($this->getColor())->{PGN::PIECE_ROOK}->{$this->getNextMove()->type}->position->current
+            )
+            {
+                return $piece;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Calculates the king's scope.
      */
     protected function scope()
@@ -55,5 +77,54 @@ class King extends AbstractPiece
             $scope[$key] = !empty($val[0]) ? $val[0] : null;
         }
         $this->position->scope = (object) $scope;
+    }
+
+    public function getLegalMoves()
+    {
+        $moves = [];
+        switch ($this->getNextMove()->type)
+        {
+            // TODO
+            case PGN::MOVE_TYPE_KING:
+                break;
+
+            // TODO
+            case PGN::MOVE_TYPE_KING_CAPTURES:
+                break;
+
+            case PGN::MOVE_TYPE_KING_CASTLING_SHORT:
+                $castlingShort = PGN::castling($this->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT};
+                if (
+                    !in_array($castlingShort->freeSquares->f, $this->squares->used->{$this->getColor()}) &&
+                    !in_array($castlingShort->freeSquares->f, $this->squares->used->{$this->getOppositeColor()}) &&
+                    !in_array($castlingShort->freeSquares->g, $this->squares->used->{$this->getColor()}) &&
+                    !in_array($castlingShort->freeSquares->g, $this->squares->used->{$this->getOppositeColor()})
+                )
+                {
+                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getNextMove()->position->next : false;
+                }
+                break;
+
+            case PGN::MOVE_TYPE_KING_CASTLING_LONG:
+                $castlingLong = PGN::castling($this->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG};
+                if (
+                    !in_array($castlingLong->freeSquares->b, $this->squares->used->{$this->getColor()}) &&
+                    !in_array($castlingLong->freeSquares->b, $this->squares->used->{$this->getOppositeColor()}) &&
+                    !in_array($castlingLong->freeSquares->c, $this->squares->used->{$this->getColor()}) &&
+                    !in_array($castlingLong->freeSquares->c, $this->squares->used->{$this->getOppositeColor()}) &&
+                    !in_array($castlingLong->freeSquares->d, $this->squares->used->{$this->getColor()}) &&
+                    !in_array($castlingLong->freeSquares->d, $this->squares->used->{$this->getOppositeColor()})
+                )
+                {
+                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getNextMove()->position->next : false;
+                }
+                break;
+        }
+        return $moves;
+    }
+
+    public function isMovable()
+    {
+        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
     }
 }

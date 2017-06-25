@@ -123,4 +123,44 @@ class Knight extends AbstractPiece
         catch (\InvalidArgumentException $e) {}
 
     }
+
+    public function getLegalMoves()
+    {
+        $moves = [];
+        $scope = $this->getPosition()->scope;
+        switch($this->getNextMove()->type)
+        {
+            case PGN::MOVE_TYPE_KNIGHT:
+                foreach ($scope->jumps as $square)
+                {
+                    if (
+                        !in_array($square, $this->squares->used->{$this->getColor()}) &&
+                        !in_array($square, $this->squares->used->{$this->getOppositeColor()})
+                    )
+                    {
+                        $moves[] = $square;
+                    }
+                    elseif (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
+                    {
+                        $moves[] = $square;
+                    }
+                }
+                break;
+
+            case PGN::MOVE_TYPE_KNIGHT_CAPTURES:
+                foreach ($scope->jumps as $square)
+                {
+                    in_array($square, $this->squares->used->{$this->getOppositeColor()})
+                        ? $moves[] = $square
+                        : false;
+                }
+                break;
+        }
+        return $moves;
+    }
+
+    public function isMovable()
+    {
+        return in_array($this->getNextMove()->position->next, $this->getLegalMoves());
+    }
 }

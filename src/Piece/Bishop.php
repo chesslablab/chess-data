@@ -11,7 +11,7 @@ use PGNChess\Piece\AbstractPiece;
  * @link https://programarivm.com
  * @license MIT
  */
-class Bishop extends AbstractPiece
+class Bishop extends Slider
 {
     /**
      * Constructor.
@@ -87,5 +87,5 @@ class Bishop extends AbstractPiece
             }
         }
         catch (\InvalidArgumentException $e) {}
-    }
+    }    
 }

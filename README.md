@@ -1,6 +1,6 @@
 ## PGN Chess for PHP
 
-This is a simple, friendly, and powerful PGN (Portable Game Notation) engine for running chess games from within PHP applications. Since this library can understand the rules of chess, it is capable of validating PGN notated games.
+This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. It understands the rules of chess, and is capable of validating and playing PGN notated games.
 
 PGN Chess comes to the rescue in the following scenarios:
 
@@ -8,6 +8,7 @@ PGN Chess comes to the rescue in the following scenarios:
 - Create funny, random games for fun
 - Analyze games of chess
 - Build chess-related web apps
+- Play chess moves
 
 ### 1. Usage
 

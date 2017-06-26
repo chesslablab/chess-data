@@ -48,7 +48,7 @@ class King extends AbstractPiece
      *
      * @return null|PGNChess\Piece\Rook
      */
-    private function getCastlingRook(array $pieces)
+    public function getCastlingRook(array $pieces)
     {
         foreach ($pieces as $piece)
         {
@@ -85,40 +85,49 @@ class King extends AbstractPiece
         $moves = [];
         switch ($this->getMove()->type)
         {
-            // TODO
+            // TODO document how the king, which is an exception, works...
             case PGN::MOVE_TYPE_KING:
+                $moves = array_values(
+                    array_intersect(
+                        array_values((array)$this->position->scope),
+                        $this->squares->free
+                    )
+
+                );
                 break;
 
-            // TODO
+            // TODO document how the king, which is an exception, works...
             case PGN::MOVE_TYPE_KING_CAPTURES:
+                $moves = array_values(
+                    array_intersect(
+                        array_values((array)$this->position->scope),
+                        array_merge($this->squares->used->{$this->getOppositeColor()})
+                    )
+                );
                 break;
 
             case PGN::MOVE_TYPE_KING_CASTLING_SHORT:
                 $castlingShort = PGN::castling($this->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT};
                 if (
-                    !in_array($castlingShort->freeSquares->f, $this->squares->used->{$this->getColor()}) &&
-                    !in_array($castlingShort->freeSquares->f, $this->squares->used->{$this->getOppositeColor()}) &&
-                    !in_array($castlingShort->freeSquares->g, $this->squares->used->{$this->getColor()}) &&
-                    !in_array($castlingShort->freeSquares->g, $this->squares->used->{$this->getOppositeColor()})
+                    in_array($castlingShort->freeSquares->f, $this->squares->free) &&
+                    in_array($castlingShort->freeSquares->g, $this->squares->free)
+                    // TODO Add condition here to check existence of castling rook
                 )
                 {
-                    // TODO fix this, find an alternative to get the castling rook...
-                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getMove()->position->next : false;
+                    $moves[] = $this->getMove()->position->next;
                 }
                 break;
 
             case PGN::MOVE_TYPE_KING_CASTLING_LONG:
                 $castlingLong = PGN::castling($this->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG};
                 if (
-                    !in_array($castlingLong->freeSquares->b, $this->squares->used->{$this->getColor()}) &&
-                    !in_array($castlingLong->freeSquares->b, $this->squares->used->{$this->getOppositeColor()}) &&
-                    !in_array($castlingLong->freeSquares->c, $this->squares->used->{$this->getColor()}) &&
-                    !in_array($castlingLong->freeSquares->c, $this->squares->used->{$this->getOppositeColor()}) &&
-                    !in_array($castlingLong->freeSquares->d, $this->squares->used->{$this->getColor()}) &&
-                    !in_array($castlingLong->freeSquares->d, $this->squares->used->{$this->getOppositeColor()})
+                    in_array($castlingLong->freeSquares->b, $this->squares->free) &&
+                    in_array($castlingLong->freeSquares->c, $this->squares->free) &&
+                    in_array($castlingLong->freeSquares->d, $this->squares->free)
+                    // TODO Add condition here to check existence of castling rook
                 )
                 {
-                    $moves[] = !empty($this->getCastlingRook($piece)) ? $this->getMove()->position->next : false;
+                    $moves[] = $this->getMove()->position->next;
                 }
                 break;
         }

@@ -121,9 +121,6 @@ class Board extends \SplObjectStorage
             $piece->setSquares($this->status->squares);
             $this->next();
         }
-
-        // forbid King's moves
-        $this->forbidKingMoves();
     }
 
     /**
@@ -181,21 +178,67 @@ class Board extends \SplObjectStorage
     public function play(\stdClass $move)
     {
         $piece = $this->pickPieceToMove($move);
-        if ($piece->isMovable())
+        switch(true)
         {
-            if($piece->getMove() === PGN::CASTLING_SHORT || $piece->getMove() === PGN::CASTLING_LONG)
-            {
+            case $piece->isMovable() && $piece->getMove()->type === PGN::MOVE_TYPE_KING:
+                return $this->kingMoves($piece);
+                break;
+
+            case $piece->isMovable() && $piece->getMove()->type === PGN::MOVE_TYPE_KING_CAPTURES:
+                return $this->kingCaptures($piece);
+                break;
+
+            case $piece->isMovable() &&
+                $piece->getMove()->type === PGN::CASTLING_SHORT || $piece->getMove()->type === PGN::CASTLING_LONG:
                 return $this->castle($piece);
-            }
-            else
-            {
+                break;
+
+            case $piece->isMovable():
                 return $this->move($piece);
-            }
+                break;
+
+            default:
+                return false;
+                break;
+        }
+    }
+
+    public function kingMoves(King $king)
+    {
+        if (!in_array($king->getMove()->position->next, $this->space()->{$king->getOppositeColor()}))
+        {
+            return $this->move($king);
         }
         else
         {
             return false;
         }
+    }
+
+    /**
+     * A king tries to capture a piece.
+     *
+     * This method is like going to the future in order to see what will happen and
+     * take a decision accordingly. It forks the current board and runs the king's
+     * move on the forked, hypothetical one. Here is the idea being implemented:
+     * (1) the piece to be captured is removed from the forked board, and (2)
+     * the king moves to the square where the captured piece should be standing.
+     * Following that sequence, if it turns out that the king is in a square controlled
+     * by the opponent, then the king cannot capture the piece. This way we can reuse
+     * the method implementing a normal king's move. Alternatively, you could build
+     * an array/object containing the pieces defended among themselves according to chess
+     * rules. However, in this particular case the strategy of going to the future
+     * is easier to carry out.
+     *
+     * @param King $king
+     * @return boolean true if the king captured the piece; otherwise false
+     */
+    public function kingCaptures(King $king)
+    {
+        $that = $this;
+        $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
+        $that->detach($capturedPiece);
+        return $that->kingMoves($king);
     }
 
     /**
@@ -215,12 +258,12 @@ class Board extends \SplObjectStorage
             $rookMoved = clone $rook;
             // move king
             $kingsNewPosition = $king->getPosition();
-            $kingsNewPosition->current = $king->getMove()->position->{PGN::PIECE_KING}->{$king->getMove()->type}->move->next;
+            $kingsNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_KING}->{$king->getMove()->type}->position->next;
             $kingMoved->setPosition($kingsNewPosition);
             $this->swap($kingMoved, $king);
             // move rook
             $rooksNewPosition = $rook->getPosition();
-            $rooksNewPosition->current = $king->getMove()->position->{PGN::PIECE_ROOK}->{$king->getMove()->type}->move->next;
+            $rooksNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getMove()->type}->position->next;
             $rookMoved->setPosition($rooksNewPosition);
             $this->swap($rookMoved, $rook);
             // update board's status
@@ -319,14 +362,34 @@ class Board extends \SplObjectStorage
         return null;
     }
 
-    // TODO try to use setInfo instead of swap!
-    public function forbidKingMoves()
+    public function getPieceByPosition($square)
+    {
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            if ($piece->getPosition()->current === $square)
+            {
+                return $piece;
+            }
+            $this->next();
+        }
+        return null;
+    }
+
+/**
+ * Builds an object containing the squares currently being controlled by both players.
+ *
+ * @param $pieces
+ * @return stdClass
+ */
+    public function space()
     {
         $squares = (object) [
             PGN::COLOR_WHITE => [],
             PGN::COLOR_BLACK => []
         ];
-
+        // first of all, compute the legal moves that can be made by non-king pieces
         $this->rewind();
         while ($this->valid())
         {
@@ -334,56 +397,56 @@ class Board extends \SplObjectStorage
             switch($piece->getIdentity())
             {
                 case 'K':
-                    // do nothing...
+                    // exclude king since this is the exception, do nothing
                     break;
 
                 case 'P':
-                    $squares->{$piece->getOppositeColor()} = array_merge(
-                        array_unique($squares->{$piece->getOppositeColor()}),
-                        $piece->getPosition()->capture
+                    $squares->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $squares->{$piece->getColor()},
+                            $piece->getPosition()->capture
+                        )
                     );
                     break;
 
                 default:
-                    $squares->{$piece->getOppositeColor()} = array_merge(
-                        array_unique($squares->{$piece->getOppositeColor()}),
-                        $piece->getLegalMoves()
+                    $squares->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $squares->{$piece->getColor()},
+                            array_diff(
+                                $piece->getLegalMoves(),
+                                $this->status->squares->used->{$piece->getOppositeColor()}
+                            )
+                        )
                     );
                     break;
             }
             $this->next();
         }
-
+        // and finally add the squares controlled by kings
+        $kings = [];
+        $this->rewind();
+        while ($this->valid())
+        {
+            $piece = $this->current();
+            if($piece->getIdentity() === 'K')
+            {
+                $squares->{$piece->getColor()} = array_unique(
+                    array_merge(
+                        $squares->{$piece->getColor()},
+                        array_values(
+                            array_intersect(
+                                array_values((array)$piece->getPosition()->scope),
+                                $this->status->squares->free
+                            )
+                        )
+                    )
+                );
+            }
+            $this->next();
+        }
         sort($squares->{PGN::COLOR_WHITE});
         sort($squares->{PGN::COLOR_BLACK});
-
-        $whiteKing = $this->getPiece(PGN::COLOR_WHITE, PGN::PIECE_KING);
-        $blackKing = $this->getPiece(PGN::COLOR_BLACK, PGN::PIECE_KING);
-
-        $whiteKingPosition = $whiteKing->getPosition();
-        $blackKingPosition = $blackKing->getPosition();
-
-        $squares->{PGN::COLOR_WHITE} = array_merge(
-            $squares->{PGN::COLOR_WHITE},
-            array_values((array)$blackKingPosition->scope)
-        );
-
-        $squares->{PGN::COLOR_BLACK} = array_merge(
-            $squares->{PGN::COLOR_BLACK},
-            array_values((array)$whiteKingPosition->scope)
-        );
-
-        $whiteKingPosition->forbidden = $squares->{PGN::COLOR_WHITE};
-        $blackKingPosition->forbidden = $squares->{PGN::COLOR_BLACK};
-
-        $updatedWhiteKing = clone $whiteKing;
-        $updatedBlackKing = clone $blackKing;
-
-        $updatedWhiteKing->setPosition($whiteKingPosition);
-        $updatedBlackKing->setPosition($blackKingPosition);
-
-        $this->swap($updatedWhiteKing, $whiteKing);
-        $this->swap($updatedBlackKing, $blackKing);
-
+        return $squares;
     }
 }

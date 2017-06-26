@@ -113,7 +113,7 @@ class Board extends \SplObjectStorage
         // compute square statistics
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
 
-        // send square statistics to all pieces
+        // send square statistics (flat data) to all pieces
         $this->rewind();
         while ($this->valid())
         {
@@ -171,6 +171,21 @@ class Board extends \SplObjectStorage
     /**
      * Runs a chess move on the board.
      *
+     * Note that there are 4 different types of moves:
+     *
+     *      (1) kingIsMoved
+     *      (2) kingCaptures
+     *      (3) castle
+     *      (4) pieceIsMoved
+     *
+     * In all cases, you have to first pick the piece you want to move by calling
+     * the pickPieceToMove(\stdClass $move) method -- which expects as an input
+     * the objectized counterpart of a valid move in PGN notation. If it is the case
+     * that the piece can be moved according to chess rules, the move will be run
+     * and the chess board will be updated accordingly.
+     *
+     * @see PGN::objectizeMove($color, $pgn)
+     *
      * @param stdClass $move
      *
      * @return boolean true if the move is successfully run; otherwise false
@@ -181,7 +196,7 @@ class Board extends \SplObjectStorage
         switch(true)
         {
             case $piece->isMovable() && $piece->getMove()->type === PGN::MOVE_TYPE_KING:
-                return $this->kingMoves($piece);
+                return $this->kingIsMoved($piece);
                 break;
 
             case $piece->isMovable() && $piece->getMove()->type === PGN::MOVE_TYPE_KING_CAPTURES:
@@ -197,7 +212,7 @@ class Board extends \SplObjectStorage
                 break;
 
             case $piece->isMovable():
-                return $this->move($piece);
+                return $this->pieceIsMoved($piece);
                 break;
 
             default:
@@ -206,11 +221,21 @@ class Board extends \SplObjectStorage
         }
     }
 
-    public function kingMoves(King $king)
+    /**
+     * Moves the king. This decision can be made thanks to the implementation of
+     * the concept of space -- the squares controlled by both players.
+     *
+     * @see Board::space()
+     *
+     * @param King $king
+     *
+     * @return boolean
+     */
+    public function kingIsMoved(King $king)
     {
         if (!in_array($king->getMove()->position->next, $this->space()->{$king->getOppositeColor()}))
         {
-            return $this->move($king);
+            return $this->pieceIsMoved($king);
         }
         else
         {
@@ -221,19 +246,20 @@ class Board extends \SplObjectStorage
     /**
      * A king tries to capture a piece.
      *
-     * This method is like going to the future in order to see what will happen and
-     * take a decision accordingly. It forks the current board and runs the king's
-     * move on the forked, hypothetical one. Here is the idea being implemented:
-     * (1) the piece to be captured is removed from the forked board, and (2)
-     * the king moves to the square where the captured piece should be standing.
-     * Following that sequence, if it turns out that the king is in a square controlled
-     * by the opponent, then the king cannot capture the piece. This way we can reuse
-     * the method implementing a normal king's move. Alternatively, you could build
-     * an array/object containing the pieces defended among themselves according to chess
-     * rules. However, in this particular case the strategy of going to the future
-     * is easier to carry out.
+     * This method is like going to the future to see what will happen in the next
+     * move in order to take a decision accordingly. It forks the current board
+     * and simulates the king's capture move on it. Here is the idea actually being
+     * implemented: (1) the piece to be captured is removed from the forked board,
+     * and (2) then the king moves to the square where the captured piece should be
+     * standing. Following this logical sequence, if it turns out that the king is
+     * on a square controlled by the opponent, the king can't capture the piece.
+     * This way we can reuse the method implementing a normal king's move. Alternatively,
+     * you could build an array/object containing the pieces defended among themselves
+     * according to chess rules. However, in this particular case the strategy of going
+     * to the future is easier to carry out.
      *
      * @param King $king
+     *
      * @return boolean true if the king captured the piece; otherwise false
      */
     public function kingCaptures(King $king)
@@ -241,7 +267,7 @@ class Board extends \SplObjectStorage
         $that = $this;
         $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
         $that->detach($capturedPiece);
-        return $that->kingMoves($king);
+        return $that->kingIsMoved($king);
     }
 
     /**
@@ -288,7 +314,7 @@ class Board extends \SplObjectStorage
      *
      * @return boolean true if the move is successfully performed; otherwise false
      */
-    private function move(Piece $piece)
+    private function pieceIsMoved(Piece $piece)
     {
         try
         {
@@ -308,8 +334,8 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Swaps piece $a with piece $b.
-     * This method is actually used for moving the pieces of the board.
+     * Swaps piece $a with piece $b. This method is actually used for moving
+     * the pieces of the board.
      *
      * @param Piece $a PGNChess\Piece
      * @param Piece $b PGNChess\Piece
@@ -324,7 +350,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Gets from the board all pieces by color.
+     * Gets all pieces by color.
      *
      * @param string $color
      *
@@ -365,6 +391,13 @@ class Board extends \SplObjectStorage
         return null;
     }
 
+    /**
+     * Gets a piece by its position on the board.
+     *
+     * @param string $square
+     *
+     * @return PGNChess\Piece
+     */
     public function getPieceByPosition($square)
     {
         $this->rewind();
@@ -380,12 +413,18 @@ class Board extends \SplObjectStorage
         return null;
     }
 
-/**
- * Builds an object containing the squares currently being controlled by both players.
- *
- * @param $pieces
- * @return stdClass
- */
+   /**
+    * Builds an object containing the squares currently being controlled by
+    * both players. This corresponds with the idea of space in chess. And more
+    * specifically, it is helpful to decide whether or not a king can be put on
+    * this or that square of the board.
+    *
+    * @see Board::KingIsMoved(King $king)
+    *
+    * @param $pieces
+    *
+    * @return stdClass
+    */
     public function space()
     {
         $squares = (object) [

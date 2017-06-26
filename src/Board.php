@@ -231,7 +231,7 @@ class Board extends \SplObjectStorage
      *
      * @return boolean
      */
-    public function kingIsMoved(King $king)
+    private function kingIsMoved(King $king)
     {
         if (!in_array($king->getMove()->position->next, $this->space()->{$king->getOppositeColor()}))
         {
@@ -262,7 +262,7 @@ class Board extends \SplObjectStorage
      *
      * @return boolean true if the king captured the piece; otherwise false
      */
-    public function kingCaptures(King $king)
+    private function kingCaptures(King $king)
     {
         $that = $this;
         $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
@@ -425,7 +425,7 @@ class Board extends \SplObjectStorage
     *
     * @return stdClass
     */
-    public function space()
+    private function space()
     {
         $squares = (object) [
             PGN::COLOR_WHITE => [],

@@ -3,6 +3,7 @@ namespace PGNChess;
 
 use PGNChess\PGN;
 use PGNChess\Squares;
+use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Piece;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
@@ -109,18 +110,10 @@ class Board extends \SplObjectStorage
         $this->status->turn === PGN::COLOR_WHITE
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
-
         // compute square statistics
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
-
-        // send square statistics (flat data) to all pieces
-        $this->rewind();
-        while ($this->valid())
-        {
-            $piece = $this->current();
-            $piece->setSquares($this->status->squares);
-            $this->next();
-        }
+        // set square statistics (flat data) for all pieces
+        AbstractPiece::setSquares($this->status->squares);
     }
 
     /**

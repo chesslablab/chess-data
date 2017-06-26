@@ -107,7 +107,7 @@ class Pawn extends AbstractPiece
         $moves = [];
         foreach($this->getPosition()->scope->up as $square)
         {
-            if (in_array($square, $this->squares->free))
+            if (in_array($square, self::$squares->free))
             {
                 $moves[] = $square;
             }
@@ -118,7 +118,7 @@ class Pawn extends AbstractPiece
         }
         foreach($this->getPosition()->capture as $square)
         {
-            if (in_array($square, $this->squares->used->{$this->getOppositeColor()}))
+            if (in_array($square, self::$squares->used->{$this->getOppositeColor()}))
             {
                 $moves[] = $square;
             }

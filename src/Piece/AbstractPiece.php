@@ -64,7 +64,7 @@ abstract class AbstractPiece implements Piece
      */
     protected $legalMoves;
 
-    protected $squares;
+    protected static $squares;
 
     /**
      * Constructor.
@@ -162,10 +162,10 @@ abstract class AbstractPiece implements Piece
      */
     abstract public function getLegalMoves();
 
-    public function getSquares()
+    /* public static function getSquares()
     {
         return $this->squares;
-    }
+    } */
 
     /**
      * Sets the piece's position.
@@ -187,9 +187,9 @@ abstract class AbstractPiece implements Piece
         $this->move = $move;
     }
 
-    public function setSquares(\stdClass $squares)
+    public static function setSquares(\stdClass $squares)
     {
-        $this->squares = $squares;
+        self::$squares = $squares;
     }
 
     public function isMovable()

@@ -113,7 +113,7 @@ class Board extends \SplObjectStorage
 
         // compute square statistics
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
-        
+
         // set square statistics (flat data) for all pieces
         AbstractPiece::setSquares($this->status->squares);
     }
@@ -125,13 +125,13 @@ class Board extends \SplObjectStorage
      *
      * @param stdClass $move
      *
-     * @return PGNChess\Piece\Piece|null     The piece that corresponds to the move;
-     *                                       otherwise null.
+     * @return array The piece(s) matching the PGN move; otherwise null.
      *
      * @throws \InvalidArgumentException
      */
     private function pickPieceToMove(\stdClass $move)
     {
+        $found = [];
         $pieces = $this->getPiecesByColor($move->color);
         foreach ($pieces as $piece)
         {
@@ -139,23 +139,42 @@ class Board extends \SplObjectStorage
             {
                 switch($piece->getIdentity())
                 {
-                    // the king is the only non-ambiguous piece
+                    // the king is a non-ambiguous piece (there's only one)
                     case PGN::PIECE_KING:
                         $piece->setMove($move);
-                        return $piece;
+                        return [$piece];
                         break;
-                    // try to disambiguate the move; for example, Rbe8, Q7g7
+
+                    // pawns are non-ambiguous pieces
+                    case PGN::PIECE_PAWN:
+                        if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
+                        {
+                            $piece->setMove($move);
+                            return [$piece];
+                        }
+                        break;
+
+                    // the rest of pieces are potentially ambiguous and need
+                    // to be disambiguated; for example, Rbe8, Q7g7. That is why
+                    // they are stored in the $found array.
                     default:
                         if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
                         {
                             $piece->setMove($move);
-                            return $piece;
+                            $found[] = $piece;
                         }
                         break;
                 }
             }
         }
-        throw new \InvalidArgumentException("This piece does not exist on the board: {$move->color} {$move->identity} on {$move->position->current}");
+        if (empty($found))
+        {
+            throw new \InvalidArgumentException("This piece does not exist on the board: {$move->color} {$move->identity} on {$move->position->current}");
+        }
+        else
+        {
+            return $found;
+        }
     }
 
     /**
@@ -181,28 +200,62 @@ class Board extends \SplObjectStorage
      */
     public function play(\stdClass $move)
     {
-        $piece = $this->pickPieceToMove($move);
-        switch(true)
+        $pieces = $this->pickPieceToMove($move);
+        // the piece is disambiguated -- for example, Rbe8, Q7g7 -- by picking
+        // the movable one from the array of potential, ambiguous pieces.
+        if (count($pieces) > 1)
         {
-            case $piece->isMovable() && $piece->getMove()->type === PGN::MOVE_TYPE_KING:
-                return $this->kingIsMoved($piece);
-                break;
+            foreach ($pieces as $piece)
+            {
+                if ($piece->isMovable())
+                {
+                    switch($piece->getMove()->type)
+                    {
+                        case PGN::MOVE_TYPE_KING:
+                            return $this->kingIsMoved($piece);
+                            break;
 
-            case $piece->isMovable() && $piece->getMove()->type === PGN::CASTLING_SHORT:
-                return $this->castle($piece);
-                break;
+                        case PGN::CASTLING_SHORT:
+                            return $this->castle($piece);
+                            break;
 
-            case $piece->isMovable() && $piece->getMove()->type === PGN::CASTLING_LONG:
-                return $this->castle($piece);
-                break;
+                        case PGN::CASTLING_LONG:
+                            return $this->castle($piece);
+                            break;
 
-            case $piece->isMovable():
-                return $this->pieceIsMoved($piece);
-                break;
+                        default:
+                            return $this->pieceIsMoved($piece);
+                            break;
+                    }
+                }
+            }
+        }
+        // the current piece is not ambiguous (there's only one in the $pieces array)
+        elseif (count($pieces) == 1 && current($pieces)->isMovable())
+        {
+            $piece = current($pieces);
+            switch($piece->getMove()->type)
+            {
+                case PGN::MOVE_TYPE_KING:
+                    return $this->kingIsMoved($piece);
+                    break;
 
-            default:
-                return false;
-                break;
+                case PGN::CASTLING_SHORT:
+                    return $this->castle($piece);
+                    break;
+
+                case PGN::CASTLING_LONG:
+                    return $this->castle($piece);
+                    break;
+
+                default:
+                    return $this->pieceIsMoved($piece);
+                    break;
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -267,23 +320,20 @@ class Board extends \SplObjectStorage
     {
         try
         {
-            // prepare castling
+            // get castling rook
             $rook = $king->getCastlingRook(iterator_to_array($this, false));
-            $kingMoved = clone $king;
-            $rookMoved = clone $rook;
             // move king
             $kingsNewPosition = $king->getPosition();
             $kingsNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_KING}->{$king->getMove()->type}->position->next;
-            $kingMoved->setPosition($kingsNewPosition);
-            $this->swap($kingMoved, $king);
+            $king->setPosition($kingsNewPosition);
+            $this->pieceIsMoved($king);
             // move rook
             $rooksNewPosition = $rook->getPosition();
             $rooksNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getMove()->type}->position->next;
-            $rookMoved->setPosition($rooksNewPosition);
-            $this->swap($rookMoved, $rook);
+            $rook->setPosition($rooksNewPosition);
+            $this->pieceIsMoved($rook);
             // update board's status
             $this->status->castled->{$king->getColor()} = true;
-            $this->updateStatus();
         }
         catch (\Exception $e)
         {
@@ -304,12 +354,19 @@ class Board extends \SplObjectStorage
     {
         try
         {
-            $pieceMoved = clone $piece;
-            $newPosition = $piece->getPosition();
-            $newPosition->current = $piece->getMove()->position->next;
-            $pieceMoved->setPosition($newPosition);
-            // $pieceMoved->setMove(null);
-            $this->swap($pieceMoved, $piece);
+            // move piece
+            $pieceClass = new \ReflectionClass(get_class($piece));
+            $this->detach($piece);
+            $this->attach($pieceClass->newInstanceArgs([
+                $piece->getColor(),
+                $piece->getMove()->position->next])
+            );
+            // remove the captured piece (if any) from the board
+            if($piece->getMove()->isCapture)
+            {
+                $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
+                $this->detach($capturedPiece);
+            }
             $this->updateStatus();
         }
         catch (\Exception $e)
@@ -318,22 +375,6 @@ class Board extends \SplObjectStorage
             return false;
         }
         return true;
-    }
-
-    /**
-     * Swaps piece $a with piece $b. This method is actually used for moving
-     * the pieces of the board.
-     *
-     * @param Piece $a PGNChess\Piece
-     * @param Piece $b PGNChess\Piece
-     *
-     * @return PGNChess\Board
-     */
-    private function swap(Piece $a, Piece $b)
-    {
-        $this->detach($b);
-        $this->attach($a);
-        return $this;
     }
 
     /**

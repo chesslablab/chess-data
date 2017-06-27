@@ -6,7 +6,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $game = [
     'e4 e5',
-    /* 'f4 exf4',
+    'f4 exf4',
     'd4 Nf6',
     'Nc3 Bb4',
     'Bxf4 Bxc3+',
@@ -16,7 +16,7 @@ $game = [
     'Nf3 Nc3',
     'Qd3 Re8+',
     'Kd2 Ne4+',
-    'Kc1 Nf2' */
+    'Kc1 Nf2'
 ];
 
 $board = new Board;
@@ -40,5 +40,4 @@ foreach ($game as $entry)
         echo $e->getMessage() . PHP_EOL;
         exit;
     }
-    print_r($board->getStatus()); exit;
 }

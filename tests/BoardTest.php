@@ -176,6 +176,12 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nc6')));
     }
 
+    public function testPlayNf6()
+    {
+        $board = new Board;
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nf6')));
+    }
+
     public function testPlayNxd2()
     {
         $board = new Board;
@@ -367,7 +373,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     {
         $game = [
             'e4 e5',
-            /* 'f4 exf4',
+            'f4 exf4',
             'd4 Nf6',
             'Nc3 Bb4',
             'Bxf4 Bxc3+',
@@ -377,16 +383,20 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             'Nf3 Nc3',
             'Qd3 Re8+',
             'Kd2 Ne4+',
-            'Kc1 Nf2' */
+            'Kc1 Nf2'
         ];
 
         $board = new Board;
 
         $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'e5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'f4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'exf4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'd4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
 
-        $foo = $board->getPiecesByColor('w');
-        print_r($foo); exit;
-        // print_r($board->getStatus()); exit;
+        // TODO
+        // Check the board's status after playing the game
     }
 
 }

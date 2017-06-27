@@ -5,18 +5,22 @@ use PGNChess\PGN;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $game = [
-    'e4 e5',
-    'f4 exf4',
-    'd4 Nf6',
-    'Nc3 Bb4',
-    'Bxf4 Bxc3+',
-    'bxc3 Nxe4',
-    'Qe2 d5',
-    'c4 O-O',
-    'Nf3 Nc3',
-    'Qd3 Re8+',
-    'Kd2 Ne4+',
-    'Kc1 Nf2'
+    'e4 c5',
+    'Nf3 Nc6',
+    'd4 cxd4',
+    'Nxd4 Nf6',
+    'Nc3 e5',
+    'Ndb5 d6',
+    'Bg5 a6',
+    'Na3 b5',
+    'Nd5 Be7',
+    'Bxf6 Bxf6',
+    'c3 O-O',
+    'h4 Rb8',
+    'Nc2 Be7',
+    'Nce3 Be6',
+    'Qf3 Qd7',
+    'Rd1 Bd8'
 ];
 
 $board = new Board;

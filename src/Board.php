@@ -209,24 +209,7 @@ class Board extends \SplObjectStorage
             {
                 if ($piece->isMovable())
                 {
-                    switch($piece->getMove()->type)
-                    {
-                        case PGN::MOVE_TYPE_KING:
-                            return $this->kingIsMoved($piece);
-                            break;
-
-                        case PGN::CASTLING_SHORT:
-                            return $this->castle($piece);
-                            break;
-
-                        case PGN::CASTLING_LONG:
-                            return $this->castle($piece);
-                            break;
-
-                        default:
-                            return $this->pieceIsMoved($piece);
-                            break;
-                    }
+                    return $this->pieceIsMoved($piece);
                 }
             }
         }

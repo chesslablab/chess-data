@@ -4,7 +4,6 @@
   "type": "library",
   "license": "MIT",
   "keywords": ["chess", "pgn", "parser", "engine", "api", "requests", "position", "board", "editor"],
-  "version": "0.9-BETA",
   "authors": [
     {
       "name": "Jordi Bassagañas",

@@ -110,66 +110,62 @@ class Board extends \SplObjectStorage
         $this->status->turn === PGN::COLOR_WHITE
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
+
         // compute square statistics
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
+        
         // set square statistics (flat data) for all pieces
         AbstractPiece::setSquares($this->status->squares);
     }
 
     /**
-     * Picks a piece to be moved.
+     * Picks a piece to be moved, prioritizing the matching of the less ambiguous
+     * one according to the PGN format. It returns the first available piece
+     * that matches the criteria.
      *
      * @param stdClass $move
      *
-     * @return use PGNChess\Piece\Piece
+     * @return PGNChess\Piece\Piece|null     The piece that corresponds to the move;
+     *                                       otherwise null.
+     *
+     * @throws \InvalidArgumentException
      */
     private function pickPieceToMove(\stdClass $move)
     {
         $pieces = $this->getPiecesByColor($move->color);
-        $found = null;
-        foreach($pieces as $piece)
+        foreach ($pieces as $piece)
         {
             if ($piece->getIdentity() === $move->identity)
             {
-                // prioritize the matching of the less ambiguous piece according to the PGN format
-                switch(true)
+                switch($piece->getIdentity())
                 {
-                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_SHORT:
+                    // the king is the only non-ambiguous piece
+                    case PGN::PIECE_KING:
                         $piece->setMove($move);
                         return $piece;
                         break;
-
-                    case $move->type === PGN::MOVE_TYPE_KING_CASTLING_LONG:
-                        $piece->setMove($move);
-                        return $piece;
-                        break;
-
-                    // is this a disambiguation move? For example, Rbe8, Q7g7
-                    case preg_match("/{$move->position->current}/", $piece->getPosition()->current):
-                        $piece->setMove($move);
-                        return $piece;
-                        break;
-
-                    // otherwise, this is a usual move such as Nxd2 or Nd2
+                    // try to disambiguate the move; for example, Rbe8, Q7g7
                     default:
-                        $piece->setMove($move);
-                        $found = $piece;
+                        if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
+                        {
+                            $piece->setMove($move);
+                            return $piece;
+                        }
                         break;
                 }
             }
         }
-        return $found;
+        throw new \InvalidArgumentException("This piece does not exist on the board: {$move->color} {$move->identity} on {$move->position->current}");
     }
 
     /**
      * Runs a chess move on the board.
      *
-     * Note that there are 4 different types of moves:
+     * Note that there are 3 different types of moves:
      *
      *      (1) kingIsMoved
-     *      (2) kingCaptures
-     *      (3) castle
-     *      (4) pieceIsMoved
+     *      (2) castle
+     *      (3) pieceIsMoved
      *
      * In all cases, you have to first pick the piece you want to move by calling
      * the pickPieceToMove(\stdClass $move) method -- which expects as an input
@@ -192,10 +188,6 @@ class Board extends \SplObjectStorage
                 return $this->kingIsMoved($piece);
                 break;
 
-            case $piece->isMovable() && $piece->getMove()->type === PGN::MOVE_TYPE_KING_CAPTURES:
-                return $this->kingCaptures($piece);
-                break;
-
             case $piece->isMovable() && $piece->getMove()->type === PGN::CASTLING_SHORT:
                 return $this->castle($piece);
                 break;
@@ -215,52 +207,53 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Moves the king. This decision can be made thanks to the implementation of
-     * the concept of space -- the squares controlled by both players.
+     * Moves the king.
      *
      * @see Board::space()
      *
      * @param King $king
      *
-     * @return boolean
+     * @return boolean true if the king captured the piece; otherwise false
      */
     private function kingIsMoved(King $king)
     {
-        if (!in_array($king->getMove()->position->next, $this->space()->{$king->getOppositeColor()}))
+        switch ($king->getMove()->type)
         {
-            return $this->pieceIsMoved($king);
-        }
-        else
-        {
-            return false;
-        }
-    }
+            /*
+            * This decision can be made thanks to the implementation of
+            * the concept of space -- the squares controlled by both players.
+            */
+            case PGN::MOVE_TYPE_KING:
+                if (!in_array($king->getMove()->position->next, $this->space()->{$king->getOppositeColor()}))
+                {
+                    return $this->pieceIsMoved($king);
+                }
+                else
+                {
+                    return false;
+                }
+                break;
 
-    /**
-     * A king tries to capture a piece.
-     *
-     * This method is like going to the future to see what will happen in the next
-     * move in order to take a decision accordingly. It forks the current board
-     * and simulates the king's capture move on it. Here is the idea actually being
-     * implemented: (1) the piece to be captured is removed from the forked board,
-     * and (2) then the king moves to the square where the captured piece should be
-     * standing. Following this logical sequence, if it turns out that the king is
-     * on a square controlled by the opponent, the king can't capture the piece.
-     * This way we can reuse the method implementing a normal king's move. Alternatively,
-     * you could build an array/object containing the pieces defended among themselves
-     * according to chess rules. However, in this particular case the strategy of going
-     * to the future is easier to carry out.
-     *
-     * @param King $king
-     *
-     * @return boolean true if the king captured the piece; otherwise false
-     */
-    private function kingCaptures(King $king)
-    {
-        $that = $this;
-        $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
-        $that->detach($capturedPiece);
-        return $that->kingIsMoved($king);
+            /*
+            * This is like going to the future to see what will happen in the next
+            * move in order to take a decision accordingly. It forks the current board
+            * and simulates the king's capture move on it. Here is the idea actually being
+            * implemented: (1) the piece to be captured is removed from the forked board,
+            * and (2) then the king moves to the square where the captured piece should be
+            * standing. Following this logical sequence, if it turns out that the king is
+            * on a square controlled by the opponent, the king can't capture the piece.
+            * This way we can reuse the method implementing a normal king's move. Alternatively,
+            * you could build an array/object containing the pieces defended among themselves
+            * according to chess rules. However, in this particular case the strategy of going
+            * to the future is easier to carry out.
+            */
+            case PGN::MOVE_TYPE_KING_CAPTURES:
+                $that = $this;
+                $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
+                $that->detach($capturedPiece);
+                return $that->kingIsMoved($king);
+                break;
+        }
     }
 
     /**
@@ -315,6 +308,7 @@ class Board extends \SplObjectStorage
             $newPosition = $piece->getPosition();
             $newPosition->current = $piece->getMove()->position->next;
             $pieceMoved->setPosition($newPosition);
+            // $pieceMoved->setMove(null);
             $this->swap($pieceMoved, $piece);
             $this->updateStatus();
         }

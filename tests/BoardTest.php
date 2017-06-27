@@ -43,37 +43,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('b', 'Qg5')));
     }
 
-    /* public function testSquaresControlledByWhiteInDefaultBoard()
-    {
-        $pieces = [
-            new Pawn(PGN::COLOR_WHITE, 'a2'),
-            new Pawn(PGN::COLOR_WHITE, 'a3'),
-            new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
-            new King(PGN::COLOR_WHITE, 'g3'),
-            new Pawn(PGN::COLOR_BLACK, 'a6'),
-            new Pawn(PGN::COLOR_BLACK, 'b5'),
-            new Pawn(PGN::COLOR_BLACK, 'c4'),
-            new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
-            new King(PGN::COLOR_BLACK, 'g5'),
-            new Pawn(PGN::COLOR_BLACK, 'h7')
-        ];
-        $board = new Board($pieces);
-        $example = [
-            'a3',
-            'b3',
-            'c3',
-            'd3',
-            'e3',
-            'f3',
-            'g3',
-            'h3'
-        ];
-
-        $this->assertEquals($example, $board->getStatus()->squares->kingCantPassThrough->w);
-    } */
-
     public function testPlayRaInDefaultBoard()
     {
         $board = new Board;
@@ -290,7 +259,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'O-O')));
     }
 
-    // TODO now testing this!
     public function testKingForbiddenMove()
     {
         $pieces = [
@@ -308,8 +276,28 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kf4')));
+    }
 
-        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'f4')));
+    public function testThrowsExceptionPieceDoesNotExistOnTheBoard()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'g3'),
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $board->play(PGN::objectizeMove('w', 'f4'));
     }
 
     public function testKingLegalMove()
@@ -373,6 +361,32 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces);
 
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kxf2')));
+    }
+
+    public function testPlayGame()
+    {
+        $game = [
+            'e4 e5',
+            /* 'f4 exf4',
+            'd4 Nf6',
+            'Nc3 Bb4',
+            'Bxf4 Bxc3+',
+            'bxc3 Nxe4',
+            'Qe2 d5',
+            'c4 O-O',
+            'Nf3 Nc3',
+            'Qd3 Re8+',
+            'Kd2 Ne4+',
+            'Kc1 Nf2' */
+        ];
+
+        $board = new Board;
+
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+
+        $foo = $board->getPiecesByColor('w');
+        print_r($foo); exit;
+        // print_r($board->getStatus()); exit;
     }
 
 }

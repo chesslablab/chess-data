@@ -153,19 +153,15 @@ abstract class AbstractPiece implements Piece
     /**
      * Gets the legal moves that a piece can perform on the board.
      *
-     * Specifically, the children's implementation strategy uses the concept of scope.
-     * A piece's scope represents all the squares under its control on an empty board.
-     * Therefore, roughly speaking, the legal moves that pieces can perform is
-     * a subtraction between their scope and the squares used by both players.
+     * Specifically, the children's implementation strategy of the current abstract
+     * class uses the concept of scope. A piece's scope represents all the squares
+     * under its control on an empty board. Therefore, roughly speaking, the legal moves
+     * that pieces can perform is a subtraction between their scope and the squares
+     * used by both players.
      *
      * @return array The legal moves that the piece can perform.
      */
     abstract public function getLegalMoves();
-
-    /* public static function getSquares()
-    {
-        return $this->squares;
-    } */
 
     /**
      * Sets the piece's position.
@@ -174,7 +170,9 @@ abstract class AbstractPiece implements Piece
      */
     public function setPosition(\stdClass $position)
     {
-        $this->position = $position;
+        $this->position->current === $this->move->position->next
+            ? $this->position = $position
+            : $this->position = null;
     }
 
     /**
@@ -187,13 +185,32 @@ abstract class AbstractPiece implements Piece
         $this->move = $move;
     }
 
+    /**
+     * This method sets the $squares attribute, which is a class variable defined at the
+     * top-level and inherited by all pieces. This is flat information about the
+     * chess board, which is accessible by all pieces for computing their legal moves, etc.
+     *
+     * @param stdClass $squares
+     */
     public static function setSquares(\stdClass $squares)
     {
         self::$squares = $squares;
     }
 
+    /**
+     * Checks whether or not the piece can be moved on the board.
+     *
+     * @return boolean true if the piece can be moved; otherwise false
+     */
     public function isMovable()
     {
-        return in_array($this->getMove()->position->next, $this->getLegalMoves());
+        if (isset($this->move))
+        {
+            return in_array($this->move->position->next, $this->getLegalMoves());
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -285,6 +285,206 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kf4')));
     }
 
+    public function testCheckIsFixedKe4()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Ke4')));
+    }
+
+    public function testCheckIsNotFixedKf4()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kf4')));
+    }
+
+    public function testCheckIsNotFixedKg4()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kg4')));
+    }
+
+    public function testCheckIsFixedKg3()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kg3')));
+    }
+
+    public function testCheckIsFixedKg2()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kg2')));
+    }
+
+    public function testCheckIsNotFixedKf2()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kf2')));
+    }
+
+    public function testCheckIsFixedKe2()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Ke2')));
+    }
+
+    public function testCheckIsFixedKe3()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Ke3')));
+    }
+
+    public function testCheckIsNotFixedRe7()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Re7')));
+    }
+
+    public function testCheckIsNotFixeda4()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'f3'), // in check!
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'a4')));
+    }
+
     public function testThrowsExceptionPieceDoesNotExistOnTheBoard()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -348,7 +548,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kxh2')));
     }
 
-    public function testKingCapturesPieceDefended()
+    public function testKingCannotCaptureRookDefendedByKnight()
     {
         $pieces = [
             new Pawn(PGN::COLOR_WHITE, 'a2'),
@@ -360,13 +560,34 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f2'),
+            new Rook(PGN::COLOR_BLACK, 'f2'), // rook defended by knight
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
 
-        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kxf2')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kxf2')));
+    }
+
+    public function testKingCannCaptureRookNotDefended()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'a3'),
+            new Pawn(PGN::COLOR_WHITE, 'c3'),
+            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new King(PGN::COLOR_WHITE, 'g3'),
+            new Pawn(PGN::COLOR_BLACK, 'a6'),
+            new Pawn(PGN::COLOR_BLACK, 'b5'),
+            new Pawn(PGN::COLOR_BLACK, 'c4'),
+            new Knight(PGN::COLOR_BLACK, 'd3'),
+            new Rook(PGN::COLOR_BLACK, 'f3'), // rook not defended
+            new King(PGN::COLOR_BLACK, 'g5'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kxf3')));
     }
 
     public function testPlayGame()

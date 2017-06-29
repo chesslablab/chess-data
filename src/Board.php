@@ -207,14 +207,14 @@ class Board extends \SplObjectStorage
         {
             foreach ($pieces as $piece)
             {
-                if ($piece->isMovable())
+                if ($piece->isMovable() && !$this->isCheck($piece))
                 {
                     return $this->pieceIsMoved($piece);
                 }
             }
         }
         // the current piece is not ambiguous (there's only one in the $pieces array)
-        elseif (count($pieces) == 1 && current($pieces)->isMovable())
+        elseif (count($pieces) == 1 && current($pieces)->isMovable() && !$this->isCheck(current($pieces)))
         {
             $piece = current($pieces);
             switch($piece->getMove()->type)
@@ -425,24 +425,20 @@ class Board extends \SplObjectStorage
     }
 
    /**
-    * Builds an object containing the squares currently being controlled by
-    * both players. This corresponds with the idea of space in chess. And more
-    * specifically, it is helpful to decide whether or not a king can be put on
-    * this or that square of the board.
+    * Builds an object containing the squares currently being controlled by both players.
+    * This corresponds with the idea of space in chess. And more specifically, it is
+    * helpful to decide whether or not a king can be put on this or that square of the board.
     *
     * @see Board::KingIsMoved(King $king)
-    *
-    * @param $pieces
     *
     * @return stdClass
     */
     private function space()
     {
-        $squares = (object) [
+        $space = (object) [
             PGN::COLOR_WHITE => [],
             PGN::COLOR_BLACK => []
         ];
-        // first of all, compute the legal moves that can be made by non-king pieces
         $this->rewind();
         while ($this->valid())
         {
@@ -450,22 +446,35 @@ class Board extends \SplObjectStorage
             switch($piece->getIdentity())
             {
                 case 'K':
-                    // exclude king since this is the exception, do nothing
+                    $space->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $space->{$piece->getColor()},
+                            array_values(
+                                array_intersect(
+                                    array_values((array)$piece->getPosition()->scope),
+                                    $this->status->squares->free
+                                )
+                            )
+                        )
+                    );
                     break;
 
                 case 'P':
-                    $squares->{$piece->getColor()} = array_unique(
+                    $space->{$piece->getColor()} = array_unique(
                         array_merge(
-                            $squares->{$piece->getColor()},
-                            $piece->getPosition()->capture
+                            $space->{$piece->getColor()},
+                            array_diff(
+                                $piece->getPosition()->capture,
+                                $this->status->squares->used->{$piece->getOppositeColor()}
+                            )
                         )
                     );
                     break;
 
                 default:
-                    $squares->{$piece->getColor()} = array_unique(
+                    $space->{$piece->getColor()} = array_unique(
                         array_merge(
-                            $squares->{$piece->getColor()},
+                            $space->{$piece->getColor()},
                             array_diff(
                                 $piece->getLegalMoves(),
                                 $this->status->squares->used->{$piece->getOppositeColor()}
@@ -476,30 +485,92 @@ class Board extends \SplObjectStorage
             }
             $this->next();
         }
-        // and finally add the squares controlled by kings
-        $kings = [];
+        sort($space->{PGN::COLOR_WHITE});
+        sort($space->{PGN::COLOR_BLACK});
+        return $space;
+    }
+
+    /**
+     * Builds an object containing the squares currently being attacked by both players.
+     *
+     * @return stdClass
+     */
+    private function attack()
+    {
+        $attack = (object) [
+            PGN::COLOR_WHITE => [],
+            PGN::COLOR_BLACK => []
+        ];
         $this->rewind();
         while ($this->valid())
         {
             $piece = $this->current();
-            if($piece->getIdentity() === 'K')
+            switch($piece->getIdentity())
             {
-                $squares->{$piece->getColor()} = array_unique(
-                    array_merge(
-                        $squares->{$piece->getColor()},
-                        array_values(
-                            array_intersect(
-                                array_values((array)$piece->getPosition()->scope),
-                                $this->status->squares->free
+                case 'K':
+                    $attack->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $attack->{$piece->getColor()},
+                            array_values(
+                                array_intersect(
+                                    array_values((array)$piece->getPosition()->scope),
+                                    $this->status->squares->used->{$piece->getOppositeColor()}
+                                )
                             )
                         )
-                    )
-                );
+                    );
+                    break;
+
+                case 'P':
+                    $attack->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $attack->{$piece->getColor()},
+                            array_intersect(
+                                $piece->getPosition()->capture,
+                                $this->status->squares->used->{$piece->getOppositeColor()}
+                            )
+                        )
+                    );
+                    break;
+
+                default:
+                    $attack->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $attack->{$piece->getColor()},
+                            array_intersect(
+                                $piece->getLegalMoves(),
+                                $this->status->squares->used->{$piece->getOppositeColor()}
+                            )
+                        )
+                    );
+                    break;
             }
             $this->next();
         }
-        sort($squares->{PGN::COLOR_WHITE});
-        sort($squares->{PGN::COLOR_BLACK});
-        return $squares;
+        sort($attack->{PGN::COLOR_WHITE});
+        sort($attack->{PGN::COLOR_BLACK});
+        return $attack;
+    }
+
+    /**
+     * Verifies whether or not a piece's move leaves the board in check.
+     *
+     * @param PGNChess\Piece $piece
+     *
+     * @return boolean
+     */
+    private function isCheck($piece)
+    {
+        $that = $this;
+        $that->pieceIsMoved($piece);
+        $king = $that->getPiece($piece->getColor(), PGN::PIECE_KING);
+        if (in_array($king->getPosition()->current, $that->attack()->{$king->getOppositeColor()}))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

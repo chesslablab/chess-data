@@ -523,7 +523,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kg2')));
     }
 
@@ -544,7 +543,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kxh2')));
     }
 
@@ -565,7 +563,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-
         $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'Kxf2')));
     }
 
@@ -586,38 +583,72 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
-
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kxf3')));
     }
 
-    public function testPlayGame()
+    public function testPlayGameAndCheckStatus()
     {
         $game = [
             'e4 e5',
             'f4 exf4',
             'd4 Nf6',
             'Nc3 Bb4',
-            'Bxf4 Bxc3+',
-            'bxc3 Nxe4',
-            'Qe2 d5',
-            'c4 O-O',
-            'Nf3 Nc3',
-            'Qd3 Re8+',
-            'Kd2 Ne4+',
-            'Kc1 Nf2'
+            'Bxf4 Bxc3+'
         ];
-
         $board = new Board;
-
-        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
-        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'e5'));
-        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'f4'));
-        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'exf4'));
-        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'd4'));
-        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
-
-        // TODO
-        // Check the board's status after playing the game
+        foreach ($game as $entry)
+        {
+            $moves = explode(' ', $entry);
+            $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, $moves[0]));
+            $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, $moves[1]));
+        }
+        $example = (object) [
+            'w' => [
+                'a3',
+                'a6',
+                'b1',
+                'b3',
+                'b5',
+                'c1',
+                'c4',
+                'c5',
+                'd2',
+                'd3',
+                'd5',
+                'd6',
+                'e2',
+                'e3',
+                'e5',
+                'f2',
+                'f3',
+                'f5',
+                'g3',
+                'g4',
+                'g5',
+                'h3',
+                'h5',
+                'h6'
+            ],
+            'b' => [
+                'a5',
+                'a6',
+                'b4',
+                'b6',
+                'c6',
+                'd2',
+                'd5',
+                'd6',
+                'e6',
+                'e7',
+                'f8',
+                'g4',
+                'g6',
+                'g8',
+                'h5',
+                'h6'
+            ]
+        ];
+        $this->assertEquals($example, $board->getStatus()->space);
     }
 
 }

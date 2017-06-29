@@ -198,5 +198,4 @@ PGN Chess is almost finished, so please be patient and stay curious in regards t
 
 Here is the list of chess rules to be added:
 
-- Force the king to be moved when it is in check
 - When castling kings, make sure that the castling rook exists

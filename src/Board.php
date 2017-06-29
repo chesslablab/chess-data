@@ -80,6 +80,14 @@ class Board extends \SplObjectStorage
 
         $this->status = (object) [
             'turn' => null,
+            'space' => (object) [
+                PGN::COLOR_WHITE => false,
+                PGN::COLOR_BLACK => false
+            ],
+            'attack' => (object) [
+                PGN::COLOR_WHITE => false,
+                PGN::COLOR_BLACK => false
+            ],
             'castled' => (object) [
                 PGN::COLOR_WHITE => false,
                 PGN::COLOR_BLACK => false
@@ -110,12 +118,12 @@ class Board extends \SplObjectStorage
         $this->status->turn === PGN::COLOR_WHITE
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
-
-        // compute square statistics
+        // compute square statistics and send tem (flat data) to pieces
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
-
-        // set square statistics (flat data) for all pieces
         AbstractPiece::setSquares($this->status->squares);
+        // update space and attack properties
+        $this->status->space = $this->space();
+        $this->status->attack = $this->attack();
     }
 
     /**
@@ -260,7 +268,7 @@ class Board extends \SplObjectStorage
             * the concept of space -- the squares controlled by both players.
             */
             case PGN::MOVE_TYPE_KING:
-                if (!in_array($king->getMove()->position->next, $this->space()->{$king->getOppositeColor()}))
+                if (!in_array($king->getMove()->position->next, $this->status->space->{$king->getOppositeColor()}))
                 {
                     return $this->pieceIsMoved($king);
                 }
@@ -272,19 +280,16 @@ class Board extends \SplObjectStorage
 
             /*
             * This is like going to the future to see what will happen in the next
-            * move in order to take a decision accordingly. It forks the current board
+            * move in order to take a decision accordingly. It "forks" the current board
             * and simulates the king's capture move on it. Here is the idea actually being
             * implemented: (1) the piece to be captured is removed from the forked board,
             * and (2) then the king moves to the square where the captured piece should be
             * standing. Following this logical sequence, if it turns out that the king is
             * on a square controlled by the opponent, the king can't capture the piece.
-            * This way we can reuse the method implementing a normal king's move. Alternatively,
-            * you could build an array/object containing the pieces defended among themselves
-            * according to chess rules. However, in this particular case the strategy of going
-            * to the future is easier to carry out.
+            * This way we can reuse the method implementing a normal king's move.
             */
             case PGN::MOVE_TYPE_KING_CAPTURES:
-                $that = $this;
+                $that = clone $this;
                 $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
                 $that->detach($capturedPiece);
                 return $that->kingIsMoved($king);
@@ -463,9 +468,9 @@ class Board extends \SplObjectStorage
                     $space->{$piece->getColor()} = array_unique(
                         array_merge(
                             $space->{$piece->getColor()},
-                            array_diff(
+                            array_intersect(
                                 $piece->getPosition()->capture,
-                                $this->status->squares->used->{$piece->getOppositeColor()}
+                                $this->status->squares->free
                             )
                         )
                     );
@@ -553,7 +558,12 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Verifies whether or not a piece's move leaves the board in check.
+     * Verifies whether or not a piece's move leaves the board in check. This is
+     * like going to the future to see what will happen in the next move in order
+     * to take a decision accordingly. It "forks" the current board and simulates
+     * a piece move on it. Here is the idea actually being implemented: (1) a piece
+     * is moved on the board (2) if it turns out that the king is attacked, then
+     * we say the board is in check.
      *
      * @param PGNChess\Piece $piece
      *
@@ -561,7 +571,7 @@ class Board extends \SplObjectStorage
      */
     private function isCheck($piece)
     {
-        $that = $this;
+        $that = clone $this;
         $that->pieceIsMoved($piece);
         $king = $that->getPiece($piece->getColor(), PGN::PIECE_KING);
         if (in_array($king->getPosition()->current, $that->attack()->{$king->getOppositeColor()}))

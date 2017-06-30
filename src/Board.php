@@ -339,12 +339,20 @@ class Board extends \SplObjectStorage
                 case false:
                     // move king
                     $kingsNewPosition = $king->getPosition();
-                    $kingsNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_KING}->{$king->getMove()->pgn}->position->next;
+                    $kingsNewPosition->current = PGN::castling($king->getColor())
+                        ->{PGN::PIECE_KING}
+                        ->{$king->getMove()->pgn}
+                        ->position
+                        ->next;
                     $king->setPosition($kingsNewPosition);
                     $this->pieceIsMoved($king);
                     // move rook
                     $rooksNewPosition = $rook->getPosition();
-                    $rooksNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getMove()->pgn}->position->next;
+                    $rooksNewPosition->current = PGN::castling($king->getColor())
+                        ->{PGN::PIECE_ROOK}
+                        ->{$king->getMove()->pgn}
+                        ->position
+                        ->next;
                     $rooksMove = (object) [
                         'isCapture' => $king->getMove()->isCapture,
                         'position' => (object) [
@@ -354,9 +362,23 @@ class Board extends \SplObjectStorage
                     $rook->setMove($rooksMove);
                     $this->pieceIsMoved($rook);
                     // update board's castling status
-                    $this->status->castling->{$king->getColor()}->{PGN::PIECE_KING}->isCastled = true;
-                    $this->status->castling->{$king->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->canCastle = false;
-                    $this->status->castling->{$king->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->canCastle = false;
+                    $this->status
+                        ->castling
+                        ->{$king->getColor()}
+                        ->{PGN::PIECE_KING}
+                        ->isCastled = true;
+                    $this->status
+                        ->castling
+                        ->{$king->getColor()}
+                        ->{PGN::PIECE_KING}
+                        ->{PGN::CASTLING_SHORT}
+                        ->canCastle = false;
+                    $this->status
+                        ->castling
+                        ->{$king->getColor()}
+                        ->{PGN::PIECE_KING}
+                        ->{PGN::CASTLING_LONG}
+                        ->canCastle = false;
                     return true;
                     break;
 
@@ -641,17 +663,45 @@ class Board extends \SplObjectStorage
         {
             switch ($piece->getIdentity())
             {
-                case 'K':
-                    $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->canCastle = false;
-                    $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->canCastle = false;
+                case PGN::PIECE_KING:
+                    $this->status
+                        ->castling
+                        ->{$piece->getColor()}
+                        ->{PGN::PIECE_KING}
+                        ->{PGN::CASTLING_SHORT}
+                        ->canCastle = false;
+                    $this->status
+                        ->castling
+                        ->{$piece->getColor()}
+                        ->{PGN::PIECE_KING}
+                        ->{PGN::CASTLING_LONG}
+                        ->canCastle = false;
                     break;
 
-                case 'R':
-                    $piece->getPosition() === PGN::castling($piece->getColor())->{PGN::PIECE_ROOK}->{PGN::CASTLING_SHORT}->position->current
-                        ? $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->canCastle = false
+                case PGN::PIECE_ROOK:
+                    $piece->getPosition() === PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_ROOK}
+                            ->{PGN::CASTLING_SHORT}
+                            ->position
+                            ->current
+                        ? $this->status
+                            ->castling
+                            ->{$piece->getColor()}
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_SHORT}
+                            ->canCastle = false
                         : false;
-                    $piece->getPosition() === PGN::castling($piece->getColor())->{PGN::PIECE_ROOK}->{PGN::CASTLING_LONG}->position->current
-                        ? $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->canCastle = false
+                    $piece->getPosition() === PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_ROOK}
+                            ->{PGN::CASTLING_LONG}
+                            ->position
+                            ->current
+                        ? $this->status
+                            ->castling
+                            ->{$piece->getColor()}
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_LONG}
+                            ->canCastle = false
                         : false;
                     break;
             }

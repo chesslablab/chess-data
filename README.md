@@ -198,4 +198,5 @@ PGN Chess is almost finished, so please be patient and stay curious in regards t
 
 Here is the list of chess rules to be added:
 
-- When castling kings, make sure that the castling rook exists
+- When castling kings, make sure that the squares where the king passes are not threatened
+- Add _en passant_ capture rule

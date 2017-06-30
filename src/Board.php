@@ -513,7 +513,7 @@ class Board extends \SplObjectStorage
             $piece = $this->current();
             switch($piece->getIdentity())
             {
-                case 'K':
+                case PGN::PIECE_KING:
                     $space->{$piece->getColor()} = array_unique(
                         array_merge(
                             $space->{$piece->getColor()},
@@ -527,7 +527,7 @@ class Board extends \SplObjectStorage
                     );
                     break;
 
-                case 'P':
+                case PGN::PIECE_PAWN:
                     $space->{$piece->getColor()} = array_unique(
                         array_merge(
                             $space->{$piece->getColor()},
@@ -575,7 +575,7 @@ class Board extends \SplObjectStorage
             $piece = $this->current();
             switch($piece->getIdentity())
             {
-                case 'K':
+                case PGN::PIECE_KING:
                     $attack->{$piece->getColor()} = array_unique(
                         array_merge(
                             $attack->{$piece->getColor()},
@@ -589,7 +589,7 @@ class Board extends \SplObjectStorage
                     );
                     break;
 
-                case 'P':
+                case PGN::PIECE_PAWN:
                     $attack->{$piece->getColor()} = array_unique(
                         array_merge(
                             $attack->{$piece->getColor()},

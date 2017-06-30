@@ -701,15 +701,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nc6'));
         $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Bb5'));
         $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
-        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O'));
-
-        print_r($board->getStatus()->castling); exit;
-
-        $status = $board->getStatus()->castling->w->K->isCastled;
-
-        // echo 'Foo: ' . (int)$status;
-
-        // $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
     }
 
 }

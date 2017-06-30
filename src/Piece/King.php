@@ -55,7 +55,7 @@ class King extends AbstractPiece
         {
             if (
                 $piece->getIdentity() === PGN::PIECE_ROOK &&
-                $piece->getPosition()->current === PGN::castling($this->getColor())->{PGN::PIECE_ROOK}->{$this->getMove()->type}->position->current
+                $piece->getPosition()->current === PGN::castling($this->getColor())->{PGN::PIECE_ROOK}->{$this->getMove()->pgn}->position->current
             )
             {
                 return $piece;

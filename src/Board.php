@@ -88,9 +88,29 @@ class Board extends \SplObjectStorage
                 PGN::COLOR_WHITE => false,
                 PGN::COLOR_BLACK => false
             ],
-            'castled' => (object) [
-                PGN::COLOR_WHITE => false,
-                PGN::COLOR_BLACK => false
+            'castling' => (object) [
+                PGN::COLOR_WHITE => (object) [
+                    PGN::PIECE_KING => (object) [
+                        'isCastled' => false,
+                        PGN::CASTLING_SHORT => (object) [
+                            'canCastle' => true
+                        ],
+                        PGN::CASTLING_LONG => (object) [
+                            'canCastle' => true
+                        ]
+                    ]
+                ],
+                PGN::COLOR_BLACK => (object) [
+                    PGN::PIECE_KING => (object) [
+                        'isCastled' => false,
+                        PGN::CASTLING_SHORT => (object) [
+                            'canCastle' => true
+                        ],
+                        PGN::CASTLING_LONG => (object) [
+                            'canCastle' => true
+                        ]
+                    ]
+                ]
             ]
         ];
 
@@ -110,20 +130,27 @@ class Board extends \SplObjectStorage
     /**
      * Updates the board's status.
      *
+     * @param PGNChess\Piece $piece
+     *
      * @return PGNChess\Board
      */
-    private function updateStatus()
+    private function updateStatus($piece=null)
     {
         // update turn
         $this->status->turn === PGN::COLOR_WHITE
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
-        // compute square statistics and send tem (flat data) to pieces
+        // compute square statistics and send them (flat data) to all pieces
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
         AbstractPiece::setSquares($this->status->squares);
         // update space and attack properties
         $this->status->space = $this->space();
         $this->status->attack = $this->attack();
+        // update castling info
+        if (!empty($piece))
+        {
+            $this->updateCastling($piece);
+        }
     }
 
     /**
@@ -310,25 +337,36 @@ class Board extends \SplObjectStorage
         {
             // get castling rook
             $rook = $king->getCastlingRook(iterator_to_array($this, false));
-            // move king
-            $kingsNewPosition = $king->getPosition();
-            $kingsNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_KING}->{$king->getMove()->type}->position->next;
-            $king->setPosition($kingsNewPosition);
-            $this->pieceIsMoved($king);
-            // move rook
-            $rooksNewPosition = $rook->getPosition();
-            $rooksNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getMove()->type}->position->next;
-            $rook->setPosition($rooksNewPosition);
-            $this->pieceIsMoved($rook);
-            // update board's status
-            $this->status->castled->{$king->getColor()} = true;
+            switch(empty($rook))
+            {
+                case false:
+                    // move king
+                    $kingsNewPosition = $king->getPosition();
+                    $kingsNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_KING}->{$king->getMove()->type}->position->next;
+                    $king->setPosition($kingsNewPosition);
+                    $this->pieceIsMoved($king);
+                    // move rook
+                    $rooksNewPosition = $rook->getPosition();
+                    $rooksNewPosition->current = PGN::castling($king->getColor())->{PGN::PIECE_ROOK}->{$king->getMove()->type}->position->next;
+                    $rook->setPosition($rooksNewPosition);
+                    $this->pieceIsMoved($rook);
+                    // update board's castling status
+                    $this->status->castling->{$king->getColor()}->{PGN::PIECE_KING}->isCastled = true;
+                    $this->status->castling->{$king->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->canCastle = false;
+                    $this->status->castling->{$king->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->canCastle = false;
+                    return true;
+                    break;
+
+                case true:
+                    return false;
+                    break;
+            }
         }
         catch (\Exception $e)
         {
             // TODO log exception...
             return false;
         }
-        return true;
     }
 
     /**
@@ -355,7 +393,7 @@ class Board extends \SplObjectStorage
                 $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
                 $this->detach($capturedPiece);
             }
-            $this->updateStatus();
+            $this->updateStatus($piece);
         }
         catch (\Exception $e)
         {
@@ -581,6 +619,39 @@ class Board extends \SplObjectStorage
         else
         {
             return false;
+        }
+    }
+
+    /**
+     * Updates the board's castling status.
+     *
+     * This keeps track of the fact that a king can't castle once it has been moved.
+     * On the other hand, if the king's long castling rook is moved, then it won't be
+     * able to castle long according to chess rules. And the same thing goes for
+     * the other rook: if it is moved, then the king is not allowed to castle short.
+     *
+     * @param PGNChess\Piece $piece
+     */
+    private function updateCastling(Piece $piece)
+    {
+        if (!$this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->isCastled)
+        {
+            switch ($piece->getIdentity())
+            {
+                case 'K':
+                    $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->canCastle = false;
+                    $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->canCastle = false;
+                    break;
+
+                case 'R':
+                    $piece->getPosition() === PGN::castling($piece->getColor())->{PGN::PIECE_ROOK}->{PGN::CASTLING_SHORT}->position->current
+                        ? $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->canCastle = false
+                        : false;
+                    $piece->getPosition() === PGN::castling($piece->getColor())->{PGN::PIECE_ROOK}->{PGN::CASTLING_LONG}->position->current
+                        ? $this->status->castling->{$piece->getColor()}->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->canCastle = false
+                        : false;
+                    break;
+            }
         }
     }
 }

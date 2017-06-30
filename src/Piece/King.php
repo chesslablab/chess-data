@@ -9,7 +9,8 @@ use PGNChess\Piece\Bishop;
 /**
  * Class that represents a king.
  *
- * This class uses a rook and a bishop to keep things simple.
+ * Rather than implementing everything from scratch, this class uses a rook and
+ * a bishop in order to keep things simple.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -79,7 +80,6 @@ class King extends AbstractPiece
         $this->position->scope = (object) array_filter(array_unique($scope));
     }
 
-    // TODO update this
     public function getLegalMoves()
     {
         $moves = [];
@@ -111,7 +111,6 @@ class King extends AbstractPiece
                 if (
                     in_array($castlingShort->freeSquares->f, self::$squares->free) &&
                     in_array($castlingShort->freeSquares->g, self::$squares->free)
-                    // TODO Add condition here to check existence of castling rook
                 )
                 {
                     $moves[] = $this->getMove()->position->next;
@@ -124,7 +123,6 @@ class King extends AbstractPiece
                     in_array($castlingLong->freeSquares->b, self::$squares->free) &&
                     in_array($castlingLong->freeSquares->c, self::$squares->free) &&
                     in_array($castlingLong->freeSquares->d, self::$squares->free)
-                    // TODO Add condition here to check existence of castling rook
                 )
                 {
                     $moves[] = $this->getMove()->position->next;

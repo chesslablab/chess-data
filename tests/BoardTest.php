@@ -651,4 +651,65 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $board->getStatus()->space);
     }
 
+    public function testCastlingShortInDefaultBoard()
+    {
+        $board = new Board;
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'O-O')));
+    }
+
+    public function testWhiteCastlesShortSicilianAfterNc6()
+    {
+        $board = new Board;
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'c5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nf3'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nc6'));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
+    }
+
+    public function testWhiteCastlesShortSicilianAfterNf6()
+    {
+        $board = new Board;
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'c5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nf3'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nc6'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Bb5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
+    }
+
+    public function testWhiteCastlesLongSicilianAfterNf6()
+    {
+        $board = new Board;
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'c5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nf3'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nc6'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Bb5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O-O')));
+    }
+
+    public function testWhiteCastlesShortSicilianAfterNf6BoardStatus()
+    {
+        $board = new Board;
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'c5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nf3'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nc6'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Bb5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O'));
+
+        print_r($board->getStatus()->castling); exit;
+
+        $status = $board->getStatus()->castling->w->K->isCastled;
+
+        // echo 'Foo: ' . (int)$status;
+
+        // $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
+    }
+
 }

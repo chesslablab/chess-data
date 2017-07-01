@@ -265,50 +265,85 @@ class Board extends \SplObjectStorage
         elseif (count($pieces) == 1 && current($pieces)->isMovable() && !$this->isCheck(current($pieces)))
         {
             $piece = current($pieces);
-            switch(true)
+            switch($piece->getMove()->type)
             {
-                case $piece->getMove()->type === PGN::MOVE_TYPE_KING:
+                case PGN::MOVE_TYPE_KING:
                     return $this->kingIsMoved($piece);
                     break;
 
-                // when castling, make sure that the squares where the king passes aren't threatened
-                case $piece->getMove()->type === PGN::MOVE_TYPE_KING_CASTLING_SHORT &&
-                    !(in_array(PGN::castling($piece->getColor())
-                        ->{PGN::PIECE_KING}
-                        ->{PGN::CASTLING_SHORT}
-                        ->freeSquares
-                        ->f,
-                        $this->status->space->{$piece->getOppositeColor()})) &&
-                    !(in_array(PGN::castling($piece->getColor())
-                        ->{PGN::PIECE_KING}
-                        ->{PGN::CASTLING_SHORT}
-                        ->freeSquares
-                        ->g,
-                        $this->status->space->{$piece->getOppositeColor()})):
-                    return $this->castle($piece);
+                // TODO uncomment ... ->canCastle and run tests
+                // can castle and the king's space isn't threatened
+                case PGN::MOVE_TYPE_KING_CASTLING_SHORT:
+                    if (
+                        /*$this->status
+                            ->castling
+                            ->{$piece->getColor()}
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_SHORT}
+                            ->canCastle && */
+                        !(in_array(PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_SHORT}
+                            ->freeSquares
+                            ->f,
+                            $this->status->space->{$piece->getOppositeColor()})
+                        ) &&
+                        !(in_array(PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_SHORT}
+                            ->freeSquares
+                            ->g,
+                            $this->status->space->{$piece->getOppositeColor()})
+                        )
+                    )
+                    {
+                        return $this->castle($piece);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                     break;
 
-                // when castling, make sure that the squares where the king passes aren't threatened
-                case $piece->getMove()->type === PGN::MOVE_TYPE_KING_CASTLING_LONG &&
-                    !(in_array(PGN::castling($piece->getColor())
-                        ->{PGN::PIECE_KING}
-                        ->{PGN::CASTLING_LONG}
-                        ->freeSquares
-                        ->b,
-                        $this->status->space->{$piece->getOppositeColor()})) &&
-                    !(in_array(PGN::castling($piece->getColor())
-                        ->{PGN::PIECE_KING}
-                        ->{PGN::CASTLING_LONG}
-                        ->freeSquares
-                        ->c,
-                        $this->status->space->{$piece->getOppositeColor()})) &&
-                    !(in_array(PGN::castling($piece->getColor())
-                        ->{PGN::PIECE_KING}
-                        ->{PGN::CASTLING_LONG}
-                        ->freeSquares
-                        ->d,
-                        $this->status->space->{$piece->getOppositeColor()})):
-                    return $this->castle($piece);
+                // TODO uncomment ... ->canCastle and run tests    
+                // can castle and the king's space isn't threatened
+                case PGN::MOVE_TYPE_KING_CASTLING_LONG:
+                    if (
+                        /* $this->status
+                            ->castling
+                            ->{$piece->getColor()}
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_LONG}
+                            ->canCastle && */
+                        !(in_array(PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_LONG}
+                            ->freeSquares
+                            ->b,
+                            $this->status->space->{$piece->getOppositeColor()})
+                        ) &&
+                        !(in_array(PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_LONG}
+                            ->freeSquares
+                            ->c,
+                            $this->status->space->{$piece->getOppositeColor()})
+                        ) &&
+                        !(in_array(PGN::castling($piece->getColor())
+                            ->{PGN::PIECE_KING}
+                            ->{PGN::CASTLING_LONG}
+                            ->freeSquares
+                            ->d,
+                            $this->status->space->{$piece->getOppositeColor()})
+                        )
+                    )
+                    {
+                        return $this->castle($piece);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                     break;
 
                 default:
@@ -750,7 +785,7 @@ class Board extends \SplObjectStorage
                     break;
 
                 case PGN::PIECE_ROOK:
-                    $piece->getPosition() === PGN::castling($piece->getColor())
+                    $piece->getPosition()->current === PGN::castling($piece->getColor())
                             ->{PGN::PIECE_ROOK}
                             ->{PGN::CASTLING_SHORT}
                             ->position
@@ -762,7 +797,7 @@ class Board extends \SplObjectStorage
                             ->{PGN::CASTLING_SHORT}
                             ->canCastle = false
                         : false;
-                    $piece->getPosition() === PGN::castling($piece->getColor())
+                    $piece->getPosition()->current === PGN::castling($piece->getColor())
                             ->{PGN::PIECE_ROOK}
                             ->{PGN::CASTLING_LONG}
                             ->position

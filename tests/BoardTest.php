@@ -704,4 +704,229 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
     }
 
+    public function testCastlingThreateningf1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd4'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f2'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Bishop(PGN::COLOR_BLACK, 'a6'), // bishop threatening f1
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testCastlingThreateningf1Andg1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Bishop(PGN::COLOR_BLACK, 'a6'), // bishop threatening f1
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'c5'), // bishop threatening g1
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testCastlingThreateningg1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'c5'), // bishop threatening g1
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testCastlingWithThreatsRemoved()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'd6'),
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testCastlingThreateningc1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f4'), // bishop threatening c1
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O-O')));
+    }
+
+    public function testCastlingThreateningd1Andf1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'e3'), // knight threatening d1 and f1
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O-O')));
+    }
+
+    public function testCastlingThreateningb1Andf1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'd2'), // knight threatening b1 and f1
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O-O')));
+    }
+
+    public function testCastlingThreateningb1Andd1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'c3'), // knight threatening b1 and d1
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O-O')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testCastlingAfterMovingRh1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Rg1')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nf6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Rh1')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nd7')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
 }

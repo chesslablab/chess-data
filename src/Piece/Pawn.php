@@ -105,6 +105,7 @@ class Pawn extends AbstractPiece
     public function getLegalMoves()
     {
         $moves = [];
+        // add up squares
         foreach($this->getPosition()->scope->up as $square)
         {
             if (in_array($square, self::$squares->free))
@@ -116,12 +117,34 @@ class Pawn extends AbstractPiece
                 break;
             }
         }
+        // add capture squares
         foreach($this->getPosition()->capture as $square)
         {
             if (in_array($square, self::$squares->used->{$this->getOppositeColor()}))
             {
                 $moves[] = $square;
             }
+        }
+        // add en passant squares
+        if (
+            $this->ranks->initial === 2 &&
+            (int)$this->position->current[1] === 5 &&
+            $this->status->previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
+            ($this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[0] ||
+            $this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[1])
+        )
+        {
+            $moves[] = $this->status->previousMove->getOppositeColor()->position->next;
+        }
+        elseif (
+            $this->ranks->initial === 7 &&
+            (int)$this->position->current[1] === 4 &&
+            $this->status->previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
+            ($this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[0] ||
+            $this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[1])
+        )
+        {
+            $moves[] = $this->status->previousMove->getOppositeColor()->position->next;
         }
         return $moves;
     }

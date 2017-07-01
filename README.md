@@ -194,9 +194,4 @@ This time the output is as follows:
 
 ### 2. TODO tasks
 
-PGN Chess is almost finished, so please be patient and stay curious in regards to the new updates. Thank you!
-
-Here is the list of chess rules to be added:
-
-- When castling kings, make sure that the squares where the king passes are not threatened
-- Add _en passant_ capture rule
+PGN Chess is almost finished -- it basically requires testing a number of different games, so please be patient and stay curious. Thank you!

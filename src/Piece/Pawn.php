@@ -130,21 +130,27 @@ class Pawn extends AbstractPiece
             $this->ranks->initial === 2 &&
             (int)$this->position->current[1] === 5 &&
             self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
-            (self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[0] ||
-            self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[1])
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
+            self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])
         )
         {
-            $moves[] = self::$previousMove->{$this->getOppositeColor()}->position->next;
+            $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+                        (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1);
         }
         elseif (
             $this->ranks->initial === 7 &&
             (int)$this->position->current[1] === 4 &&
             self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
-            (self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[0] ||
-            self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[1])
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
+            self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])
         )
         {
-            $moves[] = self::$previousMove->{$this->getOppositeColor()}->position->next;
+            $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+                        (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1);
         }
         return $moves;
     }

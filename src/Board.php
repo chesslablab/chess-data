@@ -177,6 +177,8 @@ class Board extends \SplObjectStorage
             $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
             $piece->updateCastling($king); // king passed by reference
         }
+
+        AbstractPiece::setSquares($this->status->squares);
     }
 
     /**

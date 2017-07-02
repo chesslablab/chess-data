@@ -164,7 +164,11 @@ class Board extends \SplObjectStorage
         }
 
         // (5) finally, update the king's castling property
-        if (isset($piece) && $piece->getMove()->type === PGN::MOVE_TYPE_KING)
+        if (
+            isset($piece) &&
+            $piece->getMove()->type === PGN::MOVE_TYPE_KING &&
+            $piece->getIdentity() === PGN::PIECE_KING
+        )
         {
             $piece->updateCastling();
         }
@@ -177,8 +181,6 @@ class Board extends \SplObjectStorage
             $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
             $piece->updateCastling($king); // king passed by reference
         }
-
-        AbstractPiece::setSquares($this->status->squares);
     }
 
     /**
@@ -230,7 +232,9 @@ class Board extends \SplObjectStorage
         }
         if (empty($found))
         {
-            throw new \InvalidArgumentException("This piece does not exist on the board: {$move->color} {$move->identity} on {$move->position->current}");
+            throw new \InvalidArgumentException(
+                "This piece does not exist on the board: {$move->color} {$move->identity} on {$move->position->current}"
+            );
         }
         else
         {

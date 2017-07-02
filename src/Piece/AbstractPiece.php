@@ -173,6 +173,7 @@ abstract class AbstractPiece implements Piece
         $this->position->current === $this->move->position->next
             ? $this->position = $position
             : $this->position = null;
+        return $this;
     }
 
     /**

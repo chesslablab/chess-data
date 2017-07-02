@@ -929,4 +929,66 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
     }
 
+    public function testCheckCastlingStatusAfterMovingRh1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $board->play(PGN::objectizeMove('w', 'Rg1'));
+        $board->play(PGN::objectizeMove('b', 'Nf6'));
+        $board->play(PGN::objectizeMove('w', 'Rh1'));
+        $board->play(PGN::objectizeMove('b', 'Nd7'));
+        $board->play(PGN::objectizeMove('w', 'O-O')); // this can't be moved
+        $whiteSquaresUsed = [
+            'a2',
+            'd5',
+            'e4',
+            'f3',
+            'g2',
+            'h2',
+            'a1',
+            'h1',
+            'e1'
+        ];
+        $whiteSpace = [
+            'b3', // pawn
+            'b1', // rook
+            'c1',
+            'd1',
+            'c6', // pawns
+            'e6',
+            'f5',
+            'g4',
+            'g3',
+            'h3',
+            'd2', // king
+            'e2',
+            'f2',
+            'f1', // rook
+            'g1'
+        ];
+        sort($whiteSpace);
+        $whiteAttack = [];
+        print_r($board->getStatus()->squares->used->w); exit;
+        // $this->assertEquals($whiteSquaresUsed, $board->getStatus()->squares->used->w);
+        // $this->assertEquals($whiteSpace, $board->getStatus()->space->w);
+        // $this->assertEquals($whiteAttack, $board->getStatus()->attack->w);
+    }
+
 }

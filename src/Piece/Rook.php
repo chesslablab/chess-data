@@ -3,6 +3,7 @@ namespace PGNChess\Piece;
 
 use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
+use PGNChess\Piece\King;
 
 /**
  * Class that represents a rook.
@@ -83,6 +84,32 @@ class Rook extends Slider
             }
         }
         catch (\InvalidArgumentException $e) {}
+    }
 
+    /**
+     * Updates the king's castling status.
+     *
+     * @param King
+     */
+    public function updateCastling(King &$king)
+    {
+        if (!$king->getCastling()->isCastled)
+        {
+            $this->getPosition()->current === PGN::castling($this->getColor())
+                    ->{PGN::PIECE_ROOK}
+                    ->{PGN::CASTLING_SHORT}
+                    ->position
+                    ->current
+                ? $king->forbidCastling(PGN::CASTLING_SHORT)
+                : false;
+
+            $this->getPosition()->current === PGN::castling($this->getColor())
+                    ->{PGN::PIECE_ROOK}
+                    ->{PGN::CASTLING_LONG}
+                    ->position
+                    ->current
+                ? $king->forbidCastling(PGN::CASTLING_LONG)
+                : false;
+        }
     }
 }

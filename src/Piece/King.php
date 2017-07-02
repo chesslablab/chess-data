@@ -28,6 +28,8 @@ class King extends AbstractPiece
      */
     private $bishop;
 
+    private $castling;
+
     /**
      * Constructor.
      *
@@ -39,7 +41,21 @@ class King extends AbstractPiece
         parent::__construct($color, $square, PGN::PIECE_KING);
         $this->rook = new Rook($color, $square, PGN::PIECE_ROOK);
         $this->bishop = new Bishop($color, $square, PGN::PIECE_BISHOP);
+        $this->castling = (object) [
+            'isCastled' => false,
+            PGN::CASTLING_SHORT => (object) [
+                'canCastle' => true
+            ],
+            PGN::CASTLING_LONG => (object) [
+                'canCastle' => true
+            ]
+        ];
         $this->scope();
+    }
+
+    public function getCastling()
+    {
+        return $this->castling;
     }
 
     /**
@@ -80,6 +96,11 @@ class King extends AbstractPiece
         $this->position->scope = (object) array_filter(array_unique($scope));
     }
 
+    /**
+     * Gets the king's legal moves.
+     *
+     * @return array
+     */
     public function getLegalMoves()
     {
         $moves = [];
@@ -130,5 +151,51 @@ class King extends AbstractPiece
                 break;
         }
         return $moves;
+    }
+
+    /**
+     * Sets the king as castled.
+     */
+    public function setIsCastled()
+    {
+        $this->castling->isCastled = true;
+        $this->forbidCastling();
+        return $this;
+    }
+
+    /**
+     * Forbids the king to castle.
+     *
+     * @param string $type
+     *
+     * @return PGNChess\Piece\King
+     */
+    public function forbidCastling($type=null)
+    {
+        if (isset($type))
+        {
+            $this->castling->{$type}->canCastle = false;
+        }
+        else
+        {
+            $this->castling->{PGN::CASTLING_SHORT}->canCastle = false;
+            $this->castling->{PGN::CASTLING_LONG}->canCastle = false;
+        }
+        return $this;
+    }
+
+    /**
+     * Updates the king's castling status.
+     *
+     * @return PGNChess\Piece\King
+     */
+    public function updateCastling()
+    {
+        if (!$this->castling->isCastled)
+        {
+            $this->castling->{PGN::CASTLING_SHORT}->canCastle = false;
+            $this->castling->{PGN::CASTLING_LONG}->canCastle = false;
+        }
+        return $this;
     }
 }

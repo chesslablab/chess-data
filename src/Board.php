@@ -82,12 +82,12 @@ class Board extends \SplObjectStorage
             'turn' => null,
             'squares' => null,
             'space' => (object) [
-                PGN::COLOR_WHITE => false,
-                PGN::COLOR_BLACK => false
+                PGN::COLOR_WHITE => null,
+                PGN::COLOR_BLACK => null
             ],
             'attack' => (object) [
-                PGN::COLOR_WHITE => false,
-                PGN::COLOR_BLACK => false
+                PGN::COLOR_WHITE => null,
+                PGN::COLOR_BLACK => null
             ],
             'previousMove' => (object) [
                 PGN::COLOR_WHITE => (object) [

@@ -996,4 +996,27 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($whiteSpace, $board->getStatus()->space->w);
         $this->assertEquals($whiteAttack, $board->getStatus()->attack->w);
     }
+
+    public function testEnPassantf3()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'e2'),
+            new Pawn(PGN::COLOR_WHITE, 'f2'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Pawn(PGN::COLOR_BLACK, 'e4'),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7'),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Rook(PGN::COLOR_BLACK, 'h8')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'h3')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'h6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'f4')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'exf3')));
+    }
 }

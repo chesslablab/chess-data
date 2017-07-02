@@ -129,22 +129,22 @@ class Pawn extends AbstractPiece
         if (
             $this->ranks->initial === 2 &&
             (int)$this->position->current[1] === 5 &&
-            $this->status->previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
-            ($this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[0] ||
-            $this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[1])
+            self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
+            (self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[0] ||
+            self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[1])
         )
         {
-            $moves[] = $this->status->previousMove->getOppositeColor()->position->next;
+            $moves[] = self::$previousMove->{$this->getOppositeColor()}->position->next;
         }
         elseif (
             $this->ranks->initial === 7 &&
             (int)$this->position->current[1] === 4 &&
-            $this->status->previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
-            ($this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[0] ||
-            $this->status->previousMove->getOppositeColor()->position->next === $this->position->capture[1])
+            self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
+            (self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[0] ||
+            self::$previousMove->{$this->getOppositeColor()}->position->next === $this->position->capture[1])
         )
         {
-            $moves[] = $this->status->previousMove->getOppositeColor()->position->next;
+            $moves[] = self::$previousMove->{$this->getOppositeColor()}->position->next;
         }
         return $moves;
     }

@@ -155,20 +155,19 @@ class Board extends \SplObjectStorage
         $this->status->space = $this->space();
         $this->status->attack = $this->attack();
 
-        // (4) previous moves of both players
+        // (4) compute previous moves and send them (flat data) to all pieces
         if (isset($piece))
         {
             $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
             $this->status->previousMove->{$piece->getColor()}->position = $piece->getMove()->position;
+            AbstractPiece::setPreviousMove($this->status->previousMove);
         }
 
         // (5) finally, update the king's castling property
-        // a king can't castle once it is moved
         if (isset($piece) && $piece->getMove()->type === PGN::MOVE_TYPE_KING)
         {
             $piece->updateCastling();
         }
-        // a king can't castle once its castling rook is moved
         elseif (
             isset($piece) &&
             $piece->getMove()->type === PGN::MOVE_TYPE_PIECE &&
@@ -176,7 +175,7 @@ class Board extends \SplObjectStorage
         )
         {
             $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
-            $piece->updateCastling($king); // the king is passed by reference
+            $piece->updateCastling($king); // king passed by reference
         }
     }
 
@@ -216,8 +215,7 @@ class Board extends \SplObjectStorage
                         }
                         break;
 
-                    // the rest of pieces are potentially ambiguous and need
-                    // to be disambiguated.
+                    // the rest of pieces are potentially ambiguous and need to be disambiguated.
                     default:
                         if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
                         {
@@ -262,8 +260,7 @@ class Board extends \SplObjectStorage
     public function play(\stdClass $move)
     {
         $pieces = $this->pickPieceToMove($move);
-        // the piece is disambiguated -- for example, Rbe8, Q7g7 -- by picking
-        // the movable one from the array of potential, ambiguous pieces.
+        // the piece is disambiguated by picking the movable one from the array of ambiguous pieces.
         if (count($pieces) > 1)
         {
             foreach ($pieces as $piece)
@@ -371,10 +368,7 @@ class Board extends \SplObjectStorage
     {
         switch ($king->getMove()->type)
         {
-            /*
-            * This decision can be made thanks to the implementation of
-            * the concept of space -- the squares controlled by both players.
-            */
+            // the king can be moved if it's outside the scope of the opponent's space.
             case PGN::MOVE_TYPE_KING:
                 if (!in_array($king->getMove()->position->next,
                     $this->status->space->{$king->getOppositeColor()}))

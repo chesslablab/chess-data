@@ -66,6 +66,8 @@ abstract class AbstractPiece implements Piece
 
     protected static $squares;
 
+    protected static $previousMove;
+
     /**
      * Constructor.
      *
@@ -196,6 +198,11 @@ abstract class AbstractPiece implements Piece
     public static function setSquares(\stdClass $squares)
     {
         self::$squares = $squares;
+    }
+
+    public static function setPreviousMove(\stdClass $previousMove)
+    {
+        self::$previousMove = $previousMove;
     }
 
     /**

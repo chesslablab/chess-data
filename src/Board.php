@@ -164,15 +164,12 @@ class Board extends \SplObjectStorage
         }
 
         // (5) finally, update the king's castling property
-        if (
-            isset($piece) &&
-            $piece->getMove()->type === PGN::MOVE_TYPE_KING &&
-            $piece->getIdentity() === PGN::PIECE_KING
-        )
+        if (isset($piece) && $piece->getMove()->type === PGN::MOVE_TYPE_KING)
         {
             $piece->updateCastling();
         }
-        elseif (
+        elseif
+        (
             isset($piece) &&
             $piece->getMove()->type === PGN::MOVE_TYPE_PIECE &&
             $piece->getIdentity() === PGN::PIECE_ROOK
@@ -287,7 +284,6 @@ class Board extends \SplObjectStorage
                     return $this->kingIsMoved($piece);
                     break;
 
-                // the king can castle short and the king's space isn't threatened
                 case PGN::MOVE_TYPE_KING_CASTLING_SHORT:
                     if (
                         $piece->getCastling()->{PGN::CASTLING_SHORT}->canCastle &&
@@ -315,7 +311,6 @@ class Board extends \SplObjectStorage
                     }
                     break;
 
-                // the king can castle long and the king's space isn't threatened
                 case PGN::MOVE_TYPE_KING_CASTLING_LONG:
                     if (
                         $piece->getCastling()->{PGN::CASTLING_LONG}->canCastle &&
@@ -479,12 +474,19 @@ class Board extends \SplObjectStorage
                 $piece->getColor(),
                 $piece->getMove()->position->next])
             );
-            // remove the captured piece (if any) from the board
+            // remove the captured piece from the board, if any
             if($piece->getMove()->isCapture)
             {
                 $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
                 $this->detach($capturedPiece);
             }
+            // if the piece is a pawn, try to promote
+            if ($piece->getIdentity() === PGN::PIECE_PAWN  && $piece->isPromoted())
+            {
+                $this->detach($piece);
+                $this->attach(new Queen($piece->getColor(), $piece->getMove()->position->next));
+            }
+            // update status
             $this->updateStatus($piece);
         }
         catch (\Exception $e)

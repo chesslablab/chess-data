@@ -154,4 +154,21 @@ class Pawn extends AbstractPiece
         }
         return $moves;
     }
+
+    /**
+     * Checks whether the pawn is promoted.
+     *
+     * @return boolean
+     */
+    public function isPromoted()
+    {
+        if ((int)$this->getMove()->position->next[1] === $this->ranks->promotion)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

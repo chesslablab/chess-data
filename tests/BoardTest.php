@@ -954,7 +954,8 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $board->play(PGN::objectizeMove('b', 'Nf6'));
         $board->play(PGN::objectizeMove('w', 'Rh1'));
         $board->play(PGN::objectizeMove('b', 'Nd7'));
-        $board->play(PGN::objectizeMove('w', 'O-O')); // this can't be moved
+        $board->play(PGN::objectizeMove('w', 'O-O')); // this won't be run
+        $board->play(PGN::objectizeMove('w', 'O-O-O')); // this will be run
         $whiteSquaresUsed = [
             'a2',
             'd5',
@@ -962,33 +963,37 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             'f3',
             'g2',
             'h2',
-            'a1',
             'h1',
-            'e1'
+            'c1',
+            'd1'
         ];
         $whiteSpace = [
-            'b3', // pawn
-            'b1', // rook
-            'c1',
-            'd1',
-            'c6', // pawns
+            'd2', // rook
+            'd3',
+            'd4',
+            'e1',
+            'f1',
+            'g1',
+            'b3', // pawns
+            'c6',
             'e6',
             'f5',
             'g4',
             'g3',
             'h3',
-            'd2', // king
-            'e2',
-            'f2',
-            'f1', // rook
+            'b1', // king
+            'b2',
+            'c2',
+            'd2',
+            'e1', // rook
+            'f1',
             'g1'
         ];
+        $whiteSpace = array_filter(array_unique($whiteSpace));
         sort($whiteSpace);
         $whiteAttack = [];
-        print_r($board->getStatus()->squares->used->w); exit;
-        // $this->assertEquals($whiteSquaresUsed, $board->getStatus()->squares->used->w);
-        // $this->assertEquals($whiteSpace, $board->getStatus()->space->w);
-        // $this->assertEquals($whiteAttack, $board->getStatus()->attack->w);
+        $this->assertEquals($whiteSquaresUsed, $board->getStatus()->squares->used->w);
+        $this->assertEquals($whiteSpace, $board->getStatus()->space->w);
+        $this->assertEquals($whiteAttack, $board->getStatus()->attack->w);
     }
-
 }

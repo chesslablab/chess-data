@@ -1,9 +1,9 @@
 {
   "name": "programarivm/pgn-chess",
-  "description": "A simple, friendly, and powerful PGN engine for running chess games from within PHP applications.",
+  "description": "A simple, friendly, and powerful PGN library for running chess games from within PHP applications.",
   "type": "library",
   "license": "MIT",
-  "keywords": ["chess", "pgn", "parser", "engine", "api", "requests", "position", "board", "editor"],
+  "keywords": ["chess", "library", "pgn", "parser", "game", "engine", "api", "requests", "position", "board", "editor"],
   "authors": [
     {
       "name": "Jordi Bassagañas",

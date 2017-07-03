@@ -194,4 +194,8 @@ This time the output is as follows:
 
 ### 2. TODO tasks
 
+    - Fix doubled pawns' captures
+    - Add checkmate notation: #
+    - Add promotion notation: f8=Q+
+
 PGN Chess is almost finished -- it basically requires testing a number of different games, so please be patient and stay curious. Thank you!

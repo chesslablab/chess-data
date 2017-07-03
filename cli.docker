@@ -1,0 +1,3 @@
+FROM buonzz/php-production-cli:latest
+WORKDIR /code
+CMD ["tail", "-f", "/var/log/php_errors.log"]

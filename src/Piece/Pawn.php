@@ -132,8 +132,9 @@ class Pawn extends AbstractPiece
             self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
-            self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])
+            (isset($this->position->capture[1]) &&
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])))
         )
         {
             $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
@@ -145,8 +146,9 @@ class Pawn extends AbstractPiece
             self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
-            self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])
+            (isset($this->position->capture[1]) &&
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])))
         )
         {
             $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .

@@ -207,15 +207,6 @@ class Board extends \SplObjectStorage
                         return [$piece];
                         break;
 
-                    // pawns are non-ambiguous pieces
-                    case PGN::PIECE_PAWN:
-                        if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
-                        {
-                            $piece->setMove($move);
-                            return [$piece];
-                        }
-                        break;
-
                     // the rest of pieces are potentially ambiguous and need to be disambiguated.
                     default:
                         if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
@@ -484,7 +475,24 @@ class Board extends \SplObjectStorage
             if ($piece->getIdentity() === PGN::PIECE_PAWN  && $piece->isPromoted())
             {
                 $this->detach($piece);
-                $this->attach(new Queen($piece->getColor(), $piece->getMove()->position->next));
+                switch($piece->getMove()->newIdentity)
+                {
+                    case PGN::PIECE_KNIGHT:
+                        $this->attach(new Knight($piece->getColor(), $piece->getMove()->position->next));
+                        break;
+
+                    case PGN::PIECE_BISHOP:
+                        $this->attach(new Bishop($piece->getColor(), $piece->getMove()->position->next));
+                        break;
+
+                    case PGN::PIECE_ROOK:
+                        $this->attach(new Rook($piece->getColor(), $piece->getMove()->position->next));
+                        break;
+
+                    default:
+                        $this->attach(new Queen($piece->getColor(), $piece->getMove()->position->next));
+                        break;
+                }
             }
             // update status
             $this->updateStatus($piece);

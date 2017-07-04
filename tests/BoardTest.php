@@ -1095,7 +1095,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new King(PGN::COLOR_BLACK, 'e8')
         ];
         $board = new Board($pieces);
-        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'h8')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'h8=Q')));
         // TODO check board status after promotion
     }
 }

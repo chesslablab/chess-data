@@ -35,6 +35,8 @@ class PGN
     const MOVE_TYPE_KNIGHT_CAPTURES = 'N[a-h]{0,1}[1-8]{0,1}x' . self::SQUARE . self::CHECK;
     const MOVE_TYPE_PAWN = self::SQUARE . self::CHECK;
     const MOVE_TYPE_PAWN_CAPTURES = '[a-h]{1}x' . self::SQUARE . self::CHECK;
+    const MOVE_TYPE_PAWN_PROMOTES = self::SQUARE . '=[NBRQ]{1}' . self::CHECK;
+    const MOVE_TYPE_PAWN_CAPTURES_AND_PROMOTES = '[a-h]{1}x' . self::SQUARE . '=[NBRQ]{1}' . self::CHECK;
 
     /**
      * Validates a color in PGN notation.
@@ -247,6 +249,38 @@ class PGN
                     'position' => (object) [
                         'current' => mb_substr($pgn, 0, 1),
                         'next' => !$isCheck ? mb_substr($pgn, -2) : mb_substr($pgn, -3, -1)
+                    ]
+                ];
+                break;
+
+            case preg_match('/^' . self::MOVE_TYPE_PAWN_PROMOTES . '$/', $pgn):
+                return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => false,
+                    'isCheck' => $isCheck,
+                    'type' => self::MOVE_TYPE_PAWN_PROMOTES,
+                    'color' => $color,
+                    'identity' => self::PIECE_PAWN,
+                    'newIdentity' => !$isCheck ? mb_substr($pgn, -1) : mb_substr($pgn, -2, -1),
+                    'position' => (object) [
+                        'current' => null,
+                        'next' => mb_substr($pgn, 0, 2)
+                    ]
+                ];
+                break;
+
+            case preg_match('/^' . self::MOVE_TYPE_PAWN_CAPTURES_AND_PROMOTES . '$/', $pgn):
+                return (object) [
+                    'pgn' => $pgn,
+                    'isCapture' => true,
+                    'isCheck' => $isCheck,
+                    'type' => self::MOVE_TYPE_PAWN_CAPTURES_AND_PROMOTES,
+                    'color' => $color,
+                    'identity' => self::PIECE_PAWN,
+                    'newIdentity' => !$isCheck ? mb_substr($pgn, -1) : mb_substr($pgn, -2, -1),
+                    'position' => (object) [
+                        'current' => null,
+                        'next' => mb_substr($pgn, 2, 2)
                     ]
                 ];
                 break;

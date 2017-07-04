@@ -1,8 +1,4 @@
 <?php
-use PGNChess\Board;
-use PGNChess\PGN;
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 $game = <<<EOT
     1. e4 c5 2. Nf3 e6 3. Bc4 a6 4. d3 b5 5. Bb3 Nc6 6. O-O Nf6 7. e5 Nd5
@@ -15,46 +11,4 @@ $game = <<<EOT
     44. Rc4 Kg7 45. Re4 f6 46. Ke2 Kg6 47. Ke3 Kf7 48. f4 exf4+ 49. Kxf4 Kg7
 EOT;
 
-$pairs = array_filter(preg_split('/[0-9]+\./', $game));
-$moves = [];
-
-foreach ($pairs as $pair)
-{
-    $moves[] = array_values(array_filter(array_unique(explode(' ', $pair))));
-}
-
-$moves = array_values(array_filter($moves));
-
-$board = new Board;
-
-for ($i=0; $i<count($moves); $i++)
-{
-    $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
-    $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
-    try
-    {
-        if ($board->play(PGN::objectizeMove(PGN::COLOR_WHITE, $whiteMove)))
-        {
-            echo PGN::COLOR_WHITE . " played {$whiteMove}, OK..." . PHP_EOL;
-        }
-        else
-        {
-            echo PGN::COLOR_WHITE . " played {$whiteMove}, illegal move." . PHP_EOL;
-            exit;
-        }
-        if ($board->play(PGN::objectizeMove(PGN::COLOR_BLACK, $blackMove)))
-        {
-            echo PGN::COLOR_BLACK . " played {$blackMove}, OK..." . PHP_EOL;
-        }
-        else
-        {
-            echo PGN::COLOR_BLACK . " played {$blackMove}, illegal move." . PHP_EOL;
-            exit;
-        }
-    }
-    catch (\InvalidArgumentException $e)
-    {
-        echo $e->getMessage() . PHP_EOL;
-        exit;
-    }
-}
+include 'print-game.php';

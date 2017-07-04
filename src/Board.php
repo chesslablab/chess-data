@@ -121,15 +121,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Updates the board's status. This method is run every time a piece is  moved.
-     * First of all, updates the current player's turn. Then computes the board's
-     * square statistics as well as the space/attack properties. It also updates
-     * the previous move of both players, which is specially useful in order to
-     * implement the pawns' en passant rule. Finally, keeps track of the fact that
-     * a king can't castle once it has been moved; on the other hand, if the king's
-     * long castling rook is moved then it won't be able to castle long according to
-     * chess rules. And the same thing goes for the other rook: if it is moved,
-     * then the king is not allowed to castle short.
+     * Updates the board's status. This method is run every time a piece is moved.
      *
      * @link https://en.wikipedia.org/wiki/En_passant
      * @link https://en.wikipedia.org/wiki/Castling
@@ -161,22 +153,6 @@ class Board extends \SplObjectStorage
             $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
             $this->status->previousMove->{$piece->getColor()}->position = $piece->getMove()->position;
             AbstractPiece::setPreviousMove($this->status->previousMove);
-        }
-
-        // (5) finally, update the king's castling property
-        if (isset($piece) && $piece->getMove()->type === PGN::MOVE_TYPE_KING)
-        {
-            $piece->updateCastling();
-        }
-        elseif
-        (
-            isset($piece) &&
-            $piece->getMove()->type === PGN::MOVE_TYPE_PIECE &&
-            $piece->getIdentity() === PGN::PIECE_ROOK
-        )
-        {
-            $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
-            $piece->updateCastling($king); // king passed by reference
         }
     }
 
@@ -465,12 +441,14 @@ class Board extends \SplObjectStorage
                 $piece->getColor(),
                 $piece->getMove()->position->next])
             );
+
             // remove the captured piece from the board, if any
             if($piece->getMove()->isCapture)
             {
                 $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
                 $this->detach($capturedPiece);
             }
+
             // if the piece is a pawn, try to promote
             if ($piece->getIdentity() === PGN::PIECE_PAWN  && $piece->isPromoted())
             {
@@ -494,6 +472,27 @@ class Board extends \SplObjectStorage
                         break;
                 }
             }
+
+            // update the king's castling property, keeping track of the fact that
+            // a king can't castle once it has been moved; on the other hand,
+            // if the king's long castling rook is moved then it won't be able to
+            // castle long according to chess rules. And the same thing goes for
+            // the other rook: if it is moved, then the king is not allowed
+            // to castle short.
+            if ($piece->getMove()->type === PGN::MOVE_TYPE_KING)
+            {
+                $piece->updateCastling();
+            }
+            elseif
+            (
+                $piece->getMove()->type === PGN::MOVE_TYPE_PIECE &&
+                $piece->getIdentity() === PGN::PIECE_ROOK
+            )
+            {
+                $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
+                $piece->updateCastling($king); // king passed by reference
+            }
+
             // update status
             $this->updateStatus($piece);
         }

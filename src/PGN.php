@@ -23,7 +23,7 @@ class PGN
     const CASTLING_SHORT = 'O-O';
     const CASTLING_LONG = 'O-O-O';
     const SQUARE = '[a-h]{1}[1-8]{1}';
-    const CHECK = '\+{0,1}';
+    const CHECK = '[\+\#]{0,1}';
 
     const MOVE_TYPE_KING = 'K' . self::SQUARE;
     const MOVE_TYPE_KING_CASTLING_SHORT = self::CASTLING_SHORT . self::CHECK;
@@ -86,7 +86,7 @@ class PGN
      */
     static public function objectizeMove($color, $pgn)
     {
-        $isCheck = substr($pgn, -1) === '+';
+        $isCheck = substr($pgn, -1) === '+' || substr($pgn, -1) === '#';
         switch(true)
         {
             case preg_match('/^' . self::MOVE_TYPE_KING . '$/', $pgn):

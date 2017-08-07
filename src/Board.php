@@ -4,18 +4,16 @@ namespace PGNChess;
 use PGNChess\PGN;
 use PGNChess\Squares;
 use PGNChess\Piece\AbstractPiece;
-use PGNChess\Piece\Piece;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
 use PGNChess\Piece\Knight;
 use PGNChess\Piece\Pawn;
+use PGNChess\Piece\Piece;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
 
 /**
- * Class that represents a chess board. This is basically a container of chess
- * pieces that are constantly being updated/removed as players run their moves
- * on the board.
+ * Class that represents a chess board.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -121,12 +119,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Updates the board's status. This method is run every time a piece is moved.
-     *
-     * @link https://en.wikipedia.org/wiki/En_passant
-     * @link https://en.wikipedia.org/wiki/Castling
-     *
-     * @see Board::pieceIsMoved(Piece $piece)
+     * Updates the board's status.
      *
      * @param PGNChess\Piece $piece
      *
@@ -134,20 +127,20 @@ class Board extends \SplObjectStorage
      */
     private function updateStatus($piece=null)
     {
-        // (1) current player's turn
+        // current player's turn
         $this->status->turn === PGN::COLOR_WHITE
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
 
-        // (2) compute square statistics and send them (flat data) to all pieces
+        // compute square statistics and send them (flat data) to all pieces
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
         AbstractPiece::setSquares($this->status->squares);
 
-        // (3) space and attack properties
+        // space and attack properties
         $this->status->space = $this->space();
         $this->status->attack = $this->attack();
 
-        // (4) compute previous moves and send them (flat data) to all pieces
+        // compute previous moves and send them (flat data) to all pieces
         if (isset($piece))
         {
             $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
@@ -157,9 +150,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Picks a piece to be moved, prioritizing the matching of the less ambiguous
-     * one according to the PGN format. It returns the first available piece
-     * that matches the criteria.
+     * Picks a piece to be moved.
      *
      * @param stdClass $move
      *
@@ -177,13 +168,11 @@ class Board extends \SplObjectStorage
             {
                 switch($piece->getIdentity())
                 {
-                    // the king is a non-ambiguous piece (there's only one)
                     case PGN::PIECE_KING:
                         $piece->setMove($move);
                         return [$piece];
                         break;
 
-                    // the rest of pieces are potentially ambiguous and need to be disambiguated.
                     default:
                         if (preg_match("/{$move->position->current}/", $piece->getPosition()->current))
                         {
@@ -208,20 +197,6 @@ class Board extends \SplObjectStorage
 
     /**
      * Runs a chess move on the board.
-     *
-     * Note that there are 3 different types of moves:
-     *
-     *      (1) kingIsMoved
-     *      (2) castle
-     *      (3) pieceIsMoved
-     *
-     * In all cases, you have to first pick the piece you want to move by calling
-     * the pickPieceToMove(\stdClass $move) method -- which expects as an input
-     * the objectized counterpart of a valid move in PGN notation. If it is the case
-     * that the piece can be moved according to chess rules, the move will be run
-     * and the chess board will be updated accordingly.
-     *
-     * @see PGN::objectizeMove($color, $pgn)
      *
      * @param stdClass $move
      *
@@ -326,8 +301,6 @@ class Board extends \SplObjectStorage
     /**
      * Moves the king.
      *
-     * @see Board::space()
-     *
      * @param King $king
      *
      * @return boolean true if the king captured the piece; otherwise false
@@ -336,7 +309,6 @@ class Board extends \SplObjectStorage
     {
         switch ($king->getMove()->type)
         {
-            // the king can be moved if it's outside the scope of the opponent's space.
             case PGN::MOVE_TYPE_KING:
                 if (!in_array($king->getMove()->position->next,
                     $this->status->space->{$king->getOppositeColor()}))
@@ -349,15 +321,11 @@ class Board extends \SplObjectStorage
                 }
                 break;
 
-            /*
-            * This is like going to the future to see what will happen in the next
-            * move in order to take a decision accordingly. It "forks" the current board
-            * and simulates the king's capture move on it. Here is the idea actually being
-            * implemented: (1) the piece to be captured is removed from the forked board,
-            * and (2) then the king moves to the square where the captured piece should be
-            * standing. Following this logical sequence, if it turns out that the king is
-            * on a square controlled by the opponent, the king can't capture the piece.
-            * This way we can reuse the method implementing a normal king's move.
+           /* Here is the idea being implemented: (1) the piece to be captured is removed
+            * from the cloned board, and (2) then the king moves to the square where the
+            * captured piece should be standing. Following this logical sequence,
+            * if it turns out that the king is on a square controlled by the opponent,
+            * the king can't capture the piece.
             */
             case PGN::MOVE_TYPE_KING_CAPTURES:
                 $that = clone $this;
@@ -393,7 +361,7 @@ class Board extends \SplObjectStorage
                         ->next;
                     $king->setPosition($kingsNewPosition)->setIsCastled();
                     $this->pieceIsMoved($king);
-                    // move the king's castling rook
+                    // move the castling rook
                     $rooksNewPosition = $rook->getPosition();
                     $rooksNewPosition->current = PGN::castling($king->getColor())
                         ->{PGN::PIECE_ROOK}
@@ -476,9 +444,8 @@ class Board extends \SplObjectStorage
             // update the king's castling property, keeping track of the fact that
             // a king can't castle once it has been moved; on the other hand,
             // if the king's long castling rook is moved then it won't be able to
-            // castle long according to chess rules. And the same thing goes for
-            // the other rook: if it is moved, then the king is not allowed
-            // to castle short.
+            // castle long. The same thing goes for the other rook: if it is moved,
+            // then the king is not allowed to castle short.
             if ($piece->getMove()->type === PGN::MOVE_TYPE_KING)
             {
                 $piece->updateCastling();
@@ -490,10 +457,9 @@ class Board extends \SplObjectStorage
             )
             {
                 $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
-                $piece->updateCastling($king); // king passed by reference
+                $piece->updateCastling($king);
             }
 
-            // update status
             $this->updateStatus($piece);
         }
         catch (\Exception $e)
@@ -525,10 +491,11 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Gets the first piece on the board meeting the searching criteria.
+     * Gets the first piece on the board meeting the search criteria.
      *
      * @param string $color
      * @param string $identity
+     *
      * @return PGNChess\Piece
      */
     public function getPiece($color, $identity)
@@ -569,11 +536,7 @@ class Board extends \SplObjectStorage
     }
 
    /**
-    * Builds an object containing the squares currently being controlled by both players.
-    * This corresponds with the idea of space in chess. And more specifically, it is
-    * helpful to decide whether or not a king can be put on this or that square of the board.
-    *
-    * @see Board::KingIsMoved(King $king)
+    * Builds an object containing the squares being controlled by both players.
     *
     * @return stdClass
     */
@@ -635,7 +598,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Builds an object containing the squares currently being attacked by both players.
+     * Builds an object containing the squares being attacked by both players.
      *
      * @return stdClass
      */
@@ -697,12 +660,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Verifies whether or not a piece's move leaves the board in check. This is
-     * like going to the future to see what will happen in the next move in order
-     * to take a decision accordingly. It "forks" the current board and simulates
-     * a piece move on it. Here is the idea actually being implemented: (1) a piece
-     * is moved on the board (2) if it turns out that the king is attacked, then
-     * we say the board is in check.
+     * Verifies whether or not a piece's move leaves the board in check.
      *
      * @param PGNChess\Piece $piece
      *

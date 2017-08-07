@@ -2,7 +2,7 @@
 namespace PGNChess;
 
 /**
- * Generic class for handling information encoded in PGN format.
+ * Class for handling information encoded in PGN format.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

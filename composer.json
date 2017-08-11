@@ -3,7 +3,21 @@
   "description": "A simple, friendly, and powerful PGN library for running chess games from within PHP applications.",
   "type": "library",
   "license": "MIT",
-  "keywords": ["chess", "library", "pgn", "parser", "game", "engine", "api", "requests", "position", "board", "editor"],
+  "keywords": [
+      "chess",
+      "library",
+      "pgn",
+      "parser",
+      "validator",
+      "validate",
+      "game",
+      "engine",
+      "api",
+      "requests",
+      "position",
+      "board",
+      "editor"
+  ],
   "authors": [
     {
       "name": "Jordi Bassagañas",

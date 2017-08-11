@@ -75,14 +75,7 @@ class Board extends \SplObjectStorage
         $this->status = (object) [
             'turn' => null,
             'squares' => null,
-            'space' => (object) [
-                PGN::COLOR_WHITE => null,
-                PGN::COLOR_BLACK => null
-            ],
-            'attack' => (object) [
-                PGN::COLOR_WHITE => null,
-                PGN::COLOR_BLACK => null
-            ],
+            'control' => null,
             'previousMove' => (object) [
                 PGN::COLOR_WHITE => (object) [
                     'identity' => null,
@@ -125,15 +118,14 @@ class Board extends \SplObjectStorage
             ? $this->status->turn = PGN::COLOR_BLACK
             : $this->status->turn = PGN::COLOR_WHITE;
 
-        // compute square statistics and send them (flat data) to all pieces
+        // compute square statistics and send them to all pieces
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
         AbstractPiece::setSquares($this->status->squares);
 
-        // space and attack properties
-        $this->status->space = $this->space();
-        $this->status->attack = $this->attack();
+        // control (space and attack squares)
+        $this->status->control = $this->control();
 
-        // compute previous moves and send them (flat data) to all pieces
+        // compute previous moves and send them to all pieces
         if (isset($piece)) {
             $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
             $this->status->previousMove->{$piece->getColor()}->position = $piece->getMove()->position;
@@ -156,12 +148,10 @@ class Board extends \SplObjectStorage
         foreach ($pieces as $piece) {
             if ($piece->getIdentity() === $move->identity) {
                 switch($piece->getIdentity()) {
-
                     case PGN::PIECE_KING:
                         $piece->setMove($move);
                         return [$piece];
                         break;
-
                     default:
                         if (preg_match("/{$move->position->current}/", $piece->getPosition()->current)) {
                             $piece->setMove($move);
@@ -210,11 +200,11 @@ class Board extends \SplObjectStorage
                         $piece->getCastling()->{PGN::CASTLING_SHORT}->canCastle &&
                         !(in_array(
                             PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f,
-                            $this->status->space->{$piece->getOppositeColor()})
+                            $this->status->control->space->{$piece->getOppositeColor()})
                         ) &&
                         !(in_array(
                             PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g,
-                            $this->status->space->{$piece->getOppositeColor()}))
+                            $this->status->control->space->{$piece->getOppositeColor()}))
                     ) {
                         return $this->castle($piece);
                     } else {
@@ -227,15 +217,15 @@ class Board extends \SplObjectStorage
                         $piece->getCastling()->{PGN::CASTLING_LONG}->canCastle &&
                         !(in_array(
                             PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b,
-                            $this->status->space->{$piece->getOppositeColor()})
+                            $this->status->control->space->{$piece->getOppositeColor()})
                         ) &&
                         !(in_array(
                             PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c,
-                            $this->status->space->{$piece->getOppositeColor()})
+                            $this->status->control->space->{$piece->getOppositeColor()})
                         ) &&
                         !(in_array(
                             PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d,
-                            $this->status->space->{$piece->getOppositeColor()}))
+                            $this->status->control->space->{$piece->getOppositeColor()}))
                     ) {
                         return $this->castle($piece);
                     } else {
@@ -261,16 +251,14 @@ class Board extends \SplObjectStorage
     private function kingIsMoved(King $king)
     {
         switch ($king->getMove()->type) {
-
             case PGN::MOVE_TYPE_KING:
                 if (!in_array($king->getMove()->position->next,
-                    $this->status->space->{$king->getOppositeColor()})) {
+                    $this->status->control->space->{$king->getOppositeColor()})) {
                     return $this->pieceIsMoved($king);
                 } else {
                     return false;
                 }
                 break;
-
            /* the piece to be captured is removed from the cloned board, and then
             * the king goes to the captured piece's square. If it is on a square
             * controlled by the opponent, it can't capture the piece.
@@ -453,12 +441,17 @@ class Board extends \SplObjectStorage
     *
     * @return stdClass
     */
-    private function space()
+    private function control()
     {
-        $space = (object) [
-            PGN::COLOR_WHITE => [],
-            PGN::COLOR_BLACK => []
-        ];
+        $control = (object) [
+            'space' => (object) [
+                PGN::COLOR_WHITE => [],
+                PGN::COLOR_BLACK => []
+            ],
+            'attack' => (object) [
+                PGN::COLOR_WHITE => [],
+                PGN::COLOR_BLACK => []
+        ]];
 
         $this->rewind();
 
@@ -467,67 +460,17 @@ class Board extends \SplObjectStorage
             switch($piece->getIdentity()) {
 
                 case PGN::PIECE_KING:
-                    $space->{$piece->getColor()} = array_unique(
+                    $control->space->{$piece->getColor()} = array_unique(
                         array_merge(
-                            $space->{$piece->getColor()},
+                            $control->space->{$piece->getColor()},
                             array_values(
                                 array_intersect(
                                     array_values((array)$piece->getPosition()->scope),
                                     $this->status->squares->free
                     ))));
-                    break;
-
-                case PGN::PIECE_PAWN:
-                    $space->{$piece->getColor()} = array_unique(
+                    $control->attack->{$piece->getColor()} = array_unique(
                         array_merge(
-                            $space->{$piece->getColor()},
-                            array_intersect(
-                                $piece->getPosition()->capture,
-                                $this->status->squares->free
-                    )));
-                    break;
-
-                default:
-                    $space->{$piece->getColor()} = array_unique(
-                        array_merge(
-                            $space->{$piece->getColor()},
-                            array_diff(
-                                $piece->getLegalMoves(),
-                                $this->status->squares->used->{$piece->getOppositeColor()}
-                    )));
-                    break;
-            }
-            $this->next();
-        }
-
-        sort($space->{PGN::COLOR_WHITE});
-        sort($space->{PGN::COLOR_BLACK});
-
-        return $space;
-    }
-
-    /**
-     * Builds an object containing the squares being attacked by both players.
-     *
-     * @return stdClass
-     */
-    private function attack()
-    {
-        $attack = (object) [
-            PGN::COLOR_WHITE => [],
-            PGN::COLOR_BLACK => []
-        ];
-
-        $this->rewind();
-
-        while ($this->valid()) {
-            $piece = $this->current();
-            switch($piece->getIdentity()) {
-
-                case PGN::PIECE_KING:
-                    $attack->{$piece->getColor()} = array_unique(
-                        array_merge(
-                            $attack->{$piece->getColor()},
+                            $control->attack->{$piece->getColor()},
                             array_values(
                                 array_intersect(
                                     array_values((array)$piece->getPosition()->scope),
@@ -536,9 +479,16 @@ class Board extends \SplObjectStorage
                     break;
 
                 case PGN::PIECE_PAWN:
-                    $attack->{$piece->getColor()} = array_unique(
+                    $control->space->{$piece->getColor()} = array_unique(
                         array_merge(
-                            $attack->{$piece->getColor()},
+                            $control->space->{$piece->getColor()},
+                            array_intersect(
+                                $piece->getPosition()->capture,
+                                $this->status->squares->free
+                    )));
+                    $control->attack->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $control->attack->{$piece->getColor()},
                             array_intersect(
                                 $piece->getPosition()->capture,
                                 $this->status->squares->used->{$piece->getOppositeColor()}
@@ -546,9 +496,16 @@ class Board extends \SplObjectStorage
                     break;
 
                 default:
-                    $attack->{$piece->getColor()} = array_unique(
+                    $control->space->{$piece->getColor()} = array_unique(
                         array_merge(
-                            $attack->{$piece->getColor()},
+                            $control->space->{$piece->getColor()},
+                            array_diff(
+                                $piece->getLegalMoves(),
+                                $this->status->squares->used->{$piece->getOppositeColor()}
+                    )));
+                    $control->attack->{$piece->getColor()} = array_unique(
+                        array_merge(
+                            $control->attack->{$piece->getColor()},
                             array_intersect(
                                 $piece->getLegalMoves(),
                                 $this->status->squares->used->{$piece->getOppositeColor()}
@@ -558,10 +515,12 @@ class Board extends \SplObjectStorage
             $this->next();
         }
 
-        sort($attack->{PGN::COLOR_WHITE});
-        sort($attack->{PGN::COLOR_BLACK});
+        sort($control->space->{PGN::COLOR_WHITE});
+        sort($control->space->{PGN::COLOR_BLACK});
+        sort($control->attack->{PGN::COLOR_WHITE});
+        sort($control->attack->{PGN::COLOR_BLACK});
 
-        return $attack;
+        return $control;
     }
 
     /**
@@ -576,7 +535,7 @@ class Board extends \SplObjectStorage
         $that->pieceIsMoved($piece);
         $king = $that->getPiece($piece->getColor(), PGN::PIECE_KING);
 
-        if (in_array($king->getPosition()->current, $that->attack()->{$king->getOppositeColor()})) {
+        if (in_array($king->getPosition()->current, $that->control()->attack->{$king->getOppositeColor()})) {
             return true;
         } else {
             return false;

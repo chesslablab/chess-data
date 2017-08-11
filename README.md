@@ -9,6 +9,7 @@ PGN Chess comes to the rescue in the following scenarios:
 - Develop APIs on the server side for validating chess games
 - Create funny, random games for fun
 - Analyze games of chess
+- Validate games
 - Build chess-related web apps
 - Play chess moves
 

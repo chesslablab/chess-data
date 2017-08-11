@@ -648,7 +648,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
                 'h6'
             ]
         ];
-        $this->assertEquals($example, $board->getStatus()->space);
+        $this->assertEquals($example, $board->getStatus()->control->space);
     }
 
     public function testCastlingShortInDefaultBoard()
@@ -993,8 +993,8 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         sort($whiteSpace);
         $whiteAttack = [];
         $this->assertEquals($whiteSquaresUsed, $board->getStatus()->squares->used->w);
-        $this->assertEquals($whiteSpace, $board->getStatus()->space->w);
-        $this->assertEquals($whiteAttack, $board->getStatus()->attack->w);
+        $this->assertEquals($whiteSpace, $board->getStatus()->control->space->w);
+        $this->assertEquals($whiteAttack, $board->getStatus()->control->attack->w);
     }
 
     public function testEnPassantf3()

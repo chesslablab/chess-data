@@ -5,7 +5,7 @@ use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
 
 /**
- * Class that represents a pawn.
+ * Pawn class.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -28,8 +28,7 @@ class Pawn extends AbstractPiece
     {
         parent::__construct($color, $square, PGN::PIECE_PAWN);
 
-        switch ($this->color)
-        {
+        switch ($this->color) {
             case PGN::COLOR_WHITE:
                 $this->ranks = (object) [
                     'initial' => 2,
@@ -60,71 +59,65 @@ class Pawn extends AbstractPiece
      */
     protected function scope()
     {
-        try // next rank
-        {
+        // next rank
+        try {
             $file = $this->position->current[0];
-            if (PGN::square($file.$this->ranks->next, true))
-            {
+            if (PGN::square($file.$this->ranks->next, true)) {
                 $this->position->scope->up[] = $file . $this->ranks->next;
             }
+        } catch (\InvalidArgumentException $e) {
+
         }
-        catch (\InvalidArgumentException $e) {}
 
         // two square advance
-
-        if ($this->position->current[1] == 2 && $this->ranks->initial == 2)
-        {
+        if ($this->position->current[1] == 2 && $this->ranks->initial == 2) {
             $this->position->scope->up[] = $this->position->current[0] . ($this->ranks->initial + 2);
         }
-        elseif ($this->position->current[1] == 7 && $this->ranks->initial == 7)
-        {
+        elseif ($this->position->current[1] == 7 && $this->ranks->initial == 7) {
             $this->position->scope->up[] = $this->position->current[0] . ($this->ranks->initial - 2);
         }
 
-        try // capture square
-        {
+        // capture square
+        try {
             $file = chr(ord($this->position->current[0]) - 1);
-            if (PGN::square($file.$this->ranks->next, true))
-            {
+            if (PGN::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // capture square
-        {
+        }
+
+        // capture square
+        try {
             $file = chr(ord($this->position->current[0]) + 1);
-            if (PGN::square($file.$this->ranks->next, true))
-            {
+            if (PGN::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
+        } catch (\InvalidArgumentException $e) {
+
         }
-        catch (\InvalidArgumentException $e) {}
     }
 
     public function getLegalMoves()
     {
         $moves = [];
+
         // add up squares
-        foreach($this->getPosition()->scope->up as $square)
-        {
-            if (in_array($square, self::$squares->free))
-            {
+        foreach($this->getPosition()->scope->up as $square) {
+            if (in_array($square, self::$squares->free)) {
                 $moves[] = $square;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
+
         // add capture squares
-        foreach($this->getPosition()->capture as $square)
-        {
-            if (in_array($square, self::$squares->used->{$this->getOppositeColor()}))
-            {
+        foreach($this->getPosition()->capture as $square) {
+            if (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
                 $moves[] = $square;
             }
         }
+
         // add en passant squares
         if (
             $this->ranks->initial === 2 &&
@@ -135,12 +128,10 @@ class Pawn extends AbstractPiece
             (isset($this->position->capture[1]) &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])))
-        )
-        {
+        ) {
             $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
                         (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1);
-        }
-        elseif (
+        } elseif (
             $this->ranks->initial === 7 &&
             (int)$this->position->current[1] === 4 &&
             self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
@@ -149,11 +140,11 @@ class Pawn extends AbstractPiece
             (isset($this->position->capture[1]) &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])))
-        )
-        {
+        ) {
             $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
                         (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1);
         }
+
         return $moves;
     }
 
@@ -164,12 +155,9 @@ class Pawn extends AbstractPiece
      */
     public function isPromoted()
     {
-        if ((int)$this->getMove()->position->next[1] === $this->ranks->promotion)
-        {
+        if ((int)$this->getMove()->position->next[1] === $this->ranks->promotion) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

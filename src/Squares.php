@@ -12,6 +12,12 @@ use PGNChess\PGN;
  */
 class Squares
 {
+    /**
+     * Calculates the free/used squares.
+     *
+     * @param array $pieces
+     * @return stdClass
+     */
     public static function stats(array $pieces)
     {
         return (object) [
@@ -28,13 +34,13 @@ class Squares
     private static function getAll()
     {
         $squares = [];
-        for($i=0; $i<8; $i++)
-        {
-            for($j=1; $j<=8; $j++)
-            {
+
+        for($i=0; $i<8; $i++) {
+            for($j=1; $j<=8; $j++) {
                 $squares[] = chr((ord('a') + $i)) . $j;
             }
         }
+
         return $squares;
     }
 
@@ -49,10 +55,11 @@ class Squares
             PGN::COLOR_WHITE => [],
             PGN::COLOR_BLACK => []
         ];
-        foreach ($pieces as $piece)
-        {
+
+        foreach ($pieces as $piece) {
             $squares->{$piece->getColor()}[] = $piece->getPosition()->current;
         }
+
         return $squares;
     }
 
@@ -64,11 +71,11 @@ class Squares
     private static function getFree(array $pieces)
     {
         $usedSquares = self::getUsed($pieces);
+
         return array_values(
             array_diff(
                 self::getAll(),
                 array_merge($usedSquares->{PGN::COLOR_WHITE}, $usedSquares->{PGN::COLOR_BLACK})
-            )
-        );
+        ));
     }
 }

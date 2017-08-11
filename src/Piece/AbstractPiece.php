@@ -86,12 +86,7 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
-     * Calculates the piece's scope, to be stored in $this->position->scope
-     *
-     * A piece's scope represents the squares under its control on an empty board,
-     * and it is specially relevant in order to calculate the legal moves of the
-     * piece. Roughly speaking, the legal moves that a piece can perform is nothing
-     * but a subtraction between its scope and the squares used by both players.
+     * Calculates the piece's scope.
      */
     abstract protected function scope();
 
@@ -112,12 +107,9 @@ abstract class AbstractPiece implements Piece
      */
     public function getOppositeColor()
     {
-        if ($this->color == PGN::COLOR_WHITE)
-        {
+        if ($this->color == PGN::COLOR_WHITE) {
             return PGN::COLOR_BLACK;
-        }
-        else
-        {
+        } else {
             return PGN::COLOR_WHITE;
         }
     }
@@ -155,12 +147,6 @@ abstract class AbstractPiece implements Piece
     /**
      * Gets the legal moves that a piece can perform on the board.
      *
-     * Specifically, the children's implementation strategy of the current abstract
-     * class uses the concept of scope. A piece's scope represents all the squares
-     * under its control on an empty board. Therefore, roughly speaking, the legal moves
-     * that pieces can perform is a subtraction between their scope and the squares
-     * used by both players.
-     *
      * @return array The legal moves that the piece can perform.
      */
     abstract public function getLegalMoves();
@@ -175,6 +161,7 @@ abstract class AbstractPiece implements Piece
         $this->position->current === $this->move->position->next
             ? $this->position = $position
             : $this->position = null;
+
         return $this;
     }
 
@@ -189,9 +176,8 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
-     * This method sets the $squares attribute, which is a class variable defined at the
-     * top-level and inherited by all pieces. This is flat information about the
-     * chess board, which is accessible by all pieces for computing their legal moves, etc.
+     * This is flat information about the chess board, which is accessible by all pieces
+     * for computing their legal moves, etc.
      *
      * @param stdClass $squares
      */
@@ -212,12 +198,9 @@ abstract class AbstractPiece implements Piece
      */
     public function isMovable()
     {
-        if (isset($this->move))
-        {
+        if (isset($this->move)) {
             return in_array($this->move->position->next, $this->getLegalMoves());
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

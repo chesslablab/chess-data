@@ -7,9 +7,9 @@ use PGNChess\Piece\Rook;
 use PGNChess\Piece\Bishop;
 
 /**
- * Class that represents a queen.
+ * Queen class.
  *
- * This class uses a rook and a bishop to keep things simple.
+ * This class uses a rook and a bishop.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -36,8 +36,10 @@ class Queen extends Slider
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_QUEEN);
+
         $this->rook = new Rook($color, $square, PGN::PIECE_ROOK);
         $this->bishop = new Bishop($color, $square, PGN::PIECE_BISHOP);
+        
         $this->scope();
     }
 

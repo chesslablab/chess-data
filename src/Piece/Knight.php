@@ -5,7 +5,7 @@ use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
 
 /**
- * Class that represents a knight.
+ * Knight class.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -22,9 +22,11 @@ class Knight extends AbstractPiece
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_KNIGHT);
+
         $this->position->scope = (object)[
             'jumps' => []
         ];
+
         $this->scope();
     }
 
@@ -33,134 +35,120 @@ class Knight extends AbstractPiece
      */
     protected function scope()
     {
-        try
-        {
+        try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1] + 2;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
             $file = chr(ord($this->position->current[0]) - 2);
             $rank = (int)$this->position->current[1] + 1;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
             $file = chr(ord($this->position->current[0]) - 2);
             $rank = (int)$this->position->current[1] - 1;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1] - 2;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1] - 2;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
 
             $file = chr(ord($this->position->current[0]) + 2);
             $rank = (int)$this->position->current[1] - 1;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
             $file = chr(ord($this->position->current[0]) + 2);
             $rank = (int)$this->position->current[1] + 1;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try
-        {
+        }
+
+        try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1] + 2;
-            if(PGN::square($file.$rank, true))
-            {
+            if(PGN::square($file.$rank, true)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
+        } catch (\InvalidArgumentException $e) {
+
         }
-        catch (\InvalidArgumentException $e) {}
 
     }
 
     public function getLegalMoves()
     {
         $moves = [];
-        foreach ($this->getPosition()->scope->jumps as $square)
-        {
-            switch(true)
-            {
+
+        foreach ($this->getPosition()->scope->jumps as $square) {
+
+            switch(true) {
                 case null != $this->getMove() && $this->getMove()->isCapture == false:
-                    if (in_array($square, self::$squares->free))
-                    {
+                    if (in_array($square, self::$squares->free)) {
                         $moves[] = $square;
-                    }
-                    elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()}))
-                    {
+                    } elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
                         $moves[] = $square;
                     }
                     break;
 
                 case null != $this->getMove() && $this->getMove()->isCapture == true:
-                    if (in_array($square, self::$squares->used->{$this->getOppositeColor()}))
-                    {
+                    if (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
                         $moves[] = $square;
                     }
                     break;
 
                 case null == $this->getMove():
-                    if (in_array($square, self::$squares->free))
-                    {
+                    if (in_array($square, self::$squares->free)) {
                         $moves[] = $square;
-                    }
-                    elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()}))
-                    {
+                    } elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
                         $moves[] = $square;
                     }
                     break;
             }
         }
+
         return $moves;
     }
 }

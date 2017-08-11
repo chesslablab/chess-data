@@ -6,7 +6,7 @@ use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\King;
 
 /**
- * Class that represents a rook.
+ * Rook class.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -23,12 +23,14 @@ class Rook extends Slider
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_ROOK);
+
         $this->position->scope = (object)[
             'up' => [],
             'bottom' => [],
             'left' => [],
             'right' => []
         ];
+
         $this->scope();
     }
 
@@ -37,53 +39,53 @@ class Rook extends Slider
      */
     protected function scope()
     {
-        try // up
-        {
+        // up
+        try {
             $file = $this->position->current[0];
             $rank = (int)$this->position->current[1] + 1;
-            while (PGN::square($file.$rank, true))
-            {
+            while (PGN::square($file.$rank, true)) {
                 $this->position->scope->up[] = $file . $rank;
                 $rank = (int)$rank + 1;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // down
-        {
+        }
+
+        // down
+        try {
             $file = $this->position->current[0];
             $rank = (int)$this->position->current[1] - 1;
-            while (PGN::square($file.$rank, true))
-            {
+            while (PGN::square($file.$rank, true)) {
                 $this->position->scope->bottom[] = $file . $rank;
                 $rank = (int)$rank - 1;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // left
-        {
+        }
+
+        // left
+        try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1];
-            while (PGN::square($file.$rank, true))
-            {
+            while (PGN::square($file.$rank, true)) {
                 $this->position->scope->left[] = $file . $rank;
                 $file = chr(ord($file) - 1);
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // right
-        {
+        }
+
+        // right
+        try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1];
-            while (PGN::square($file.$rank, true))
-            {
+            while (PGN::square($file.$rank, true)) {
                 $this->position->scope->right[] = $file . $rank;
                 $file = chr(ord($file) + 1);
             }
+        } catch (\InvalidArgumentException $e) {
+
         }
-        catch (\InvalidArgumentException $e) {}
     }
 
     /**
@@ -93,8 +95,8 @@ class Rook extends Slider
      */
     public function updateCastling(King &$king)
     {
-        if (!$king->getCastling()->isCastled)
-        {
+        if (!$king->getCastling()->isCastled) {
+
             $this->getPosition()->current === PGN::castling($this->getColor())
                     ->{PGN::PIECE_ROOK}
                     ->{PGN::CASTLING_SHORT}

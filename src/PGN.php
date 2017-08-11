@@ -42,17 +42,15 @@ class PGN
      * Validates a color in PGN notation.
      *
      * @param string $color
-     *
      * @return boolean true if the color is valid; otherwise false
-     *
      * @throws \InvalidArgumentException
      */
     public static function color($color)
     {
-        if ($color !== self::COLOR_WHITE && $color !== self::COLOR_BLACK)
-        {
+        if ($color !== self::COLOR_WHITE && $color !== self::COLOR_BLACK) {
             throw new \InvalidArgumentException("This is not a valid color: $color.");
         }
+
         return true;
     }
 
@@ -60,17 +58,15 @@ class PGN
      * Validates a board square in PGN notation.
      *
      * @param string $square
-     *
      * @return boolean true if the square is valid; otherwise false
-     *
      * @throws \InvalidArgumentException
      */
     public static function square($square)
     {
-        if (!preg_match('/^' . self::SQUARE . '$/', $square))
-        {
+        if (!preg_match('/^' . self::SQUARE . '$/', $square)) {
             throw new \InvalidArgumentException("This square is not valid: $square.");
         }
+
         return true;
     }
 
@@ -79,16 +75,13 @@ class PGN
      *
      * @param string $color
      * @param string $pgn
-     *
      * @return stdClass
-     *
      * @throws \InvalidArgumentException
      */
     static public function objectizeMove($color, $pgn)
     {
         $isCheck = substr($pgn, -1) === '+' || substr($pgn, -1) === '#';
-        switch(true)
-        {
+        switch(true) {
             case preg_match('/^' . self::MOVE_TYPE_KING . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
@@ -100,8 +93,7 @@ class PGN
                     'position' => (object) [
                         'current' => null,
                         'next' => mb_substr($pgn, -2)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_KING_CASTLING_SHORT . '$/', $pgn):
@@ -139,18 +131,14 @@ class PGN
                     'position' => (object) [
                         'current' => null,
                         'next' => mb_substr($pgn, -2)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_PIECE . '$/', $pgn):
-                if (!$isCheck)
-                {
+                if (!$isCheck) {
                     $currentPosition = mb_substr(mb_substr($pgn, 0, -2), 1);
                     $nextPosition = mb_substr($pgn, -2);
-                }
-                else
-                {
+                } else {
                     $currentPosition = mb_substr(mb_substr($pgn, 0, -3), 1);
                     $nextPosition = mb_substr(mb_substr($pgn, 0, -1), -2);
                 }
@@ -164,8 +152,7 @@ class PGN
                     'position' => (object) [
                         'current' => $currentPosition,
                         'next' => $nextPosition
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_PIECE_CAPTURES . '$/', $pgn):
@@ -179,18 +166,14 @@ class PGN
                     'position' => (object) [
                         'current' => !$isCheck ? mb_substr(mb_substr($pgn, 0, -3), 1) : mb_substr(mb_substr($pgn, 0, -4), 1),
                         'next' => !$isCheck ? mb_substr($pgn, -2) : mb_substr($pgn, -3, -1)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_KNIGHT . '$/', $pgn):
-                if (!$isCheck)
-                {
+                if (!$isCheck) {
                     $currentPosition = mb_substr(mb_substr($pgn, 0, -2), 1);
                     $nextPosition = mb_substr($pgn, -2);
-                }
-                else
-                {
+                } else {
                     $currentPosition = mb_substr(mb_substr($pgn, 0, -3), 1);
                     $nextPosition = mb_substr(mb_substr($pgn, 0, -1), -2);
                 }
@@ -204,8 +187,7 @@ class PGN
                     'position' => (object) [
                         'current' => $currentPosition,
                         'next' => $nextPosition
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_KNIGHT_CAPTURES . '$/', $pgn):
@@ -219,8 +201,7 @@ class PGN
                     'position' => (object) [
                         'current' => !$isCheck ? mb_substr(mb_substr($pgn, 0, -3), 1) : mb_substr(mb_substr($pgn, 0, -4), 1),
                         'next' => !$isCheck ? mb_substr($pgn, -2) : mb_substr($pgn, -3, -1)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_PAWN . '$/', $pgn):
@@ -234,8 +215,7 @@ class PGN
                     'position' => (object) [
                         'current' => mb_substr($pgn, 0, 1),
                         'next' => !$isCheck ? $pgn : mb_substr($pgn, 0, -1)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_PAWN_CAPTURES . '$/', $pgn):
@@ -249,8 +229,7 @@ class PGN
                     'position' => (object) [
                         'current' => mb_substr($pgn, 0, 1),
                         'next' => !$isCheck ? mb_substr($pgn, -2) : mb_substr($pgn, -3, -1)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_PAWN_PROMOTES . '$/', $pgn):
@@ -265,8 +244,7 @@ class PGN
                     'position' => (object) [
                         'current' => null,
                         'next' => mb_substr($pgn, 0, 2)
-                    ]
-                ];
+                ]];
                 break;
 
             case preg_match('/^' . self::MOVE_TYPE_PAWN_CAPTURES_AND_PROMOTES . '$/', $pgn):
@@ -281,8 +259,7 @@ class PGN
                     'position' => (object) [
                         'current' => null,
                         'next' => mb_substr($pgn, 2, 2)
-                    ]
-                ];
+                ]];
                 break;
 
             default:
@@ -296,13 +273,11 @@ class PGN
      * further processing.
      *
      * @param string $color
-     *
      * @return stdClass
      */
     public static function castling($color)
     {
-        switch ($color)
-        {
+        switch ($color) {
             case PGN::COLOR_WHITE:
                 return (object) [
                     PGN::PIECE_KING => (object) [
@@ -314,8 +289,7 @@ class PGN
                             'position' => (object) [
                                 'current' => 'e1',
                                 'next' => 'g1'
-                            ]
-                        ],
+                        ]],
                         PGN::CASTLING_LONG => (object) [
                             'freeSquares' => (object) [
                                 'b' => 'b1',
@@ -325,22 +299,19 @@ class PGN
                             'position' => (object) [
                                 'current' => 'e1',
                                 'next' => 'c1'
-                            ]
-                        ]
+                        ]]
                     ],
                     PGN::PIECE_ROOK => (object) [
                         PGN::CASTLING_SHORT => (object) [
                             'position' => (object) [
                                 'current' => 'h1',
                                 'next' => 'f1'
-                            ]
-                        ],
+                        ]],
                         PGN::CASTLING_LONG => (object) [
                             'position' => (object) [
                                 'current' => 'a1',
                                 'next' => 'd1'
-                            ]
-                        ]
+                        ]]
                     ]
                 ];
                 break;
@@ -356,8 +327,7 @@ class PGN
                             'position' => (object) [
                                 'current' => 'e8',
                                 'next' => 'g8'
-                            ]
-                        ],
+                        ]],
                         PGN::CASTLING_LONG => (object) [
                             'freeSquares' => (object) [
                                 'b' => 'b8',
@@ -367,22 +337,19 @@ class PGN
                             'position' => (object) [
                                 'current' => 'e8',
                                 'next' => 'c8'
-                            ]
-                        ]
+                        ]]
                     ],
                     PGN::PIECE_ROOK => (object) [
                         PGN::CASTLING_SHORT => (object) [
                             'position' => (object) [
                                 'current' => 'h8',
                                 'next' => 'f8'
-                            ]
-                        ],
+                        ]],
                         PGN::CASTLING_LONG => (object) [
                             'position' => (object) [
                                 'current' => 'a8',
                                 'next' => 'd8'
-                            ]
-                        ]
+                        ]]
                     ]
                 ];
                 break;

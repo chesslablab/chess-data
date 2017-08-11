@@ -5,7 +5,7 @@ use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
 
 /**
- * Class that represents a bishop.
+ * Bishop class.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -22,12 +22,14 @@ class Bishop extends Slider
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, PGN::PIECE_BISHOP);
+
         $this->position->scope = (object)[
             'upLeft' => [],
             'upRight' => [],
             'bottomLeft' => [],
             'bottomRight' => []
         ];
+
         $this->scope();
     }
 
@@ -36,34 +38,34 @@ class Bishop extends Slider
      */
     protected function scope()
     {
-        try // top left diagonal
-        {
+        // top left diagonal
+        try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1] + 1;
-            while (PGN::square($file.$rank, true))
-            {
+            while (PGN::square($file.$rank, true)) {
                 $this->position->scope->upLeft[] = $file . $rank;
                 $file = chr(ord($file) - 1);
                 $rank = (int)$rank + 1;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // top right diagonal
-        {
+        }
+
+        // top right diagonal
+        try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1] + 1;
-            while (PGN::square($file.$rank, true))
-            {
+            while (PGN::square($file.$rank, true)) {
                 $this->position->scope->upRight[] = $file . $rank;
                 $file = chr(ord($file) + 1);
                 $rank = (int)$rank + 1;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // bottom left diagonal
-        {
+        }
+
+        // bottom left diagonal
+        try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1] - 1;
             while (PGN::square($file.$rank, true))
@@ -72,11 +74,12 @@ class Bishop extends Slider
                 $file = chr(ord($file) - 1);
                 $rank = (int)$rank - 1;
             }
-        }
-        catch (\InvalidArgumentException $e) {}
+        } catch (\InvalidArgumentException $e) {
 
-        try // bottom right diagonal
-        {
+        }
+
+        // bottom right diagonal
+        try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1] - 1;
             while (PGN::square($file.$rank, true))
@@ -85,7 +88,8 @@ class Bishop extends Slider
                 $file = chr(ord($file) + 1);
                 $rank = (int)$rank - 1;
             }
+        } catch (\InvalidArgumentException $e) {
+
         }
-        catch (\InvalidArgumentException $e) {}
-    }    
+    }
 }

@@ -9,6 +9,7 @@ use PGNChess\Piece\Knight;
 use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
+use PGNChess\Type\RookType;
 
 class BoardTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,15 +67,12 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testPlayRa6InCustomBoard()
     {
         $pieces = [
-            new Rook(PGN::COLOR_WHITE, 'a1'),
-            // new Knight(PGN::COLOR_WHITE, 'b1'),
-            // new Bishop(PGN::COLOR_WHITE, 'c1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new Queen(PGN::COLOR_WHITE, 'd1'),
             new King(PGN::COLOR_WHITE, 'e1'),
             new Bishop(PGN::COLOR_WHITE, 'f1'),
             new Knight(PGN::COLOR_WHITE, 'g1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
-            // new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_WHITE, 'b2'),
             new Pawn(PGN::COLOR_WHITE, 'c2'),
             new Pawn(PGN::COLOR_WHITE, 'd2'),
@@ -82,14 +80,14 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f2'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_BLACK, 'a8'),
+            new Rook(PGN::COLOR_BLACK, 'a8', RookType::CASTLING_LONG),
             new Knight(PGN::COLOR_BLACK, 'b8'),
             new Bishop(PGN::COLOR_BLACK, 'c8'),
             new Queen(PGN::COLOR_BLACK, 'd8'),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'a7'),
             new Pawn(PGN::COLOR_BLACK, 'b7'),
             new Pawn(PGN::COLOR_BLACK, 'c7'),
@@ -124,7 +122,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testPlayRxa6InCustomBoard()
     {
         $pieces = [
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'a6'),
@@ -138,7 +136,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testPlayh6InCustomBoard()
     {
         $pieces = [
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'a6'),
@@ -152,7 +150,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testPlayhxg6InCustomBoard()
     {
         $pieces = [
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
             new Pawn(PGN::COLOR_WHITE, 'g6'),
             new King(PGN::COLOR_BLACK, 'e8'),
@@ -228,14 +226,14 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testPlayShortCastlingInCustomBoard()
     {
         $pieces = [
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new Knight(PGN::COLOR_WHITE, 'b1'),
             new Bishop(PGN::COLOR_WHITE, 'c1'),
             new Queen(PGN::COLOR_WHITE, 'd1'),
             new King(PGN::COLOR_WHITE, 'e1'),
             new Bishop(PGN::COLOR_WHITE, 'f1'),
             new Knight(PGN::COLOR_WHITE, 'g1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'b2'),
             new Pawn(PGN::COLOR_WHITE, 'c2'),
@@ -244,19 +242,16 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f2'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_BLACK, 'a8'),
+            new Rook(PGN::COLOR_BLACK, 'a8', RookType::CASTLING_LONG),
             new Knight(PGN::COLOR_BLACK, 'b8'),
             new Bishop(PGN::COLOR_BLACK, 'c8'),
             new Queen(PGN::COLOR_BLACK, 'd8'),
             new King(PGN::COLOR_BLACK, 'e8'),
-            // new Bishop(PGN::COLOR_BLACK, 'f8'),
-            // new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'a7'),
             new Pawn(PGN::COLOR_BLACK, 'b7'),
             new Pawn(PGN::COLOR_BLACK, 'c7'),
             new Pawn(PGN::COLOR_BLACK, 'd7'),
-            // new Pawn(PGN::COLOR_BLACK, 'e7'),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -271,13 +266,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'g3'),
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -291,13 +286,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -311,13 +306,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -331,13 +326,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -351,13 +346,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -371,13 +366,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -391,13 +386,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -411,13 +406,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -431,13 +426,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -451,13 +446,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -471,13 +466,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'f3'), // in check!
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -492,13 +487,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'g3'),
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -512,13 +507,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'g3'),
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f5'),
+            new Rook(PGN::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -532,13 +527,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'g3'),
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'h2'),
+            new Rook(PGN::COLOR_BLACK, 'h2', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -552,13 +547,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'g3'),
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f2'), // rook defended by knight
+            new Rook(PGN::COLOR_BLACK, 'f2', RookType::CASTLING_SHORT), // rook defended by knight
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -572,13 +567,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'a2'),
             new Pawn(PGN::COLOR_WHITE, 'a3'),
             new Pawn(PGN::COLOR_WHITE, 'c3'),
-            new Rook(PGN::COLOR_WHITE, 'e6'),
+            new Rook(PGN::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'g3'),
             new Pawn(PGN::COLOR_BLACK, 'a6'),
             new Pawn(PGN::COLOR_BLACK, 'b5'),
             new Pawn(PGN::COLOR_BLACK, 'c4'),
             new Knight(PGN::COLOR_BLACK, 'd3'),
-            new Rook(PGN::COLOR_BLACK, 'f3'), // rook not defended
+            new Rook(PGN::COLOR_BLACK, 'f3', RookType::CASTLING_SHORT), // rook not defended
             new King(PGN::COLOR_BLACK, 'g5'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
@@ -713,14 +708,14 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f2'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Bishop(PGN::COLOR_BLACK, 'a6'), // bishop threatening f1
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -738,14 +733,14 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Bishop(PGN::COLOR_BLACK, 'a6'), // bishop threatening f1
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'c5'), // bishop threatening g1
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -763,13 +758,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'c5'), // bishop threatening g1
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -787,13 +782,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'd6'),
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -811,13 +806,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f4'), // bishop threatening c1
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -835,13 +830,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'e3'), // knight threatening d1 and f1
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -860,13 +855,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'd2'), // knight threatening b1 and f1
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -885,13 +880,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'c3'), // knight threatening b1 and d1
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -901,7 +896,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'O-O')));
     }
 
-    public function testCastlingAfterMovingRh1()
+    public function testForbidCastlingAfterKf1()
     {
         $pieces = [
             new Pawn(PGN::COLOR_WHITE, 'a2'),
@@ -910,13 +905,41 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(PGN::COLOR_BLACK, 'f7'),
+            new Pawn(PGN::COLOR_BLACK, 'g7'),
+            new Pawn(PGN::COLOR_BLACK, 'h7')
+        ];
+        $board = new Board($pieces);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Kf1')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nf6')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'Ke1')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nd7')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
+    }
+
+    public function testForbidCastlingAfterRg1()
+    {
+        $pieces = [
+            new Pawn(PGN::COLOR_WHITE, 'a2'),
+            new Pawn(PGN::COLOR_WHITE, 'd5'),
+            new Pawn(PGN::COLOR_WHITE, 'e4'),
+            new Pawn(PGN::COLOR_WHITE, 'f3'),
+            new Pawn(PGN::COLOR_WHITE, 'g2'),
+            new Pawn(PGN::COLOR_WHITE, 'h2'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(PGN::COLOR_WHITE, 'e1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(PGN::COLOR_BLACK, 'e8'),
+            new Bishop(PGN::COLOR_BLACK, 'f8'),
+            new Knight(PGN::COLOR_BLACK, 'g8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -929,6 +952,25 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(PGN::objectizeMove('w', 'O-O')));
     }
 
+    public function testForbidCastlingRuyLopez()
+    {
+        $board = new Board;
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'e5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nf3'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nc6'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Bb5'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Nf6'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Ke2'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Bb4'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Ke1'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Ke7'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nc3'));
+        $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'Ke8'));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
+        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'O-O')));
+    }
+
     public function testCheckCastlingStatusAfterMovingRh1()
     {
         $pieces = [
@@ -938,13 +980,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'f3'),
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
-            new Rook(PGN::COLOR_WHITE, 'a1'),
+            new Rook(PGN::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new King(PGN::COLOR_BLACK, 'e8'),
             new Bishop(PGN::COLOR_BLACK, 'f8'),
             new Knight(PGN::COLOR_BLACK, 'g8'),
-            new Rook(PGN::COLOR_BLACK, 'h8'),
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7')
@@ -1005,13 +1047,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'e4'),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7'),
             new King(PGN::COLOR_BLACK, 'e8'),
-            new Rook(PGN::COLOR_BLACK, 'h8')
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT)
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'f4')));
@@ -1026,13 +1068,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'e7'),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h7'),
             new King(PGN::COLOR_BLACK, 'e8'),
-            new Rook(PGN::COLOR_BLACK, 'h8')
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT)
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'f5')));
@@ -1047,13 +1089,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'e7'),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g4'),
             new Pawn(PGN::COLOR_BLACK, 'h7'),
             new King(PGN::COLOR_BLACK, 'e8'),
-            new Rook(PGN::COLOR_BLACK, 'h8')
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT)
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'h4')));
@@ -1068,13 +1110,13 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h2'),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'e7'),
             new Pawn(PGN::COLOR_BLACK, 'f7'),
             new Pawn(PGN::COLOR_BLACK, 'g7'),
             new Pawn(PGN::COLOR_BLACK, 'h4'),
             new King(PGN::COLOR_BLACK, 'e8'),
-            new Rook(PGN::COLOR_BLACK, 'h8')
+            new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT)
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'g4')));
@@ -1087,7 +1129,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_WHITE, 'g2'),
             new Pawn(PGN::COLOR_WHITE, 'h7'),
             new King(PGN::COLOR_WHITE, 'e1'),
-            new Rook(PGN::COLOR_WHITE, 'h1'),
+            new Rook(PGN::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
             new Pawn(PGN::COLOR_BLACK, 'c7'),
             new Pawn(PGN::COLOR_BLACK, 'd7'),
             new Pawn(PGN::COLOR_BLACK, 'e7'),
@@ -1096,6 +1138,6 @@ class BoardTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'h8=Q')));
-        // TODO check board status after promotion
+        // TODO check board status
     }
 }

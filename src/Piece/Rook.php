@@ -3,7 +3,7 @@ namespace PGNChess\Piece;
 
 use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
-use PGNChess\Piece\King;
+use PGNChess\Type\RookType;
 
 /**
  * Rook class.
@@ -15,13 +15,28 @@ use PGNChess\Piece\King;
 class Rook extends Slider
 {
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * Constructor.
      *
      * @param string $color
      * @param string $square
+     * @param string $castling
+     * @throws \InvalidArgumentException
      */
-    public function __construct($color, $square)
+    public function __construct($color, $square, $type)
     {
+        if (!in_array($type, RookType::getChoices())) {
+            throw new \InvalidArgumentException(
+                "A valid rook type needs to be provided in order to instantiate a rook."
+            );
+        } else {
+            $this->type = $type;
+        }
+
         parent::__construct($color, $square, PGN::PIECE_ROOK);
 
         $this->position->scope = (object)[
@@ -32,6 +47,16 @@ class Rook extends Slider
         ];
 
         $this->scope();
+    }
+
+    /**
+     * Returns the rook's type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -85,33 +110,6 @@ class Rook extends Slider
             }
         } catch (\InvalidArgumentException $e) {
 
-        }
-    }
-
-    /**
-     * Updates the king's castling status.
-     *
-     * @param King
-     */
-    public function updateCastling(King &$king)
-    {
-        if (!$king->getCastling()->isCastled) {
-
-            $this->getPosition()->current === PGN::castling($this->getColor())
-                    ->{PGN::PIECE_ROOK}
-                    ->{PGN::CASTLING_SHORT}
-                    ->position
-                    ->current
-                ? $king->forbidCastling(PGN::CASTLING_SHORT)
-                : false;
-
-            $this->getPosition()->current === PGN::castling($this->getColor())
-                    ->{PGN::PIECE_ROOK}
-                    ->{PGN::CASTLING_LONG}
-                    ->position
-                    ->current
-                ? $king->forbidCastling(PGN::CASTLING_LONG)
-                : false;
         }
     }
 }

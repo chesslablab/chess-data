@@ -5,12 +5,10 @@ use PGNChess\PGN;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Bishop;
+use PGNChess\Type\RookType;
 
 /**
  * King class.
- *
- * Rather than implementing everything from scratch, this class uses a rook and
- * a bishop.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -29,11 +27,6 @@ class King extends AbstractPiece
     private $bishop;
 
     /**
-     * @var stdClass
-     */
-    private $castling;
-
-    /**
      * Constructor.
      *
      * @param string $color
@@ -43,30 +36,16 @@ class King extends AbstractPiece
     {
         parent::__construct($color, $square, PGN::PIECE_KING);
 
-        $this->rook = new Rook($color, $square, PGN::PIECE_ROOK);
-        $this->bishop = new Bishop($color, $square, PGN::PIECE_BISHOP);
-
-        $this->castling = (object) [
-            'isCastled' => false,
-            PGN::CASTLING_SHORT => (object) [
-                'canCastle' => true
-            ],
-            PGN::CASTLING_LONG => (object) [
-                'canCastle' => true
-        ]];
+        $this->rook = new Rook($color, $square, RookType::FAKED);
+        $this->bishop = new Bishop($color, $square);
 
         $this->scope();
-    }
-
-    public function getCastling()
-    {
-        return $this->castling;
     }
 
     /**
      * Gets the castling rook associated to the king's next move.
      *
-     * @param array $piece
+     * @param array $pieces
      * @return null|PGNChess\Piece\Rook
      */
     public function getCastlingRook(array $pieces)
@@ -149,49 +128,5 @@ class King extends AbstractPiece
         }
 
         return $moves;
-    }
-
-    /**
-     * Sets the king as castled.
-     */
-    public function setIsCastled()
-    {
-        $this->castling->isCastled = true;
-        $this->forbidCastling();
-
-        return $this;
-    }
-
-    /**
-     * Forbids the king to castle.
-     *
-     * @param string $type
-     * @return PGNChess\Piece\King
-     */
-    public function forbidCastling($type=null)
-    {
-        if (isset($type)) {
-            $this->castling->{$type}->canCastle = false;
-        } else {
-            $this->castling->{PGN::CASTLING_SHORT}->canCastle = false;
-            $this->castling->{PGN::CASTLING_LONG}->canCastle = false;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Updates the king's castling status.
-     *
-     * @return PGNChess\Piece\King
-     */
-    public function updateCastling()
-    {
-        if (!$this->castling->isCastled) {
-            $this->castling->{PGN::CASTLING_SHORT}->canCastle = false;
-            $this->castling->{PGN::CASTLING_LONG}->canCastle = false;
-        }
-
-        return $this;
     }
 }

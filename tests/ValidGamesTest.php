@@ -3,14 +3,8 @@ namespace PGNChess\Tests;
 
 use PGNChess\PGN;
 use PGNChess\Board;
-use PGNChess\Piece\Bishop;
-use PGNChess\Piece\King;
-use PGNChess\Piece\Knight;
-use PGNChess\Piece\Pawn;
-use PGNChess\Piece\Queen;
-use PGNChess\Piece\Rook;
 
-class GameTest extends \PHPUnit_Framework_TestCase
+class ValidGamesTest extends \PHPUnit_Framework_TestCase
 {
     protected function play($game)
     {

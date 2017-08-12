@@ -92,7 +92,7 @@ class Board extends \SplObjectStorage
             ]
         ];
 
-        $this->updateStatus();
+        $this->refresh();
     }
 
     /**
@@ -106,12 +106,12 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Updates the board's status.
+     * Refreshes the board's status.
      *
      * @param PGNChess\Piece $piece
      * @return PGNChess\Board
      */
-    private function updateStatus($piece=null)
+    private function refresh($piece=null)
     {
         // current player's turn
         $this->status->turn === PGN::COLOR_WHITE
@@ -122,11 +122,12 @@ class Board extends \SplObjectStorage
         $this->status->squares = Squares::stats(iterator_to_array($this, false));
         AbstractPiece::setSquares($this->status->squares);
 
-        // control (space and attack squares)
+        // compute control squares (space/attack squares)
         $this->status->control = $this->control();
 
-        // compute previous moves and send them to all pieces
         if (isset($piece)) {
+            $this->trackCastling($piece);
+            // compute previous moves and send them to all pieces
             $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
             $this->status->previousMove->{$piece->getColor()}->position = $piece->getMove()->position;
             AbstractPiece::setPreviousMove($this->status->previousMove);
@@ -140,7 +141,7 @@ class Board extends \SplObjectStorage
      * @return array The piece(s) matching the PGN move; otherwise null.
      * @throws \InvalidArgumentException
      */
-    private function pickPieceToMove(\stdClass $move)
+    private function pickPiece(\stdClass $move)
     {
         $found = [];
         $pieces = $this->getPiecesByColor($move->color);
@@ -179,12 +180,12 @@ class Board extends \SplObjectStorage
      */
     public function play(\stdClass $move)
     {
-        $pieces = $this->pickPieceToMove($move);
+        $pieces = $this->pickPiece($move);
 
         if (count($pieces) > 1) {
             foreach ($pieces as $piece) {
                 if ($piece->isMovable() && !$this->isCheck($piece)) {
-                    return $this->pieceIsMoved($piece);
+                    return $this->move($piece);
                 }
             }
         } elseif (count($pieces) == 1 && current($pieces)->isMovable() && !$this->isCheck(current($pieces))) {
@@ -234,7 +235,7 @@ class Board extends \SplObjectStorage
                     break;
 
                 default:
-                    return $this->pieceIsMoved($piece);
+                    return $this->move($piece);
                     break;
             }
         } else {
@@ -254,7 +255,7 @@ class Board extends \SplObjectStorage
             case PGN::MOVE_TYPE_KING:
                 if (!in_array($king->getMove()->position->next,
                     $this->status->control->space->{$king->getOppositeColor()})) {
-                    return $this->pieceIsMoved($king);
+                    return $this->move($king);
                 } else {
                     return false;
                 }
@@ -269,6 +270,22 @@ class Board extends \SplObjectStorage
                 $that->detach($capturedPiece);
                 return $that->kingIsMoved($king);
                 break;
+        }
+    }
+
+    /**
+     * Updates the king's castling property.
+     *
+     * @param Piece $piece
+     */
+    private function trackCastling(Piece $piece)
+    {
+        if ($piece->getMove()->type === PGN::MOVE_TYPE_KING) {
+            $piece->updateCastling();
+        } elseif (
+            $piece->getMove()->type === PGN::MOVE_TYPE_PIECE && $piece->getIdentity() === PGN::PIECE_ROOK) {
+            $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
+            $piece->updateCastling($king); // king passed by reference
         }
     }
 
@@ -289,7 +306,7 @@ class Board extends \SplObjectStorage
                     $kingsNewPosition->current = PGN::castling($king->getColor())
                         ->{PGN::PIECE_KING}->{$king->getMove()->pgn}->position->next;
                     $king->setPosition($kingsNewPosition)->setIsCastled();
-                    $this->pieceIsMoved($king);
+                    $this->move($king);
                     // move the castling rook
                     $rooksNewPosition = $rook->getPosition();
                     $rooksNewPosition->current = PGN::castling($king->getColor())
@@ -299,7 +316,7 @@ class Board extends \SplObjectStorage
                         'isCapture' => $king->getMove()->isCapture,
                         'position' => (object) ['next' => $rooksNewPosition->current]
                     ]);
-                    $this->pieceIsMoved($rook);
+                    $this->move($rook);
                     return true;
                     break;
 
@@ -313,12 +330,37 @@ class Board extends \SplObjectStorage
     }
 
     /**
+     * Promotes a pawn.
+     *
+     * @param Pawn $pawn
+     */
+    private function promote(Pawn $pawn)
+    {
+        switch($pawn->getMove()->newIdentity) {
+            case PGN::PIECE_KNIGHT:
+                $this->attach(new Knight($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+            case PGN::PIECE_BISHOP:
+                $this->attach(new Bishop($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+            case PGN::PIECE_ROOK:
+                $this->attach(new Rook($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+            default:
+                $this->attach(new Queen($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+        }
+
+        $this->detach($pawn);
+    }
+
+    /**
      * Moves a piece.
      *
      * @param PGNChess\Piece\Piece $piece
      * @return boolean true if the move is successfully performed; otherwise false
      */
-    private function pieceIsMoved(Piece $piece)
+    private function move(Piece $piece)
     {
         try {
             // move piece
@@ -329,42 +371,19 @@ class Board extends \SplObjectStorage
                 $piece->getMove()->position->next]
             ));
 
-            // remove the captured piece from the board, if any
+            // remove the captured piece, if any, from the board
             if($piece->getMove()->isCapture) {
-                $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
-                $this->detach($capturedPiece);
+                $this->detach(
+                    $this->getPieceByPosition($piece->getMove()->position->next)
+                );
             }
 
-            // promote pawn
+            // promote if the piece is a pawn
             if ($piece->getIdentity() === PGN::PIECE_PAWN  && $piece->isPromoted()) {
-                $square = $piece->getMove()->position->next;
-                $this->detach($piece);
-                switch($piece->getMove()->newIdentity) {
-                    case PGN::PIECE_KNIGHT:
-                        $this->attach(new Knight($piece->getColor(), $square));
-                        break;
-                    case PGN::PIECE_BISHOP:
-                        $this->attach(new Bishop($piece->getColor(), $square));
-                        break;
-                    case PGN::PIECE_ROOK:
-                        $this->attach(new Rook($piece->getColor(), $square));
-                        break;
-                    default:
-                        $this->attach(new Queen($piece->getColor(), $square));
-                        break;
-                }
+                $this->promote($piece);
             }
 
-            // update the king's castling property
-            if ($piece->getMove()->type === PGN::MOVE_TYPE_KING) {
-                $piece->updateCastling();
-            } elseif (
-                $piece->getMove()->type === PGN::MOVE_TYPE_PIECE && $piece->getIdentity() === PGN::PIECE_ROOK) {
-                $king = $this->getPiece($piece->getColor(), PGN::PIECE_KING);
-                $piece->updateCastling($king);
-            }
-
-            $this->updateStatus($piece);
+            $this->refresh($piece);
 
         } catch (\Exception $e) {
             return false;
@@ -379,7 +398,7 @@ class Board extends \SplObjectStorage
      * @param string $color
      * @return array
      */
-    public function getPiecesByColor($color)
+    private function getPiecesByColor($color)
     {
         $pieces = [];
         $this->rewind();
@@ -400,7 +419,7 @@ class Board extends \SplObjectStorage
      * @param string $identity
      * @return PGNChess\Piece
      */
-    public function getPiece($color, $identity)
+    private function getPiece($color, $identity)
     {
         $this->rewind();
 
@@ -421,7 +440,7 @@ class Board extends \SplObjectStorage
      * @param string $square
      * @return PGNChess\Piece
      */
-    public function getPieceByPosition($square)
+    private function getPieceByPosition($square)
     {
         $this->rewind();
 
@@ -532,7 +551,7 @@ class Board extends \SplObjectStorage
     private function isCheck($piece)
     {
         $that = clone $this;
-        $that->pieceIsMoved($piece);
+        $that->move($piece);
         $king = $that->getPiece($piece->getColor(), PGN::PIECE_KING);
 
         if (in_array($king->getPosition()->current, $that->control()->attack->{$king->getOppositeColor()})) {

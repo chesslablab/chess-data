@@ -29,59 +29,59 @@ class Converter
         $isCheck = substr($pgn, -1) === '+' || substr($pgn, -1) === '#';
 
         switch(true) {
-            case preg_match('/^' . Notation::MOVE_TYPE_KING . '$/', $pgn):
+            case preg_match('/^' . Move::KING . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_KING,
+                    'type' => Move::KING,
                     'color' => $color,
-                    'identity' => Notation::PIECE_KING,
+                    'identity' => Symbol::PIECE_KING,
                     'position' => (object) [
                         'current' => null,
                         'next' => mb_substr($pgn, -2)
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_KING_CASTLING_SHORT . '$/', $pgn):
+            case preg_match('/^' . Move::KING_CASTLING_SHORT . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_KING_CASTLING_SHORT,
+                    'type' => Move::KING_CASTLING_SHORT,
                     'color' => $color,
-                    'identity' => Notation::PIECE_KING,
-                    'position' => Castling::info($color)->{Symbol::PIECE_KING}->{PGN::CASTLING_SHORT}->position
+                    'identity' => Symbol::PIECE_KING,
+                    'position' => Castling::info($color)->{Symbol::PIECE_KING}->{Symbol::CASTLING_SHORT}->position
                 ];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_KING_CASTLING_LONG . '$/', $pgn):
+            case preg_match('/^' . Move::KING_CASTLING_LONG . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_KING_CASTLING_LONG,
+                    'type' => Move::KING_CASTLING_LONG,
                     'color' => $color,
-                    'identity' => Notation::PIECE_KING,
-                    'position' => Castling::info($color)->{Symbol::PIECE_KING}->{PGN::CASTLING_LONG}->position
+                    'identity' => Symbol::PIECE_KING,
+                    'position' => Castling::info($color)->{Symbol::PIECE_KING}->{Symbol::CASTLING_LONG}->position
                 ];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_KING_CAPTURES . '$/', $pgn):
+            case preg_match('/^' . Move::KING_CAPTURES . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => true,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_KING_CAPTURES,
+                    'type' => Move::KING_CAPTURES,
                     'color' => $color,
-                    'identity' => Notation::PIECE_KING,
+                    'identity' => Symbol::PIECE_KING,
                     'position' => (object) [
                         'current' => null,
                         'next' => mb_substr($pgn, -2)
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_PIECE . '$/', $pgn):
+            case preg_match('/^' . Move::PIECE . '$/', $pgn):
                 if (!$isCheck) {
                     $currentPosition = mb_substr(mb_substr($pgn, 0, -2), 1);
                     $nextPosition = mb_substr($pgn, -2);
@@ -93,7 +93,7 @@ class Converter
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_PIECE,
+                    'type' => Move::PIECE,
                     'color' => $color,
                     'identity' => mb_substr($pgn, 0, 1),
                     'position' => (object) [
@@ -102,12 +102,12 @@ class Converter
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_PIECE_CAPTURES . '$/', $pgn):
+            case preg_match('/^' . Move::PIECE_CAPTURES . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => true,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_PIECE_CAPTURES,
+                    'type' => Move::PIECE_CAPTURES,
                     'color' => $color,
                     'identity' => mb_substr($pgn, 0, 1),
                     'position' => (object) [
@@ -116,7 +116,7 @@ class Converter
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_KNIGHT . '$/', $pgn):
+            case preg_match('/^' . Move::KNIGHT . '$/', $pgn):
                 if (!$isCheck) {
                     $currentPosition = mb_substr(mb_substr($pgn, 0, -2), 1);
                     $nextPosition = mb_substr($pgn, -2);
@@ -128,65 +128,65 @@ class Converter
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_KNIGHT,
+                    'type' => Move::KNIGHT,
                     'color' => $color,
-                    'identity' => Notation::PIECE_KNIGHT,
+                    'identity' => Symbol::PIECE_KNIGHT,
                     'position' => (object) [
                         'current' => $currentPosition,
                         'next' => $nextPosition
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_KNIGHT_CAPTURES . '$/', $pgn):
+            case preg_match('/^' . Move::KNIGHT_CAPTURES . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => true,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_KNIGHT_CAPTURES,
+                    'type' => Move::KNIGHT_CAPTURES,
                     'color' => $color,
-                    'identity' => Notation::PIECE_KNIGHT,
+                    'identity' => Symbol::PIECE_KNIGHT,
                     'position' => (object) [
                         'current' => !$isCheck ? mb_substr(mb_substr($pgn, 0, -3), 1) : mb_substr(mb_substr($pgn, 0, -4), 1),
                         'next' => !$isCheck ? mb_substr($pgn, -2) : mb_substr($pgn, -3, -1)
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_PAWN . '$/', $pgn):
+            case preg_match('/^' . Move::PAWN . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_PAWN,
+                    'type' => Move::PAWN,
                     'color' => $color,
-                    'identity' => Notation::PIECE_PAWN,
+                    'identity' => Symbol::PIECE_PAWN,
                     'position' => (object) [
                         'current' => mb_substr($pgn, 0, 1),
                         'next' => !$isCheck ? $pgn : mb_substr($pgn, 0, -1)
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_PAWN_CAPTURES . '$/', $pgn):
+            case preg_match('/^' . Move::PAWN_CAPTURES . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => true,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_PAWN_CAPTURES,
+                    'type' => Move::PAWN_CAPTURES,
                     'color' => $color,
-                    'identity' => Notation::PIECE_PAWN,
+                    'identity' => Symbol::PIECE_PAWN,
                     'position' => (object) [
                         'current' => mb_substr($pgn, 0, 1),
                         'next' => !$isCheck ? mb_substr($pgn, -2) : mb_substr($pgn, -3, -1)
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_PAWN_PROMOTES . '$/', $pgn):
+            case preg_match('/^' . Move::PAWN_PROMOTES . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => false,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_PAWN_PROMOTES,
+                    'type' => Move::PAWN_PROMOTES,
                     'color' => $color,
-                    'identity' => Notation::PIECE_PAWN,
+                    'identity' => Symbol::PIECE_PAWN,
                     'newIdentity' => !$isCheck ? mb_substr($pgn, -1) : mb_substr($pgn, -2, -1),
                     'position' => (object) [
                         'current' => null,
@@ -194,14 +194,14 @@ class Converter
                 ]];
                 break;
 
-            case preg_match('/^' . Notation::MOVE_TYPE_PAWN_CAPTURES_AND_PROMOTES . '$/', $pgn):
+            case preg_match('/^' . Move::PAWN_CAPTURES_AND_PROMOTES . '$/', $pgn):
                 return (object) [
                     'pgn' => $pgn,
                     'isCapture' => true,
                     'isCheck' => $isCheck,
-                    'type' => Notation::MOVE_TYPE_PAWN_CAPTURES_AND_PROMOTES,
+                    'type' => Move::PAWN_CAPTURES_AND_PROMOTES,
                     'color' => $color,
-                    'identity' => Notation::PIECE_PAWN,
+                    'identity' => Symbol::PIECE_PAWN,
                     'newIdentity' => !$isCheck ? mb_substr($pgn, -1) : mb_substr($pgn, -2, -1),
                     'position' => (object) [
                         'current' => null,

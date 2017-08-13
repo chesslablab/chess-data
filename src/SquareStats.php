@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
 
 /**
  * Performs statistics operations regarding the squares of the board.

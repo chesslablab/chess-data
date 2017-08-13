@@ -2,6 +2,7 @@
 namespace PGNChess\Piece;
 
 use PGNChess\Castling;
+use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Rook;
@@ -90,7 +91,7 @@ class King extends AbstractPiece
         $moves = [];
         switch ($this->getMove()->type) {
 
-            case PGN::MOVE_TYPE_KING:
+            case Move::KING:
                 $moves = array_values(
                     array_intersect(
                         array_values((array)$this->position->scope),
@@ -98,7 +99,7 @@ class King extends AbstractPiece
                 ));
                 break;
 
-            case PGN::MOVE_TYPE_KING_CAPTURES:
+            case Move::KING_CAPTURES:
                 $moves = array_values(
                     array_intersect(
                         array_values((array)$this->position->scope),
@@ -106,8 +107,8 @@ class King extends AbstractPiece
                 ));
                 break;
 
-            case PGN::MOVE_TYPE_KING_CASTLING_SHORT:
-                $castlingShort = Castling::info($this->getColor())->{Symbol::PIECE_KING}->{PGN::CASTLING_SHORT};
+            case Move::KING_CASTLING_SHORT:
+                $castlingShort = Castling::info($this->getColor())->{Symbol::PIECE_KING}->{Symbol::CASTLING_SHORT};
                 if (
                     in_array($castlingShort->freeSquares->f, self::$squares->free) &&
                     in_array($castlingShort->freeSquares->g, self::$squares->free)
@@ -116,8 +117,8 @@ class King extends AbstractPiece
                 }
                 break;
 
-            case PGN::MOVE_TYPE_KING_CASTLING_LONG:
-                $castlingLong = Castling::info($this->getColor())->{Symbol::PIECE_KING}->{PGN::CASTLING_LONG};
+            case Move::KING_CASTLING_LONG:
+                $castlingLong = Castling::info($this->getColor())->{Symbol::PIECE_KING}->{Symbol::CASTLING_LONG};
                 if (
                     in_array($castlingLong->freeSquares->b, self::$squares->free) &&
                     in_array($castlingLong->freeSquares->c, self::$squares->free) &&

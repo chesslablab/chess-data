@@ -2,8 +2,9 @@
 namespace PGNChess;
 
 use DeepCopy\DeepCopy;
+use PGNChess\Castling;
 use PGNChess\PGN;
-use PGNChess\Squares;
+use PGNChess\SquareStats;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
@@ -146,7 +147,7 @@ class Board extends \SplObjectStorage
             : $this->status->turn = PGN::COLOR_WHITE;
 
         // compute square statistics and send them to all pieces
-        $this->status->squares = Squares::stats(iterator_to_array($this, false));
+        $this->status->squares = SquareStats::calc(iterator_to_array($this, false));
         AbstractPiece::setSquares($this->status->squares);
 
         // compute control squares (space/attack squares)
@@ -230,11 +231,11 @@ class Board extends \SplObjectStorage
                     if (
                         $this->status->castling->{$piece->getColor()}->{PGN::CASTLING_SHORT} &&
                         !(in_array(
-                            PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f,
+                            Castling::info($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f,
                             $this->status->control->space->{$piece->getOppositeColor()})
                         ) &&
                         !(in_array(
-                            PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g,
+                            Castling::info($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g,
                             $this->status->control->space->{$piece->getOppositeColor()}))
                     ) {
                         return $this->castle($piece);
@@ -247,15 +248,15 @@ class Board extends \SplObjectStorage
                     if (
                         $this->status->castling->{$piece->getColor()}->{PGN::CASTLING_LONG} &&
                         !(in_array(
-                            PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b,
+                            Castling::info($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b,
                             $this->status->control->space->{$piece->getOppositeColor()})
                         ) &&
                         !(in_array(
-                            PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c,
+                            Castling::info($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c,
                             $this->status->control->space->{$piece->getOppositeColor()})
                         ) &&
                         !(in_array(
-                            PGN::castling($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d,
+                            Castling::info($piece->getColor())->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d,
                             $this->status->control->space->{$piece->getOppositeColor()}))
                     ) {
                         return $this->castle($piece);
@@ -304,7 +305,7 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Updates the king's castling property.
+     * Updates the kings' ability to castle.
      *
      * @param Piece $piece
      */
@@ -347,13 +348,13 @@ class Board extends \SplObjectStorage
                 case false:
                     // move the king
                     $kingsNewPosition = $king->getPosition();
-                    $kingsNewPosition->current = PGN::castling($king->getColor())
+                    $kingsNewPosition->current = Castling::info($king->getColor())
                         ->{PGN::PIECE_KING}->{$king->getMove()->pgn}->position->next;
                     $king->setPosition($kingsNewPosition);
                     $this->move($king);
                     // move the castling rook
                     $rooksNewPosition = $rook->getPosition();
-                    $rooksNewPosition->current = PGN::castling($king->getColor())
+                    $rooksNewPosition->current = Castling::info($king->getColor())
                         ->{PGN::PIECE_ROOK}->{$king->getMove()->pgn}->position->next;
                     $rook->setMove((object) [
                         'type' => $king->getMove()->type,
@@ -392,7 +393,7 @@ class Board extends \SplObjectStorage
                 $this->attach(new Bishop($pawn->getColor(), $pawn->getMove()->position->next));
                 break;
             case PGN::PIECE_ROOK:
-                $this->attach(new Rook($pawn->getColor(), $pawn->getMove()->position->next));
+                $this->attach(new Rook($pawn->getColor(), $pawn->getMove()->position->next, RookType::PROMOTED));
                 break;
             default:
                 $this->attach(new Queen($pawn->getColor(), $pawn->getMove()->position->next));

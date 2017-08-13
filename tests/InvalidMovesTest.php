@@ -6,51 +6,38 @@ use PGNChess\Board;
 
 class InvalidMovesTest extends \PHPUnit_Framework_TestCase
 {
-    public function testTurnNormal()
+    public function testNumericValue()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_BLACK);
-        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 9)));
     }
 
-
-    public function testTurnWithMistakes()
+    public function test_foo()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O-O')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_BLACK);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e5')));
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'foo')));
     }
 
-    public function testGame01()
+    public function test_bar()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'O-O-O')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_WHITE);
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'bar')));
+    }
 
-        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, PGN::COLOR_BLACK);
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e5')));
-        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, 'e5')));
+    public function test_e9()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $board = new Board;
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e9')));
+    }
 
-        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nf3')));
-        $this->assertEquals(false, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'Nc6')));
-
-        // ...
+    public function test_e10()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $board = new Board;
+        $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e10')));
     }
 }

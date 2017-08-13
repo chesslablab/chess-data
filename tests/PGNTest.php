@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\Tests;
 
+use PGNChess\Castling;
 use PGNChess\PGN;
 
 class PGNTest extends \PHPUnit_Framework_TestCase
@@ -236,7 +237,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             'type' => PGN::MOVE_TYPE_KING_CASTLING_SHORT,
             'color' => 'w',
             'identity' => 'K',
-            'position' => PGN::castling('w')->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position
+            'position' => Castling::info('w')->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position
         ];
         $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
@@ -251,7 +252,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
             'type' => PGN::MOVE_TYPE_KING_CASTLING_LONG,
             'color' => 'w',
             'identity' => 'K',
-            'position' => PGN::castling('w')->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position
+            'position' => Castling::info('w')->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position
         ];
         $this->assertEquals(PGN::objectizeMove('w', $move), $example);
     }
@@ -322,7 +323,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
 
     public function testWhiteLongCastlingInfo()
     {
-        $castlingInfo = PGN::castling('w');
+        $castlingInfo = Castling::info('w');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, 'b1');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, 'c1');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, 'd1');
@@ -334,7 +335,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
 
     public function testBlackLongCastlingInfo()
     {
-        $castlingInfo = PGN::castling('b');
+        $castlingInfo = Castling::info('b');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->b, 'b8');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->c, 'c8');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->freeSquares->d, 'd8');
@@ -346,7 +347,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
 
     public function testWhiteShortCastlingInfo()
     {
-        $castlingInfo = PGN::castling('w');
+        $castlingInfo = Castling::info('w');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, 'f1');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, 'g1');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position->current, 'e1');
@@ -357,7 +358,7 @@ class PGNTest extends \PHPUnit_Framework_TestCase
 
     public function testBlackShortCastlingInfo()
     {
-        $castlingInfo = PGN::castling('b');
+        $castlingInfo = Castling::info('b');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->f, 'f8');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->freeSquares->g, 'g8');
         $this->assertEquals($castlingInfo->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position->current, 'e8');

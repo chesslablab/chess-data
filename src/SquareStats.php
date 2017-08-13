@@ -4,13 +4,13 @@ namespace PGNChess;
 use PGNChess\PGN;
 
 /**
- * Performs some statistics operations regarding the squares of the board.
+ * Performs statistics operations regarding the squares of the board.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
  * @license MIT
  */
-class Squares
+class SquareStats
 {
     /**
      * Calculates the free/used squares.
@@ -18,7 +18,7 @@ class Squares
      * @param array $pieces
      * @return stdClass
      */
-    public static function stats(array $pieces)
+    public static function calc(array $pieces)
     {
         return (object) [
             'used' => self::getUsed($pieces),

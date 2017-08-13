@@ -1,6 +1,8 @@
 <?php
 namespace PGNChess;
 
+use PGNChess\Castling;
+
 /**
  * Class for handling information encoded in PGN format.
  *
@@ -80,7 +82,10 @@ class PGN
      */
     static public function objectizeMove($color, $pgn)
     {
+        self::color($color);
+
         $isCheck = substr($pgn, -1) === '+' || substr($pgn, -1) === '#';
+
         switch(true) {
             case preg_match('/^' . self::MOVE_TYPE_KING . '$/', $pgn):
                 return (object) [
@@ -104,7 +109,7 @@ class PGN
                     'type' => self::MOVE_TYPE_KING_CASTLING_SHORT,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
-                    'position' => self::castling($color)->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position
+                    'position' => Castling::info($color)->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position
                 ];
                 break;
 
@@ -116,7 +121,7 @@ class PGN
                     'type' => self::MOVE_TYPE_KING_CASTLING_LONG,
                     'color' => $color,
                     'identity' => self::PIECE_KING,
-                    'position' => self::castling($color)->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position
+                    'position' => Castling::info($color)->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position
                 ];
                 break;
 
@@ -264,94 +269,6 @@ class PGN
 
             default:
                 throw new \InvalidArgumentException("This move is not valid: $pgn.");
-                break;
-        }
-    }
-
-    /**
-     * Stores the castling information in the form of a stdClass object for
-     * further processing.
-     *
-     * @param string $color
-     * @return stdClass
-     */
-    public static function castling($color)
-    {
-        switch ($color) {
-            case PGN::COLOR_WHITE:
-                return (object) [
-                    PGN::PIECE_KING => (object) [
-                        PGN::CASTLING_SHORT => (object) [
-                            'freeSquares' => (object) [
-                                'f' => 'f1',
-                                'g' => 'g1'
-                            ],
-                            'position' => (object) [
-                                'current' => 'e1',
-                                'next' => 'g1'
-                        ]],
-                        PGN::CASTLING_LONG => (object) [
-                            'freeSquares' => (object) [
-                                'b' => 'b1',
-                                'c' => 'c1',
-                                'd' => 'd1'
-                            ],
-                            'position' => (object) [
-                                'current' => 'e1',
-                                'next' => 'c1'
-                        ]]
-                    ],
-                    PGN::PIECE_ROOK => (object) [
-                        PGN::CASTLING_SHORT => (object) [
-                            'position' => (object) [
-                                'current' => 'h1',
-                                'next' => 'f1'
-                        ]],
-                        PGN::CASTLING_LONG => (object) [
-                            'position' => (object) [
-                                'current' => 'a1',
-                                'next' => 'd1'
-                        ]]
-                    ]
-                ];
-                break;
-
-            case PGN::COLOR_BLACK:
-                return (object) [
-                    PGN::PIECE_KING => (object) [
-                        PGN::CASTLING_SHORT => (object) [
-                            'freeSquares' => (object) [
-                                'f' => 'f8',
-                                'g' => 'g8'
-                            ],
-                            'position' => (object) [
-                                'current' => 'e8',
-                                'next' => 'g8'
-                        ]],
-                        PGN::CASTLING_LONG => (object) [
-                            'freeSquares' => (object) [
-                                'b' => 'b8',
-                                'c' => 'c8',
-                                'd' => 'd8'
-                            ],
-                            'position' => (object) [
-                                'current' => 'e8',
-                                'next' => 'c8'
-                        ]]
-                    ],
-                    PGN::PIECE_ROOK => (object) [
-                        PGN::CASTLING_SHORT => (object) [
-                            'position' => (object) [
-                                'current' => 'h8',
-                                'next' => 'f8'
-                        ]],
-                        PGN::CASTLING_LONG => (object) [
-                            'position' => (object) [
-                                'current' => 'a8',
-                                'next' => 'd8'
-                        ]]
-                    ]
-                ];
                 break;
         }
     }

@@ -81,6 +81,14 @@ class Board extends \SplObjectStorage
             'turn' => null,
             'squares' => null,
             'control' => null,
+            'isChecked' => (object) [
+                Symbol::WHITE => false,
+                Symbol::BLACK => false
+            ],
+            'isCheckemated' => (object) [
+                Symbol::WHITE => false,
+                Symbol::BLACK => false
+            ],
             'castling' => (object) [
                 Symbol::WHITE => (object) [
                     'isCastled' => false,
@@ -156,6 +164,15 @@ class Board extends \SplObjectStorage
             $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
             $this->status->previousMove->{$piece->getColor()}->position = $piece->getMove()->position;
             AbstractPiece::setPreviousMove($this->status->previousMove);
+            // update checked property
+            $king = $this->getPiece($piece->getOppositeColor(), Symbol::KING);
+            if (in_array($king->getPosition()->current, $this->status->control->attack->{$king->getOppositeColor()})) {
+                $this->status->isChecked->{$piece->getOppositeColor()} = true;
+            } else {
+                $this->status->isChecked->{$piece->getOppositeColor()} = false;
+            }
+            // check if the game is over
+            $this->isGameOver($piece);
         }
     }
 
@@ -609,10 +626,15 @@ class Board extends \SplObjectStorage
         $that->move($piece);
         $king = $that->getPiece($piece->getColor(), Symbol::KING);
 
-        if (in_array($king->getPosition()->current, $that->control()->attack->{$king->getOppositeColor()})) {
+        if (in_array($king->getPosition()->current, $that->getStatus()->control->attack->{$king->getOppositeColor()})) {
             return true;
         } else {
             return false;
         }
+    }
+
+    private function isGameOver($piece)
+    {
+
     }
 }

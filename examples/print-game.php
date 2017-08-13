@@ -28,22 +28,30 @@ for ($i=0; $i<count($moves); $i++)
     {
         if ($board->play(Converter::toObject(Symbol::WHITE, $whiteMove)))
         {
-            echo Symbol::WHITE . " played {$whiteMove}, OK..." . PHP_EOL;
+            echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
+            if ($board->getStatus()->isChecked->{Symbol::BLACK}) {
+                echo 'Check!' . PHP_EOL;
+            }
         }
         else
         {
-            echo Symbol::WHITE . " played {$whiteMove}, illegal move." . PHP_EOL;
+            echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
+            echo 'Illegal move' . PHP_EOL;
             exit;
         }
         if (isset($moves[$i][1]))
         {
             if ($board->play(Converter::toObject(Symbol::BLACK, $blackMove)))
             {
-                echo Symbol::BLACK . " played {$blackMove}, OK..." . PHP_EOL;
+                echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
+                if ($board->getStatus()->isChecked->{Symbol::WHITE}) {
+                    echo 'Check!' . PHP_EOL;
+                }
             }
             else
             {
-                echo Symbol::BLACK . " played {$blackMove}, illegal move." . PHP_EOL;
+                echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
+                echo 'Illegal move' . PHP_EOL;
                 exit;
             }
         }

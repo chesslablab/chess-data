@@ -52,8 +52,8 @@ class SquareStats
     private static function getUsed(array $pieces)
     {
         $squares = (object) [
-            PGN::COLOR_WHITE => [],
-            PGN::COLOR_BLACK => []
+            Symbol::COLOR_WHITE => [],
+            Symbol::COLOR_BLACK => []
         ];
 
         foreach ($pieces as $piece) {
@@ -75,7 +75,7 @@ class SquareStats
         return array_values(
             array_diff(
                 self::getAll(),
-                array_merge($usedSquares->{PGN::COLOR_WHITE}, $usedSquares->{PGN::COLOR_BLACK})
+                array_merge($usedSquares->{Symbol::COLOR_WHITE}, $usedSquares->{Symbol::COLOR_BLACK})
         ));
     }
 }

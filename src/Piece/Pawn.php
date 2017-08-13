@@ -1,7 +1,8 @@
 <?php
 namespace PGNChess\Piece;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
+use PGNChess\PGN\Validator;
 use PGNChess\Piece\AbstractPiece;
 
 /**
@@ -26,10 +27,10 @@ class Pawn extends AbstractPiece
      */
     public function __construct($color, $square)
     {
-        parent::__construct($color, $square, PGN::PIECE_PAWN);
+        parent::__construct($color, $square, Symbol::PIECE_PAWN);
 
         switch ($this->color) {
-            case PGN::COLOR_WHITE:
+            case Symbol::COLOR_WHITE:
                 $this->ranks = (object) [
                     'initial' => 2,
                     'next' => (int)$this->position->current[1] + 1,
@@ -37,7 +38,7 @@ class Pawn extends AbstractPiece
                 ];
                 break;
 
-            case PGN::COLOR_BLACK:
+            case Symbol::COLOR_BLACK:
                 $this->ranks = (object) [
                     'initial' => 7,
                     'next' => (int)$this->position->current[1] - 1,
@@ -62,7 +63,7 @@ class Pawn extends AbstractPiece
         // next rank
         try {
             $file = $this->position->current[0];
-            if (PGN::square($file.$this->ranks->next, true)) {
+            if (Validator::square($file.$this->ranks->next, true)) {
                 $this->position->scope->up[] = $file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {
@@ -80,7 +81,7 @@ class Pawn extends AbstractPiece
         // capture square
         try {
             $file = chr(ord($this->position->current[0]) - 1);
-            if (PGN::square($file.$this->ranks->next, true)) {
+            if (Validator::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {
@@ -90,7 +91,7 @@ class Pawn extends AbstractPiece
         // capture square
         try {
             $file = chr(ord($this->position->current[0]) + 1);
-            if (PGN::square($file.$this->ranks->next, true)) {
+            if (Validator::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {
@@ -122,7 +123,7 @@ class Pawn extends AbstractPiece
         if (
             $this->ranks->initial === 2 &&
             (int)$this->position->current[1] === 5 &&
-            self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
+            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PIECE_PAWN &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
             (isset($this->position->capture[1]) &&
@@ -134,7 +135,7 @@ class Pawn extends AbstractPiece
         } elseif (
             $this->ranks->initial === 7 &&
             (int)$this->position->current[1] === 4 &&
-            self::$previousMove->{$this->getOppositeColor()}->identity === PGN::PIECE_PAWN &&
+            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PIECE_PAWN &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
             (isset($this->position->capture[1]) &&

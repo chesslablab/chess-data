@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\PGN;
 
-use PGNChess\PGN\Notation;
+use PGNChess\PGN\Symbol;
 
 /**
  * Validates PGN notation.
@@ -21,7 +21,7 @@ class Validator
      */
     public static function color($color)
     {
-        if ($color !== Notation::COLOR_WHITE && $color !== Notation::COLOR_BLACK) {
+        if ($color !== Symbol::COLOR_WHITE && $color !== Symbol::COLOR_BLACK) {
             throw new \InvalidArgumentException("This is not a valid color: $color.");
         }
 
@@ -29,7 +29,7 @@ class Validator
     }
 
     /**
-     * Validates a board square.
+     * Validates a square.
      *
      * @param string $square
      * @return boolean true if the square is valid; otherwise false
@@ -37,7 +37,7 @@ class Validator
      */
     public static function square($square)
     {
-        if (!preg_match('/^' . Notation::SQUARE . '$/', $square)) {
+        if (!preg_match('/^' . Symbol::SQUARE . '$/', $square)) {
             throw new \InvalidArgumentException("This square is not valid: $square.");
         }
 

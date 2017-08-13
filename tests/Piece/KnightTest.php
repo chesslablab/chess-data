@@ -1,14 +1,14 @@
 <?php
 namespace PGNChess\Tests\Piece;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Knight;
 
 class KnightTest extends \PHPUnit_Framework_TestCase
 {
     public function testScopeD4()
     {
-        $knight = new Knight(PGN::COLOR_WHITE, 'd4');
+        $knight = new Knight(Symbol::COLOR_WHITE, 'd4');
         $example = [
             'c6',
             'b5',
@@ -24,7 +24,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeH1()
     {
-        $knight = new Knight(PGN::COLOR_WHITE, 'h1');
+        $knight = new Knight(Symbol::COLOR_WHITE, 'h1');
         $example = [
             'g3',
             'f2'
@@ -34,7 +34,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeB1()
     {
-        $knight = new Knight(PGN::COLOR_WHITE, 'b1');
+        $knight = new Knight(Symbol::COLOR_WHITE, 'b1');
         $example = [
             'a3',
             'd2',

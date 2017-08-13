@@ -19,10 +19,10 @@ class ValidGamesTest extends \PHPUnit_Framework_TestCase
         for ($i=0; $i<count($moves); $i++)
         {
             $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
-            $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_WHITE, $whiteMove)));
+            $this->assertEquals(true, $board->play(PGN::objectizeMove(Symbol::COLOR_WHITE, $whiteMove)));
             if (isset($moves[$i][1])) {
                 $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
-                $this->assertEquals(true, $board->play(PGN::objectizeMove(PGN::COLOR_BLACK, $blackMove)));
+                $this->assertEquals(true, $board->play(PGN::objectizeMove(Symbol::COLOR_BLACK, $blackMove)));
             }
         }
     }

@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\Piece;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Bishop;
@@ -34,7 +34,7 @@ class Queen extends Slider
      */
     public function __construct($color, $square)
     {
-        parent::__construct($color, $square, PGN::PIECE_QUEEN);
+        parent::__construct($color, $square, Symbol::PIECE_QUEEN);
 
         $this->rook = new Rook($color, $square, RookType::FAKED);
         $this->bishop = new Bishop($color, $square);

@@ -1,14 +1,14 @@
 <?php
 namespace PGNChess\Tests\Piece;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
 use PGNChess\Piece\King;
 
 class KingTest extends \PHPUnit_Framework_TestCase
 {
     public function testScopeA2()
     {
-        $king = new King(PGN::COLOR_WHITE, 'a2');
+        $king = new King(Symbol::COLOR_WHITE, 'a2');
         $example = (object) [
             'up' => 'a3',
             'bottom' => 'a1',
@@ -22,7 +22,7 @@ class KingTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeD5()
     {
-        $king = new King(PGN::COLOR_WHITE, 'd5');
+        $king = new King(Symbol::COLOR_WHITE, 'd5');
         $example = (object) [
             'up' => 'd6',
             'bottom' => 'd4',

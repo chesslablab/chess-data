@@ -1,14 +1,14 @@
 <?php
 namespace PGNChess\Tests\Piece;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Queen;
 
 class QueenTest extends \PHPUnit_Framework_TestCase
 {
     public function testScopeA2()
     {
-        $queen = new Queen(PGN::COLOR_WHITE, 'a2');
+        $queen = new Queen(Symbol::COLOR_WHITE, 'a2');
         $example = (object) [
             'up' => ['a3', 'a4', 'a5', 'a6', 'a7', 'a8'],
             'bottom' => ['a1'],
@@ -24,7 +24,7 @@ class QueenTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeD5()
     {
-        $queen = new Queen(PGN::COLOR_WHITE, 'd5');
+        $queen = new Queen(Symbol::COLOR_WHITE, 'd5');
         $example = (object) [
             'up' => ['d6', 'd7', 'd8'],
             'bottom' => ['d4', 'd3', 'd2', 'd1'],

@@ -1,7 +1,8 @@
 <?php
 namespace PGNChess\Piece;
 
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
+use PGNChess\PGN\Validator;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Type\RookType;
 
@@ -37,7 +38,7 @@ class Rook extends Slider
             $this->type = $type;
         }
 
-        parent::__construct($color, $square, PGN::PIECE_ROOK);
+        parent::__construct($color, $square, Symbol::PIECE_ROOK);
 
         $this->position->scope = (object)[
             'up' => [],
@@ -68,7 +69,7 @@ class Rook extends Slider
         try {
             $file = $this->position->current[0];
             $rank = (int)$this->position->current[1] + 1;
-            while (PGN::square($file.$rank, true)) {
+            while (Validator::square($file.$rank, true)) {
                 $this->position->scope->up[] = $file . $rank;
                 $rank = (int)$rank + 1;
             }
@@ -80,7 +81,7 @@ class Rook extends Slider
         try {
             $file = $this->position->current[0];
             $rank = (int)$this->position->current[1] - 1;
-            while (PGN::square($file.$rank, true)) {
+            while (Validator::square($file.$rank, true)) {
                 $this->position->scope->bottom[] = $file . $rank;
                 $rank = (int)$rank - 1;
             }
@@ -92,7 +93,7 @@ class Rook extends Slider
         try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1];
-            while (PGN::square($file.$rank, true)) {
+            while (Validator::square($file.$rank, true)) {
                 $this->position->scope->left[] = $file . $rank;
                 $file = chr(ord($file) - 1);
             }
@@ -104,7 +105,7 @@ class Rook extends Slider
         try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1];
-            while (PGN::square($file.$rank, true)) {
+            while (Validator::square($file.$rank, true)) {
                 $this->position->scope->right[] = $file . $rank;
                 $file = chr(ord($file) + 1);
             }

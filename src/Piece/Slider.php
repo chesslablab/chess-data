@@ -1,9 +1,6 @@
 <?php
 namespace PGNChess\Piece;
 
-use PGNChess\Piece\Piece;
-use PGNChess\PGN;
-
 /**
  * Class that represents a bishop, a rook or a queen.
  *

@@ -51,7 +51,7 @@ class Converter
                     'type' => Notation::MOVE_TYPE_KING_CASTLING_SHORT,
                     'color' => $color,
                     'identity' => Notation::PIECE_KING,
-                    'position' => Castling::info($color)->{PGN::PIECE_KING}->{PGN::CASTLING_SHORT}->position
+                    'position' => Castling::info($color)->{Symbol::PIECE_KING}->{PGN::CASTLING_SHORT}->position
                 ];
                 break;
 
@@ -63,7 +63,7 @@ class Converter
                     'type' => Notation::MOVE_TYPE_KING_CASTLING_LONG,
                     'color' => $color,
                     'identity' => Notation::PIECE_KING,
-                    'position' => Castling::info($color)->{PGN::PIECE_KING}->{PGN::CASTLING_LONG}->position
+                    'position' => Castling::info($color)->{Symbol::PIECE_KING}->{PGN::CASTLING_LONG}->position
                 ];
                 break;
 

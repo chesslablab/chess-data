@@ -2,7 +2,8 @@
 namespace PGNChess\Piece;
 
 use PGNChess\Piece\Piece;
-use PGNChess\PGN;
+use PGNChess\PGN\Symbol;
+use PGNChess\PGN\Validator;
 
 /**
  * Class that represents any chess piece.
@@ -77,9 +78,9 @@ abstract class AbstractPiece implements Piece
      */
     public function __construct($color, $square, $identity)
     {
-        PGN::color($color) ? $this->color = $color : false;
+        Validator::color($color) ? $this->color = $color : false;
         $this->position = (object) [
-            'current' => PGN::square($square) ? $square : null,
+            'current' => Validator::square($square) ? $square : null,
             'scope' => []
         ];
         $this->identity = $identity;
@@ -107,10 +108,10 @@ abstract class AbstractPiece implements Piece
      */
     public function getOppositeColor()
     {
-        if ($this->color == PGN::COLOR_WHITE) {
-            return PGN::COLOR_BLACK;
+        if ($this->color == Symbol::COLOR_WHITE) {
+            return Symbol::COLOR_BLACK;
         } else {
-            return PGN::COLOR_WHITE;
+            return Symbol::COLOR_WHITE;
         }
     }
 

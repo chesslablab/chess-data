@@ -21,9 +21,9 @@ class Castling
     public static function info($color)
     {
         switch ($color) {
-            case PGN::COLOR_WHITE:
+            case Symbol::COLOR_WHITE:
                 return (object) [
-                    PGN::PIECE_KING => (object) [
+                    Symbol::PIECE_KING => (object) [
                         PGN::CASTLING_SHORT => (object) [
                             'freeSquares' => (object) [
                                 'f' => 'f1',
@@ -44,7 +44,7 @@ class Castling
                                 'next' => 'c1'
                         ]]
                     ],
-                    PGN::PIECE_ROOK => (object) [
+                    Symbol::PIECE_ROOK => (object) [
                         PGN::CASTLING_SHORT => (object) [
                             'position' => (object) [
                                 'current' => 'h1',
@@ -59,9 +59,9 @@ class Castling
                 ];
                 break;
 
-            case PGN::COLOR_BLACK:
+            case Symbol::COLOR_BLACK:
                 return (object) [
-                    PGN::PIECE_KING => (object) [
+                    Symbol::PIECE_KING => (object) [
                         PGN::CASTLING_SHORT => (object) [
                             'freeSquares' => (object) [
                                 'f' => 'f8',
@@ -82,7 +82,7 @@ class Castling
                                 'next' => 'c8'
                         ]]
                     ],
-                    PGN::PIECE_ROOK => (object) [
+                    Symbol::PIECE_ROOK => (object) [
                         PGN::CASTLING_SHORT => (object) [
                             'position' => (object) [
                                 'current' => 'h8',

@@ -144,6 +144,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
+        $board->setTurn(PGN::COLOR_BLACK);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'h6')));
     }
 
@@ -159,6 +160,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
+        $board->setTurn(PGN::COLOR_BLACK);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'hxg6')));
     }
 
@@ -171,12 +173,14 @@ class BoardTest extends \PHPUnit_Framework_TestCase
     public function testPlayNc6()
     {
         $board = new Board;
+        $board->setTurn(PGN::COLOR_BLACK);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nc6')));
     }
 
     public function testPlayNf6()
     {
         $board = new Board;
+        $board->setTurn(PGN::COLOR_BLACK);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'Nf6')));
     }
 
@@ -257,6 +261,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Pawn(PGN::COLOR_BLACK, 'h7')
         ];
         $board = new Board($pieces);
+        $board->setTurn(PGN::COLOR_BLACK);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'O-O')));
     }
 
@@ -1077,6 +1082,7 @@ class BoardTest extends \PHPUnit_Framework_TestCase
             new Rook(PGN::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT)
         ];
         $board = new Board($pieces);
+        $board->setTurn(PGN::COLOR_BLACK);
         $this->assertEquals(true, $board->play(PGN::objectizeMove('b', 'f5')));
         $this->assertEquals(true, $board->play(PGN::objectizeMove('w', 'exf6')));
     }

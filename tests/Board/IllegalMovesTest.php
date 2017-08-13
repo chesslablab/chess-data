@@ -17,32 +17,32 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testTurnNormal()
     {
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_BLACK);
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e4')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'e5')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
     }
 
     public function testTurnWithMistakes()
     {
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O-O')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_BLACK);
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_BLACK);
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nf3')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_BLACK);
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::COLOR_WHITE);
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nc6')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'e4')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e4')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'e5')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Nf3')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'e5')));
+        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'Nc6')));
     }
 
     public function testPlayQg5()
@@ -102,25 +102,25 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingShortInDefaultBoard()
     {
         $board = new Board;
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4'));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'O-O')));
+        $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'O-O')));
     }
 
     public function testKingForbiddenMove()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'g3'),
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'g3'),
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'Kf4')));
@@ -129,18 +129,18 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCheckIsNotFixedKf4()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'f3'), // in check!
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'f3'), // in check!
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'Kf4')));
@@ -149,18 +149,18 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCheckIsNotFixedKf2()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'f3'), // in check!
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'f3'), // in check!
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'Kf2')));
@@ -169,18 +169,18 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCheckIsNotFixedRe7()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'f3'), // in check!
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'f3'), // in check!
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'Re7')));
@@ -189,18 +189,18 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCheckIsNotFixeda4()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'f3'), // in check!
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'f3'), // in check!
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'a4')));
@@ -209,18 +209,18 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testKingCannotCaptureRookDefendedByKnight()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'g3'),
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f2', RookType::CASTLING_SHORT), // rook defended by knight
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'g3'),
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f2', RookType::CASTLING_SHORT), // rook defended by knight
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'Kxf2')));
@@ -229,45 +229,45 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testWhiteCastlesShortSicilianAfterNc6()
     {
         $board = new Board;
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'c5'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nf3'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nc6'));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O')));
+        $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'c5'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
     }
 
     public function testWhiteCastlesLongSicilianAfterNf6()
     {
         $board = new Board;
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'c5'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nf3'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nc6'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Bb5'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nf6'));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O-O')));
+        $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'c5'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Bb5'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Nf6'));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
     }
 
     public function testCastlingThreateningf1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd4'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f2'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new Bishop(Symbol::COLOR_BLACK, 'a6'), // bishop threatening f1
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'g8'),
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd4'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f2'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new Bishop(Symbol::BLACK, 'a6'), // bishop threatening f1
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'g8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O')));
@@ -276,23 +276,23 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingThreateningf1Andg1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new Bishop(Symbol::COLOR_BLACK, 'a6'), // bishop threatening f1
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'c5'), // bishop threatening g1
-            new Knight(Symbol::COLOR_BLACK, 'g8'),
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new Bishop(Symbol::BLACK, 'a6'), // bishop threatening f1
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'c5'), // bishop threatening g1
+            new Knight(Symbol::BLACK, 'g8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O')));
@@ -301,22 +301,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingThreateningg1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'c5'), // bishop threatening g1
-            new Knight(Symbol::COLOR_BLACK, 'g8'),
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'c5'), // bishop threatening g1
+            new Knight(Symbol::BLACK, 'g8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O')));
@@ -325,22 +325,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingThreateningc1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f4'), // bishop threatening c1
-            new Knight(Symbol::COLOR_BLACK, 'g8'),
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f4'), // bishop threatening c1
+            new Knight(Symbol::BLACK, 'g8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O-O')));
@@ -349,22 +349,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingThreateningd1Andf1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'e3'), // knight threatening d1 and f1
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'e3'), // knight threatening d1 and f1
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O')));
@@ -374,22 +374,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingThreateningb1Andf1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'd2'), // knight threatening b1 and f1
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'd2'), // knight threatening b1 and f1
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O')));
@@ -399,22 +399,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testCastlingThreateningb1Andd1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'c3'), // knight threatening b1 and d1
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'c3'), // knight threatening b1 and d1
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(false, $board->play(Converter::toObject('w', 'O-O-O')));
@@ -423,22 +423,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testForbidCastlingAfterKf1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'g8'),
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'g8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(Converter::toObject('w', 'Kf1')));
@@ -451,22 +451,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testForbidCastlingAfterRg1()
     {
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'd5'),
-            new Pawn(Symbol::COLOR_WHITE, 'e4'),
-            new Pawn(Symbol::COLOR_WHITE, 'f3'),
-            new Pawn(Symbol::COLOR_WHITE, 'g2'),
-            new Pawn(Symbol::COLOR_WHITE, 'h2'),
-            new Rook(Symbol::COLOR_WHITE, 'a1', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Rook(Symbol::COLOR_WHITE, 'h1', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'g8'),
-            new Rook(Symbol::COLOR_BLACK, 'h8', RookType::CASTLING_SHORT),
-            new Pawn(Symbol::COLOR_BLACK, 'f7'),
-            new Pawn(Symbol::COLOR_BLACK, 'g7'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Pawn(Symbol::WHITE, 'e4'),
+            new Pawn(Symbol::WHITE, 'f3'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'g8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $this->assertEquals(true, $board->play(Converter::toObject('w', 'Rg1')));
@@ -479,42 +479,42 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testForbidCastlingRuyLopez()
     {
         $board = new Board;
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'e5'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nf3'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nc6'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Bb5'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nf6'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ke2'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Bb4'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ke1'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Ke7'));
-        $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nc3'));
-        $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Ke8'));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'O-O')));
+        $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'e5'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Bb5'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Nf6'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Ke2'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Bb4'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Ke1'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Ke7'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'Nc3'));
+        $board->play(Converter::toObject(Symbol::BLACK, 'Ke8'));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'O-O')));
     }
 
     public function testGame01()
     {
         $board = new Board;
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'O-O-O')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e5')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'e5')));
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4')));
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'e5')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e4')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'e5')));
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nf3')));
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_BLACK, 'Nc6')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Nf3')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'Nc6')));
 
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra2')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra3')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra4')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra5')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra6')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra7')));
-        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Ra8')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra2')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra3')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra4')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra5')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra6')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra7')));
+        $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra8')));
 
         // ...
     }

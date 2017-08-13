@@ -8,7 +8,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
 {
     public function testScopeWhiteA2()
     {
-        $pawn = new Pawn(Symbol::COLOR_WHITE, 'a2');
+        $pawn = new Pawn(Symbol::WHITE, 'a2');
         $example = (object) [
             'current' => 'a2',
             'scope' => (object) [
@@ -21,7 +21,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeWhiteD5()
     {
-        $pawn = new Pawn(Symbol::COLOR_WHITE, 'd5');
+        $pawn = new Pawn(Symbol::WHITE, 'd5');
         $example = (object) [
             'current' => 'd5',
             'scope' => (object) [
@@ -34,7 +34,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeWhiteF7()
     {
-        $pawn = new Pawn(Symbol::COLOR_WHITE, 'f7');
+        $pawn = new Pawn(Symbol::WHITE, 'f7');
         $example = (object) [
             'current' => 'f7',
             'scope' => (object) [
@@ -47,7 +47,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeWhiteF8()
     {
-        $pawn = new Pawn(Symbol::COLOR_WHITE, 'f8');
+        $pawn = new Pawn(Symbol::WHITE, 'f8');
         $example = (object) [
             'current' => 'f8',
             'scope' => (object) [
@@ -60,7 +60,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeBlackA2()
     {
-        $pawn = new Pawn(Symbol::COLOR_BLACK, 'a2');
+        $pawn = new Pawn(Symbol::BLACK, 'a2');
         $example = (object) [
             'current' => 'a2',
             'scope' => (object) [
@@ -73,7 +73,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeBlackD5()
     {
-        $pawn = new Pawn(Symbol::COLOR_BLACK, 'd5');
+        $pawn = new Pawn(Symbol::BLACK, 'd5');
         $example = (object) [
             'current' => 'd5',
             'scope' => (object) [

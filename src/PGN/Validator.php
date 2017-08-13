@@ -21,7 +21,7 @@ class Validator
      */
     public static function color($color)
     {
-        if ($color !== Symbol::COLOR_WHITE && $color !== Symbol::COLOR_BLACK) {
+        if ($color !== Symbol::WHITE && $color !== Symbol::BLACK) {
             throw new \InvalidArgumentException("This is not a valid color: $color.");
         }
 

@@ -22,7 +22,7 @@ class Knight extends AbstractPiece
      */
     public function __construct($color, $square)
     {
-        parent::__construct($color, $square, Symbol::PIECE_KNIGHT);
+        parent::__construct($color, $square, Symbol::KNIGHT);
 
         $this->position->scope = (object)[
             'jumps' => []

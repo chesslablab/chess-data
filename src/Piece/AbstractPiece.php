@@ -47,7 +47,7 @@ abstract class AbstractPiece implements Piece
      *      $forExample = (object) [
      *          'type' => PGN::MOVE_TYPE_PIECE,
      *          'color' => 'w',
-     *          'identity' => PGN::PIECE_BISHOP,
+     *          'identity' => PGN::BISHOP,
      *          'position' => (object) [
      *              'current' => null,
      *              'next' =>'g5'
@@ -108,10 +108,10 @@ abstract class AbstractPiece implements Piece
      */
     public function getOppositeColor()
     {
-        if ($this->color == Symbol::COLOR_WHITE) {
-            return Symbol::COLOR_BLACK;
+        if ($this->color == Symbol::WHITE) {
+            return Symbol::BLACK;
         } else {
-            return Symbol::COLOR_WHITE;
+            return Symbol::WHITE;
         }
     }
 

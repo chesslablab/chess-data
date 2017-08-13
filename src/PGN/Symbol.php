@@ -10,15 +10,15 @@ namespace PGNChess\PGN;
  */
 class Symbol
 {
-    const COLOR_WHITE = 'w';
-    const COLOR_BLACK = 'b';
+    const WHITE = 'w';
+    const BLACK = 'b';
 
-    const PIECE_BISHOP = 'B';
-    const PIECE_KING = 'K';
-    const PIECE_KNIGHT = 'N';
-    const PIECE_PAWN = 'P';
-    const PIECE_QUEEN = 'Q';
-    const PIECE_ROOK = 'R';
+    const BISHOP = 'B';
+    const KING = 'K';
+    const KNIGHT = 'N';
+    const PAWN = 'P';
+    const QUEEN = 'Q';
+    const ROOK = 'R';
 
     const CASTLING_SHORT = 'O-O';
     const CASTLING_LONG = 'O-O-O';

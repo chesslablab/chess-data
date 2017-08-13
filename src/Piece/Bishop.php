@@ -22,7 +22,7 @@ class Bishop extends Slider
      */
     public function __construct($color, $square)
     {
-        parent::__construct($color, $square, Symbol::PIECE_BISHOP);
+        parent::__construct($color, $square, Symbol::BISHOP);
 
         $this->position->scope = (object)[
             'upLeft' => [],

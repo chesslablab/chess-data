@@ -8,7 +8,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
 {
     public function testScopeA2()
     {
-        $bishop = new Bishop(Symbol::COLOR_WHITE, 'a2');
+        $bishop = new Bishop(Symbol::WHITE, 'a2');
         $example = (object) [
             'upLeft' => [],
             'upRight' => ['b3', 'c4', 'd5', 'e6', 'f7', 'g8'],
@@ -20,7 +20,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeD5()
     {
-        $bishop = new Bishop(Symbol::COLOR_WHITE, 'd5');
+        $bishop = new Bishop(Symbol::WHITE, 'd5');
         $example = (object) [
             'upLeft' => ['c6', 'b7', 'a8'],
             'upRight' => ['e6', 'f7', 'g8'],
@@ -32,7 +32,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
 
     public function testScopeA8()
     {
-        $bishop = new Bishop(Symbol::COLOR_WHITE, 'a8');
+        $bishop = new Bishop(Symbol::WHITE, 'a8');
         $example = (object) [
             'upLeft' => [],
             'upRight' => [],

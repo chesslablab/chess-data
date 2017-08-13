@@ -75,7 +75,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PIECE,
             'color' => 'w',
-            'identity' => Symbol::PIECE_BISHOP,
+            'identity' => Symbol::BISHOP,
             'position' => (object) [
                 'current' => null,
                 'next' =>'g5'
@@ -93,7 +93,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PIECE,
             'color' => 'b',
-            'identity' => Symbol::PIECE_ROOK,
+            'identity' => Symbol::ROOK,
             'position' => (object) [
                 'current' => null,
                 'next' => 'a5'
@@ -111,7 +111,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PIECE,
             'color' => 'b',
-            'identity' => Symbol::PIECE_QUEEN,
+            'identity' => Symbol::QUEEN,
             'position' => (object) [
                 'current' => 'b',
                 'next' => 'b7'
@@ -129,7 +129,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::KNIGHT,
             'color' => 'b',
-            'identity' => Symbol::PIECE_KNIGHT,
+            'identity' => Symbol::KNIGHT,
             'position' => (object) [
                 'current' => 'd',
                 'next' => 'b4'
@@ -147,7 +147,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::KING,
             'color' => 'w',
-            'identity' => Symbol::PIECE_KING,
+            'identity' => Symbol::KING,
             'position' => (object) [
                 'current' => null,
                 'next' => 'g7'
@@ -165,7 +165,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PIECE,
             'color' => 'b',
-            'identity' => Symbol::PIECE_QUEEN,
+            'identity' => Symbol::QUEEN,
             'position' => (object) [
                 'current' => 'h8',
                 'next' => 'g7'
@@ -185,7 +185,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PAWN,
             'color' => 'w',
-            'identity' => Symbol::PIECE_PAWN,
+            'identity' => Symbol::PAWN,
             'position' => (object) [
                 'current' => 'c',
                 'next' => 'c3'
@@ -203,7 +203,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PAWN,
             'color' => 'w',
-            'identity' => Symbol::PIECE_PAWN,
+            'identity' => Symbol::PAWN,
             'position' => (object) [
                 'current' => 'h',
                 'next' => 'h3'
@@ -224,7 +224,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'type' => Move::KING_CASTLING_SHORT,
             'color' => 'w',
             'identity' => 'K',
-            'position' => Castling::info('w')->{Symbol::PIECE_KING}->{Symbol::CASTLING_SHORT}->position
+            'position' => Castling::info('w')->{Symbol::KING}->{Symbol::CASTLING_SHORT}->position
         ];
         $this->assertEquals(Converter::toObject('w', $move), $example);
     }
@@ -239,7 +239,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'type' => Move::KING_CASTLING_LONG,
             'color' => 'w',
             'identity' => 'K',
-            'position' => Castling::info('w')->{Symbol::PIECE_KING}->{Symbol::CASTLING_LONG}->position
+            'position' => Castling::info('w')->{Symbol::KING}->{Symbol::CASTLING_LONG}->position
         ];
         $this->assertEquals(Converter::toObject('w', $move), $example);
     }
@@ -255,7 +255,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PAWN_CAPTURES,
             'color' => 'b',
-            'identity' => Symbol::PIECE_PAWN,
+            'identity' => Symbol::PAWN,
             'position' => (object) [
                 'current' => 'f',
                 'next' => 'g5'
@@ -273,7 +273,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::KNIGHT_CAPTURES,
             'color' => 'b',
-            'identity' => Symbol::PIECE_KNIGHT,
+            'identity' => Symbol::KNIGHT,
             'position' => (object) [
                 'current' => null,
                 'next' => 'e4'
@@ -291,7 +291,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCheck' => false,
             'type' => Move::PIECE_CAPTURES,
             'color' => 'b',
-            'identity' => Symbol::PIECE_QUEEN,
+            'identity' => Symbol::QUEEN,
             'position' => (object) [
                 'current' => '7',
                 'next' => 'g7'

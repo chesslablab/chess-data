@@ -36,7 +36,7 @@ class King extends AbstractPiece
      */
     public function __construct($color, $square)
     {
-        parent::__construct($color, $square, Symbol::PIECE_KING);
+        parent::__construct($color, $square, Symbol::KING);
 
         $this->rook = new Rook($color, $square, RookType::FAKED);
         $this->bishop = new Bishop($color, $square);
@@ -54,8 +54,8 @@ class King extends AbstractPiece
     {
         foreach ($pieces as $piece) {
             if (
-                $piece->getIdentity() === Symbol::PIECE_ROOK &&
-                $piece->getPosition()->current === Castling::info($this->getColor())->{Symbol::PIECE_ROOK}->{$this->getMove()->pgn}->position->current
+                $piece->getIdentity() === Symbol::ROOK &&
+                $piece->getPosition()->current === Castling::info($this->getColor())->{Symbol::ROOK}->{$this->getMove()->pgn}->position->current
             ) {
                 return $piece;
             }
@@ -108,7 +108,7 @@ class King extends AbstractPiece
                 break;
 
             case Move::KING_CASTLING_SHORT:
-                $castlingShort = Castling::info($this->getColor())->{Symbol::PIECE_KING}->{Symbol::CASTLING_SHORT};
+                $castlingShort = Castling::info($this->getColor())->{Symbol::KING}->{Symbol::CASTLING_SHORT};
                 if (
                     in_array($castlingShort->freeSquares->f, self::$squares->free) &&
                     in_array($castlingShort->freeSquares->g, self::$squares->free)
@@ -118,7 +118,7 @@ class King extends AbstractPiece
                 break;
 
             case Move::KING_CASTLING_LONG:
-                $castlingLong = Castling::info($this->getColor())->{Symbol::PIECE_KING}->{Symbol::CASTLING_LONG};
+                $castlingLong = Castling::info($this->getColor())->{Symbol::KING}->{Symbol::CASTLING_LONG};
                 if (
                     in_array($castlingLong->freeSquares->b, self::$squares->free) &&
                     in_array($castlingLong->freeSquares->c, self::$squares->free) &&

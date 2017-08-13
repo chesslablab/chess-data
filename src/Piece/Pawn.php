@@ -27,10 +27,10 @@ class Pawn extends AbstractPiece
      */
     public function __construct($color, $square)
     {
-        parent::__construct($color, $square, Symbol::PIECE_PAWN);
+        parent::__construct($color, $square, Symbol::PAWN);
 
         switch ($this->color) {
-            case Symbol::COLOR_WHITE:
+            case Symbol::WHITE:
                 $this->ranks = (object) [
                     'initial' => 2,
                     'next' => (int)$this->position->current[1] + 1,
@@ -38,7 +38,7 @@ class Pawn extends AbstractPiece
                 ];
                 break;
 
-            case Symbol::COLOR_BLACK:
+            case Symbol::BLACK:
                 $this->ranks = (object) [
                     'initial' => 7,
                     'next' => (int)$this->position->current[1] - 1,
@@ -123,7 +123,7 @@ class Pawn extends AbstractPiece
         if (
             $this->ranks->initial === 2 &&
             (int)$this->position->current[1] === 5 &&
-            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PIECE_PAWN &&
+            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
             (isset($this->position->capture[1]) &&
@@ -135,7 +135,7 @@ class Pawn extends AbstractPiece
         } elseif (
             $this->ranks->initial === 7 &&
             (int)$this->position->current[1] === 4 &&
-            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PIECE_PAWN &&
+            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
             (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
             (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
             (isset($this->position->capture[1]) &&

@@ -25,13 +25,13 @@ class StatusTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateCustomBoard()
     {
         $pieces = [
-            new Bishop(Symbol::COLOR_WHITE, 'c1'),
-            new Queen(Symbol::COLOR_WHITE, 'd1'),
-            new King(Symbol::COLOR_WHITE, 'e1'),
-            new Pawn(Symbol::COLOR_WHITE, 'e2'),
-            new King(Symbol::COLOR_BLACK, 'e8'),
-            new Bishop(Symbol::COLOR_BLACK, 'f8'),
-            new Knight(Symbol::COLOR_BLACK, 'g8')
+            new Bishop(Symbol::WHITE, 'c1'),
+            new Queen(Symbol::WHITE, 'd1'),
+            new King(Symbol::WHITE, 'e1'),
+            new Pawn(Symbol::WHITE, 'e2'),
+            new King(Symbol::BLACK, 'e8'),
+            new Bishop(Symbol::BLACK, 'f8'),
+            new Knight(Symbol::BLACK, 'g8')
         ];
         $board = new Board($pieces);
         $this->assertEquals(count($board), 7);
@@ -52,8 +52,8 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         foreach ($game as $entry)
         {
             $moves = explode(' ', $entry);
-            $board->play(Converter::toObject(Symbol::COLOR_WHITE, $moves[0]));
-            $board->play(Converter::toObject(Symbol::COLOR_BLACK, $moves[1]));
+            $board->play(Converter::toObject(Symbol::WHITE, $moves[0]));
+            $board->play(Converter::toObject(Symbol::BLACK, $moves[1]));
         }
         $example = (object) [
             'w' => [

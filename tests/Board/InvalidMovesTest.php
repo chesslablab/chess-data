@@ -18,42 +18,42 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 9)));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 9)));
     }
 
     public function testFoo()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'foo')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'foo')));
     }
 
     public function testBar()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'bar')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'bar')));
     }
 
     public function test_e9()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e9')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e9')));
     }
 
     public function test_e10()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e10')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e10')));
     }
 
     public function testNw3()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::COLOR_WHITE, 'Nw3')));
+        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Nw3')));
     }
 
     public function testPlayRaInDefaultBoard()
@@ -74,18 +74,18 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $pieces = [
-            new Pawn(Symbol::COLOR_WHITE, 'a2'),
-            new Pawn(Symbol::COLOR_WHITE, 'a3'),
-            new Pawn(Symbol::COLOR_WHITE, 'c3'),
-            new Rook(Symbol::COLOR_WHITE, 'e6', RookType::CASTLING_LONG),
-            new King(Symbol::COLOR_WHITE, 'g3'),
-            new Pawn(Symbol::COLOR_BLACK, 'a6'),
-            new Pawn(Symbol::COLOR_BLACK, 'b5'),
-            new Pawn(Symbol::COLOR_BLACK, 'c4'),
-            new Knight(Symbol::COLOR_BLACK, 'd3'),
-            new Rook(Symbol::COLOR_BLACK, 'f5', RookType::CASTLING_SHORT),
-            new King(Symbol::COLOR_BLACK, 'g5'),
-            new Pawn(Symbol::COLOR_BLACK, 'h7')
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'a3'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'g3'),
+            new Pawn(Symbol::BLACK, 'a6'),
+            new Pawn(Symbol::BLACK, 'b5'),
+            new Pawn(Symbol::BLACK, 'c4'),
+            new Knight(Symbol::BLACK, 'd3'),
+            new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
+            new King(Symbol::BLACK, 'g5'),
+            new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
         $board->play(Converter::toObject('w', 'f4'));

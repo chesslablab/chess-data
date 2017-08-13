@@ -38,7 +38,7 @@ class Rook extends Slider
             $this->type = $type;
         }
 
-        parent::__construct($color, $square, Symbol::PIECE_ROOK);
+        parent::__construct($color, $square, Symbol::ROOK);
 
         $this->position->scope = (object)[
             'up' => [],

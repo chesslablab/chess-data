@@ -32,5 +32,8 @@
     "psr-4": {
       "PGNChess\\": "src/"
     }
+  },
+  "require": {
+    "myclabs/deep-copy": "^1.6"
   }
 }

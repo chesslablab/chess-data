@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess;
 
+use DeepCopy\DeepCopy;
 use PGNChess\PGN;
 use PGNChess\Squares;
 use PGNChess\Piece\AbstractPiece;
@@ -118,6 +119,20 @@ class Board extends \SplObjectStorage
     }
 
     /**
+     * Sets the turn.
+     *
+     * @param string $color
+     */
+    public function setTurn($color)
+    {
+        if ($color !== PGN::COLOR_WHITE && $color !== PGN::COLOR_BLACK) {
+            throw new \InvalidArgumentException('A valid color needs to be provided in order to set the turn.');
+        }
+
+        $this->status->turn = $color;
+    }
+
+    /**
      * Refreshes the board's status.
      *
      * @param PGNChess\Piece $piece
@@ -191,6 +206,10 @@ class Board extends \SplObjectStorage
      */
     public function play(\stdClass $move)
     {
+        if ($move->color !== $this->status->turn) {
+            return false;
+        }
+
         $pieces = $this->pickPiece($move);
 
         if (count($pieces) > 1) {
@@ -276,9 +295,9 @@ class Board extends \SplObjectStorage
             * controlled by the opponent, it can't capture the piece.
             */
             case PGN::MOVE_TYPE_KING_CAPTURES:
-                $that = clone $this;
-                $capturedPiece = $that->getPieceByPosition($king->getMove()->position->next);
-                $that->detach($capturedPiece);
+                $deepCopy = new DeepCopy();
+                $that = $deepCopy->copy($this);
+                $that->detach($that->getPieceByPosition($king->getMove()->position->next));
                 return $that->kingIsMoved($king);
                 break;
         }
@@ -322,7 +341,9 @@ class Board extends \SplObjectStorage
     {
         try {
             $rook = $king->getCastlingRook(iterator_to_array($this, false));
+
             switch(empty($rook)) {
+
                 case false:
                     // move the king
                     $kingsNewPosition = $king->getPosition();
@@ -342,6 +363,8 @@ class Board extends \SplObjectStorage
                     $this->move($rook);
                     // update the king's castling status
                     $this->status->castling->{$king->getColor()}->isCastled = true;
+                    // refresh board's status
+                    $this->refresh($king);
                     return true;
                     break;
 
@@ -491,7 +514,7 @@ class Board extends \SplObjectStorage
     *
     * @return stdClass
     */
-    private function control()
+    public function control()
     {
         $control = (object) [
             'space' => (object) [
@@ -581,7 +604,8 @@ class Board extends \SplObjectStorage
      */
     private function isCheck($piece)
     {
-        $that = clone $this;
+        $deepCopy = new DeepCopy();
+        $that = $deepCopy->copy($this);
         $that->move($piece);
         $king = $that->getPiece($piece->getColor(), PGN::PIECE_KING);
 

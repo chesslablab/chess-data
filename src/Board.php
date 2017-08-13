@@ -128,9 +128,7 @@ class Board extends \SplObjectStorage
      */
     public function setTurn($color)
     {
-        Validator::color($color);
-
-        $this->status->turn = $color;
+        !Validator::color($color) ?: $this->status->turn = $color;
     }
 
     /**
@@ -197,7 +195,7 @@ class Board extends \SplObjectStorage
         } else {
             return $found;
         }
-        
+
     }
 
     /**

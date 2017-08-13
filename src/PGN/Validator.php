@@ -4,7 +4,7 @@ namespace PGNChess\PGN;
 use PGNChess\PGN\Symbol;
 
 /**
- * Validates PGN notation.
+ * Validates PGN symbols.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

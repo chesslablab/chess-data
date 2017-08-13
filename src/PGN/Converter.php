@@ -15,7 +15,7 @@ use PGNChess\PGN\Validator;
 class Converter
 {
     /**
-     * Converts a PGN move into a stdClass object for further processing.
+     * Converts a PGN move into a stdClass object.
      *
      * @param string $color
      * @param string $pgn

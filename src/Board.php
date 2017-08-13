@@ -17,7 +17,7 @@ use PGNChess\PGN\Symbol;
 use PGNChess\Type\RookType;
 
 /**
- * Class that represents a chess board.
+ * Chess board.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

@@ -6,7 +6,7 @@ use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validator;
 
 /**
- * Class that represents any chess piece.
+ * Class that represents a chess piece.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

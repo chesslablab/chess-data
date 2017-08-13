@@ -4,7 +4,7 @@ namespace PGNChess;
 use PGNChess\PGN\Symbol;
 
 /**
- * Performs statistics operations regarding the squares of the board.
+ * Computes statistics operations regarding the squares of the board.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

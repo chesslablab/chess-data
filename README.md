@@ -21,14 +21,17 @@ Via composer:
 
 ### 2. Usage
 
+Just instantiate a board, and play PGN moves converted into PHP objects as shown below.
+
 ```php
 <?php
 use PGNChess\Board;
-use PGNChess\PGN;
+use PGNChess\PGN\Converter;
+use PGNChess\PGN\Symbol;
 
 $board = new Board;
 
-$board->play(PGN::objectizeMove(PGN::COLOR_WHITE, 'e4');
+$board->play(Converter::toObject(Symbol::COLOR_WHITE, 'e4');
 ```
 
 The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board. It is up to you to process the result accordingly.

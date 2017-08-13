@@ -4,7 +4,7 @@ namespace PGNChess\PGN;
 use PGNChess\PGN\Symbol;
 
 /**
- * Encodes moves in PGN format.
+ * Encodes chess moves in PGN format.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

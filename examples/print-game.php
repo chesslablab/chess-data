@@ -1,6 +1,7 @@
 <?php
 use PGNChess\Board;
-use PGNChess\PGN;
+use PGNChess\PGN\Converter;
+use PGNChess\PGN\Symbol;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -25,24 +26,24 @@ for ($i=0; $i<count($moves); $i++)
     }
     try
     {
-        if ($board->play(PGN::objectizeMove(PGN::COLOR_WHITE, $whiteMove)))
+        if ($board->play(Converter::toObject(Symbol::COLOR_WHITE, $whiteMove)))
         {
-            echo PGN::COLOR_WHITE . " played {$whiteMove}, OK..." . PHP_EOL;
+            echo Symbol::COLOR_WHITE . " played {$whiteMove}, OK..." . PHP_EOL;
         }
         else
         {
-            echo PGN::COLOR_WHITE . " played {$whiteMove}, illegal move." . PHP_EOL;
+            echo Symbol::COLOR_WHITE . " played {$whiteMove}, illegal move." . PHP_EOL;
             exit;
         }
         if (isset($moves[$i][1]))
         {
-            if ($board->play(PGN::objectizeMove(PGN::COLOR_BLACK, $blackMove)))
+            if ($board->play(Converter::toObject(Symbol::COLOR_BLACK, $blackMove)))
             {
-                echo PGN::COLOR_BLACK . " played {$blackMove}, OK..." . PHP_EOL;
+                echo Symbol::COLOR_BLACK . " played {$blackMove}, OK..." . PHP_EOL;
             }
             else
             {
-                echo PGN::COLOR_BLACK . " played {$blackMove}, illegal move." . PHP_EOL;
+                echo Symbol::COLOR_BLACK . " played {$blackMove}, illegal move." . PHP_EOL;
                 exit;
             }
         }

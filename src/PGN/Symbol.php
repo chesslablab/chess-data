@@ -2,7 +2,7 @@
 namespace PGNChess\PGN;
 
 /**
- * Encodes symbols in PGN format.
+ * Symbols in PGN format.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com

@@ -65,10 +65,10 @@ abstract class AbstractPiece implements Piece
      */
     public function __construct($color, $square, $identity)
     {
-        !Validator::color($color) ?: $this->color = $color;
+        $this->color = Validator::color($color);
 
         $this->position = (object) [
-            'current' => Validator::square($square) ? $square : null,
+            'current' => Validator::square($square),
             'scope' => []
         ];
 

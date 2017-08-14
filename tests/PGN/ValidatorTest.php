@@ -13,8 +13,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testColorIsOk()
     {
-        $this->assertEquals(true, Validator::color('w'));
-        $this->assertEquals(true, Validator::color('b'));
+        $this->assertEquals('w', Validator::color('w'));
+        $this->assertEquals('b', Validator::color('b'));
     }
 
     public function testSquareIntegerThrowsException()
@@ -43,6 +43,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testSquareIsOk()
     {
-        $this->assertEquals(Validator::square('e4'), true);
+        $this->assertEquals(Validator::square('e4'), 'e4');
     }
 }

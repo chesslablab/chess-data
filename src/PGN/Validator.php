@@ -25,7 +25,7 @@ class Validator
             throw new \InvalidArgumentException("This is not a valid color: $color.");
         }
 
-        return true;
+        return $color;
     }
 
     /**
@@ -41,6 +41,6 @@ class Validator
             throw new \InvalidArgumentException("This square is not valid: $square.");
         }
 
-        return true;
+        return $square;
     }
 }

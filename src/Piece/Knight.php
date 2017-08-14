@@ -39,7 +39,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1] + 2;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -49,7 +49,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) - 2);
             $rank = (int)$this->position->current[1] + 1;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -59,7 +59,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) - 2);
             $rank = (int)$this->position->current[1] - 1;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -69,7 +69,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) - 1);
             $rank = (int)$this->position->current[1] - 2;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -79,7 +79,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1] - 2;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -90,7 +90,7 @@ class Knight extends AbstractPiece
 
             $file = chr(ord($this->position->current[0]) + 2);
             $rank = (int)$this->position->current[1] - 1;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -100,7 +100,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) + 2);
             $rank = (int)$this->position->current[1] + 1;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {
@@ -110,7 +110,7 @@ class Knight extends AbstractPiece
         try {
             $file = chr(ord($this->position->current[0]) + 1);
             $rank = (int)$this->position->current[1] + 2;
-            if(Validator::square($file.$rank, true)) {
+            if (Validator::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
         } catch (\InvalidArgumentException $e) {

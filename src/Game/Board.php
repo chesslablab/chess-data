@@ -1,9 +1,12 @@
 <?php
-namespace PGNChess;
+namespace PGNChess\Game;
 
 use DeepCopy\DeepCopy;
 use PGNChess\Castling;
 use PGNChess\SquareStats;
+use PGNChess\PGN\Converter;
+use PGNChess\PGN\Move;
+use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validator;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Bishop;
@@ -13,9 +16,6 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Piece;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
-use PGNChess\PGN\Converter;
-use PGNChess\PGN\Move;
-use PGNChess\PGN\Symbol;
 use PGNChess\Type\RookType;
 
 /**
@@ -82,23 +82,14 @@ class Board extends \SplObjectStorage
             'turn' => null,
             'squares' => null,
             'control' => null,
-            'isChecked' => (object) [
-                Symbol::WHITE => false,
-                Symbol::BLACK => false
-            ],
-            // TODO update the isCheckmated property accordingly
-            'isCheckemated' => (object) [
-                Symbol::WHITE => false,
-                Symbol::BLACK => false
-            ],
             'castling' => (object) [
                 Symbol::WHITE => (object) [
-                    'isCastled' => false,
+                    'castled' => false,
                     Symbol::CASTLING_SHORT => true,
                     Symbol::CASTLING_LONG => true
                 ],
                 Symbol::BLACK => (object) [
-                    'isCastled' => false,
+                    'castled' => false,
                     Symbol::CASTLING_SHORT => true,
                     Symbol::CASTLING_LONG => true
             ]],
@@ -131,6 +122,19 @@ class Board extends \SplObjectStorage
         return $this->status;
     }
 
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    public function replicate()
+    {
+        $boardClass = new \ReflectionClass(get_class());
+        $boardReplicated = $boardClass->newInstanceArgs([iterator_to_array($this, false)]);
+        $boardReplicated->setStatus($this->getStatus());
+        return $boardReplicated;
+    }
+
     /**
      * Sets the turn.
      *
@@ -138,7 +142,7 @@ class Board extends \SplObjectStorage
      */
     public function setTurn($color)
     {
-        !Validator::color($color) ?: $this->status->turn = $color;
+         $this->status->turn = Validator::color($color);
     }
 
     /**
@@ -158,13 +162,8 @@ class Board extends \SplObjectStorage
         $this->status->control = $this->control();
 
         if (isset($piece)) {
-            // update isChecked property
-            $king = $this->getPiece($piece->getOppositeColor(), Symbol::KING);
-            in_array($king->getPosition()->current, $this->status->control->attack->{$king->getOppositeColor()})
-                ? $this->status->isChecked->{$piece->getOppositeColor()} = true
-                : $this->status->isChecked->{$piece->getOppositeColor()} = false;
             // update castling ability
-            if (!$this->status->castling->{$piece->getColor()}->isCastled) {
+            if (!$this->status->castling->{$piece->getColor()}->castled) {
                 $this->trackCastling($piece);
             }
             // update previous move
@@ -381,7 +380,7 @@ class Board extends \SplObjectStorage
                     ]);
                     $this->move($rook);
                     // update the king's castling status
-                    $this->status->castling->{$king->getColor()}->isCastled = true;
+                    $this->status->castling->{$king->getColor()}->castled = true;
                     // refresh board's status
                     $this->refresh($king);
                     return true;
@@ -466,7 +465,7 @@ class Board extends \SplObjectStorage
      * @param string $color
      * @return array
      */
-    private function getPiecesByColor($color)
+    public function getPiecesByColor($color)
     {
         $pieces = [];
         $this->rewind();
@@ -487,7 +486,7 @@ class Board extends \SplObjectStorage
      * @param string $identity
      * @return PGNChess\Piece
      */
-    private function getPiece($color, $identity)
+    public function getPiece($color, $identity)
     {
         $this->rewind();
 
@@ -508,7 +507,7 @@ class Board extends \SplObjectStorage
      * @param string $square
      * @return PGNChess\Piece
      */
-    private function getPieceByPosition($square)
+    public function getPieceByPosition($square)
     {
         $this->rewind();
 

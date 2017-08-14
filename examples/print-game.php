@@ -1,5 +1,5 @@
 <?php
-use PGNChess\Board;
+use PGNChess\Game\Game;
 use PGNChess\PGN\Converter;
 use PGNChess\PGN\Symbol;
 
@@ -15,7 +15,7 @@ foreach ($pairs as $pair)
 
 $moves = array_values(array_filter($moves));
 
-$board = new Board;
+$game = new Game;
 
 for ($i=0; $i<count($moves); $i++)
 {
@@ -26,31 +26,35 @@ for ($i=0; $i<count($moves); $i++)
     }
     try
     {
-        if ($board->play(Converter::toObject(Symbol::WHITE, $whiteMove)))
+        echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
+        if ($game->play(Converter::toObject(Symbol::WHITE, $whiteMove)))
         {
-            echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
-            if ($board->getStatus()->isChecked->{Symbol::BLACK}) {
+            if ($game->isMated(Symbol::BLACK)) {
+                echo 'Checkmated!' . PHP_EOL;
+                exit;
+            } elseif ($game->isChecked(Symbol::BLACK)) {
                 echo 'Check!' . PHP_EOL;
             }
         }
         else
         {
-            echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
             echo 'Illegal move' . PHP_EOL;
             exit;
         }
         if (isset($moves[$i][1]))
         {
-            if ($board->play(Converter::toObject(Symbol::BLACK, $blackMove)))
+            echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
+            if ($game->play(Converter::toObject(Symbol::BLACK, $blackMove)))
             {
-                echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
-                if ($board->getStatus()->isChecked->{Symbol::WHITE}) {
+                if ($game->isMated(Symbol::WHITE)) {
+                    echo 'Checkmated!' . PHP_EOL;
+                    exit;
+                } elseif ($game->isChecked(Symbol::WHITE)) {
                     echo 'Check!' . PHP_EOL;
                 }
             }
             else
             {
-                echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
                 echo 'Illegal move' . PHP_EOL;
                 exit;
             }

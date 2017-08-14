@@ -15,6 +15,11 @@ use PGNChess\Piece\AbstractPiece;
 class Pawn extends AbstractPiece
 {
     /**
+     * @var string
+     */
+    private $file;
+
+    /**
      * @var array
      */
     private $ranks;
@@ -28,6 +33,8 @@ class Pawn extends AbstractPiece
     public function __construct($color, $square)
     {
         parent::__construct($color, $square, Symbol::PAWN);
+
+        $this->file = $this->position->current[0];
 
         switch ($this->color) {
             case Symbol::WHITE:
@@ -56,15 +63,24 @@ class Pawn extends AbstractPiece
     }
 
     /**
+     * Gets the pawn's file.
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
      * Calculates the pawn's scope.
      */
     protected function scope()
     {
         // next rank
         try {
-            $file = $this->position->current[0];
-            if (Validator::square($file.$this->ranks->next, true)) {
-                $this->position->scope->up[] = $file . $this->ranks->next;
+            if (Validator::square($this->file . $this->ranks->next, true)) {
+                $this->position->scope->up[] = $this->file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {
 
@@ -72,15 +88,15 @@ class Pawn extends AbstractPiece
 
         // two square advance
         if ($this->position->current[1] == 2 && $this->ranks->initial == 2) {
-            $this->position->scope->up[] = $this->position->current[0] . ($this->ranks->initial + 2);
+            $this->position->scope->up[] = $this->file . ($this->ranks->initial + 2);
         }
         elseif ($this->position->current[1] == 7 && $this->ranks->initial == 7) {
-            $this->position->scope->up[] = $this->position->current[0] . ($this->ranks->initial - 2);
+            $this->position->scope->up[] = $this->file . ($this->ranks->initial - 2);
         }
 
         // capture square
         try {
-            $file = chr(ord($this->position->current[0]) - 1);
+            $file = chr(ord($this->file) - 1);
             if (Validator::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
@@ -90,7 +106,7 @@ class Pawn extends AbstractPiece
 
         // capture square
         try {
-            $file = chr(ord($this->position->current[0]) + 1);
+            $file = chr(ord($this->file) + 1);
             if (Validator::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }

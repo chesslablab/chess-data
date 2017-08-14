@@ -1,5 +1,5 @@
 <?php
-namespace PGNChess;
+namespace PGNChess\Square;
 
 use PGNChess\PGN\Symbol;
 

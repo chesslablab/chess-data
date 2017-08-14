@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\Tests\Board;
 
-use PGNChess\Game\Board;
+use PGNChess\Board;
 use PGNChess\PGN\Converter;
 use PGNChess\PGN\Symbol;
 

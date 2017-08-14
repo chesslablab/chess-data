@@ -1,5 +1,5 @@
 <?php
-namespace PGNChess;
+namespace PGNChess\Square;
 
 use PGNChess\PGN\Symbol;
 
@@ -10,7 +10,7 @@ use PGNChess\PGN\Symbol;
  * @link https://programarivm.com
  * @license MIT
  */
-class SquareStats
+class Stats
 {
     /**
      * Calculates the free/used squares.

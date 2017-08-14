@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\Tests;
 
-use PGNChess\Castling;
+use PGNChess\Square\Castling;
 use PGNChess\PGN\Symbol;
 
 class CastlingTest extends \PHPUnit_Framework_TestCase

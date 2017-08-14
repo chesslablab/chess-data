@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\PGN;
 
-use PGNChess\Castling;
+use PGNChess\Square\Castling;
 use PGNChess\PGN\Notation;
 use PGNChess\PGN\Validator;
 

@@ -1,8 +1,8 @@
 <?php
-namespace PGNChess\Game;
+namespace PGNChess;
 
 use DeepCopy\DeepCopy;
-use PGNChess\Game\Board;
+use PGNChess\Board;
 use PGNChess\PGN\Converter;
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validator;

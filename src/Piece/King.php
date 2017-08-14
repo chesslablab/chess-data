@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\Piece;
 
-use PGNChess\Castling;
+use PGNChess\Square\Castling;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\AbstractPiece;

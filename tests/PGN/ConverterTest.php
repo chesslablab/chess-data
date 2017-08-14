@@ -1,7 +1,7 @@
 <?php
 namespace PGNChess\Tests\PGN;
 
-use PGNChess\Castling;
+use PGNChess\Square\Castling;
 use PGNChess\PGN\Converter;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;

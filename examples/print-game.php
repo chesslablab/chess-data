@@ -1,5 +1,5 @@
 <?php
-use PGNChess\Game\Game;
+use PGNChess\Game;
 use PGNChess\PGN\Converter;
 use PGNChess\PGN\Symbol;
 

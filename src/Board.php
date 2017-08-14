@@ -1,9 +1,9 @@
 <?php
-namespace PGNChess\Game;
+namespace PGNChess;
 
 use DeepCopy\DeepCopy;
-use PGNChess\Castling;
-use PGNChess\SquareStats;
+use PGNChess\Square\Castling;
+use PGNChess\Square\Stats;
 use PGNChess\PGN\Converter;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
@@ -270,7 +270,7 @@ class Board extends \SplObjectStorage
 
         $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
 
-        $this->squares = SquareStats::calc(iterator_to_array($this, false));
+        $this->squares = Stats::calc(iterator_to_array($this, false));
 
         AbstractPiece::setBoardStatus((object)[
             'squares' => $this->squares,

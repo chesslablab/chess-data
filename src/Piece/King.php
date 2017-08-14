@@ -7,7 +7,7 @@ use PGNChess\PGN\Symbol;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Bishop;
-use PGNChess\Type\RookType;
+use PGNChess\Piece\Type\RookType;
 
 /**
  * King class.

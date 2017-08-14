@@ -10,7 +10,7 @@ use PGNChess\Piece\Knight;
 use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
-use PGNChess\Type\RookType;
+use PGNChess\Piece\Type\RookType;
 
 class InvalidMovesTest extends \PHPUnit_Framework_TestCase
 {

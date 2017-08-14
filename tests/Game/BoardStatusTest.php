@@ -18,8 +18,8 @@ class StatusTest extends \PHPUnit_Framework_TestCase
     {
         $board = new Board;
         $this->assertEquals(count($board), 32);
-        $this->assertEquals(count($board->getStatus()->squares->used->w), 16);
-        $this->assertEquals(count($board->getStatus()->squares->used->b), 16);
+        $this->assertEquals(count($board->getSquares()->used->w), 16);
+        $this->assertEquals(count($board->getSquares()->used->b), 16);
     }
 
     public function testInstantiateCustomBoard()
@@ -35,8 +35,8 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         ];
         $board = new Board($pieces);
         $this->assertEquals(count($board), 7);
-        $this->assertEquals(count($board->getStatus()->squares->used->w), 4);
-        $this->assertEquals(count($board->getStatus()->squares->used->b), 3);
+        $this->assertEquals(count($board->getSquares()->used->w), 4);
+        $this->assertEquals(count($board->getSquares()->used->b), 3);
     }
 
     public function testPlayGame01AndCheckStatus()
@@ -101,6 +101,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
                 'h6'
             ]
         ];
-        $this->assertEquals($example, $board->getStatus()->control->space);
+        $this->assertEquals($example, $board->getControl()->space);
     }
 }

@@ -3,7 +3,7 @@ namespace PGNChess\Tests\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Rook;
-use PGNChess\Type\RookType;
+use PGNChess\Piece\Type\RookType;
 
 class RookTest extends \PHPUnit_Framework_TestCase
 {

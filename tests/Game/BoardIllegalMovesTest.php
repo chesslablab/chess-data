@@ -10,38 +10,38 @@ use PGNChess\Piece\Knight;
 use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
-use PGNChess\Type\RookType;
+use PGNChess\Piece\Type\RookType;
 
 class IllegalMovesTest extends \PHPUnit_Framework_TestCase
 {
     public function testTurnNormal()
     {
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals($board->getTurn(), Symbol::BLACK);
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
     }
 
     public function testTurnWithMistakes()
     {
         $board = new Board;
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e4')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals($board->getTurn(), Symbol::BLACK);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals($board->getTurn(), Symbol::BLACK);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Nf3')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::BLACK);
+        $this->assertEquals($board->getTurn(), Symbol::BLACK);
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'e5')));
-        $this->assertEquals($board->getStatus()->turn, Symbol::WHITE);
+        $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'Nc6')));
     }
 

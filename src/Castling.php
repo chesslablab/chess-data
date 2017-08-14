@@ -13,7 +13,7 @@ use PGNChess\PGN\Symbol;
 class Castling
 {
     /**
-     * Stores the castling information for further processing.
+     * Stores the board's castling information.
      *
      * @param string $color
      * @return stdClass

@@ -16,18 +16,18 @@ use PGNChess\PGN\Symbol;
 class Analyzer
 {
     /**
-     * Determines whether the current player is checked.
+     * Computes whether the current player is checked.
      *
      * @param PGNChess\Game\Board $board
      * @return boolean
      */
     public static function check($board)
     {
-        $king = $board->getPiece($board->getStatus()->turn, Symbol::KING);
+        $king = $board->getPiece($board->getTurn(), Symbol::KING);
 
         if (in_array(
             $king->getPosition()->current,
-            $board->getStatus()->control->attack->{$king->getOppositeColor()})
+            $board->getControl()->attack->{$king->getOppositeColor()})
         ) {
             return true;
         } else {
@@ -36,7 +36,7 @@ class Analyzer
     }
 
     /**
-     * Determines whether the current player is checkmated.
+     * Computes whether the current player is checkmated.
      *
      * @param PGNChess\Game\Board $board
      * @return boolean
@@ -47,7 +47,7 @@ class Analyzer
 
         if (self::check($board)) {
 
-            $pieces = $board->getPiecesByColor($board->getStatus()->turn);
+            $pieces = $board->getPiecesByColor($board->getTurn());
 
             foreach ($pieces as $piece) {
 
@@ -59,14 +59,14 @@ class Analyzer
                     switch($piece->getIdentity()) {
 
                         case Symbol::PAWN:
-                            if (in_array($square, $board->getStatus()->squares->used->{$piece->getOppositeColor()})) {
+                            if (in_array($square, $board->getSquares()->used->{$piece->getOppositeColor()})) {
                                 $moves += (int) $that->play(
-                                    Converter::toObject($board->getStatus()->turn,
+                                    Converter::toObject($board->getTurn(),
                                     $piece->getFile() . "x$square")
                                 );
                             } else {
                                 $moves += (int) $that->play(
-                                    Converter::toObject($board->getStatus()->turn,
+                                    Converter::toObject($board->getTurn(),
                                     $square)
                                 );
                             }
@@ -74,12 +74,12 @@ class Analyzer
 
                         default:
                             $moves += (int) $that->play(
-                                Converter::toObject($board->getStatus()->turn,
+                                Converter::toObject($board->getTurn(),
                                 $piece->getIdentity() . $square)
                             );
-                            if (in_array($square, $board->getStatus()->squares->used->{$piece->getOppositeColor()})) {
+                            if (in_array($square, $board->getSquares()->used->{$piece->getOppositeColor()})) {
                                 $moves += (int) $that->play(
-                                    Converter::toObject($board->getStatus()->turn,
+                                    Converter::toObject($board->getTurn(),
                                     $piece->getIdentity() . "x$square")
                                 );
                             }

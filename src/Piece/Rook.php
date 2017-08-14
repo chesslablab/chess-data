@@ -4,7 +4,7 @@ namespace PGNChess\Piece;
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validator;
 use PGNChess\Piece\AbstractPiece;
-use PGNChess\Type\RookType;
+use PGNChess\Piece\Type\RookType;
 
 /**
  * Rook class.

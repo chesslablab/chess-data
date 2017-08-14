@@ -10,7 +10,7 @@ use PGNChess\Piece\Knight;
 use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
-use PGNChess\Type\RookType;
+use PGNChess\Piece\Type\RookType;
 
 class LegalMovesTest extends \PHPUnit_Framework_TestCase
 {
@@ -440,9 +440,9 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
         $whiteSpace = array_filter(array_unique($whiteSpace));
         sort($whiteSpace);
         $whiteAttack = [];
-        $this->assertEquals($whiteSquaresUsed, $board->getStatus()->squares->used->w);
-        $this->assertEquals($whiteSpace, $board->getStatus()->control->space->w);
-        $this->assertEquals($whiteAttack, $board->getStatus()->control->attack->w);
+        $this->assertEquals($whiteSquaresUsed, $board->getSquares()->used->w);
+        $this->assertEquals($whiteSpace, $board->getControl()->space->w);
+        $this->assertEquals($whiteAttack, $board->getControl()->attack->w);
     }
 
     public function testEnPassantf3()

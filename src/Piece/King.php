@@ -45,7 +45,7 @@ class King extends AbstractPiece
     }
 
     /**
-     * Gets the castling rook associated to the king's next move.
+     * Gets the king's castling rook.
      *
      * @param array $pieces
      * @return null|PGNChess\Piece\Rook
@@ -55,7 +55,8 @@ class King extends AbstractPiece
         foreach ($pieces as $piece) {
             if (
                 $piece->getIdentity() === Symbol::ROOK &&
-                $piece->getPosition()->current === Castling::info($this->getColor())->{Symbol::ROOK}->{$this->getMove()->pgn}->position->current
+                $piece->getPosition()->current ===
+                Castling::info($this->getColor())->{Symbol::ROOK}->{$this->getMove()->pgn}->position->current
             ) {
                 return $piece;
             }
@@ -88,47 +89,47 @@ class King extends AbstractPiece
      */
     public function getLegalMoves()
     {
-        $moves = [];
-        switch ($this->getMove()->type) {
+        $movesKing = array_values(
+            array_intersect(
+                array_values((array)$this->position->scope),
+                self::$boardStatus->squares->free
+        ));
 
-            case Move::KING:
-                $moves = array_values(
-                    array_intersect(
-                        array_values((array)$this->position->scope),
-                        self::$squares->free
-                ));
-                break;
+        $movesKingCaptures = array_values(
+            array_intersect(
+                array_values((array)$this->position->scope),
+                array_merge(self::$boardStatus->squares->used->{$this->getOppositeColor()})
+        ));
 
-            case Move::KING_CAPTURES:
-                $moves = array_values(
-                    array_intersect(
-                        array_values((array)$this->position->scope),
-                        array_merge(self::$squares->used->{$this->getOppositeColor()})
-                ));
-                break;
+        $castlingShort = Castling::info($this->getColor())->{Symbol::KING}->{Symbol::CASTLING_SHORT};
+        $castlingLong = Castling::info($this->getColor())->{Symbol::KING}->{Symbol::CASTLING_LONG};
 
-            case Move::KING_CASTLING_SHORT:
-                $castlingShort = Castling::info($this->getColor())->{Symbol::KING}->{Symbol::CASTLING_SHORT};
-                if (
-                    in_array($castlingShort->freeSquares->f, self::$squares->free) &&
-                    in_array($castlingShort->freeSquares->g, self::$squares->free)
-                ) {
-                    $moves[] = $this->getMove()->position->next;
-                }
-                break;
-
-            case Move::KING_CASTLING_LONG:
-                $castlingLong = Castling::info($this->getColor())->{Symbol::KING}->{Symbol::CASTLING_LONG};
-                if (
-                    in_array($castlingLong->freeSquares->b, self::$squares->free) &&
-                    in_array($castlingLong->freeSquares->c, self::$squares->free) &&
-                    in_array($castlingLong->freeSquares->d, self::$squares->free)
-                ) {
-                    $moves[] = $this->getMove()->position->next;
-                }
-                break;
+        if (
+            !self::$boardStatus->castling->{$this->getColor()}->isCastled &&
+            in_array($castlingShort->freeSquares->f, self::$boardStatus->squares->free) &&
+            in_array($castlingShort->freeSquares->g, self::$boardStatus->squares->free)
+        ) {
+            $movesCastlingShort = [$castlingShort->position->next];
+        }
+        else {
+            $movesCastlingShort = [];
         }
 
-        return $moves;
+        if (
+            !self::$boardStatus->castling->{$this->getColor()}->isCastled &&
+            in_array($castlingLong->freeSquares->b, self::$boardStatus->squares->free) &&
+            in_array($castlingLong->freeSquares->c, self::$boardStatus->squares->free) &&
+            in_array($castlingLong->freeSquares->d, self::$boardStatus->squares->free)
+        ) {
+            $movesCastlingLong = [$castlingLong->position->next];
+        }
+        else {
+            $movesCastlingLong = [];
+        }
+
+        return array_unique(
+            array_values(
+                array_merge($movesKing, $movesKingCaptures, $movesCastlingShort, $movesCastlingLong)
+        ));
     }
 }

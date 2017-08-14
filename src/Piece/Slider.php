@@ -26,7 +26,7 @@ abstract class Slider extends AbstractPiece
     }
 
     /**
-     * Gets the legal moves that can be performed on the board by slider pieces.
+     * Gets the legal moves that slider pieces can perform.
      *
      * @return array The legal moves that the slider piece (BRQ) can perform.
      */
@@ -37,14 +37,14 @@ abstract class Slider extends AbstractPiece
         foreach ($this->getPosition()->scope as $direction) {
             foreach ($direction as $square) {
                 if (
-                    !in_array($square, self::$squares->used->{$this->getColor()}) &&
-                    !in_array($square, self::$squares->used->{$this->getOppositeColor()})
+                    !in_array($square, self::$boardStatus->squares->used->{$this->getColor()}) &&
+                    !in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})
                 ) {
                     $moves[] = $square;
-                } elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
+                } elseif (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
                     $moves[] = $square;
                     break 1;
-                } elseif (in_array($square, self::$squares->used->{$this->getColor()})) {
+                } elseif (in_array($square, self::$boardStatus->squares->used->{$this->getColor()})) {
                     break 1;
                 }
             }

@@ -127,23 +127,23 @@ class Knight extends AbstractPiece
 
             switch(true) {
                 case null != $this->getMove() && $this->getMove()->isCapture == false:
-                    if (in_array($square, self::$squares->free)) {
+                    if (in_array($square, self::$boardStatus->squares->free)) {
                         $moves[] = $square;
-                    } elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
+                    } elseif (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
                         $moves[] = $square;
                     }
                     break;
 
                 case null != $this->getMove() && $this->getMove()->isCapture == true:
-                    if (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
+                    if (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
                         $moves[] = $square;
                     }
                     break;
 
                 case null == $this->getMove():
-                    if (in_array($square, self::$squares->free)) {
+                    if (in_array($square, self::$boardStatus->squares->free)) {
                         $moves[] = $square;
-                    } elseif (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
+                    } elseif (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
                         $moves[] = $square;
                     }
                     break;

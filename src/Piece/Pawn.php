@@ -105,7 +105,7 @@ class Pawn extends AbstractPiece
 
         // add up squares
         foreach($this->getPosition()->scope->up as $square) {
-            if (in_array($square, self::$squares->free)) {
+            if (in_array($square, self::$boardStatus->squares->free)) {
                 $moves[] = $square;
             } else {
                 break;
@@ -114,7 +114,7 @@ class Pawn extends AbstractPiece
 
         // add capture squares
         foreach($this->getPosition()->capture as $square) {
-            if (in_array($square, self::$squares->used->{$this->getOppositeColor()})) {
+            if (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
                 $moves[] = $square;
             }
         }
@@ -123,27 +123,27 @@ class Pawn extends AbstractPiece
         if (
             $this->ranks->initial === 2 &&
             (int)$this->position->current[1] === 5 &&
-            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
+            self::$boardStatus->previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
             (isset($this->position->capture[1]) &&
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])))
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])))
         ) {
-            $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-                        (self::$previousMove->{$this->getOppositeColor()}->position->next[1]+1);
+            $moves[] =  self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
+                        (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]+1);
         } elseif (
             $this->ranks->initial === 7 &&
             (int)$this->position->current[1] === 4 &&
-            self::$previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
+            self::$boardStatus->previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
             (isset($this->position->capture[1]) &&
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])))
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
+            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])))
         ) {
-            $moves[] =  self::$previousMove->{$this->getOppositeColor()}->position->next[0] .
-                        (self::$previousMove->{$this->getOppositeColor()}->position->next[1]-1);
+            $moves[] =  self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
+                        (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]-1);
         }
 
         return $moves;

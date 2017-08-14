@@ -13,6 +13,7 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Piece;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
+use PGNChess\PGN\Converter;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
 use PGNChess\Type\RookType;
@@ -85,6 +86,7 @@ class Board extends \SplObjectStorage
                 Symbol::WHITE => false,
                 Symbol::BLACK => false
             ],
+            // TODO update the isCheckmated property accordingly
             'isCheckemated' => (object) [
                 Symbol::WHITE => false,
                 Symbol::BLACK => false
@@ -147,33 +149,33 @@ class Board extends \SplObjectStorage
      */
     private function refresh($piece=null)
     {
-        // current player's turn
-        $this->status->turn === Symbol::WHITE
-            ? $this->status->turn = Symbol::BLACK
-            : $this->status->turn = Symbol::WHITE;
-
-        // compute square statistics and send them to all pieces
+        // update the current player's turn
+        $this->status->turn === Symbol::WHITE ? $this->status->turn = Symbol::BLACK : $this->status->turn = Symbol::WHITE;
+        // update square statistics and send them to all pieces
         $this->status->squares = SquareStats::calc(iterator_to_array($this, false));
-        AbstractPiece::setSquares($this->status->squares);
-
+        AbstractPiece::setBoardStatus($this->status);
         // compute control squares (space/attack squares)
         $this->status->control = $this->control();
 
         if (isset($piece)) {
-            // compute previous moves and send them to all pieces
-            $this->status->previousMove->{$piece->getColor()}->identity = $piece->getIdentity();
-            $this->status->previousMove->{$piece->getColor()}->position = $piece->getMove()->position;
-            AbstractPiece::setPreviousMove($this->status->previousMove);
-            // update checked property
+            // update isChecked property
             $king = $this->getPiece($piece->getOppositeColor(), Symbol::KING);
-            if (in_array($king->getPosition()->current, $this->status->control->attack->{$king->getOppositeColor()})) {
-                $this->status->isChecked->{$piece->getOppositeColor()} = true;
-            } else {
-                $this->status->isChecked->{$piece->getOppositeColor()} = false;
+            in_array($king->getPosition()->current, $this->status->control->attack->{$king->getOppositeColor()})
+                ? $this->status->isChecked->{$piece->getOppositeColor()} = true
+                : $this->status->isChecked->{$piece->getOppositeColor()} = false;
+            // update castling ability
+            if (!$this->status->castling->{$piece->getColor()}->isCastled) {
+                $this->trackCastling($piece);
             }
-            // check if the game is over
-            $this->isGameOver($piece);
+            // update previous move
+            $this->status->previousMove->{$piece->getColor()} = (object) [
+                'identity' => $piece->getIdentity(),
+                'position' => $piece->getMove()->position
+            ];
         }
+
+        // send new status to pieces
+        AbstractPiece::setBoardStatus($this->status);
     }
 
     /**
@@ -449,11 +451,6 @@ class Board extends \SplObjectStorage
                 $this->promote($piece);
             }
 
-            // track ability to castle
-            if (!$this->status->castling->{$piece->getColor()}->isCastled) {
-                $this->trackCastling($piece);
-            }
-
             $this->refresh($piece);
 
         } catch (\Exception $e) {
@@ -531,7 +528,7 @@ class Board extends \SplObjectStorage
     *
     * @return stdClass
     */
-    public function control()
+    private function control()
     {
         $control = (object) [
             'space' => (object) [
@@ -631,10 +628,5 @@ class Board extends \SplObjectStorage
         } else {
             return false;
         }
-    }
-
-    private function isGameOver($piece)
-    {
-
     }
 }

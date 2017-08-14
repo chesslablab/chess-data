@@ -15,44 +15,28 @@ use PGNChess\PGN\Validator;
 abstract class AbstractPiece implements Piece
 {
     /**
-     * The piece's color in PGN format; for exmaple 'w' or 'b'.
+     * The piece's color in PGN format.
      *
      * @var string
      */
     protected $color;
 
     /**
-     * The piece's position on a board.
-     *
-     *      $forExample = (object) [
-     *          'current' => 'b',
-     *          'next' => 'b7'
-     *      ];
+     * The piece's position on the board.
      *
      * @var stdClass
      */
     protected $position;
 
     /**
-     * The piece's identity in PGN format; for example 'K', 'Q' or 'N'.
+     * The piece's identity in PGN format.
      *
      * @var string
      */
     protected $identity;
 
     /**
-     * The piece's next move to be performed on the board. This is the processable,
-     * objectized counterpart of a valid PGN move.
-     *
-     *      $forExample = (object) [
-     *          'type' => PGN::MOVE_TYPE_PIECE,
-     *          'color' => 'w',
-     *          'identity' => PGN::BISHOP,
-     *          'position' => (object) [
-     *              'current' => null,
-     *              'next' =>'g5'
-     *          ]
-     *      ];
+     * The piece's next move to be performed on the board.
      *
      * @var stdClass
      */
@@ -65,9 +49,12 @@ abstract class AbstractPiece implements Piece
      */
     protected $legalMoves;
 
-    protected static $squares;
-
-    protected static $previousMove;
+    /**
+     * Chess board status accessible by all pieces.
+     *
+     * @var stdClass
+     */
+    protected static $boardStatus;
 
     /**
      * Constructor.
@@ -84,7 +71,7 @@ abstract class AbstractPiece implements Piece
             'current' => Validator::square($square) ? $square : null,
             'scope' => []
         ];
-        
+
         $this->identity = $identity;
     }
 
@@ -179,19 +166,13 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
-     * This is flat information about the chess board, which is accessible by all pieces
-     * for computing their legal moves, etc.
+     * Sets the board status.
      *
-     * @param stdClass $squares
+     * @param stdClass $boardStatus
      */
-    public static function setSquares(\stdClass $squares)
+    public static function setBoardStatus(\stdClass $boardStatus)
     {
-        self::$squares = $squares;
-    }
-
-    public static function setPreviousMove(\stdClass $previousMove)
-    {
-        self::$previousMove = $previousMove;
+        self::$boardStatus = $boardStatus;
     }
 
     /**

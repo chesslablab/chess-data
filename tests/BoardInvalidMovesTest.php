@@ -73,6 +73,7 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
     public function testThrowsExceptionPieceDoesNotExistOnTheBoard()
     {
         $this->expectException(\InvalidArgumentException::class);
+
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
             new Pawn(Symbol::WHITE, 'a3'),
@@ -87,7 +88,22 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $board->play(Converter::toObject(Symbol::WHITE, 'f4'));
     }
 }

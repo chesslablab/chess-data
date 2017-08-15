@@ -16,7 +16,7 @@ class Validator
      * Validates a color.
      *
      * @param string $color
-     * @return boolean true if the color is valid; otherwise false
+     * @return string if the color is valid
      * @throws \InvalidArgumentException
      */
     public static function color($color)
@@ -32,7 +32,7 @@ class Validator
      * Validates a square.
      *
      * @param string $square
-     * @return boolean true if the square is valid; otherwise false
+     * @return string if the square is valid
      * @throws \InvalidArgumentException
      */
     public static function square($square)

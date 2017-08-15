@@ -17,6 +17,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateDefaultBoard()
     {
         $board = new Board;
+
         $this->assertEquals(count($board), 32);
         $this->assertEquals(count($board->getSquares()->used->w), 16);
         $this->assertEquals(count($board->getSquares()->used->b), 16);
@@ -33,7 +34,22 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             new Bishop(Symbol::BLACK, 'f8'),
             new Knight(Symbol::BLACK, 'g8')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(count($board), 7);
         $this->assertEquals(count($board->getSquares()->used->w), 4);
         $this->assertEquals(count($board->getSquares()->used->b), 3);
@@ -48,13 +64,16 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             'Nc3 Bb4',
             'Bxf4 Bxc3+'
         ];
+
         $board = new Board;
+
         foreach ($game as $entry)
         {
             $moves = explode(' ', $entry);
             $board->play(Converter::toObject(Symbol::WHITE, $moves[0]));
             $board->play(Converter::toObject(Symbol::BLACK, $moves[1]));
         }
+
         $example = (object) [
             Symbol::WHITE => [
                 'a3',
@@ -101,6 +120,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
                 'h6'
             ]
         ];
+
         $this->assertEquals($example, $board->getControl()->space);
     }
 }

@@ -65,9 +65,10 @@ class Board extends \SplObjectStorage
     /**
      * Constructor.
      *
-     * @param null|array $pieces
+     * @param array $pieces
+     * @param stdClass $castling
      */
-    public function __construct(array $pieces=null)
+    public function __construct(array $pieces=null, $castling=null)
     {
         if (empty($pieces)) {
             $this->attach(new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG));
@@ -108,17 +109,22 @@ class Board extends \SplObjectStorage
             }
         }
 
-        $this->castling = (object) [
-            Symbol::WHITE => (object) [
-                'castled' => false,
-                Symbol::CASTLING_SHORT => true,
-                Symbol::CASTLING_LONG => true
-            ],
-            Symbol::BLACK => (object) [
-                'castled' => false,
-                Symbol::CASTLING_SHORT => true,
-                Symbol::CASTLING_LONG => true
-        ]];
+        if (empty($castling))
+        {
+            $this->castling = (object) [
+                Symbol::WHITE => (object) [
+                    'castled' => false,
+                    Symbol::CASTLING_SHORT => true,
+                    Symbol::CASTLING_LONG => true
+                ],
+                Symbol::BLACK => (object) [
+                    'castled' => false,
+                    Symbol::CASTLING_SHORT => true,
+                    Symbol::CASTLING_LONG => true
+            ]];
+        } else {
+            $this->castling = $castling;
+        }
 
         $this->previousMove = (object) [
             Symbol::WHITE => (object) [
@@ -253,8 +259,8 @@ class Board extends \SplObjectStorage
      *
      * This method is run just after a piece is moved successfully.
      *
-     * @param PGNChess\Piece $piece
-     * @return PGNChess\Board
+     * @param Piece $piece
+     * @return Board
      */
     private function refresh($piece=null)
     {
@@ -398,7 +404,7 @@ class Board extends \SplObjectStorage
     /**
      * Moves the king.
      *
-     * @param PGNChess\Piece\King $king
+     * @param King $king
      * @return boolean true if the king captured the piece; otherwise false
      */
     private function kingIsMoved(King $king)
@@ -428,7 +434,7 @@ class Board extends \SplObjectStorage
     /**
      * Updates the kings' ability to castle.
      *
-     * @param PGNChess\Piece\Piece $piece
+     * @param Piece $piece
      */
     private function trackCastling(Piece $piece)
     {
@@ -456,7 +462,7 @@ class Board extends \SplObjectStorage
     /**
      * Castles the king.
      *
-     * @param PGNChess\Piece\King $king
+     * @param King $king
      * @return boolean true if the castling is successfully run; otherwise false.
      */
     private function castle(King $king)
@@ -502,7 +508,7 @@ class Board extends \SplObjectStorage
     /**
      * Promotes a pawn.
      *
-     * @param PGNChess\Piece\Pawn $pawn
+     * @param Pawn $pawn
      */
     private function promote(Pawn $pawn)
     {
@@ -527,7 +533,7 @@ class Board extends \SplObjectStorage
     /**
      * Moves a piece.
      *
-     * @param PGNChess\Piece\Piece $piece
+     * @param Piece $piece
      * @return boolean true if the move is successfully performed; otherwise false
      */
     private function move(Piece $piece)
@@ -588,7 +594,7 @@ class Board extends \SplObjectStorage
      *
      * @param string $color
      * @param string $identity
-     * @return PGNChess\Piece\Piece
+     * @return Piece
      */
     public function getPiece($color, $identity)
     {
@@ -609,7 +615,7 @@ class Board extends \SplObjectStorage
      * Gets a piece by its position on the board.
      *
      * @param string $square
-     * @return PGNChess\Piece\Piece
+     * @return Piece
      */
     public function getPieceByPosition($square)
     {
@@ -716,7 +722,7 @@ class Board extends \SplObjectStorage
     /**
      * Verifies whether or not a piece's move leaves the board in check.
      *
-     * @param PGNChess\Piece $piece
+     * @param Piece $piece
      * @return boolean
      */
     private function isCheck($piece)
@@ -736,7 +742,7 @@ class Board extends \SplObjectStorage
     /**
      * Replicates the board for cloning purposes.
      *
-     * @return PGNChess\Game\Board
+     * @return Board
      */
     public function replicate()
     {

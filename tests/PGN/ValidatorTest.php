@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\Tests\PGN;
 
+use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validator;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
@@ -13,8 +14,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testColorIsOk()
     {
-        $this->assertEquals('w', Validator::color('w'));
-        $this->assertEquals('b', Validator::color('b'));
+        $this->assertEquals(Symbol::WHITE, Validator::color(Symbol::WHITE));
+        $this->assertEquals(Symbol::BLACK, Validator::color(Symbol::BLACK));
     }
 
     public function testSquareIntegerThrowsException()

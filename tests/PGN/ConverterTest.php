@@ -13,55 +13,55 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     public function testMoveUa5ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('w', 'Ua5');
+        Converter::toObject(Symbol::WHITE, 'Ua5');
     }
 
     public function testMove3a5ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('b', '3a5');
+        Converter::toObject(Symbol::BLACK, '3a5');
     }
 
     public function testMovecb3b7ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('w', 'cb3b7');
+        Converter::toObject(Symbol::WHITE, 'cb3b7');
     }
 
     public function testMoveShortCastlingThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('b', 'a-a');
+        Converter::toObject(Symbol::BLACK, 'a-a');
     }
 
     public function testMoveLongCastlingThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('w', 'c-c-c');
+        Converter::toObject(Symbol::WHITE, 'c-c-c');
     }
 
     public function testMoveaThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('b', 'a');
+        Converter::toObject(Symbol::BLACK, 'a');
     }
 
     public function testMove3ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('w', 3);
+        Converter::toObject(Symbol::WHITE, 3);
     }
 
     public function testMoveK3ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('b', 'K3');
+        Converter::toObject(Symbol::BLACK, 'K3');
     }
 
     public function testMoveCaptureThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject('w', 'Fxa7');
+        Converter::toObject(Symbol::WHITE, 'Fxa7');
     }
 
     // convert pieces' moves
@@ -74,14 +74,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::PIECE,
-            'color' => 'w',
+            'color' => Symbol::WHITE,
             'identity' => Symbol::BISHOP,
             'position' => (object) [
                 'current' => null,
                 'next' =>'g5'
             ]
         ];
-        $this->assertEquals(Converter::toObject('w', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveRa5()
@@ -92,14 +92,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::PIECE,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::ROOK,
             'position' => (object) [
                 'current' => null,
                 'next' => 'a5'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveQbb7()
@@ -110,14 +110,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::PIECE,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::QUEEN,
             'position' => (object) [
-                'current' => 'b',
+                'current' => Symbol::BLACK,
                 'next' => 'b7'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveNdb4()
@@ -128,14 +128,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::KNIGHT,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::KNIGHT,
             'position' => (object) [
                 'current' => 'd',
                 'next' => 'b4'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveKg7()
@@ -146,14 +146,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::KING,
-            'color' => 'w',
+            'color' => Symbol::WHITE,
             'identity' => Symbol::KING,
             'position' => (object) [
                 'current' => null,
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(Converter::toObject('w', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveQh8g7()
@@ -164,14 +164,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::PIECE,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::QUEEN,
             'position' => (object) [
                 'current' => 'h8',
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 
     // convert pawns' moves
@@ -184,14 +184,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::PAWN,
-            'color' => 'w',
+            'color' => Symbol::WHITE,
             'identity' => Symbol::PAWN,
             'position' => (object) [
                 'current' => 'c',
                 'next' => 'c3'
             ]
         ];
-        $this->assertEquals(Converter::toObject('w', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveh4()
@@ -202,14 +202,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::PAWN,
-            'color' => 'w',
+            'color' => Symbol::WHITE,
             'identity' => Symbol::PAWN,
             'position' => (object) [
                 'current' => 'h',
                 'next' => 'h3'
             ]
         ];
-        $this->assertEquals(Converter::toObject('w', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
     }
 
     // castling
@@ -222,11 +222,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::KING_CASTLING_SHORT,
-            'color' => 'w',
+            'color' => Symbol::WHITE,
             'identity' => 'K',
-            'position' => Castling::info('w')->{Symbol::KING}->{Symbol::CASTLING_SHORT}->position
+            'position' => Castling::info(Symbol::WHITE)->{Symbol::KING}->{Symbol::CASTLING_SHORT}->position
         ];
-        $this->assertEquals(Converter::toObject('w', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveLongCastling()
@@ -237,11 +237,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => false,
             'isCheck' => false,
             'type' => Move::KING_CASTLING_LONG,
-            'color' => 'w',
+            'color' => Symbol::WHITE,
             'identity' => 'K',
-            'position' => Castling::info('w')->{Symbol::KING}->{Symbol::CASTLING_LONG}->position
+            'position' => Castling::info(Symbol::WHITE)->{Symbol::KING}->{Symbol::CASTLING_LONG}->position
         ];
-        $this->assertEquals(Converter::toObject('w', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
     }
 
     // captures
@@ -254,14 +254,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => true,
             'isCheck' => false,
             'type' => Move::PAWN_CAPTURES,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::PAWN,
             'position' => (object) [
                 'current' => 'f',
                 'next' => 'g5'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveCaptureNxe4()
@@ -272,14 +272,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => true,
             'isCheck' => false,
             'type' => Move::KNIGHT_CAPTURES,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::KNIGHT,
             'position' => (object) [
                 'current' => null,
                 'next' => 'e4'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveCaptureQ7xg7()
@@ -290,13 +290,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'isCapture' => true,
             'isCheck' => false,
             'type' => Move::PIECE_CAPTURES,
-            'color' => 'b',
+            'color' => Symbol::BLACK,
             'identity' => Symbol::QUEEN,
             'position' => (object) [
                 'current' => '7',
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(Converter::toObject('b', $move), $example);
+        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
     }
 }

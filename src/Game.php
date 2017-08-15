@@ -58,11 +58,27 @@ class Game
     /**
      * Gets the chess board.
      *
-     * @return PGNChess\Game\Board
+     * @return Board
      */
     public function getBoard()
     {
         return $this->board;
+    }
+
+    /**
+     * Sets the chess board.
+     *
+     * @param Board $board
+     */
+    public function setBoard(Board $board)
+    {
+        $this->board = $board;
+
+        $this->checked->{Symbol::WHITE} = false;
+        $this->checked->{Symbol::BLACK} = false;
+
+        $this->mated->{Symbol::WHITE} = false;
+        $this->mated->{Symbol::BLACK} = false;
     }
 
     /**
@@ -99,7 +115,12 @@ class Game
 
         $result = $this->board->play($move);
 
+        $this->checked->{Symbol::WHITE} = false;
+        $this->checked->{Symbol::BLACK} = false;
         $this->checked->{$this->board->getTurn()} = Analyzer::check($this->board);
+
+        $this->mated->{Symbol::WHITE} = false;
+        $this->mated->{Symbol::BLACK} = false;
         $this->mated->{$this->board->getTurn()} = Analyzer::mate($this->board);
 
         return $result;

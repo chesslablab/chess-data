@@ -56,7 +56,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             $board->play(Converter::toObject(Symbol::BLACK, $moves[1]));
         }
         $example = (object) [
-            'w' => [
+            Symbol::WHITE => [
                 'a3',
                 'a6',
                 'b1',
@@ -82,7 +82,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
                 'h5',
                 'h6'
             ],
-            'b' => [
+            Symbol::BLACK => [
                 'a5',
                 'a6',
                 'b4',

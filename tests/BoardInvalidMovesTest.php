@@ -65,7 +65,7 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
         {
             for($j=1; $j<=8; $j++)
             {
-                $this->assertEquals(false, $board->play(Converter::toObject('w', 'Ra' . chr((ord('a') + $i)) . $j)));
+                $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra' . chr((ord('a') + $i)) . $j)));
             }
         }
     }
@@ -88,6 +88,6 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'h7')
         ];
         $board = new Board($pieces);
-        $board->play(Converter::toObject('w', 'f4'));
+        $board->play(Converter::toObject(Symbol::WHITE, 'f4'));
     }
 }

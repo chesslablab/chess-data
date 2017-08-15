@@ -33,8 +33,21 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'h7')
         ];
 
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
         $game = new Game;
-        $board = new Board($pieces);
+        $board = new Board($pieces, $castling);
         $game->setBoard($board);
 
         $this->assertEquals(true, $game->play(Converter::toObject(Symbol::WHITE, 'Ra8+')));

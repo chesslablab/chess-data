@@ -17,6 +17,7 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testTurnNormal()
     {
         $board = new Board;
+
         $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e4')));
         $this->assertEquals($board->getTurn(), Symbol::BLACK);
@@ -27,6 +28,7 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testTurnWithMistakes()
     {
         $board = new Board;
+
         $this->assertEquals($board->getTurn(), Symbol::WHITE);
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'e4')));
         $this->assertEquals($board->getTurn(), Symbol::WHITE);
@@ -122,7 +124,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Kf4')));
     }
 
@@ -142,7 +159,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Kf4')));
     }
 
@@ -162,7 +194,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Kf2')));
     }
 
@@ -182,7 +229,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Re7')));
     }
 
@@ -202,7 +264,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'a4')));
     }
 
@@ -222,29 +299,48 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new King(Symbol::BLACK, 'g5'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Kxf2')));
     }
 
     public function testWhiteCastlesShortSicilianAfterNc6()
     {
         $board = new Board;
+
         $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
         $board->play(Converter::toObject(Symbol::BLACK, 'c5'));
         $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
         $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
     }
 
     public function testWhiteCastlesLongSicilianAfterNf6()
     {
         $board = new Board;
+
         $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
         $board->play(Converter::toObject(Symbol::BLACK, 'c5'));
         $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
         $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
         $board->play(Converter::toObject(Symbol::WHITE, 'Bb5'));
         $board->play(Converter::toObject(Symbol::BLACK, 'Nf6'));
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
     }
 
@@ -269,7 +365,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
     }
 
@@ -294,7 +405,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
     }
 
@@ -318,7 +444,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
     }
 
@@ -342,7 +483,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
     }
 
@@ -366,7 +522,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
     }
@@ -391,7 +562,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
     }
@@ -416,7 +602,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
     }
 
@@ -440,7 +641,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Kf1')));
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'Nf6')));
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Ke1')));
@@ -468,7 +684,22 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
             new Pawn(Symbol::BLACK, 'g7'),
             new Pawn(Symbol::BLACK, 'h7')
         ];
-        $board = new Board($pieces);
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Rg1')));
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'Nf6')));
         $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Rh1')));
@@ -479,6 +710,7 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testForbidCastlingRuyLopez()
     {
         $board = new Board;
+
         $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
         $board->play(Converter::toObject(Symbol::BLACK, 'e5'));
         $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
@@ -491,6 +723,7 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
         $board->play(Converter::toObject(Symbol::BLACK, 'Ke7'));
         $board->play(Converter::toObject(Symbol::WHITE, 'Nc3'));
         $board->play(Converter::toObject(Symbol::BLACK, 'Ke8'));
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::BLACK, 'O-O')));
     }
@@ -498,6 +731,7 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
     public function testGame01()
     {
         $board = new Board;
+
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')));
         $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'e5')));

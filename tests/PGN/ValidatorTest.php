@@ -2,48 +2,48 @@
 namespace PGNChess\Tests\PGN;
 
 use PGNChess\PGN\Symbol;
-use PGNChess\PGN\Validator;
+use PGNChess\PGN\Validate;
 
-class ValidatorTest extends \PHPUnit_Framework_TestCase
+class ValidateTest extends \PHPUnit_Framework_TestCase
 {
     public function testColorThrowException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Validator::color('green');
+        Validate::color('green');
     }
 
     public function testColorIsOk()
     {
-        $this->assertEquals(Symbol::WHITE, Validator::color(Symbol::WHITE));
-        $this->assertEquals(Symbol::BLACK, Validator::color(Symbol::BLACK));
+        $this->assertEquals(Symbol::WHITE, Validate::color(Symbol::WHITE));
+        $this->assertEquals(Symbol::BLACK, Validate::color(Symbol::BLACK));
     }
 
     public function testSquareIntegerThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Validator::square(9);
+        Validate::square(9);
     }
 
     public function testSquareFloatThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Validator::square(9.75);
+        Validate::square(9.75);
     }
 
     public function testSquareA9ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Validator::square('a9');
+        Validate::square('a9');
     }
 
     public function testSquareFooThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Validator::square('foo');
+        Validate::square('foo');
     }
 
     public function testSquareIsOk()
     {
-        $this->assertEquals(Validator::square('e4'), 'e4');
+        $this->assertEquals(Validate::square('e4'), 'e4');
     }
 }

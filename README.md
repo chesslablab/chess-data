@@ -2,7 +2,7 @@
 
 ![PGN Chess](/resources/chess-move.jpg?raw=true)
 
-This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. It understands the rules of chess, and is capable of validating and playing PGN notated games.
+This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms. It understands the rules of chess, and is capable of validating and playing PGN notated games.
 
 PGN Chess comes to the rescue in the following scenarios:
 
@@ -26,12 +26,12 @@ Just instantiate a game and play PGN moves converted into PHP objects:
 ```php
 <?php
 use PGNChess\Game;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 
 $game = new Game;
 
-$game->play(Converter::toObject(Symbol::WHITE, 'e4');
+$game->play(Convert::toObject(Symbol::WHITE, 'e4');
 ```
 
 The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board. It is up to you to process the result accordingly.

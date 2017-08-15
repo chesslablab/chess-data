@@ -4,10 +4,10 @@ namespace PGNChess;
 use DeepCopy\DeepCopy;
 use PGNChess\Square\Castling;
 use PGNChess\Square\Stats;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
-use PGNChess\PGN\Validator;
+use PGNChess\PGN\Validate;
 use PGNChess\Piece\AbstractPiece;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
@@ -124,6 +124,7 @@ class Board extends \SplObjectStorage
             ]];
         } else {
             $this->castling = $castling;
+            Analyze::castling($this);
         }
 
         $this->previousMove = (object) [
@@ -161,7 +162,7 @@ class Board extends \SplObjectStorage
      */
     public function setTurn($turn)
     {
-        $this->turn = Validator::color($turn);
+        $this->turn = Validate::color($turn);
 
         return $this;
     }

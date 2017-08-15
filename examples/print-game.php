@@ -1,6 +1,6 @@
 <?php
 use PGNChess\Game;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -27,7 +27,7 @@ for ($i=0; $i<count($moves); $i++)
     try
     {
         echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
-        if ($game->play(Converter::toObject(Symbol::WHITE, $whiteMove)))
+        if ($game->play(Convert::toObject(Symbol::WHITE, $whiteMove)))
         {
             if ($game->isMated(Symbol::BLACK)) {
                 echo 'Checkmated!' . PHP_EOL;
@@ -44,7 +44,7 @@ for ($i=0; $i<count($moves); $i++)
         if (isset($moves[$i][1]))
         {
             echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
-            if ($game->play(Converter::toObject(Symbol::BLACK, $blackMove)))
+            if ($game->play(Convert::toObject(Symbol::BLACK, $blackMove)))
             {
                 if ($game->isMated(Symbol::WHITE)) {
                     echo 'Checkmated!' . PHP_EOL;

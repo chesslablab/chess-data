@@ -2,7 +2,7 @@
 namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
@@ -63,7 +63,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Ra6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ra6')));
     }
 
     public function testPlayRxa6InCustomBoard()
@@ -92,7 +92,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Rxa6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Rxa6')));
     }
 
     public function testPlayh6InCustomBoard()
@@ -122,7 +122,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
         $board->setTurn(Symbol::BLACK);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'h6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'h6')));
     }
 
     public function testPlayhxg6InCustomBoard()
@@ -153,27 +153,27 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
         $board->setTurn(Symbol::BLACK);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'hxg6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'hxg6')));
     }
 
     public function testPlayNc3()
     {
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Nc3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nc3')));
     }
 
     public function testPlayNc6()
     {
         $board = new Board;
         $board->setTurn(Symbol::BLACK);
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'Nc6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Nc6')));
     }
 
     public function testPlayNf6()
     {
         $board = new Board;
         $board->setTurn(Symbol::BLACK);
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'Nf6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Nf6')));
     }
 
     public function testPlayNxc3InCustomBoard()
@@ -203,7 +203,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Nxc3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nxc3')));
     }
 
     public function testPlayShortCastlingInCustomBoard()
@@ -256,7 +256,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
         $board->setTurn(Symbol::BLACK);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'O-O')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'O-O')));
     }
 
     public function testCheckIsFixedKe4()
@@ -291,7 +291,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Ke4')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ke4')));
     }
 
     public function testCheckIsFixedKg3()
@@ -326,7 +326,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Kg3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Kg3')));
     }
 
     public function testCheckIsFixedKg2()
@@ -361,7 +361,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Kg2')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Kg2')));
     }
 
     public function testCheckIsFixedKe2()
@@ -396,7 +396,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Ke2')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ke2')));
     }
 
     public function testCheckIsFixedKe3()
@@ -431,7 +431,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Ke3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ke3')));
     }
 
     public function testKingLegalMove()
@@ -466,7 +466,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Kg2')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Kg2')));
     }
 
     public function testKingLegalCapture()
@@ -501,7 +501,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Kxh2')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Kxh2')));
     }
 
     public function testKingCanCaptureRookNotDefended()
@@ -536,35 +536,35 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Kxf3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Kxf3')));
     }
 
     public function testWhiteCastlesShortSicilianAfterNf6()
     {
         $board = new Board;
 
-        $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'c5'));
-        $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
-        $board->play(Converter::toObject(Symbol::WHITE, 'Bb5'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'Nf6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'e4'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'c5'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'O-O')));
     }
 
     public function testWhiteCastlesShortSicilianAfterNf6BoardStatus()
     {
         $board = new Board;
 
-        $board->play(Converter::toObject(Symbol::WHITE, 'e4'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'c5'));
-        $board->play(Converter::toObject(Symbol::WHITE, 'Nf3'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'Nc6'));
-        $board->play(Converter::toObject(Symbol::WHITE, 'Bb5'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'Nf6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'e4'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'c5'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'O-O')));
     }
 
     public function testCastlingWithThreatsRemoved()
@@ -603,7 +603,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'O-O')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'O-O')));
     }
 
     public function testCheckCastlingStatusAfterMovingRh1()
@@ -642,12 +642,12 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $board->play(Converter::toObject(Symbol::WHITE, 'Rg1'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'Nf6'));
-        $board->play(Converter::toObject(Symbol::WHITE, 'Rh1'));
-        $board->play(Converter::toObject(Symbol::BLACK, 'Nd7'));
-        $board->play(Converter::toObject(Symbol::WHITE, 'O-O')); // this won't be run
-        $board->play(Converter::toObject(Symbol::WHITE, 'O-O-O')); // this will be run
+        $board->play(Convert::toObject(Symbol::WHITE, 'Rg1'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Rh1'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nd7'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'O-O')); // this won't be run
+        $board->play(Convert::toObject(Symbol::WHITE, 'O-O-O')); // this will be run
 
         $whiteSquaresUsed = [
             'a2',
@@ -725,8 +725,8 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'f4')));
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'exf3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'f4')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'exf3')));
     }
 
     public function testEnPassantf6()
@@ -762,8 +762,8 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
         $board->setTurn(Symbol::BLACK);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'f5')));
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'exf6')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'f5')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'exf6')));
     }
 
     public function testEnPassanth3()
@@ -798,8 +798,8 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'h4')));
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'gxh3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'h4')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'gxh3')));
     }
 
     public function testEnPassantg3()
@@ -834,8 +834,8 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'g4')));
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::BLACK, 'hxg3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'g4')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'hxg3')));
     }
 
     public function testPawnPromotion()
@@ -867,6 +867,6 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'h8=Q')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'h8=Q')));
     }
 }

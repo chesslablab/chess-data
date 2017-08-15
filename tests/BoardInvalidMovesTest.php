@@ -2,7 +2,7 @@
 namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
@@ -18,42 +18,42 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 9)));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 9)));
     }
 
     public function testFoo()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'foo')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'foo')));
     }
 
     public function testBar()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'bar')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'bar')));
     }
 
     public function test_e9()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e9')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e9')));
     }
 
     public function test_e10()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'e10')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e10')));
     }
 
     public function testNw3()
     {
         $this->expectException(\InvalidArgumentException::class);
         $board = new Board;
-        $this->assertEquals(true, $board->play(Converter::toObject(Symbol::WHITE, 'Nw3')));
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nw3')));
     }
 
     public function testPlayRaInDefaultBoard()
@@ -65,7 +65,7 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
         {
             for($j=1; $j<=8; $j++)
             {
-                $this->assertEquals(false, $board->play(Converter::toObject(Symbol::WHITE, 'Ra' . chr((ord('a') + $i)) . $j)));
+                $this->assertEquals(false, $board->play(Convert::toObject(Symbol::WHITE, 'Ra' . chr((ord('a') + $i)) . $j)));
             }
         }
     }
@@ -104,6 +104,6 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
 
         $board = new Board($pieces, $castling);
 
-        $board->play(Converter::toObject(Symbol::WHITE, 'f4'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'f4'));
     }
 }

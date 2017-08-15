@@ -10,7 +10,7 @@ use PGNChess\PGN\Symbol;
  * @link https://programarivm.com
  * @license MIT
  */
-class Validator
+class Validate
 {
     /**
      * Validates a color.

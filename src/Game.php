@@ -3,9 +3,9 @@ namespace PGNChess;
 
 use DeepCopy\DeepCopy;
 use PGNChess\Board;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
-use PGNChess\PGN\Validator;
+use PGNChess\PGN\Validate;
 
 /**
  * Game class.
@@ -89,7 +89,7 @@ class Game
      */
     public function isChecked($color)
     {
-        return $this->checked->{Validator::color($color)};
+        return $this->checked->{Validate::color($color)};
     }
 
     /**
@@ -100,7 +100,7 @@ class Game
      */
     public function isMated($color)
     {
-        return $this->mated->{Validator::color($color)};
+        return $this->mated->{Validate::color($color)};
     }
 
     /**
@@ -117,11 +117,11 @@ class Game
 
         $this->checked->{Symbol::WHITE} = false;
         $this->checked->{Symbol::BLACK} = false;
-        $this->checked->{$this->board->getTurn()} = Analyzer::check($this->board);
+        $this->checked->{$this->board->getTurn()} = Analyze::check($this->board);
 
         $this->mated->{Symbol::WHITE} = false;
         $this->mated->{Symbol::BLACK} = false;
-        $this->mated->{$this->board->getTurn()} = Analyzer::mate($this->board);
+        $this->mated->{$this->board->getTurn()} = Analyze::mate($this->board);
 
         return $result;
     }

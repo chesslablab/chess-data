@@ -2,7 +2,7 @@
 namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Bishop;
 use PGNChess\Piece\King;
@@ -70,8 +70,8 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         foreach ($game as $entry)
         {
             $moves = explode(' ', $entry);
-            $board->play(Converter::toObject(Symbol::WHITE, $moves[0]));
-            $board->play(Converter::toObject(Symbol::BLACK, $moves[1]));
+            $board->play(Convert::toObject(Symbol::WHITE, $moves[0]));
+            $board->play(Convert::toObject(Symbol::BLACK, $moves[1]));
         }
 
         $example = (object) [

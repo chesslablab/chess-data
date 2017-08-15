@@ -2,7 +2,7 @@
 namespace PGNChess\Piece;
 
 use PGNChess\PGN\Symbol;
-use PGNChess\PGN\Validator;
+use PGNChess\PGN\Validate;
 use PGNChess\Piece\AbstractPiece;
 
 /**
@@ -79,7 +79,7 @@ class Pawn extends AbstractPiece
     {
         // next rank
         try {
-            if (Validator::square($this->file . $this->ranks->next, true)) {
+            if (Validate::square($this->file . $this->ranks->next, true)) {
                 $this->position->scope->up[] = $this->file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {
@@ -97,7 +97,7 @@ class Pawn extends AbstractPiece
         // capture square
         try {
             $file = chr(ord($this->file) - 1);
-            if (Validator::square($file.$this->ranks->next, true)) {
+            if (Validate::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {
@@ -107,7 +107,7 @@ class Pawn extends AbstractPiece
         // capture square
         try {
             $file = chr(ord($this->file) + 1);
-            if (Validator::square($file.$this->ranks->next, true)) {
+            if (Validate::square($file.$this->ranks->next, true)) {
                 $this->position->capture[] = $file . $this->ranks->next;
             }
         } catch (\InvalidArgumentException $e) {

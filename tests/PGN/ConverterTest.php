@@ -2,66 +2,66 @@
 namespace PGNChess\Tests\PGN;
 
 use PGNChess\Square\Castling;
-use PGNChess\PGN\Converter;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
 
-class ConverterTest extends \PHPUnit_Framework_TestCase
+class ConvertTest extends \PHPUnit_Framework_TestCase
 {
     // throw exceptions
 
     public function testMoveUa5ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::WHITE, 'Ua5');
+        Convert::toObject(Symbol::WHITE, 'Ua5');
     }
 
     public function testMove3a5ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::BLACK, '3a5');
+        Convert::toObject(Symbol::BLACK, '3a5');
     }
 
     public function testMovecb3b7ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::WHITE, 'cb3b7');
+        Convert::toObject(Symbol::WHITE, 'cb3b7');
     }
 
     public function testMoveShortCastlingThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::BLACK, 'a-a');
+        Convert::toObject(Symbol::BLACK, 'a-a');
     }
 
     public function testMoveLongCastlingThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::WHITE, 'c-c-c');
+        Convert::toObject(Symbol::WHITE, 'c-c-c');
     }
 
     public function testMoveaThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::BLACK, 'a');
+        Convert::toObject(Symbol::BLACK, 'a');
     }
 
     public function testMove3ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::WHITE, 3);
+        Convert::toObject(Symbol::WHITE, 3);
     }
 
     public function testMoveK3ThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::BLACK, 'K3');
+        Convert::toObject(Symbol::BLACK, 'K3');
     }
 
     public function testMoveCaptureThrowsException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        Converter::toObject(Symbol::WHITE, 'Fxa7');
+        Convert::toObject(Symbol::WHITE, 'Fxa7');
     }
 
     // convert pieces' moves
@@ -81,7 +81,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' =>'g5'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveRa5()
@@ -99,7 +99,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'a5'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveQbb7()
@@ -117,7 +117,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'b7'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveNdb4()
@@ -135,7 +135,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'b4'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveKg7()
@@ -153,7 +153,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveQh8g7()
@@ -171,7 +171,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 
     // convert pawns' moves
@@ -191,7 +191,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'c3'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveh4()
@@ -209,7 +209,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'h3'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 
     // castling
@@ -226,7 +226,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'identity' => 'K',
             'position' => Castling::info(Symbol::WHITE)->{Symbol::KING}->{Symbol::CASTLING_SHORT}->position
         ];
-        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 
     public function testMoveLongCastling()
@@ -241,7 +241,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'identity' => 'K',
             'position' => Castling::info(Symbol::WHITE)->{Symbol::KING}->{Symbol::CASTLING_LONG}->position
         ];
-        $this->assertEquals(Converter::toObject(Symbol::WHITE, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 
     // captures
@@ -261,7 +261,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g5'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveCaptureNxe4()
@@ -279,7 +279,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'e4'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 
     public function testMoveCaptureQ7xg7()
@@ -297,6 +297,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'next' => 'g7'
             ]
         ];
-        $this->assertEquals(Converter::toObject(Symbol::BLACK, $move), $example);
+        $this->assertEquals(Convert::toObject(Symbol::BLACK, $move), $example);
     }
 }

@@ -3,6 +3,7 @@ namespace PGNChess;
 
 use DeepCopy\DeepCopy;
 use PGNChess\Board;
+use PGNChess\Exception\CastlingException;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 
@@ -32,55 +33,55 @@ class Analyze
         // check castling object
 
         if (empty($castlingArr)) {
-            throw new \InvalidArgumentException("Invalid castling. The castling object is empty.");
+            throw new CastlingException("The castling object is empty.");
         }
 
         if (count($castlingArr) !== 2) {
-            throw new \InvalidArgumentException("Invalid castling. The castling object must have two properties.");
+            throw new CastlingException("The castling object must have two properties.");
         }
 
         // check white's castling object
 
         if (empty($wCastlingArr)) {
-            throw new \InvalidArgumentException("Invalid castling. White's castling object is not set.");
+            throw new CastlingException("White's castling object is not set.");
         }
 
         if (count($wCastlingArr) !== 3) {
-            throw new \InvalidArgumentException("Invalid castling. White's castling object must have three properties.");
+            throw new CastlingException("White's castling object must have three properties.");
         }
 
         if (!isset($wCastlingArr['castled'])) {
-            throw new \InvalidArgumentException("Invalid castling. The castled property is not set.");
+            throw new CastlingException("The castled property is not set.");
         }
 
         if (!isset($wCastlingArr[Symbol::CASTLING_SHORT])) {
-            throw new \InvalidArgumentException("Invalid castling. White's castling short property is not set.");
+            throw new CastlingException("White's castling short property is not set.");
         }
 
         if (!isset($wCastlingArr[Symbol::CASTLING_LONG])) {
-            throw new \InvalidArgumentException("Invalid castling. White's castling long property is not set.");
+            throw new CastlingException("White's castling long property is not set.");
         }
 
         // check black's castling object
 
         if (empty($bCastlingArr)) {
-            throw new \InvalidArgumentException("Invalid castling. Black's castling object is not set.");
+            throw new CastlingException("Black's castling object is not set.");
         }
 
         if (count($bCastlingArr) !== 3) {
-            throw new \InvalidArgumentException("Invalid castling. Black's castling object must have three properties.");
+            throw new CastlingException("Black's castling object must have three properties.");
         }
 
         if (!isset($bCastlingArr['castled'])) {
-            throw new \InvalidArgumentException("Invalid castling. Black's castled property is not set.");
+            throw new CastlingException("Black's castled property is not set.");
         }
 
         if (!isset($bCastlingArr[Symbol::CASTLING_SHORT])) {
-            throw new \InvalidArgumentException("Invalid castling. Black's castling short property is not set.");
+            throw new CastlingException("Black's castling short property is not set.");
         }
 
         if (!isset($bCastlingArr[Symbol::CASTLING_LONG])) {
-            throw new \InvalidArgumentException("Invalid castling. Black's castling long property is not set.");
+            throw new CastlingException("Black's castling long property is not set.");
         }
 
         // check castling object's info
@@ -97,44 +98,44 @@ class Analyze
 
         if ($board->getCastling()->{Symbol::WHITE}->{Symbol::CASTLING_LONG} === true &&
             !(isset($wKing) && $wKing->getIdentity() === Symbol::KING && $wKing->getColor() === Symbol::WHITE)) {
-                throw new \InvalidArgumentException("Invalid long castling. White's king was already moved.");
+                throw new CastlingException("White's king was already moved.");
         }
 
         if ($board->getCastling()->{Symbol::WHITE}->{Symbol::CASTLING_SHORT} === true &&
             !(isset($wKing) && $wKing->getIdentity() === Symbol::KING && $wKing->getColor() === Symbol::WHITE)) {
-                throw new \InvalidArgumentException("Invalid short castling. White's king was already moved.");
+                throw new CastlingException("White's king was already moved.");
         }
 
         if ($board->getCastling()->{Symbol::WHITE}->{Symbol::CASTLING_LONG} === true &&
             !(isset($wRookA1) && $wRookA1->getIdentity() === Symbol::ROOK && $wRookA1->getColor() === Symbol::WHITE)) {
-                throw new \InvalidArgumentException("Invalid long castling. White's a1 rook was already moved.");
+                throw new CastlingException("White's a1 rook was already moved.");
         }
 
         if ($board->getCastling()->{Symbol::WHITE}->{Symbol::CASTLING_SHORT} === true &&
             !(isset($wRookH1) && $wRookH1->getIdentity() === Symbol::ROOK && $wRookH1->getColor() === Symbol::WHITE)) {
-                throw new \InvalidArgumentException("Invalid short castling. White's h1 rook was already moved.");
+                throw new CastlingException("White's h1 rook was already moved.");
         }
 
         // check black's castling info
 
         if ($board->getCastling()->{Symbol::BLACK}->{Symbol::CASTLING_LONG} === true &&
             !(isset($bKing) && $bKing->getIdentity() === Symbol::KING && $bKing->getColor() === Symbol::BLACK)) {
-                throw new \InvalidArgumentException("Invalid long castling. Black's king was already moved.");
+                throw new CastlingException("Black's king was already moved.");
         }
 
         if ($board->getCastling()->{Symbol::BLACK}->{Symbol::CASTLING_SHORT} === true &&
             !(isset($bKing) && $bKing->getIdentity() === Symbol::KING && $bKing->getColor() === Symbol::BLACK)) {
-                throw new \InvalidArgumentException("Invalid short castling. Black's king was already moved.");
+                throw new CastlingException("Black's king was already moved.");
         }
 
         if ($board->getCastling()->{Symbol::BLACK}->{Symbol::CASTLING_LONG} === true &&
             !(isset($bRookA8) && $bRookA8->getIdentity() === Symbol::ROOK && $bRookA8->getColor() === Symbol::BLACK)) {
-                throw new \InvalidArgumentException("Invalid long castling. Black's a8 rook was already moved.");
+                throw new CastlingException("Black's a8 rook was already moved.");
         }
 
         if ($board->getCastling()->{Symbol::BLACK}->{Symbol::CASTLING_SHORT} === true &&
             !(isset($bRookH8) && $bRookH8->getIdentity() === Symbol::ROOK && $bRookH8->getColor() === Symbol::BLACK)) {
-                throw new \InvalidArgumentException("Invalid short castling. Black's h8 rook was already moved.");
+                throw new CastlingException("Black's h8 rook was already moved.");
         }
 
         return true;

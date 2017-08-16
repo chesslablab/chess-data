@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\PGN;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Symbol;
 
 /**
@@ -17,12 +18,12 @@ class Validate
      *
      * @param string $color
      * @return string if the color is valid
-     * @throws \InvalidArgumentException
+     * @throws UnknownNotationException
      */
     public static function color($color)
     {
         if ($color !== Symbol::WHITE && $color !== Symbol::BLACK) {
-            throw new \InvalidArgumentException("This is not a valid color: $color.");
+            throw new UnknownNotationException("This is not a valid color: $color.");
         }
 
         return $color;
@@ -33,12 +34,12 @@ class Validate
      *
      * @param string $square
      * @return string if the square is valid
-     * @throws \InvalidArgumentException
+     * @throws UnknownNotationException
      */
     public static function square($square)
     {
         if (!preg_match('/^' . Symbol::SQUARE . '$/', $square)) {
-            throw new \InvalidArgumentException("This square is not valid: $square.");
+            throw new UnknownNotationException("This square is not valid: $square.");
         }
 
         return $square;

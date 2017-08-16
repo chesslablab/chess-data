@@ -2,6 +2,7 @@
 namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
+use PGNChess\Exception\CastlingException;
 use PGNChess\Game;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
@@ -187,7 +188,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidWhiteShortCastling()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -222,7 +223,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidWhiteLongCastling()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -257,7 +258,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidBlackShortCastling()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -292,7 +293,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidBlackLongCastling()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -327,7 +328,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyCastlingObject()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -349,7 +350,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyWhiteCastlingObject()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -379,7 +380,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyBlackCastlingObject()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -409,7 +410,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidWhiteCastlingObjectNoCastledProperty()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -443,7 +444,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidWhiteCastlingObjectNoCastlingShortProperty()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),
@@ -477,7 +478,7 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidWhiteCastlingObjectNoCastlingLongProperty()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(CastlingException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),

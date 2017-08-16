@@ -2,6 +2,7 @@
 namespace PGNChess;
 
 use DeepCopy\DeepCopy;
+use PGNChess\Exception\BoardException;
 use PGNChess\Square\Castling;
 use PGNChess\Square\Stats;
 use PGNChess\PGN\Convert;
@@ -294,7 +295,7 @@ class Board extends \SplObjectStorage
      *
      * @param stdClass $move
      * @return array The piece(s) matching the PGN move; otherwise null.
-     * @throws \InvalidArgumentException
+     * @throws BoardException
      */
     private function pickPiece(\stdClass $move)
     {
@@ -319,8 +320,8 @@ class Board extends \SplObjectStorage
         }
 
         if (empty($found)) {
-            throw new \InvalidArgumentException(
-                "This piece does not exist on the board: {$move->color} {$move->identity} on {$move->position->current}"
+            throw new BoardException(
+                "This piece does not exist: {$move->color} {$move->identity} on {$move->position->current}."
             );
         } else {
             return $found;

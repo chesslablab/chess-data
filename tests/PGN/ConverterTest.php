@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\Tests\PGN;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\Square\Castling;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Move;
@@ -12,55 +13,55 @@ class ConvertTest extends \PHPUnit_Framework_TestCase
 
     public function testMoveUa5ThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::WHITE, 'Ua5');
     }
 
     public function testMove3a5ThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::BLACK, '3a5');
     }
 
     public function testMovecb3b7ThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::WHITE, 'cb3b7');
     }
 
     public function testMoveShortCastlingThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::BLACK, 'a-a');
     }
 
     public function testMoveLongCastlingThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::WHITE, 'c-c-c');
     }
 
     public function testMoveaThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::BLACK, 'a');
     }
 
     public function testMove3ThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::WHITE, 3);
     }
 
     public function testMoveK3ThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::BLACK, 'K3');
     }
 
     public function testMoveCaptureThrowsException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::WHITE, 'Fxa7');
     }
 

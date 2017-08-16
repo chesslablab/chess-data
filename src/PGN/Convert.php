@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\PGN;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\Square\Castling;
 use PGNChess\PGN\Validate;
 
@@ -19,7 +20,7 @@ class Convert
      * @param string $color
      * @param string $pgn
      * @return stdClass
-     * @throws \InvalidArgumentException
+     * @throws UnknownNotationException
      */
     static public function toObject($color, $pgn)
     {
@@ -207,7 +208,7 @@ class Convert
                 break;
 
             default:
-                throw new \InvalidArgumentException("This move is not valid: $pgn.");
+                throw new UnknownNotationException("This move is not valid: $pgn.");
                 break;
         }
     }

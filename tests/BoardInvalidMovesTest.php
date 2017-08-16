@@ -2,6 +2,8 @@
 namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
+use PGNChess\Exception\BoardException;
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Bishop;
@@ -16,42 +18,42 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
 {
     public function testNumericValue()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 9)));
     }
 
     public function testFoo()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'foo')));
     }
 
     public function testBar()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'bar')));
     }
 
     public function test_e9()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e9')));
     }
 
     public function test_e10()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e10')));
     }
 
     public function testNw3()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nw3')));
     }
@@ -72,7 +74,7 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
 
     public function testThrowsExceptionPieceDoesNotExistOnTheBoard()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(BoardException::class);
 
         $pieces = [
             new Pawn(Symbol::WHITE, 'a2'),

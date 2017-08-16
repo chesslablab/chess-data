@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\Piece;
 
+use PGNChess\Exception\PieceTypeException;
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validate;
 use PGNChess\Piece\AbstractPiece;
@@ -26,12 +27,12 @@ class Rook extends Slider
      * @param string $color
      * @param string $square
      * @param string $castling
-     * @throws \InvalidArgumentException
+     * @throws PieceTypeException
      */
     public function __construct($color, $square, $type)
     {
         if (!in_array($type, RookType::getChoices())) {
-            throw new \InvalidArgumentException(
+            throw new PieceTypeException(
                 "A valid rook type needs to be provided in order to instantiate a rook."
             );
         } else {

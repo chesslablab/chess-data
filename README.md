@@ -91,10 +91,10 @@ $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
 $game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
 $game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
 
-print_r($game->status());
+$status = $game->status();
 ```
 
-Will output this `$status` object:
+Will generate this `$status` object:
 
     stdClass Object
     (
@@ -537,7 +537,7 @@ The MIT License (MIT).
 Would you help make this library better? Contributions are welcome.
 
 - Feel free to send a pull request
-- Drop me an email at info@programarivm.com with the subject "PGNChess Contributions"
+- Drop an email at info@programarivm.com with the subject "PGNChess Contributions"
 - Leave me a comment on [Twitter](https://twitter.com/programarivm)
 - Say hello on [Google+](https://plus.google.com/+Programarivm)
 

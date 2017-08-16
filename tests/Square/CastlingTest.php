@@ -1,5 +1,5 @@
 <?php
-namespace PGNChess\Tests;
+namespace PGNChess\Tests\Square;
 
 use PGNChess\Square\Castling;
 use PGNChess\PGN\Symbol;

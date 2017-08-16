@@ -1,5 +1,5 @@
 <?php
-namespace PGNChess\Tests\Board;
+namespace PGNChess\Tests;
 
 use PGNChess\Board;
 use PGNChess\PGN\Convert;
@@ -14,7 +14,7 @@ use PGNChess\Type\RookType;
 
 class StatusTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInstantiateDefaultBoard()
+    public function testInstantiateDefaultBoardAndCountSquares()
     {
         $board = new Board;
 
@@ -23,7 +23,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getSquares()->used->b), 16);
     }
 
-    public function testInstantiateCustomBoard()
+    public function testInstantiateCustomBoardAndCountSquares()
     {
         $pieces = [
             new Bishop(Symbol::WHITE, 'c1'),
@@ -55,12 +55,36 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getSquares()->used->b), 3);
     }
 
-    /*public function testSquares()
+    public function testPlaySomeMovesAndCheckCastling()
     {
         $board = new Board;
-    }*/
 
-    public function testPlayGame01AndCheckStatus()
+        $board->play(Convert::toObject(Symbol::WHITE, 'd4'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'c6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'd5'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+        $board->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
+        $board->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $this->assertEquals($castling, $board->getCastling());
+    }
+
+    public function testPlaySomeMovesAndCheckSpace()
     {
         $game = [
             'e4 e5',

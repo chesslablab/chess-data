@@ -441,23 +441,23 @@ class Board extends \SplObjectStorage
      */
     private function trackCastling(Piece $piece)
     {
-        if ($piece->getMove()->type === Move::KING) {
+        if ($piece->getIdentity() === Symbol::KING) {
 
             $this->castling->{$piece->getColor()}->{Symbol::CASTLING_SHORT} = false;
             $this->castling->{$piece->getColor()}->{Symbol::CASTLING_LONG} = false;
 
-        } elseif ($piece->getMove()->type === Move::PIECE && $piece->getIdentity() === Symbol::ROOK) {
+        } elseif ($piece->getIdentity() === Symbol::ROOK) {
 
             switch($piece->getType()) {
+
                 case RookType::CASTLING_SHORT:
                     $this->castling->{$piece->getColor()}->{Symbol::CASTLING_SHORT} = false;
                     break;
+                    
                 case RookType::CASTLING_LONG:
                     $this->castling->{$piece->getColor()}->{Symbol::CASTLING_LONG} = false;
                     break;
-                default:
-                    // ...
-                    break;
+
             }
         }
     }
@@ -740,5 +740,24 @@ class Board extends \SplObjectStorage
         } else {
             return false;
         }
+    }
+
+    /**
+    * Replicates the board for cloning purposes.
+    *
+    * @return Board
+    */
+    public function replicate()
+    {
+        $boardClass = new \ReflectionClass(get_class());
+        $boardReplicated = $boardClass->newInstanceArgs([iterator_to_array($this, false), $this->getCastling()]);
+
+        $boardReplicated
+            ->setTurn($this->getTurn())
+            ->setSquares($this->getSquares())
+            ->setControl($this->getControl())
+            ->setPreviousMove($this->getPreviousMove());
+
+        return $boardReplicated;
     }
 }

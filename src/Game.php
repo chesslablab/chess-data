@@ -38,6 +38,13 @@ class Game
     private $mated;
 
     /**
+     * Board's status.
+     *
+     * @var stdClass
+     */
+    private $status;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -104,6 +111,22 @@ class Game
     }
 
     /**
+     * Gets the board's status.
+     *
+     * @return stdClass
+     */
+    public function status()
+    {
+        return (object) [
+            'turn' => $this->board->getTurn(),
+            'squares' => $this->board->getSquares(),
+            'control' => $this->board->getControl(),
+            'castling' => $this->board->getCastling(),
+            'previousMove' => $this->board->getPreviousMove()
+        ];
+    }
+
+    /**
      * Plays a chess move on the board.
      *
      * @param stdClass $move
@@ -111,6 +134,8 @@ class Game
      */
     public function play($move)
     {
+        $this->board = $this->board->replicate(); // workaround for deep clones to work
+
         $result = $this->board->play($move);
 
         $this->checked->{Symbol::WHITE} = false;

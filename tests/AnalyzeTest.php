@@ -1,5 +1,5 @@
 <?php
-namespace PGNChess\Tests\Board;
+namespace PGNChess\Tests;
 
 use PGNChess\Board;
 use PGNChess\Exception\CastlingException;

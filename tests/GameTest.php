@@ -1,49 +1,52 @@
 <?php
-namespace PGNChess\Tests\Board;
+namespace PGNChess\Tests;
 
-use PGNChess\Board;
+use PGNChess\Game;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 
-class GamesTest extends \PHPUnit_Framework_TestCase
+class GameTest extends \PHPUnit_Framework_TestCase
 {
-    protected function play($game)
+    protected function play($pgn)
     {
-        $pairs = array_filter(preg_split('/[0-9]+\./', $game));
+        $pairs = array_filter(preg_split('/[0-9]+\./', $pgn));
+
         $moves = [];
-        foreach ($pairs as $pair)
-        {
+
+        foreach ($pairs as $pair) {
             $moves[] = array_values(array_filter(explode(' ', $pair)));
         }
+
         $moves = array_values(array_filter($moves));
-        $board = new Board;
-        for ($i=0; $i<count($moves); $i++)
-        {
+
+        $game = new Game;
+
+        for ($i=0; $i<count($moves); $i++) {
+
             $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
-            $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, $whiteMove)));
+
+            $this->assertEquals(true, $game->play(Convert::toObject(Symbol::WHITE, $whiteMove)));
+
             if (isset($moves[$i][1])) {
                 $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
-                $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, $blackMove)));
+                $this->assertEquals(true, $game->play(Convert::toObject(Symbol::BLACK, $blackMove)));
             }
         }
     }
 
     public function testGame01()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. d4 d6 2. c4 g6 3. Nc3 Bg7 4. e4 e6 5. Nf3 Ne7 6. Bd3 O-O 7. Qc2 Nd7
             8. O-O c5 9. d5 exd5 10. exd5 Ne5 11. Nxe5 Bxe5 12. f4 Bd4+ 13. Kh1 Nf5
             14. Rf3 Nh4 15. Rg3 Bf2 16. Qxf2 Re8
 EOT;
-        $this->play($game);
-
+        $this->play($pgn);
     }
 
     public function testGame02()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. Nc3 d6 6. d3 b5 7. Bb3 Be7
             8. Be3 Na5 9. Bd5 Nxd5 10. Nxd5 c5 11. Nxe7 Qxe7 12. O-O Nc6 13. Bg5 f6
             14. Be3 O-O 15. h3 Be6 16. Qd2 Nd4 17. Nh4 Qd7 18. Kh2 g5 19. c3 Nc6
@@ -52,13 +55,12 @@ EOT;
             31. Raf1 Rag8 32. Rf8 Ne6 33. Rxg8+ Kxg8 34. Qf2 Rxh6+ 35. Kg1 Nf4
             36. Qb6 Rg6 37. Qb8+ Kg7 38. Rxf4 exf4
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame03()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 c5 2. Nf3 Nc6 3. Bb5 e6 4. O-O a6 5. Ba4 Qc7 6. c3 b5 7. Bb3 Bb7
             8. d4 c4 9. Bc2 Be7 10. d5 exd5 11. exd5 Ne5 12. Nxe5 Qxe5 13. Re1 Qxd5
             14. Qxd5 Bxd5 15. Bg5 f6 16. Bh4 Kf7 17. Na3 Nh6 18. Be4 Bxe4 19. Rxe4 Bxa3
@@ -67,13 +69,12 @@ EOT;
             32. gxf6 Kxf6 33. g5+ Ke6 34. Rd1 Nd3 35. Rd2 Kf7 36. h4 Kg6 37. Kg4 Re4+
             38. Kf3 Rxh4 39. Re2 Rf4+ 40. Kg3 Rf5 41. Re6+ Kxg5
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame04()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 c5 2. Nf3 e6 3. Bc4 a6 4. d3 b5 5. Bb3 Nc6 6. O-O Nf6 7. e5 Nd5
             8. c4 bxc4 9. dxc4 Ndb4 10. Bf4 Bb7 11. a3 Nd4 12. axb4 Nxf3+ 13. gxf3 Be7
             14. bxc5 Bxc5 15. Nc3 Qh4 16. Bg3 Qh5 17. Ne4 Bxe4 18. fxe4 Qg6 19. Ba4 O-O
@@ -83,13 +84,12 @@ EOT;
             38. Qh4+ Kf8 39. Qd8+ Rxd8 40. cxd8=Q+ Kg7 41. Qd7 Rxc5 42. Qd4+ e5 43. Qxc5 Kf6
             44. Rc4 Kg7 45. Re4 f6 46. Ke2 Kg6 47. Ke3 Kf7 48. f4 exf4+ 49. Kxf4 Kg7
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame05()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 e5 2. f4 d6 3. Nf3 exf4 4. d4 g6 5. Bxf4 Bg7 6. c3 Bg4 7. Be2 Bxf3
             8. Bxf3 Ne7 9. O-O O-O 10. Qd2 Nd7 11. Bh6 Nf6 12. Bxg7 Kxg7 13. Qg5 Nfg8
             14. Nd2 f6 15. Qh4 c6 16. Qg3 f5 17. e5 dxe5 18. Qxe5+ Nf6 19. Be2 Re8
@@ -104,13 +104,12 @@ EOT;
             69. Kf2 b4 70. Kf3 b3 71. Ke4 b2 72. Ke5 b1=Q 73. Kd5 Qd1+ 74. Ke6 Re8+
             75. Kf5 Qd7+ 76. Kf4 Qf7+ 77. Kg3
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame06()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 c5 2. Nf3 Nc6 3. Bb5 d6 4. O-O Bd7 5. c3 g6 6. d4 cxd4 7. cxd4 Bg7
             8. Be3 e6 9. Nc3 Nge7 10. d5 Ne5 11. Nxe5 Bxe5 12. Bxd7+ Qxd7 13. f4 Bg7
             14. Bd4 Bxd4+ 15. Qxd4 O-O-O 16. Qxa7 exd5 17. Nxd5 Nxd5 18. exd5 Qb5
@@ -121,13 +120,12 @@ EOT;
             43. Qg7+ Kg5 44. Qh6+ Kf6 45. Qg7+ Kg5 46. Qh6+ Kf6 47. Qg7+ Kg5 48. Qh6+ Kf6
             49. Qg7+
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame07()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 e5 2. Nc3 d6 3. b3 Be7 4. Bb2 Nf6 5. Nge2 O-O 6. g3 a6 7. Bg2 b5
             8. d3 Bb7 9. h4 h6 10. h5 Nbd7 11. f3 b4 12. Na4 a5 13. g4 Nh7 14. Qd2 c5
             15. f4 Bh4+ 16. Kd1 exf4 17. Nxf4 Bg5 18. Qf2 Ne5 19. d4 Nxg4 20. Qf3 Ngf6
@@ -138,13 +136,12 @@ EOT;
             43. h7+ Kh8 44. Nxf7+ Kg7 45. h8=Q+ Kxf7 46. Qxd8 Re8 47. Rh7+ Kg8 48. Qh4 Rf8+
             49. Kg5 Rf5+ 50. Kxg6 Rf6+ 51. Qxf6
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame08()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. d4 d6 2. Nf3 Nf6 3. e3 g6 4. Bd3 Bg7 5. Nbd2 O-O 6. c3 b6 7. O-O Bb7
             8. Qc2 Nbd7 9. e4 c5 10. e5 dxe5 11. dxe5 Nd5 12. c4 Nc7 13. Be4 Bxe4
             14. Nxe4 f6 15. exf6 exf6 16. Nd6 Ne8 17. Rd1 Nxd6 18. Rxd6 Qc7 19. Rd5 f5
@@ -160,13 +157,12 @@ EOT;
             74. Ka6 Kd5 75. Rb8 Rxa7+ 76. Kxa7 Kc4 77. c6 Kd5 78. c7 Kc4 79. c8=Q+ Kd3
             80. Qe8 Kd4 81. Rd8+ Kc4 82. Rb8 Kb3 83. Qc6 Ka3 84. b5 Kb3 85. b6
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame09()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 e6 2. Nf3 d5 3. exd5 exd5 4. d4 Nf6 5. c4 dxc4 6. Bxc4 Be7 7. O-O O-O
             8. Re1 Bg4 9. Qd3 Re8 10. Bg5 Nc6 11. Nbd2 Bxf3 12. Nxf3 h6 13. Bxf6 Bxf6
             14. Rxe8+ Qxe8 15. Re1 Qd7 16. d5 Nb4 17. Qb3 a5 18. d6 Qxd6 19. Bxf7+ Kh7
@@ -178,13 +174,12 @@ EOT;
             50. Ke6 Kf4 51. Kxd6 Ke4 52. Kc6 Kd4 53. Kxb6 Kc4 54. Kxa5 Kc5 55. Ka6 Kc6
             56. a5 Kc5 57. Kb7 Kb5 58. a6 Ka5 59. a7 Kb5 60. a8=Q
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame10()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. e4 d6 2. g3 g6 3. Bg2 Bg7 4. d4 e6 5. Ne2 Ne7 6. O-O b6 7. c3 Bb7
             8. Nd2 c5 9. Nb3 O-O 10. dxc5 bxc5 11. Bg5 Nd7 12. Re1 f6 13. Be3 Ne5
             14. f4 Ng4 15. Nec1 Nxe3 16. Rxe3 c4 17. Nd4 Qd7 18. Kh1 d5 19. e5 fxe5
@@ -193,37 +188,34 @@ EOT;
             32. Rd6 Re1+ 33. Kh2 Bxb2 34. Bxd5+ Kg7 35. Bxc4 Bxc3 36. Ra6 Be8 37. Rxa7+ Kh6
             38. Bg8 Re2+ 39. Kh3 Bg7 40. a4 Rf2 41. Bd5 Rf1 42. g4 Ra1 43. g5+ Kh5 44. Bf3#
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame11()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. d4 b6 2. e4 Bb7 3. d5 g6 4. c4 Bg7 5. Qc2 e6 6. Nc3 Ne7 7. Nf3 O-O
             8. Be2 c5 9. Bf4 exd5 10. exd5 d6 11. O-O-O a5 12. a4 Na6 13. Ne4 Nc8
             14. b3 Nb4 15. Qd2 f5 16. Neg5 Qf6 17. Kb1 Qa1#
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame12()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. d4 c6 2. Bf4 d5 3. Nc3 Nf6 4. Bxb8 Rxb8 5. Qd2 e6 6. f3 Be7 7. g4 O-O
             8. h4 c5 9. O-O-O cxd4 10. Qxd4 b6 11. h5 Bc5 12. Qf4 Bd6 13. Qe3 e5
             14. h6 d4 15. Qg5 g6 16. Ne4 Nxe4 17. Qxd8 Rxd8 18. fxe4 Bxg4 19. Rh4 Bh5
             20. Nf3 Be7 21. Rh3 Rdc8 22. Nxe5 Rc7 23. Rdd3 Rbc8 24. c3 Bg5+ 25. Kb1 dxc3
             26. bxc3 Bf6 27. Nd7 Rxc3 28. Nxf6+ Kf8 29. Rxc3 Rxc3 30. Rxc3
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame13()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. f4 c5 2. Nf3 Nc6 3. e4 d6 4. c3 Bd7 5. Bb5 Qc7 6. Bxc6 Bxc6 7. d3 O-O-O
             8. Nbd2 Nf6 9. O-O h5 10. Re1 h4 11. h3 Nh5 12. Nf1 e5 13. fxe5 dxe5
             14. Nxh4 Nf4 15. Bxf4 exf4 16. Nf3 Be7 17. Qc2 g5 18. N1h2 Bd7 19. e5 Rh7
@@ -232,13 +224,12 @@ EOT;
             32. Kf3 Qc3+ 33. Kf2 Rxf4+ 34. Qxf4 Qxa1 35. Nd7 Qxa2+ 36. Kf3 Qxb3+
             37. Kg4 Rg8+
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame14()
     {
-        $board = new Board;
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. c4 e6 2. Nc3 Nf6 3. g3 d5 4. cxd5 exd5 5. Bg2 Be6 6. d4 Bb4 7. Bd2 Bxc3
             8. bxc3 O-O 9. Nf3 Nc6 10. O-O Ne4 11. Bf4 h6 12. Qc2 g5 13. Bc1 Qd7
             14. Ba3 Rfe8 15. Ne5 Nxe5 16. dxe5 f5 17. f3 Nxg3 18. hxg3 f4 19. Qg6+ Qg7
@@ -247,12 +238,12 @@ EOT;
             32. cxd4 cxd4+ 33. Kxd4 Rxe2 34. Bd6+ Ke8 35. e7 Rd2+ 36. Ke5 Rg5+ 37. Kf6 Rgd5
             38. Rh8+ Kd7 39. Rd8+
 EOT;
-        $this->play($game);
+        $this->play($pgn);
     }
 
     public function testGame15()
     {
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. c4 Nf6 2. Nc3 e6 3. Nf3 Bb4 4. Qc2 d6 5. e3 O-O 6. Be2 e5 7. a3 Bxc3
             8. Qxc3 c5 9. d3 a5 10. b3 Nc6 11. Bb2 Bg4 12. O-O Re8 13. Rfe1 Rb8 14. Qc2 h6
             15. Rad1 Qc8 16. h3 Bf5 17. Bf1 b5 18. Nd2 Bg6 19. Ba1 Qe6 20. Ne4 Ne7 21. Nxf6+ Qxf6
@@ -267,7 +258,7 @@ EOT;
 
     public function testGame16()
     {
-        $game = <<<EOT
+        $pgn = <<<EOT
             1. f4 d5 2. Nf3 f5 3. e3 Nf6 4. b3 e6 5. Bb2 Bd6 6. Bd3 O-O 7. O-O Nbd7 8. c4 c6
             9. Nc3 Nc5 10. Bc2 Qe7 11. d4 Nce4 12. Bxe4 Nxe4 13. c5 Bc7 14. b4 Bd7 15. a4 Be8
             16. Ne5 g5 17. b5 Bxe5 18. fxe5 Nxc3 19. Bxc3 g4 20. Rb1 Qg5 21. Bd2 Qg6 22. Be1 Qg5

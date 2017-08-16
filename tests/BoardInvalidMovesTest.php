@@ -1,5 +1,5 @@
 <?php
-namespace PGNChess\Tests\Board;
+namespace PGNChess\Tests;
 
 use PGNChess\Board;
 use PGNChess\Exception\BoardException;
@@ -51,14 +51,14 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e10')));
     }
 
-    public function testNw3()
+    public function test_Nw3()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nw3')));
     }
 
-    public function testPlayRaInDefaultBoard()
+    public function testFoobar()
     {
         $board = new Board;
         $squares = [];
@@ -67,12 +67,12 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
         {
             for($j=1; $j<=8; $j++)
             {
-                $this->assertEquals(false, $board->play(Convert::toObject(Symbol::WHITE, 'Ra' . chr((ord('a') + $i)) . $j)));
+                $this->assertEquals(false, $board->play(Convert::toObject(Symbol::WHITE, 'foobar' . chr((ord('a') + $i)) . $j)));
             }
         }
     }
 
-    public function testThrowsExceptionPieceDoesNotExistOnTheBoard()
+    public function testPieceDoesNotExist()
     {
         $this->expectException(BoardException::class);
 

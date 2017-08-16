@@ -534,4 +534,11 @@ The MIT License (MIT).
 
 ### 6. Contributions
 
-Would you help make this library better? Contributions are welcome! Feel free to send a pull request.
+Would you help make this library better? Contributions are welcome.
+
+- Feel free to send a pull request
+- Drop me an email at info@programarivm.com with the subject "PGNChess Contributions"
+- Leave me a comment on [Twitter](https://twitter.com/programarivm)
+- Say hello on [Google+](https://plus.google.com/+Programarivm)
+
+Many thanks.

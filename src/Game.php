@@ -111,8 +111,6 @@ class Game
      */
     public function play($move)
     {
-        $this->board = $this->board->replicate(); // workaround for deep clones to work
-
         $result = $this->board->play($move);
 
         $this->checked->{Symbol::WHITE} = false;

@@ -55,6 +55,11 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getSquares()->used->b), 3);
     }
 
+    /*public function testSquares()
+    {
+        $board = new Board;
+    }*/
+
     public function testPlayGame01AndCheckStatus()
     {
         $game = [

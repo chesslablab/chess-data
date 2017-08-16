@@ -71,6 +71,7 @@ class Board extends \SplObjectStorage
     public function __construct(array $pieces=null, $castling=null)
     {
         if (empty($pieces)) {
+
             $this->attach(new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG));
             $this->attach(new Knight(Symbol::WHITE, 'b1'));
             $this->attach(new Bishop(Symbol::WHITE, 'c1'));
@@ -103,14 +104,7 @@ class Board extends \SplObjectStorage
             $this->attach(new Pawn(Symbol::BLACK, 'f7'));
             $this->attach(new Pawn(Symbol::BLACK, 'g7'));
             $this->attach(new Pawn(Symbol::BLACK, 'h7'));
-        } else {
-            foreach($pieces as $piece) {
-                $this->attach($piece);
-            }
-        }
 
-        if (empty($castling))
-        {
             $this->castling = (object) [
                 Symbol::WHITE => (object) [
                     'castled' => false,
@@ -122,8 +116,15 @@ class Board extends \SplObjectStorage
                     Symbol::CASTLING_SHORT => true,
                     Symbol::CASTLING_LONG => true
             ]];
+
         } else {
+
+            foreach($pieces as $piece) {
+                $this->attach($piece);
+            }
+
             $this->castling = $castling;
+
             Analyze::castling($this);
         }
 
@@ -738,25 +739,5 @@ class Board extends \SplObjectStorage
         } else {
             return false;
         }
-    }
-
-    /**
-     * Replicates the board for cloning purposes.
-     *
-     * @return Board
-     */
-    public function replicate()
-    {
-        $boardClass = new \ReflectionClass(get_class());
-        $boardReplicated = $boardClass->newInstanceArgs([iterator_to_array($this, false)]);
-
-        $boardReplicated
-            ->setTurn($this->getTurn())
-            ->setSquares($this->getSquares())
-            ->setControl($this->getControl())
-            ->setCastling($this->getCastling())
-            ->setPreviousMove($this->getPreviousMove());
-
-        return $boardReplicated;
     }
 }

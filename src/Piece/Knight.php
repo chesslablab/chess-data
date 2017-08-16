@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\Piece;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validate;
 use PGNChess\Piece\AbstractPiece;
@@ -42,7 +43,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -52,7 +53,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -62,7 +63,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -72,7 +73,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -82,7 +83,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -93,7 +94,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -103,7 +104,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -113,7 +114,7 @@ class Knight extends AbstractPiece
             if (Validate::square($file.$rank)) {
                 $this->position->scope->jumps[] = $file . $rank;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 

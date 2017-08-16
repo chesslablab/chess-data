@@ -2,6 +2,7 @@
 namespace PGNChess\Piece;
 
 use PGNChess\Exception\PieceTypeException;
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validate;
 use PGNChess\Piece\AbstractPiece;
@@ -74,7 +75,7 @@ class Rook extends Slider
                 $this->position->scope->up[] = $file . $rank;
                 $rank = (int)$rank + 1;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -86,7 +87,7 @@ class Rook extends Slider
                 $this->position->scope->bottom[] = $file . $rank;
                 $rank = (int)$rank - 1;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -98,7 +99,7 @@ class Rook extends Slider
                 $this->position->scope->left[] = $file . $rank;
                 $file = chr(ord($file) - 1);
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -110,7 +111,7 @@ class Rook extends Slider
                 $this->position->scope->right[] = $file . $rank;
                 $file = chr(ord($file) + 1);
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
     }

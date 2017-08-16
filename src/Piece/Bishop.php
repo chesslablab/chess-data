@@ -1,6 +1,7 @@
 <?php
 namespace PGNChess\Piece;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validate;
 use PGNChess\Piece\AbstractPiece;
@@ -48,7 +49,7 @@ class Bishop extends Slider
                 $file = chr(ord($file) - 1);
                 $rank = (int)$rank + 1;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -61,7 +62,7 @@ class Bishop extends Slider
                 $file = chr(ord($file) + 1);
                 $rank = (int)$rank + 1;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -75,7 +76,7 @@ class Bishop extends Slider
                 $file = chr(ord($file) - 1);
                 $rank = (int)$rank - 1;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
 
@@ -89,7 +90,7 @@ class Bishop extends Slider
                 $file = chr(ord($file) + 1);
                 $rank = (int)$rank - 1;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (UnknownNotationException $e) {
 
         }
     }

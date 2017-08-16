@@ -1,6 +1,6 @@
 <?php
 
-$game = <<<EOT
+$pgn = <<<EOT
     1. e4 d6 2. g3 g6 3. Bg2 Bg7 4. d4 e6 5. Ne2 Ne7 6. O-O b6 7. c3 Bb7
     8. Nd2 c5 9. Nb3 O-O 10. dxc5 bxc5 11. Bg5 Nd7 12. Re1 f6 13. Be3 Ne5
     14. f4 Ng4 15. Nec1 Nxe3 16. Rxe3 c4 17. Nd4 Qd7 18. Kh1 d5 19. e5 fxe5

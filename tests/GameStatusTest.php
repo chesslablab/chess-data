@@ -171,6 +171,8 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
+        print_r($status); exit;
+
         $this->assertEquals($status, $game->status());
     }
 }

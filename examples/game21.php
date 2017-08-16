@@ -1,0 +1,22 @@
+<?php
+
+$pgn = <<<EOT
+    1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 O-O 5.Nf3 d5 6.cxd5 exd5 7.Bf4 c5
+    8.e3 Nc6 9.dxc5 Bxc5 10.Rd1 Qa5 11.Be2 Nb4 12.Qa4 Qb6 13.O-O Be6
+    14.a3 Nc6 15.b4 Be7 16.Qc2 Rac8 17.Qb2 a6 18.Ne5 Rfd8 19.Na4 Qa7
+    20.Rc1 Nd7 21.Nxd7 Bxd7 22.Nc5 Bf5 23.Rfd1 a5 24.Bd3 Bxd3 25.Nxd3 axb4
+    26.axb4 Qb6 27.Be5 Bf8 28.Bc3 Qb5 29.h3 h6 30.Bd4 b6 31.Bc3 Rd7 32.Nf4 Rdd8
+    33.Nd3 Ra8 34.Nf4 Ra7 35.Rb1 Rad7 36.Ne2 Rc7 37.Bd4 Rcc8 38.Nc3 Qxb4
+    39.Bxb6 Rd7 40.Nxd5 Qxb2 41.Rxb2 Ne5 42.Rbb1 Nc4 43.e4 Rb8 44.Be3 Rxb1
+    45.Rxb1 Nxe3 46.Nxe3 Rd4 47.f3 Bc5 48.Kh1 g6 49.Rc1 Bd6 50.Nf1 Rd3 51.Kg1 h5
+    52.Kf2 h4 53.Ke2 Ra3 54.Rc8+ Kg7 55.Rc2 Bf4 56.Nd2 Bxd2 57.Rxd2 g5
+    58.Kf2 Kg6 59.Rb2 Ra5 60.Re2 Ra3 61.Rd2 Rb3 62.g3 hxg3+ 63.Kxg3 Rb1
+    64.Rd6+ Kg7 65.Rd2 Rg1+ 66.Rg2 Rh1 67.Rh2 Rg1+ 68.Kf2 Ra1 69.h4 Ra2+
+    70.Kg3 gxh4+ 71.Rxh4 Kf6 72.Kf4 Ra3 73.Rh6+ Ke7 74.Rb6 Rc3 75.e5 Ra3
+    76.Ke4 Ra4+ 77.Kf5 Ra7 78.f4 Rc7 79.Kg5 Rc1 80.Ra6 Rb1 81.Ra7+ Ke8 82.Kf6 Rb6+
+    83.Kg7 Rg6+ 84.Kh7 Rg4 85.f5 f6 86.exf6 Kf8 87.Kh6 Rg1 88.Kh5 Rg2 89.Ra4 Kf7
+    90.Rg4 Rxg4 91.Kxg4 Kxf6 92.Kf4 Kf7 93.Ke5 Ke7 94.f6+ Kf7 95.Kf5 Kf8 96.Kg6 Kg8
+    97.f7+ Kf8 98.Kf6
+EOT;
+
+include 'print-game.php';

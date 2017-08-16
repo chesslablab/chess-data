@@ -5,7 +5,7 @@ use PGNChess\PGN\Symbol;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$pairs = array_filter(preg_split('/[0-9]+\./', $game));
+$pairs = array_filter(preg_split('/[0-9]+\./', $pgn));
 
 $moves = [];
 

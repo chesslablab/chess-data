@@ -2,7 +2,9 @@
 
 ![PGN Chess](/resources/chess-move.jpg?raw=true)
 
-This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms. It understands the rules of chess, and is capable of validating and playing PGN notated games.
+This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications.
+
+PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms. It understands the rules of chess, and is capable of validating and playing PGN notated games.
 
 PGN Chess comes to the rescue in the following scenarios:
 
@@ -21,6 +23,8 @@ Via composer:
 
 ### 2. Usage
 
+#### 2.1. Instantiation
+
 Just instantiate a game and play PGN moves converted into PHP objects:
 
 ```php
@@ -31,24 +35,266 @@ use PGNChess\PGN\Symbol;
 
 $game = new Game;
 
-$game->play(Convert::toObject(Symbol::WHITE, 'e4');
+$isLegalMove = $game->play(Convert::toObject(Symbol::WHITE, 'e4');
 ```
 
 The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board. It is up to you to process the result accordingly.
 
-In order to know whether or not a move checks the opponent's king:
+#### 2.2. `isChecked()`
+
+In order to know whether or not a move checks the opponent's king.
 
 ```php
-$game->isChecked(Symbol::WHITE);
+$isChecked = $game->isChecked(Symbol::WHITE);
 ```
 
-And to know if a player is checkmated:
+#### 2.3. `isMated()`
+
+Find out when a player is checkmated.
 
 ```php
-$game->isMated(Symbol::WHITE);
+$isMated = $game->isMated(Symbol::WHITE);
 ```
 
-### 3. Examples
+#### 2.4. `status()`
+
+Get the status of the game at any time.
+
+    $status = $game->status();
+
+`$status` is a PHP object containing useful information about the game being played.
+
+| Property       | Description                                |
+|----------------|--------------------------------------------|
+| `turn`         | The current player's turn                  |
+| `squares`      | Free/used squares on the board         |
+| `control`      | Squares controlled by both players         |
+| `castling`     | The castling status of the two kings       |
+| `previousMove` | The previous move                          |
+
+So, the following sequence of moves:
+
+```php
+<?php
+use PGNChess\Game;
+use PGNChess\PGN\Convert;
+use PGNChess\PGN\Symbol;
+
+$game = new Game;
+
+$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
+$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
+$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
+$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
+$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+
+print_r($game->status());
+```
+
+Will output this `$status` object:
+
+    stdClass Object
+    (
+        [turn] => w
+        [squares] => stdClass Object
+            (
+                [used] => stdClass Object
+                    (
+                        [w] => Array
+                            (
+                                [0] => a1
+                                [1] => d1
+                                [2] => e1
+                                [3] => f1
+                                [4] => g1
+                                [5] => h1
+                                [6] => a2
+                                [7] => b2
+                                [8] => c2
+                                [9] => e2
+                                [10] => f2
+                                [11] => g2
+                                [12] => h2
+                                [13] => d4
+                                [14] => c3
+                            )
+
+                        [b] => Array
+                            (
+                                [0] => c8
+                                [1] => d8
+                                [2] => e8
+                                [3] => f8
+                                [4] => h8
+                                [5] => a7
+                                [6] => b7
+                                [7] => e7
+                                [8] => f7
+                                [9] => g7
+                                [10] => h7
+                                [11] => c6
+                                [12] => d5
+                                [13] => f6
+                                [14] => b8
+                            )
+
+                    )
+
+                [free] => Array
+                    (
+                        [0] => a3
+                        [1] => a4
+                        [2] => a5
+                        [3] => a6
+                        [4] => a8
+                        [5] => b1
+                        [6] => b3
+                        [7] => b4
+                        [8] => b5
+                        [9] => b6
+                        [10] => c1
+                        [11] => c4
+                        [12] => c5
+                        [13] => c7
+                        [14] => d2
+                        [15] => d3
+                        [16] => d6
+                        [17] => d7
+                        [18] => e3
+                        [19] => e4
+                        [20] => e5
+                        [21] => e6
+                        [22] => f3
+                        [23] => f4
+                        [24] => f5
+                        [25] => g3
+                        [26] => g4
+                        [27] => g5
+                        [28] => g6
+                        [29] => g8
+                        [30] => h3
+                        [31] => h4
+                        [32] => h5
+                        [33] => h6
+                    )
+
+            )
+
+        [control] => stdClass Object
+            (
+                [space] => stdClass Object
+                    (
+                        [w] => Array
+                            (
+                                [0] => a3
+                                [1] => a4
+                                [2] => b1
+                                [3] => b3
+                                [4] => b5
+                                [5] => c1
+                                [6] => c5
+                                [7] => d2
+                                [8] => d3
+                                [9] => e3
+                                [10] => e4
+                                [11] => e5
+                                [12] => f3
+                                [13] => g3
+                                [14] => h3
+                            )
+
+                        [b] => Array
+                            (
+                                [0] => a5
+                                [1] => a6
+                                [2] => a8
+                                [3] => b5
+                                [4] => b6
+                                [5] => c4
+                                [6] => c7
+                                [7] => d6
+                                [8] => d7
+                                [9] => e4
+                                [10] => e6
+                                [11] => f5
+                                [12] => g4
+                                [13] => g6
+                                [14] => g8
+                                [15] => h3
+                                [16] => h5
+                                [17] => h6
+                            )
+
+                    )
+
+                [attack] => stdClass Object
+                    (
+                        [w] => Array
+                            (
+                                [0] => d5
+                            )
+
+                        [b] => Array
+                            (
+                            )
+
+                    )
+
+            )
+
+        [castling] => stdClass Object
+            (
+                [w] => stdClass Object
+                    (
+                        [castled] =>
+                        [O-O] => 1
+                        [O-O-O] => 1
+                    )
+
+                [b] => stdClass Object
+                    (
+                        [castled] =>
+                        [O-O] => 1
+                        [O-O-O] =>
+                    )
+
+            )
+
+        [previousMove] => stdClass Object
+            (
+                [w] => stdClass Object
+                    (
+                        [identity] => B
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => b8
+                            )
+
+                    )
+
+                [b] => stdClass Object
+                    (
+                        [identity] => R
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => b8
+                            )
+
+                    )
+
+            )
+
+    )
+
+
+### 3. Sample Games
+
+The folder `/examples` contains a few basic examples showing how PGN chess games can be processed from PHP apps -- for further information please look at the `/tests` folder.
 
 This is the output obtained when running `game01.php`:
 
@@ -70,7 +316,7 @@ This is the output obtained when running `game01.php`:
     w played O-O-O
     Illegal move
 
-In this particular example we're printing the output and exiting the game if an illegal chess move is found. But obviously you can take a different approach, for example go into a loop till the player runs a valid move.
+This particular example prints the output and exits the game if an illegal chess move is found. But obviously you can take a different approach, for example go into a loop till the player runs a valid move.
 
 Again, it is up to you how to process the moves accordingly -- ask the player to please try again, play a sound, exit the game or whatever thing you consider appropriate. The important thing is that PGN Chess understands chess rules, internally replicating the game being played on the board.
 

@@ -171,8 +171,39 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        print_r($status); exit;
-
         $this->assertEquals($status, $game->status());
+
+        // current turn
+        $this->assertEquals($status->turn, $game->status()->turn);
+
+        // used/free squares
+        $this->assertEquals($status->squares->used, $game->status()->squares->used);
+        $this->assertEquals($status->squares->free, $game->status()->squares->free);
+
+        // white's control
+        $this->assertEquals($status->control->space->{Symbol::WHITE}, $game->status()->control->space->{Symbol::WHITE});
+        $this->assertEquals($status->control->attack->{Symbol::WHITE}, $game->status()->control->attack->{Symbol::WHITE});
+
+        // black's control
+        $this->assertEquals($status->control->space->{Symbol::BLACK}, $game->status()->control->space->{Symbol::BLACK});
+        $this->assertEquals($status->control->attack->{Symbol::BLACK}, $game->status()->control->attack->{Symbol::BLACK});
+
+        // white's castling
+        $this->assertEquals($status->castling->{Symbol::WHITE}->castled, $game->status()->castling->{Symbol::WHITE}->castled);
+        $this->assertEquals($status->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT});
+        $this->assertEquals($status->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG});
+
+        // black's castling
+        $this->assertEquals($status->castling->{Symbol::BLACK}->castled, $game->status()->castling->{Symbol::BLACK}->castled);
+        $this->assertEquals($status->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT});
+        $this->assertEquals($status->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG});
+
+        // white's previous move
+        $this->assertEquals($status->previousMove->{Symbol::WHITE}->identity, $game->status()->previousMove->{Symbol::WHITE}->identity);
+        $this->assertEquals($status->previousMove->{Symbol::WHITE}->position->next, $game->status()->previousMove->{Symbol::WHITE}->position->next);
+
+        // black's previous move
+        $this->assertEquals($status->previousMove->{Symbol::BLACK}->identity, $game->status()->previousMove->{Symbol::BLACK}->identity);
+        $this->assertEquals($status->previousMove->{Symbol::BLACK}->position->next, $game->status()->previousMove->{Symbol::BLACK}->position->next);
     }
 }

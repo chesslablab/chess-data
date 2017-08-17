@@ -2,9 +2,9 @@
 
 ![PGN Chess](/resources/chess-move.jpg?raw=true)
 
-This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications.
+This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms, it understands the rules of chess, and is capable of validating and playing PGN notated games.
 
-PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms. It understands the rules of chess, and is capable of validating and playing PGN notated games.
+> **Note**: The API is already finished! However I am still documenting how it works, so please be a little patient. It will be finished within the next few hours. Meanwhile you can take a look at the tests. Thank you.
 
 PGN Chess comes to the rescue in the following scenarios:
 
@@ -21,9 +21,7 @@ Via composer:
 
     $ composer require programarivm/pgn-chess
 
-### 2. Usage
-
-#### 2.1. Instantiation
+### 2. Instantiation
 
 Just instantiate a game and play PGN moves converted into PHP objects:
 
@@ -37,10 +35,11 @@ $game = new Game;
 
 $isLegalMove = $game->play(Convert::toObject(Symbol::WHITE, 'e4');
 ```
-
 The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board. It is up to you to process the result accordingly.
 
-#### 2.2. `isChecked()`
+### 3. Game methods
+
+#### 3.1. `isChecked()`
 
 In order to know whether or not a move checks the opponent's king.
 
@@ -48,7 +47,7 @@ In order to know whether or not a move checks the opponent's king.
 $isChecked = $game->isChecked(Symbol::WHITE);
 ```
 
-#### 2.3. `isMated()`
+#### 3.2. `isMated()`
 
 Find out when a player is checkmated.
 
@@ -56,7 +55,7 @@ Find out when a player is checkmated.
 $isMated = $game->isMated(Symbol::WHITE);
 ```
 
-#### 2.4. `status()`
+#### 3.3. `status()`
 
 Get the status of the game at any time.
 
@@ -67,7 +66,7 @@ Get the status of the game at any time.
 | Property       | Description                                |
 |----------------|--------------------------------------------|
 | `turn`         | The current player's turn                  |
-| `squares`      | Free/used squares on the board         |
+| `squares`      | Free/used squares on the board             |
 | `control`      | Squares controlled by both players         |
 | `castling`     | The castling status of the two kings       |
 | `previousMove` | The previous move                          |
@@ -291,8 +290,111 @@ Will generate this `$status` object:
 
     )
 
+Which means that the game status properties can be easily accessed this way:
 
-### 3. Sample Games
+```php
+<?php
+// current turn
+$game->status()->turn;
+
+// used/free squares
+$game->status()->squares->used;
+$game->status()->squares->free;
+
+// white's control
+$game->status()->control->space->{Symbol::WHITE};
+$game->status()->control->attack->{Symbol::WHITE};
+
+// black's control
+$game->status()->control->space->{Symbol::BLACK};
+$game->status()->control->attack->{Symbol::BLACK};
+
+// white's castling
+$game->status()->castling->{Symbol::WHITE}->castled;
+$game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT};
+$game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG};
+
+// black's castling
+$game->status()->castling->{Symbol::BLACK}->castled;
+$game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT};
+$game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG};
+
+// white's previous move
+$game->status()->previousMove->{Symbol::WHITE}->identity;
+$game->status()->previousMove->{Symbol::WHITE}->position->next;
+
+// black's previous move
+$game->status()->previousMove->{Symbol::BLACK}->identity;
+$game->status()->previousMove->{Symbol::BLACK}->position->next;
+```
+
+### 4. Board methods
+
+Getting the game's board is a piece of cake.
+
+```php
+<?php
+use PGNChess\Game;
+use PGNChess\PGN\Convert;
+use PGNChess\PGN\Symbol;
+
+$game = new Game;
+
+$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
+$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
+$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
+$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
+$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+
+$board = $game->getBoard();
+```
+
+#### 4.1. `getPiecesByColor()`
+
+> TODO. Document this method.
+
+#### 4.2. `getPiece()`
+
+> TODO. Document this method.
+
+#### 4.3. `getPieceByPosition()`
+
+> TODO. Document this method.
+
+### 5. Piece methods
+
+#### 5.1. `getColor()`
+
+> TODO. Document this method.
+
+#### 5.2. `getOppositeColor()`
+
+> TODO. Document this method.
+
+#### 5.3. `getPosition()`
+
+> TODO. Document this method.
+
+#### 5.4. `getIdentity()`
+
+> TODO. Document this method.
+
+#### 5.5. `getMove()`
+
+> TODO. Document this method.
+
+#### 5.6. `getPosition()`
+
+> TODO. Document this method.
+
+#### 5.7. `getLegalMoves()`
+
+> TODO. Document this method.
+
+### 6. Sample Games
 
 The folder `/examples` contains a few basic examples showing how PGN chess games can be processed from PHP apps -- for further information please look at the `/tests` folder.
 
@@ -501,7 +603,7 @@ Let's look at another example, the output generated by `game03.php`:
     Check!
     b played Kxg5
 
-### 4. PGN Format
+### 7. PGN Format
 
 Need some more examples? Look at the format used in the following moves, they all will be processed OK by PGN Chess.
 
@@ -528,11 +630,11 @@ Need some more examples? Look at the format used in the following moves, they al
     Kb2 58. Kd2 Kxb3 59. Kc1 Ka3 60. Kd2 Kb2 61. Kd3 a1=Q 62. Kc4 Ka3 63. Kc5
     Qb2 64. Kd6 Qc2 65. Ke6 Qd2 {White forfeits on time} 0-1
 
-### 5. License
+### 8. License
 
 The MIT License (MIT).
 
-### 6. Contributions
+### 9. Contributions
 
 Would you help make this library better? Contributions are welcome.
 

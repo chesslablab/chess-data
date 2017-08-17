@@ -206,4 +206,150 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($status->previousMove->{Symbol::BLACK}->identity, $game->status()->previousMove->{Symbol::BLACK}->identity);
         $this->assertEquals($status->previousMove->{Symbol::BLACK}->position->next, $game->status()->previousMove->{Symbol::BLACK}->position->next);
     }
+
+    public function testGetPieceByPosition()
+    {
+        $game = new Game;
+
+        $piece = (object) [
+            'color' => 'b',
+            'identity' => 'N',
+            'position' => 'b8',
+            'squares' => [
+                'a6',
+                'c6'
+            ]
+        ];
+
+        $this->assertEquals($piece, $game->getPieceByPosition('b8'));
+
+        $this->assertEquals($piece->color, Symbol::BLACK);
+        $this->assertEquals($piece->identity, Symbol::KNIGHT);
+        $this->assertEquals($piece->position, 'b8');
+        $this->assertEquals($piece->squares, ['a6', 'c6']);
+    }
+
+    public function testGetBlackPieces()
+    {
+        $game = new Game;
+
+        $blackPieces = [
+            (object) [
+                'identity' => 'R',
+                'position' => 'a8',
+                'squares' => []
+            ],
+            (object) [
+                'identity' => 'N',
+                'position' => 'b8',
+                'squares' => [
+                    'a6',
+                    'c6'
+                ]
+            ],
+            (object) [
+                'identity' => 'B',
+                'position' => 'c8',
+                'squares' => []
+            ],
+            (object) [
+                'identity' => 'Q',
+                'position' => 'd8',
+                'squares' => []
+            ],
+            (object) [
+                'identity' => 'K',
+                'position' => 'e8',
+                'squares' => []
+            ],
+            (object) [
+                'identity' => 'B',
+                'position' => 'f8',
+                'squares' => []
+            ],
+            (object) [
+                'identity' => 'N',
+                'position' => 'g8',
+                'squares' => [
+                    'f6',
+                    'h6'
+                ]
+            ],
+            (object) [
+                'identity' => 'R',
+                'position' => 'h8',
+                'squares' => []
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'a7',
+                'squares' => [
+                    'a6',
+                    'a5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'b7',
+                'squares' => [
+                    'b6',
+                    'b5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'c7',
+                'squares' => [
+                    'c6',
+                    'c5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'd7',
+                'squares' => [
+                    'd6',
+                    'd5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'e7',
+                'squares' => [
+                    'e6',
+                    'e5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'f7',
+                'squares' => [
+                    'f6',
+                    'f5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'g7',
+                'squares' => [
+                    'g6',
+                    'g5'
+                ]
+            ],
+            (object) [
+                'identity' => 'P',
+                'position' => 'h7',
+                'squares' => [
+                    'h6',
+                    'h5'
+                ]
+            ]
+        ];
+
+        $this->assertEquals($blackPieces, $game->getPiecesByColor(Symbol::BLACK));
+
+        $this->assertEquals($blackPieces[1]->identity, Symbol::KNIGHT);
+        $this->assertEquals($blackPieces[1]->position, 'b8');
+        $this->assertEquals($blackPieces[1]->squares, ['a6', 'c6']);
+    }
 }

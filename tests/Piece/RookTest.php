@@ -7,7 +7,7 @@ use PGNChess\Piece\Type\RookType;
 
 class RookTest extends \PHPUnit_Framework_TestCase
 {
-    public function testScopeA2()
+    public function testScope_a2()
     {
         $rook = new Rook(Symbol::WHITE, 'a2', RookType::PROMOTED);
         $example = (object) [
@@ -19,7 +19,7 @@ class RookTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $rook->getPosition()->scope);
     }
 
-    public function testScopeD5()
+    public function testScope_d5()
     {
         $rook = new Rook(Symbol::WHITE, 'd5', RookType::PROMOTED);
         $example = (object) [

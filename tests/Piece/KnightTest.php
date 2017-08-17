@@ -6,7 +6,7 @@ use PGNChess\Piece\Knight;
 
 class KnightTest extends \PHPUnit_Framework_TestCase
 {
-    public function testScopeD4()
+    public function testScope_d4()
     {
         $knight = new Knight(Symbol::WHITE, 'd4');
         $example = [
@@ -22,7 +22,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $knight->getPosition()->scope->jumps);
     }
 
-    public function testScopeH1()
+    public function testScope_h1()
     {
         $knight = new Knight(Symbol::WHITE, 'h1');
         $example = [
@@ -32,7 +32,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $knight->getPosition()->scope->jumps);
     }
 
-    public function testScopeB1()
+    public function testScope_b1()
     {
         $knight = new Knight(Symbol::WHITE, 'b1');
         $example = [

@@ -6,7 +6,7 @@ use PGNChess\Piece\King;
 
 class KingTest extends \PHPUnit_Framework_TestCase
 {
-    public function testScopeA2()
+    public function testScope_a2()
     {
         $king = new King(Symbol::WHITE, 'a2');
         $example = (object) [
@@ -20,7 +20,7 @@ class KingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $position->scope);
     }
 
-    public function testScopeD5()
+    public function testScope_d5()
     {
         $king = new King(Symbol::WHITE, 'd5');
         $example = (object) [
@@ -36,5 +36,4 @@ class KingTest extends \PHPUnit_Framework_TestCase
         $position = $king->getPosition();
         $this->assertEquals($example, $position->scope);
     }
-
 }

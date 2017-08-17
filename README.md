@@ -2,9 +2,7 @@
 
 ![PGN Chess](/resources/chess-move.jpg?raw=true)
 
-This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms, it understands the rules of chess, and is capable of validating and playing PGN notated games.
-
-> **Note**: The API is already finished! However I am still documenting how it works, so please be a little patient. It will be finished within the next few hours. Meanwhile you can take a look at the tests. Thank you.
+This is a simple, friendly, and powerful PGN (Portable Game Notation) library for running chess games from within PHP applications. PGN Chess is a PHP chess engine that can be used in chess applications and chess algorithms because it understands the rules of chess; is capable of validating and playing PGN notated games.
 
 PGN Chess comes to the rescue in the following scenarios:
 
@@ -23,7 +21,7 @@ Via composer:
 
 ### 2. Instantiation
 
-Just instantiate a game and play PGN moves converted into PHP objects:
+Instantiate a game and play PGN moves converted into PHP objects:
 
 ```php
 <?php
@@ -49,7 +47,7 @@ $isChecked = $game->isChecked(Symbol::WHITE);
 
 #### 3.2. `isMated()`
 
-Find out when a player is checkmated.
+Find out if a player is checkmated.
 
 ```php
 $isMated = $game->isMated(Symbol::WHITE);
@@ -57,7 +55,7 @@ $isMated = $game->isMated(Symbol::WHITE);
 
 #### 3.3. `status()`
 
-Get the status of the game at any time.
+Gets the current status of the game.
 
     $status = $game->status();
 
@@ -71,7 +69,7 @@ Get the status of the game at any time.
 | `castling`     | The castling status of the two kings       |
 | `previousMove` | The previous move                          |
 
-So, the following sequence of moves:
+The following sequence of moves:
 
 ```php
 <?php
@@ -290,7 +288,7 @@ Will generate this `$status` object:
 
     )
 
-Which means that the game status properties can be easily accessed this way:
+The game's status properties can be easily accessed this way:
 
 ```php
 <?php
@@ -328,9 +326,22 @@ $game->status()->previousMove->{Symbol::BLACK}->identity;
 $game->status()->previousMove->{Symbol::BLACK}->position->next;
 ```
 
-### 4. Board methods
+#### 3.4. `getPieceByPosition()`
 
-Getting the game's board is a piece of cake.
+Gets a piece by its position on the board.
+
+    $piece = $game->getPieceByPosition('c8');
+
+`$piece` is a PHP object containing useful information.
+
+| Property       | Description                                |
+|----------------|--------------------------------------------|
+| `color`        | The piece's color in PGN format            |
+| `identity`     | The piece's identity in PGN format         |
+| `position`     | The piece's position on the board          |
+| `squares`      | The piece's squares                        |
+
+The following code:
 
 ```php
 <?php
@@ -340,63 +351,259 @@ use PGNChess\PGN\Symbol;
 
 $game = new Game;
 
-$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
-
-$board = $game->getBoard();
+$piece = $game->getPieceByPosition('b8');
 ```
 
-#### 4.1. `getPiecesByColor()`
+Will generate this `$piece` object:
 
-> TODO. Document this method.
+    stdClass Object
+    (
+        [color] => b
+        [identity] => N
+        [position] => b8
+        [squares] => Array
+            (
+                [0] => a6
+                [1] => c6
+            )
 
-#### 4.2. `getPiece()`
+    )
 
-> TODO. Document this method.
+The selected piece's properties can be easily accessed this way:
 
-#### 4.3. `getPieceByPosition()`
+```php
+<?php
+$piece->color;
+$piece->identity;
+$piece->position;
+$piece->squares;
+```
 
-> TODO. Document this method.
+#### 3.5. `getPiecesByColor()`
 
-### 5. Piece methods
+Gets the pieces on the board by color.
 
-#### 5.1. `getColor()`
+    $blackPieces = $game->getPiecesByColor(Symbol::BLACK);
 
-> TODO. Document this method.
+`$blackPieces` is an array of PHP objects containing useful information about black pieces.
 
-#### 5.2. `getOppositeColor()`
+| Property       | Description                                |
+|----------------|--------------------------------------------|
+| `identity`     | The piece's identity in PGN format         |
+| `position`     | The piece's position on the board          |
+| `squares`      | The piece's squares                        |
 
-> TODO. Document this method.
+The following code:
 
-#### 5.3. `getPosition()`
+```php
+<?php
+use PGNChess\Game;
+use PGNChess\PGN\Convert;
+use PGNChess\PGN\Symbol;
 
-> TODO. Document this method.
+$game = new Game;
 
-#### 5.4. `getIdentity()`
+$blackPieces = $game->getPiecesByColor(Symbol::BLACK);
+```
 
-> TODO. Document this method.
+Will generate this `$blackPieces` array of objects:
 
-#### 5.5. `getMove()`
+    Array
+    (
+        [0] => stdClass Object
+            (
+                [identity] => R
+                [position] => a8
+                [squares] => Array
+                    (
+                    )
 
-> TODO. Document this method.
+            )
 
-#### 5.6. `getPosition()`
+        [1] => stdClass Object
+            (
+                [identity] => N
+                [position] => b8
+                [squares] => Array
+                    (
+                        [0] => a6
+                        [1] => c6
+                    )
 
-> TODO. Document this method.
+            )
 
-#### 5.7. `getLegalMoves()`
+        [2] => stdClass Object
+            (
+                [identity] => B
+                [position] => c8
+                [squares] => Array
+                    (
+                    )
 
-> TODO. Document this method.
+            )
 
-### 6. Sample Games
+        [3] => stdClass Object
+            (
+                [identity] => Q
+                [position] => d8
+                [squares] => Array
+                    (
+                    )
 
-The folder `/examples` contains a few basic examples showing how PGN chess games can be processed from PHP apps -- for further information please look at the `/tests` folder.
+            )
+
+        [4] => stdClass Object
+            (
+                [identity] => K
+                [position] => e8
+                [squares] => Array
+                    (
+                    )
+
+            )
+
+        [5] => stdClass Object
+            (
+                [identity] => B
+                [position] => f8
+                [squares] => Array
+                    (
+                    )
+
+            )
+
+        [6] => stdClass Object
+            (
+                [identity] => N
+                [position] => g8
+                [squares] => Array
+                    (
+                        [0] => f6
+                        [1] => h6
+                    )
+
+            )
+
+        [7] => stdClass Object
+            (
+                [identity] => R
+                [position] => h8
+                [squares] => Array
+                    (
+                    )
+
+            )
+
+        [8] => stdClass Object
+            (
+                [identity] => P
+                [position] => a7
+                [squares] => Array
+                    (
+                        [0] => a6
+                        [1] => a5
+                    )
+
+            )
+
+        [9] => stdClass Object
+            (
+                [identity] => P
+                [position] => b7
+                [squares] => Array
+                    (
+                        [0] => b6
+                        [1] => b5
+                    )
+
+            )
+
+        [10] => stdClass Object
+            (
+                [identity] => P
+                [position] => c7
+                [squares] => Array
+                    (
+                        [0] => c6
+                        [1] => c5
+                    )
+
+            )
+
+        [11] => stdClass Object
+            (
+                [identity] => P
+                [position] => d7
+                [squares] => Array
+                    (
+                        [0] => d6
+                        [1] => d5
+                    )
+
+            )
+
+        [12] => stdClass Object
+            (
+                [identity] => P
+                [position] => e7
+                [squares] => Array
+                    (
+                        [0] => e6
+                        [1] => e5
+                    )
+
+            )
+
+        [13] => stdClass Object
+            (
+                [identity] => P
+                [position] => f7
+                [squares] => Array
+                    (
+                        [0] => f6
+                        [1] => f5
+                    )
+
+            )
+
+        [14] => stdClass Object
+            (
+                [identity] => P
+                [position] => g7
+                [squares] => Array
+                    (
+                        [0] => g6
+                        [1] => g5
+                    )
+
+            )
+
+        [15] => stdClass Object
+            (
+                [identity] => P
+                [position] => h7
+                [squares] => Array
+                    (
+                        [0] => h6
+                        [1] => h5
+                    )
+
+            )
+
+    )
+
+Pieces' properties can be easily accessed this way:
+
+```php
+<?php
+$blackPieces[1]->identity;
+$blackPieces[1]->position;
+$blackPieces[1]->squares;
+```
+
+### 4. Sample Games
+
+The `/examples` folder contains a few basic examples showing how PGN chess games can be processed in PHP apps -- for further information please look at the `/tests` folder.
 
 This is the output obtained when running `game01.php`:
 
@@ -603,7 +810,7 @@ Let's look at another example, the output generated by `game03.php`:
     Check!
     b played Kxg5
 
-### 7. PGN Format
+### 5. About PGN format
 
 Need some more examples? Look at the format used in the following moves, they all will be processed OK by PGN Chess.
 
@@ -630,11 +837,11 @@ Need some more examples? Look at the format used in the following moves, they al
     Kb2 58. Kd2 Kxb3 59. Kc1 Ka3 60. Kd2 Kb2 61. Kd3 a1=Q 62. Kc4 Ka3 63. Kc5
     Qb2 64. Kd6 Qc2 65. Ke6 Qd2 {White forfeits on time} 0-1
 
-### 8. License
+### 6. License
 
 The MIT License (MIT).
 
-### 9. Contributions
+### 7. Contributions
 
 Would you help make this library better? Contributions are welcome.
 

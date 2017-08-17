@@ -111,7 +111,7 @@ class Game
     }
 
     /**
-     * Gets the board's status.
+     * Gets the current board's status.
      *
      * @return stdClass
      */
@@ -123,6 +123,47 @@ class Game
             'control' => $this->board->getControl(),
             'castling' => $this->board->getCastling(),
             'previousMove' => $this->board->getPreviousMove()
+        ];
+    }
+
+    /**
+     * Gets an array of pieces by color.
+     *
+     * @param string $color
+     * @return array
+     */
+    public function getPiecesByColor($color)
+    {
+        $result = [];
+
+        $pieces = $this->board->getPiecesByColor(Validate::color($color));
+
+        foreach ($pieces as $piece) {
+            $result[] = (object) [
+                'identity' => $piece->getIdentity(),
+                'position' => $piece->getPosition()->current,
+                'squares' => $piece->getLegalMoves()
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Gets a piece by its position on the board.
+     *
+     * @param $square
+     * @return stdClass
+     */
+    public function getPieceByPosition($square)
+    {
+        $piece = $this->board->getPieceByPosition(Validate::square($square));
+
+        return (object) [
+            'color' => $piece->getColor(),
+            'identity' => $piece->getIdentity(),
+            'position' => $piece->getPosition()->current,
+            'squares' => $piece->getLegalMoves()
         ];
     }
 

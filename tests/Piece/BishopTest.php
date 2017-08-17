@@ -6,7 +6,7 @@ use PGNChess\Piece\Bishop;
 
 class BishopTest extends \PHPUnit_Framework_TestCase
 {
-    public function testScopeA2()
+    public function testScope_a2()
     {
         $bishop = new Bishop(Symbol::WHITE, 'a2');
         $example = (object) [
@@ -18,7 +18,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $bishop->getPosition()->scope);
     }
 
-    public function testScopeD5()
+    public function testScope_d5()
     {
         $bishop = new Bishop(Symbol::WHITE, 'd5');
         $example = (object) [
@@ -30,7 +30,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $bishop->getPosition()->scope);
     }
 
-    public function testScopeA8()
+    public function testScope_a8()
     {
         $bishop = new Bishop(Symbol::WHITE, 'a8');
         $example = (object) [

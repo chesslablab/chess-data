@@ -58,20 +58,6 @@ class InvalidMovesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nw3')));
     }
 
-    public function testFoobar()
-    {
-        $board = new Board;
-        $squares = [];
-        $letter = 'a';
-        for($i=0; $i<8; $i++)
-        {
-            for($j=1; $j<=8; $j++)
-            {
-                $this->assertEquals(false, $board->play(Convert::toObject(Symbol::WHITE, 'foobar' . chr((ord('a') + $i)) . $j)));
-            }
-        }
-    }
-
     public function testPieceDoesNotExist()
     {
         $this->expectException(BoardException::class);

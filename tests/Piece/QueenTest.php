@@ -6,7 +6,7 @@ use PGNChess\Piece\Queen;
 
 class QueenTest extends \PHPUnit_Framework_TestCase
 {
-    public function testScopeA2()
+    public function testScope_a2()
     {
         $queen = new Queen(Symbol::WHITE, 'a2');
         $example = (object) [
@@ -22,7 +22,7 @@ class QueenTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $queen->getPosition()->scope);
     }
 
-    public function testScopeD5()
+    public function testScope_d5()
     {
         $queen = new Queen(Symbol::WHITE, 'd5');
         $example = (object) [
@@ -37,5 +37,4 @@ class QueenTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($example, $queen->getPosition()->scope);
     }
-
 }

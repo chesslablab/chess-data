@@ -6,7 +6,7 @@ use PGNChess\Piece\Pawn;
 
 class PawnTest extends \PHPUnit_Framework_TestCase
 {
-    public function testScopeWhiteA2()
+    public function testScopeWhite_a2()
     {
         $pawn = new Pawn(Symbol::WHITE, 'a2');
         $example = (object) [
@@ -19,7 +19,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $pawn->getPosition());
     }
 
-    public function testScopeWhiteD5()
+    public function testScopeWhite_d5()
     {
         $pawn = new Pawn(Symbol::WHITE, 'd5');
         $example = (object) [
@@ -32,7 +32,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $pawn->getPosition());
     }
 
-    public function testScopeWhiteF7()
+    public function testScopeWhite_f7()
     {
         $pawn = new Pawn(Symbol::WHITE, 'f7');
         $example = (object) [
@@ -45,7 +45,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $pawn->getPosition());
     }
 
-    public function testScopeWhiteF8()
+    public function testScopeWhite_f8()
     {
         $pawn = new Pawn(Symbol::WHITE, 'f8');
         $example = (object) [
@@ -58,7 +58,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $pawn->getPosition());
     }
 
-    public function testScopeBlackA2()
+    public function testScopeBlack_a2()
     {
         $pawn = new Pawn(Symbol::BLACK, 'a2');
         $example = (object) [
@@ -71,7 +71,7 @@ class PawnTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($example, $pawn->getPosition());
     }
 
-    public function testScopeBlackD5()
+    public function testScopeBlack_d5()
     {
         $pawn = new Pawn(Symbol::BLACK, 'd5');
         $example = (object) [

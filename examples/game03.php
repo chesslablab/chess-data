@@ -1,22 +1,20 @@
 <?php
 
 $pgn = <<<EOT
-    1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 O-O 5.Nf3 d5 6.cxd5 exd5 7.Bf4 c5
-    8.e3 Nc6 9.dxc5 Bxc5 10.Rd1 Qa5 11.Be2 Nb4 12.Qa4 Qb6 13.O-O Be6
-    14.a3 Nc6 15.b4 Be7 16.Qc2 Rac8 17.Qb2 a6 18.Ne5 Rfd8 19.Na4 Qa7
-    20.Rc1 Nd7 21.Nxd7 Bxd7 22.Nc5 Bf5 23.Rfd1 a5 24.Bd3 Bxd3 25.Nxd3 axb4
-    26.axb4 Qb6 27.Be5 Bf8 28.Bc3 Qb5 29.h3 h6 30.Bd4 b6 31.Bc3 Rd7 32.Nf4 Rdd8
-    33.Nd3 Ra8 34.Nf4 Ra7 35.Rb1 Rad7 36.Ne2 Rc7 37.Bd4 Rcc8 38.Nc3 Qxb4
-    39.Bxb6 Rd7 40.Nxd5 Qxb2 41.Rxb2 Ne5 42.Rbb1 Nc4 43.e4 Rb8 44.Be3 Rxb1
-    45.Rxb1 Nxe3 46.Nxe3 Rd4 47.f3 Bc5 48.Kh1 g6 49.Rc1 Bd6 50.Nf1 Rd3 51.Kg1 h5
-    52.Kf2 h4 53.Ke2 Ra3 54.Rc8+ Kg7 55.Rc2 Bf4 56.Nd2 Bxd2 57.Rxd2 g5
-    58.Kf2 Kg6 59.Rb2 Ra5 60.Re2 Ra3 61.Rd2 Rb3 62.g3 hxg3+ 63.Kxg3 Rb1
-    64.Rd6+ Kg7 65.Rd2 Rg1+ 66.Rg2 Rh1 67.Rh2 Rg1+ 68.Kf2 Ra1 69.h4 Ra2+
-    70.Kg3 gxh4+ 71.Rxh4 Kf6 72.Kf4 Ra3 73.Rh6+ Ke7 74.Rb6 Rc3 75.e5 Ra3
-    76.Ke4 Ra4+ 77.Kf5 Ra7 78.f4 Rc7 79.Kg5 Rc1 80.Ra6 Rb1 81.Ra7+ Ke8 82.Kf6 Rb6+
-    83.Kg7 Rg6+ 84.Kh7 Rg4 85.f5 f6 86.exf6 Kf8 87.Kh6 Rg1 88.Kh5 Rg2 89.Ra4 Kf7
-    90.Rg4 Rxg4 91.Kxg4 Kxf6 92.Kf4 Kf7 93.Ke5 Ke7 94.f6+ Kf7 95.Kf5 Kf8 96.Kg6 Kg8
-    97.f7+ Kf8 98.Kf6
+    1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7
+    9.Bd3 Bxd3 10.Qxd3 Qc7 11.Bd2 e6 12.Qe2 Ngf6 13.O-O-O O-O-O 14.Ne5 Nxe5
+    15.dxe5 Nd7 16.f4 Be7 17.Ne4 Nc5 18.Nc3 f6 19.exf6 Bxf6 20.Qc4 Qb6 21.b4 Na6
+    22.Ne4 Nc7 23.Rhe1 Rd4 24.Qb3 Qb5 25.c3 Rxe4 26.Rxe4 Qxh5 27.Qc4 Qf5
+    28.Qe2 h5 29.Be1 Re8 30.g3 a5 31.bxa5 Qxa5 32.Qc2 Qf5 33.Ra4 g5 34.fxg5 Bxg5+
+    35.Kb1 Qxc2+ 36.Kxc2 e5 37.Re4 Nd5 38.Bf2 Nf6 39.Ra4 Kc7 40.Bc5 Nd5
+    41.Re4 b6 42.Bg1 Bd8 43.Rf1 Nf6 44.Re2 c5 45.Rf5 Kd6 46.a4 Kd5 47.Kd3 Ng4
+    48.Rb2 Rh8 49.a5 c4+ 50.Ke2 Ke4 51.Rf7 bxa5 52.Rb8 a4 53.Rc8 Bf6 54.Rxc4+ Kf5
+    55.Ra7 a3 56.Rxa3 Rb8 57.Rb4 Rc8 58.c4 Be7 59.c5 e4 60.Ra7 Bf6 61.Rh7 Kg6
+    62.Rd7 Kf5 63.Rd5+ Be5 64.Rb6 e3 65.Kf3 Nf6 66.Rd3 Rxc5 67.Bxe3 Rc2
+    68.Rd8 Rc3 69.Ke2 Rc2+ 70.Kd1 Rc3 71.Bf2 Ne4 72.Rf8+ Kg5 73.Rb5 Rd3+
+    74.Ke2 Rd5 75.Rxd5 Nc3+ 76.Kf3 Nxd5 77.Ra8 Kf5 78.Ra5 Ke6 79.Be1 Nf6
+    80.Rb5 Nd5 81.Bd2 Bg7 82.Bc1 Be5 83.Bb2 Bc7 84.Rc5 Bd6 85.Rc1 Ne7 86.Re1+ Kf5
+    87.Ra1 Nc6 88.Ra6 Be5 89.Rxc6 Bxb2 90.Rc5+ Kg6 91.Kf4 Bg7
 EOT;
 
 include 'print-game.php';

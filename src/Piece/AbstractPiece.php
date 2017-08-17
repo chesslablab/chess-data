@@ -142,20 +142,6 @@ abstract class AbstractPiece implements Piece
     abstract public function getLegalMoves();
 
     /**
-     * Sets the piece's position.
-     *
-     * @param stdClass $position
-     */
-    public function setPosition(\stdClass $position)
-    {
-        $this->position->current === $this->move->position->next
-            ? $this->position = $position
-            : $this->position = null;
-
-        return $this;
-    }
-
-    /**
      * Sets the piece's next move.
      *
      * @param stdClass $move

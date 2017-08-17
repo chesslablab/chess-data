@@ -453,7 +453,7 @@ class Board extends \SplObjectStorage
                 case RookType::CASTLING_SHORT:
                     $this->castling->{$piece->getColor()}->{Symbol::CASTLING_SHORT} = false;
                     break;
-                    
+
                 case RookType::CASTLING_LONG:
                     $this->castling->{$piece->getColor()}->{Symbol::CASTLING_LONG} = false;
                     break;
@@ -477,19 +477,21 @@ class Board extends \SplObjectStorage
 
                 case false:
                     // move the king
-                    $kingsNewPosition = $king->getPosition();
-                    $kingsNewPosition->current = Castling::info($king->getColor())
-                        ->{Symbol::KING}->{$king->getMove()->pgn}->position->next;
-                    $king->setPosition($kingsNewPosition);
+                    $kingsMove = $king->getMove();
+                    $kingsMove->position = (object) [
+                        'next' => Castling::info($king->getColor())
+                                    ->{Symbol::KING}->{$king->getMove()->pgn}->position->next
+                    ];
+                    $king->setMove($kingsMove);
                     $this->move($king);
                     // move the castling rook
-                    $rooksNewPosition = $rook->getPosition();
-                    $rooksNewPosition->current = Castling::info($king->getColor())
-                        ->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next;
                     $rook->setMove((object) [
                         'type' => $king->getMove()->type,
                         'isCapture' => $king->getMove()->isCapture,
-                        'position' => (object) ['next' => $rooksNewPosition->current]
+                        'position' => (object) [
+                            'next' => Castling::info($king->getColor())
+                                        ->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next
+                        ]
                     ]);
                     $this->move($rook);
                     // update the king's castling status

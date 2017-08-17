@@ -463,4 +463,120 @@ EOT;
 
         $this->play($pgn);
     }
+
+    public function testGame29()
+    {
+        $pgn = <<<EOT
+            1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 Ne4 6.Bxe7 Qxe7 7.Bd3 Nxc3 8.bxc3 Nd7
+            9.Nf3 O-O 10.Qc2 h6 11.O-O c5 12.Rfe1 dxc4 13.Bxc4 b6 14.Qe4 Rb8 15.Bd3 Nf6
+            16.Qf4 Bb7 17.e4 Rfd8 18.Rad1 Rbc8 19.Re3 cxd4 20.cxd4 Rc3 21.Bb1 g5 22.Nxg5 Rxe3
+            23.Qxe3 Ng4 24.Qg3 Qxg5 25.h4 Qg7 26.Qc7 Rxd4 27.Qb8+ Kh7 28.e5+ Be4 29.Rxd4 Bxb1
+            30.Qxa7 Nxe5 31.Rf4 Be4 32.g3 Nf3+ 33.Kg2 f5 34.Qxb6 Nxh4+ 35.Kh2 Nf3+ 36.Rxf3 Bxf3
+            37.Qxe6 Be4 38.f3 Bd3 39.Qd5 Qb2+ 40.Kg1 Bb1 41.a4 Qa1 42.Qb7+ Kg6 43.Qb6+ Kh5
+            44.Kh2 Ba2 45.Qb5 Kg6 46.a5 Qd4 47.Qc6+ Qf6 48.Qe8+ Qf7 49.Qa4 Qe6 50.a6 Qe2+
+            51.Kh3 Bd5 52.a7 Bxf3
+EOT;
+
+        $this->play($pgn);
+    }
+
+    public function testGame30()
+    {
+        $pgn = <<<EOT
+            1.e4 e5 2.Nf3 Nc6 3.Bb5 d6 4.c3 Bg4 5.d3 Be7 6.Nbd2 Nf6 7.O-O O-O 8.Re1 h6
+            9.Nf1 Nh7 10.Ne3 Bh5 11.g4 Bg6 12.Nf5 h5 13.h3 hxg4 14.hxg4 Bg5 15.Nxg5 Nxg5
+            16.Kg2 d5 17.Qe2 Re8 18.Rh1 Re6 19.Qe3 f6 20.Ba4 Ne7 21.Bb3 c6 22.Qg3 a5
+            23.a4 Nf7 24.Be3 b6 25.Rh4 Kf8 26.Rah1 Ng8 27.Qf3 Bxf5 28.gxf5 Rd6 29.Qh5 Ra7
+            30.Qg6 Nfh6 31.Rxh6 gxh6 32.Bxh6+ Ke7 33.Qh7+ Ke8 34.Qxg8+ Kd7 35.Qh7+ Qe7
+            36.Bf8 Qxh7 37.Rxh7+ Kc8 38.Rxa7
+EOT;
+
+        $this->play($pgn);
+    }
+
+    public function testGame31()
+    {
+        $pgn = <<<EOT
+            1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 Ne4 6.Bxe7 Qxe7 7.Bd3 Nxc3 8.bxc3 Nd7
+            9.Nf3 O-O 10.cxd5 exd5 11.Qb3 Nf6 12.a4 c5 13.Qa3 b6 14.a5 Bb7 15.O-O Qc7
+            16.Rfb1 Nd7 17.Bf5 Rfc8 18.Bxd7 Qxd7 19.a6 Bc6 20.dxc5 bxc5 21.Qxc5 Rab8
+            22.Rxb8 Rxb8 23.Ne5 Qf5 24.f4 Rb6 25.Qxb6
+EOT;
+
+        $this->play($pgn);
+    }
+
+    // TODO Find out why Qxe6+ checkmates
+    public function testGame32()
+    {
+        $pgn = <<<EOT
+            1.e4 e5 2.Nf3 Nc6 3.Bb5 d6 4.O-O a6 5.Bxc6+ bxc6 6.d4 exd4 7.Nxd4 Bd7 8.Re1 c5
+            9.Nf3 Be7 10.Nc3 c6 11.Bf4 Be6 12.Qd3 Nf6 13.Rad1 d5 14.Ng5 d4 15.Nxe6 fxe6
+            16.Na4 Qa5 17.b3 Rd8 18.Nb2 Nh5 19.Be5 O-O 20.Nc4 Qb4 21.Qh3 g6 22.Qxe6+ Rf7
+            23.g4 Bh4 24.gxh5 Bxf2+ 25.Kh1 Qc3 26.Re3 Qxc2 27.Red3 Qe2 28.Nd6 Rxd6 29.Bxd6 Be1
+            30.Qe8+ Kg7 31.h6+
+EOT;
+
+        $this->play($pgn);
+    }
+
+    public function testGame33()
+    {
+        $pgn = <<<EOT
+            1.e4 e5 2.Nf3 Nf6 3.Nxe5 d6 4.Nf3 Nxe4 5.d4 d5 6.Bd3 Nc6 7.O-O Be7
+            8.Re1 Bf5 9.c4 Nb4 10.Bf1 O-O 11.a3 Nc6 12.Nc3 Nxc3 13.bxc3 Bf6 14.Bf4 dxc4
+            15.Bxc4 Qd7 16.Ba2 Rfe8 17.Qd2 b5 18.Bg5 Bg6 19.Bxf6 gxf6 20.Nh4 Kg7
+            21.f4 Ne7 22.Qf2 Nf5 23.g4 Nxh4 24.Qxh4 f5 25.Re5 f6 26.Rc5 Re3 27.Re1 Rxe1+
+            28.Qxe1 Re8 29.Qg3 Bf7 30.Bxf7 Qxf7 31.g5 Kh8 32.Rxf5 Qb3 33.gxf6 Qd1+
+            34.Kg2 Qc2+ 35.Kg1 Qb1+ 36.Kg2 Qc2+
+EOT;
+
+        $this->play($pgn);
+    }
+
+    public function testGame34()
+    {
+        $pgn = <<<EOT
+            1.e4 c6 2.d4 d5 3.e5 Bf5 4.Nc3 e6 5.g4 Bg6 6.Nge2 Ne7 7.Nf4 c5 8.dxc5 Nd7
+            9.h4 Nxe5 10.Bg2 d4 11.h5 dxc3 12.Qxd8+ Rxd8 13.hxg6 N7xg6 14.b4 Nxf4
+            15.Bxf4 Nc6 16.Rb1 Be7 17.Be3 O-O 18.g5 f6 19.gxf6 gxf6 20.Bh6 Rfe8
+            21.Rg1 Rd4 22.Bxc6+
+EOT;
+
+        $this->play($pgn);
+    }
+
+    public function testGame35()
+    {
+        $pgn = <<<EOT
+            1.e4 c6 2.d4 d5 3.e5 Bf5 4.Nd2 h6 5.Nb3 e6 6.c3 Nd7 7.Be3 Ne7 8.f4 h5
+            9.Nf3 h4 10.Be2 Bg4 11.O-O Nf5 12.Bf2 Be7 13.Nbd2 c5 14.h3 Bh5 15.Bd3 Bg6
+            16.Qb1 c4 17.Bc2 b5 18.Rd1 Nb6 19.Nf1 a5 20.Ne3 Nxe3 21.Bxe3 Bxc2 22.Qxc2 g6
+            23.Bf2 b4 24.Be1 Kf8 25.Nh2 Kg7 26.Ng4 Qd7 27.Ne3 Qb5 28.Qe2 Rac8 29.b3 Rc7
+            30.Qg4 Rh5 31.Qe2 Qd7 32.Rdc1 Qc8 33.Bd2 cxb3 34.axb3 bxc3 35.Be1 Bb4
+            36.Rc2 Qd7 37.Qd3 Rh8 38.Bxc3 Rhc8 39.Bxb4 axb4 40.Rac1 Rxc2 41.Rxc2 Qa7
+            42.Kh2 Qa1 43.Ng4 Qe1 44.Rc5 Ra8 45.Qe3 Qxe3 46.Nxe3 Ra3 47.Rb5 Rxb3
+            48.Ng4 Nc8 49.Rb7 Rc3 50.Rxb4 Ne7 51.Rb8 Rc8 52.Rxc8 Nxc8 53.Kg1 Ne7
+            54.Nh2 Nf5 55.Nf3
+EOT;
+
+        $this->play($pgn);
+    }
+
+    public function testGame36()
+    {
+        $pgn = <<<EOT
+            1.e4 e5 2.Nf3 Nf6 3.Nxe5 d6 4.Nf3 Nxe4 5.d4 d5 6.Bd3 Nc6 7.O-O Be7 8.c4 Nb4
+            9.Be2 O-O 10.Nc3 Bf5 11.a3 Nxc3 12.bxc3 Nc6 13.Re1 Re8 14.Bf4 dxc4 15.Bxc4 Bd6
+            16.Rxe8+ Qxe8 17.Ng5 Bg6 18.Bxd6 cxd6 19.h4 Qe7 20.Qg4 h6 21.Nh3 Qf6 22.Re1 Bf5
+            23.Qf3 Kf8 24.Nf4 Bd7 25.g3 Re8 26.Rxe8+ Bxe8 27.Qe4 g5 28.hxg5 Qxg5 29.Bd5 Bd7
+            30.Qh7 Qf6 31.Bxf7 Ne7 32.Bb3 Bf5 33.Nh5 Bxh7 34.Nxf6 Bg6 35.Ng4 Kg7 36.Ne3 Be4
+            37.g4 Kf6 38.Kh2 b6 39.Kg3 Kg5 40.Bf7 Kf6 41.Bc4 Kg5 42.Bb3 Kf6 43.f3 Bg6
+            44.f4 Be4 45.Bc4 Bc6 46.Bd3 Bb7 47.Kh4 Bf3 48.Nc4 Nd5 49.Kg3 Bd1 50.Nxd6 Nxc3
+            51.Nf5 Kg6 52.d5 Ba4 53.d6 Bd7 54.Kh4 a5 55.Ne3+ Kf7 56.Kh5 b5 57.Kxh6 Ke6
+            58.g5 Kxd6 59.g6
+EOT;
+
+        $this->play($pgn);
+    }
 }

@@ -142,7 +142,7 @@ class Game
             $result[] = (object) [
                 'identity' => $piece->getIdentity(),
                 'position' => $piece->getPosition()->current,
-                'squares' => $piece->getLegalMoves()
+                'moves' => $piece->getLegalMoves()
             ];
         }
 
@@ -163,7 +163,7 @@ class Game
             'color' => $piece->getColor(),
             'identity' => $piece->getIdentity(),
             'position' => $piece->getPosition()->current,
-            'squares' => $piece->getLegalMoves()
+            'moves' => $piece->getLegalMoves()
         ];
     }
 

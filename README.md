@@ -341,7 +341,7 @@ Gets a piece by its position on the board.
 | `color`        | The piece's color in PGN format            |
 | `identity`     | The piece's identity in PGN format         |
 | `position`     | The piece's position on the board          |
-| `squares`      | The piece's squares                        |
+| `moves`        | The piece's possible moves                 |
 
 The following code:
 
@@ -363,7 +363,7 @@ Will generate this `$piece` object:
         [color] => b
         [identity] => N
         [position] => b8
-        [squares] => Array
+        [moves] => Array
             (
                 [0] => a6
                 [1] => c6
@@ -378,7 +378,7 @@ The selected piece's properties can be easily accessed this way:
 $piece->color;
 $piece->identity;
 $piece->position;
-$piece->squares;
+$piece->moves;
 ```
 
 #### 3.5. `getPiecesByColor()`
@@ -393,7 +393,7 @@ Gets the pieces on the board by color.
 |----------------|--------------------------------------------|
 | `identity`     | The piece's identity in PGN format         |
 | `position`     | The piece's position on the board          |
-| `squares`      | The piece's squares                        |
+| `moves`        | The piece's possible moves                 |
 
 The following code:
 
@@ -416,7 +416,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => R
                 [position] => a8
-                [squares] => Array
+                [moves] => Array
                     (
                     )
 
@@ -426,7 +426,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => N
                 [position] => b8
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => a6
                         [1] => c6
@@ -438,7 +438,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => B
                 [position] => c8
-                [squares] => Array
+                [moves] => Array
                     (
                     )
 
@@ -448,7 +448,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => Q
                 [position] => d8
-                [squares] => Array
+                [moves] => Array
                     (
                     )
 
@@ -458,7 +458,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => K
                 [position] => e8
-                [squares] => Array
+                [moves] => Array
                     (
                     )
 
@@ -468,7 +468,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => B
                 [position] => f8
-                [squares] => Array
+                [moves] => Array
                     (
                     )
 
@@ -478,7 +478,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => N
                 [position] => g8
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => f6
                         [1] => h6
@@ -490,7 +490,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => R
                 [position] => h8
-                [squares] => Array
+                [moves] => Array
                     (
                     )
 
@@ -500,7 +500,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => a7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => a6
                         [1] => a5
@@ -512,7 +512,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => b7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => b6
                         [1] => b5
@@ -524,7 +524,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => c7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => c6
                         [1] => c5
@@ -536,7 +536,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => d7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => d6
                         [1] => d5
@@ -548,7 +548,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => e7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => e6
                         [1] => e5
@@ -560,7 +560,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => f7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => f6
                         [1] => f5
@@ -572,7 +572,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => g7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => g6
                         [1] => g5
@@ -584,7 +584,7 @@ Will generate this `$blackPieces` array of objects:
             (
                 [identity] => P
                 [position] => h7
-                [squares] => Array
+                [moves] => Array
                     (
                         [0] => h6
                         [1] => h5
@@ -600,7 +600,7 @@ Pieces' properties can be easily accessed this way:
 <?php
 $blackPieces[1]->identity;
 $blackPieces[1]->position;
-$blackPieces[1]->squares;
+$blackPieces[1]->moves;
 ```
 
 ### 4. Sample Games

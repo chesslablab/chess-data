@@ -7,7 +7,7 @@ use PGNChess\PGN\Symbol;
 
 class GameStatusTest extends \PHPUnit_Framework_TestCase
 {
-    public function testPlaySomeMovesAndCheckStatus()
+    public function testPlayGame01AndCheckStatus()
     {
         $game = new Game;
 
@@ -207,6 +207,192 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($status->previousMove->{Symbol::BLACK}->position->next, $game->status()->previousMove->{Symbol::BLACK}->position->next);
     }
 
+    public function testPlayAndCountPieces() {
+
+        $game = new Game;
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'e5'));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'd6'));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'O-O'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'a6'));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Bxc6+'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'bxc6'));
+        $this->assertEquals(15, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(15, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'exd4'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(15, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nxd4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Bd7'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Re1'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'c5'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Be7'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Be6'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Qd3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Rad1'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Ng5'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'd4'));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nxe6'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'fxe6'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Na4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Qa5'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'b3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Rd8'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nb2'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Nh5'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Be5'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'O-O'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nc4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Qb4'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Qh3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'g6'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Qxe6+'));
+        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
+        $this->assertEquals(12, count($game->getPiecesByColor(Symbol::BLACK)));
+    }
+
+    public function testGame02AndCheckStatus() {
+
+        $game = new Game;
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'e5'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'd6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'O-O'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'a6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Bxc6+'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'bxc6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'exd4'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nxd4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Bd7'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Re1'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'c5'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Be7'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Be6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Qd3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Rad1'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Ng5'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'd4'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nxe6'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'fxe6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Na4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Qa5'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'b3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Rd8'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nb2'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Nh5'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Be5'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'O-O'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Nc4'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'Qb4'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Qh3'));
+        $game->play(Convert::toObject(Symbol::BLACK, 'g6'));
+
+        $game->play(Convert::toObject(Symbol::WHITE, 'Qxe6+'));
+
+        // TODO check status at this point
+    }
+
     public function testGetPieceByPosition()
     {
         $game = new Game;
@@ -215,7 +401,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             'color' => 'b',
             'identity' => 'N',
             'position' => 'b8',
-            'squares' => [
+            'moves' => [
                 'a6',
                 'c6'
             ]
@@ -226,7 +412,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($piece->color, Symbol::BLACK);
         $this->assertEquals($piece->identity, Symbol::KNIGHT);
         $this->assertEquals($piece->position, 'b8');
-        $this->assertEquals($piece->squares, ['a6', 'c6']);
+        $this->assertEquals($piece->moves, ['a6', 'c6']);
     }
 
     public function testGetBlackPieces()
@@ -237,12 +423,12 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'R',
                 'position' => 'a8',
-                'squares' => []
+                'moves' => []
             ],
             (object) [
                 'identity' => 'N',
                 'position' => 'b8',
-                'squares' => [
+                'moves' => [
                     'a6',
                     'c6'
                 ]
@@ -250,27 +436,27 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'B',
                 'position' => 'c8',
-                'squares' => []
+                'moves' => []
             ],
             (object) [
                 'identity' => 'Q',
                 'position' => 'd8',
-                'squares' => []
+                'moves' => []
             ],
             (object) [
                 'identity' => 'K',
                 'position' => 'e8',
-                'squares' => []
+                'moves' => []
             ],
             (object) [
                 'identity' => 'B',
                 'position' => 'f8',
-                'squares' => []
+                'moves' => []
             ],
             (object) [
                 'identity' => 'N',
                 'position' => 'g8',
-                'squares' => [
+                'moves' => [
                     'f6',
                     'h6'
                 ]
@@ -278,12 +464,12 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'R',
                 'position' => 'h8',
-                'squares' => []
+                'moves' => []
             ],
             (object) [
                 'identity' => 'P',
                 'position' => 'a7',
-                'squares' => [
+                'moves' => [
                     'a6',
                     'a5'
                 ]
@@ -291,7 +477,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'b7',
-                'squares' => [
+                'moves' => [
                     'b6',
                     'b5'
                 ]
@@ -299,7 +485,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'c7',
-                'squares' => [
+                'moves' => [
                     'c6',
                     'c5'
                 ]
@@ -307,7 +493,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'd7',
-                'squares' => [
+                'moves' => [
                     'd6',
                     'd5'
                 ]
@@ -315,7 +501,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'e7',
-                'squares' => [
+                'moves' => [
                     'e6',
                     'e5'
                 ]
@@ -323,7 +509,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'f7',
-                'squares' => [
+                'moves' => [
                     'f6',
                     'f5'
                 ]
@@ -331,7 +517,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'g7',
-                'squares' => [
+                'moves' => [
                     'g6',
                     'g5'
                 ]
@@ -339,7 +525,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             (object) [
                 'identity' => 'P',
                 'position' => 'h7',
-                'squares' => [
+                'moves' => [
                     'h6',
                     'h5'
                 ]
@@ -350,6 +536,6 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($blackPieces[1]->identity, Symbol::KNIGHT);
         $this->assertEquals($blackPieces[1]->position, 'b8');
-        $this->assertEquals($blackPieces[1]->squares, ['a6', 'c6']);
+        $this->assertEquals($blackPieces[1]->moves, ['a6', 'c6']);
     }
 }

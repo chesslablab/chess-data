@@ -486,8 +486,11 @@ class Board extends \SplObjectStorage
                     $this->move($king);
                     // move the castling rook
                     $rook->setMove((object) [
+                        'isCapture' => false, // capture is always false when castling
+                        'isCheck' => $king->getMove()->isCheck,
                         'type' => $king->getMove()->type,
-                        'isCapture' => $king->getMove()->isCapture,
+                        'color' => $king->getColor(),
+                        'identity' => Symbol::ROOK,
                         'position' => (object) [
                             'next' => Castling::info($king->getColor())
                                         ->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next

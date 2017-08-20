@@ -477,28 +477,23 @@ class Board extends \SplObjectStorage
 
                 case false:
                     // move the king
-                    $kingsMove = $king->getMove();
-                    $kingsMove->position = (object) [
-                        'next' => Castling::info($king->getColor())
-                                    ->{Symbol::KING}->{$king->getMove()->pgn}->position->next
-                    ];
-                    $king->setMove($kingsMove);
-                    $this->move($king);
+                    $kingClass = new \ReflectionClass(get_class($king));
+                    $this->attach($kingClass->newInstanceArgs([
+                        $king->getColor(),
+                        Castling::info($king->getColor())->{Symbol::KING}->{$king->getMove()->pgn}->position->next]
+                    ));
+                    $this->detach($king);
                     // move the castling rook
-                    $rook->setMove((object) [
-                        'isCapture' => false, // capture is always false when castling
-                        'isCheck' => $king->getMove()->isCheck,
-                        'type' => $king->getMove()->type,
-                        'color' => $king->getColor(),
-                        'identity' => Symbol::ROOK,
-                        'position' => (object) [
-                            'next' => Castling::info($king->getColor())
-                                        ->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next
-                        ]
-                    ]);
-                    $this->move($rook);
+                    $rookClass = new \ReflectionClass(get_class($rook));
+                    $this->attach($rookClass->newInstanceArgs([
+                        $rook->getColor(),
+                        Castling::info($king->getColor())->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next,
+                        $rook->getIdentity() === Symbol::ROOK]
+                    ));
+                    $this->detach($rook);
                     // update the king's castling status
                     $this->castling->{$king->getColor()}->castled = true;
+                    $this->trackCastling($king);
                     // refresh board's status
                     $this->refresh($king);
                     return true;
@@ -737,7 +732,9 @@ class Board extends \SplObjectStorage
     {
         $deepCopy = new DeepCopy();
         $that = $deepCopy->copy($this);
+
         $that->move($piece);
+
         $king = $that->getPiece($piece->getColor(), Symbol::KING);
 
         if (in_array($king->getPosition()->current, $that->getControl()->attack->{$king->getOppositeColor()})) {
@@ -745,24 +742,5 @@ class Board extends \SplObjectStorage
         } else {
             return false;
         }
-    }
-
-    /**
-    * Replicates the board for cloning purposes.
-    *
-    * @return Board
-    */
-    public function replicate()
-    {
-        $boardClass = new \ReflectionClass(get_class());
-        $boardReplicated = $boardClass->newInstanceArgs([iterator_to_array($this, false), $this->getCastling()]);
-
-        $boardReplicated
-            ->setTurn($this->getTurn())
-            ->setSquares($this->getSquares())
-            ->setControl($this->getControl())
-            ->setPreviousMove($this->getPreviousMove());
-
-        return $boardReplicated;
     }
 }

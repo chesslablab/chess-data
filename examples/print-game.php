@@ -30,12 +30,16 @@ for ($i=0; $i<count($moves); $i++) {
         echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
 
         if ($game->play(Convert::toObject(Symbol::WHITE, $whiteMove))) {
-            if ($game->isMated(Symbol::BLACK)) {
-                echo 'Checkmated!' . PHP_EOL;
-                exit;
-            } elseif ($game->isChecked(Symbol::BLACK)) {
+
+            if ($game->isChecked(Symbol::BLACK)) {
                 echo 'Check!' . PHP_EOL;
             }
+
+            if ($game->isMated(Symbol::BLACK)) {
+                echo 'And Mate!' . PHP_EOL;
+                exit;
+            }
+
         }
         else {
             echo 'Illegal move' . PHP_EOL;
@@ -43,14 +47,20 @@ for ($i=0; $i<count($moves); $i++) {
         }
 
         if (isset($moves[$i][1])) {
+
             echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
+
             if ($game->play(Convert::toObject(Symbol::BLACK, $blackMove))) {
-                if ($game->isMated(Symbol::WHITE)) {
-                    echo 'Checkmated!' . PHP_EOL;
-                    exit;
-                } elseif ($game->isChecked(Symbol::WHITE)) {
+
+                if ($game->isChecked(Symbol::WHITE)) {
                     echo 'Check!' . PHP_EOL;
                 }
+
+                if ($game->isMated(Symbol::WHITE)) {
+                    echo 'And Mate!' . PHP_EOL;
+                    exit;
+                }
+
             } else {
                 echo 'Illegal move' . PHP_EOL;
                 exit;

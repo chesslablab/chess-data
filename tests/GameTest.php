@@ -108,139 +108,70 @@ class GameTest extends \PHPUnit_Framework_TestCase
 
     public function testGame11()
     {
-        $pgn = <<<EOT
-            1. d4 b6 2. e4 Bb7 3. d5 g6 4. c4 Bg7 5. Qc2 e6 6. Nc3 Ne7 7. Nf3 O-O
-            8. Be2 c5 9. Bf4 exd5 10. exd5 d6 11. O-O-O a5 12. a4 Na6 13. Ne4 Nc8
-            14. b3 Nb4 15. Qd2 f5 16. Neg5 Qf6 17. Kb1 Qa1#
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-11.php';
+        
         $this->play($pgn);
     }
 
     public function testGame12()
     {
-        $pgn = <<<EOT
-            1. d4 c6 2. Bf4 d5 3. Nc3 Nf6 4. Bxb8 Rxb8 5. Qd2 e6 6. f3 Be7 7. g4 O-O
-            8. h4 c5 9. O-O-O cxd4 10. Qxd4 b6 11. h5 Bc5 12. Qf4 Bd6 13. Qe3 e5
-            14. h6 d4 15. Qg5 g6 16. Ne4 Nxe4 17. Qxd8 Rxd8 18. fxe4 Bxg4 19. Rh4 Bh5
-            20. Nf3 Be7 21. Rh3 Rdc8 22. Nxe5 Rc7 23. Rdd3 Rbc8 24. c3 Bg5+ 25. Kb1 dxc3
-            26. bxc3 Bf6 27. Nd7 Rxc3 28. Nxf6+ Kf8 29. Rxc3 Rxc3 30. Rxc3
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-12.php';
+        
         $this->play($pgn);
     }
 
     public function testGame13()
     {
-        $pgn = <<<EOT
-            1. f4 c5 2. Nf3 Nc6 3. e4 d6 4. c3 Bd7 5. Bb5 Qc7 6. Bxc6 Bxc6 7. d3 O-O-O
-            8. Nbd2 Nf6 9. O-O h5 10. Re1 h4 11. h3 Nh5 12. Nf1 e5 13. fxe5 dxe5
-            14. Nxh4 Nf4 15. Bxf4 exf4 16. Nf3 Be7 17. Qc2 g5 18. N1h2 Bd7 19. e5 Rh7
-            20. d4 Rdh8 21. d5 Qb6 22. c4 g4 23. hxg4 Bxg4 24. Nxg4 Rh1+ 25. Kf2 Bh4+
-            26. Nxh4 R1xh4 27. Nf6 Qc7 28. Qf5+ Kb8 29. b3 Ka8 30. Re4 Qa5 31. Rxf4 Qd2+
-            32. Kf3 Qc3+ 33. Kf2 Rxf4+ 34. Qxf4 Qxa1 35. Nd7 Qxa2+ 36. Kf3 Qxb3+
-            37. Kg4 Rg8+
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-13.php';
+        
         $this->play($pgn);
     }
 
     public function testGame14()
     {
-        $pgn = <<<EOT
-            1. c4 e6 2. Nc3 Nf6 3. g3 d5 4. cxd5 exd5 5. Bg2 Be6 6. d4 Bb4 7. Bd2 Bxc3
-            8. bxc3 O-O 9. Nf3 Nc6 10. O-O Ne4 11. Bf4 h6 12. Qc2 g5 13. Bc1 Qd7
-            14. Ba3 Rfe8 15. Ne5 Nxe5 16. dxe5 f5 17. f3 Nxg3 18. hxg3 f4 19. Qg6+ Qg7
-            20. Qxg7+ Kxg7 21. gxf4 gxf4 22. Bc1 Kh7 23. Bxf4 Rg8 24. Kf2 Rg6 25. Rh1 Rag8
-            26. Bh3 Bxh3 27. Rxh3 Rg2+ 28. Ke3 c5 29. Rxh6+ Kg7 30. Rah1 Kf8 31. e6 d4+
-            32. cxd4 cxd4+ 33. Kxd4 Rxe2 34. Bd6+ Ke8 35. e7 Rd2+ 36. Ke5 Rg5+ 37. Kf6 Rgd5
-            38. Rh8+ Kd7 39. Rd8+
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-14.php';
+        
         $this->play($pgn);
     }
 
     public function testGame15()
     {
-        $pgn = <<<EOT
-            1. c4 Nf6 2. Nc3 e6 3. Nf3 Bb4 4. Qc2 d6 5. e3 O-O 6. Be2 e5 7. a3 Bxc3
-            8. Qxc3 c5 9. d3 a5 10. b3 Nc6 11. Bb2 Bg4 12. O-O Re8 13. Rfe1 Rb8 14. Qc2 h6
-            15. Rad1 Qc8 16. h3 Bf5 17. Bf1 b5 18. Nd2 Bg6 19. Ba1 Qe6 20. Ne4 Ne7 21. Nxf6+ Qxf6
-            22. Qd2 b4 23. axb4 axb4 24. d4 Nc6 25. dxc5 dxc5 26. Qb2 Ra8 27. f4 Be4
-            28. Bd3 Bxd3 29. Rxd3 Qg6 30. Red1 f6 31. Rd6 Qe4 32. Qf2 exf4 33. exf4 Na5
-            34. Bxf6 gxf6 35. Rxf6 Ra7 36. Qxc5 Qe3+ 37. Qxe3 Rxe3 38. f5 Rxb3 39. Rxh6 Nxc4
-            40. f6 Rba3 41. Rd4 b3 42. Rxc4 b2 43. Rc8+ Kf7 44. Rb8 Rxh3 45. Rxh3 Ra1+
-            46. Kf2 b1=Q 47. Rxb1 Rxb1 48. Rf3 Rb5 49. g4 Rb8 50. Kg3 Kg6 51. f7 Rf8 52. Rf5 Rxf7
-            53. Rxf7 Kxf7 54. Kf4 Kf6 55. Ke4
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-15.php';
 
         $this->play($pgn);
     }
 
     public function testGame16()
     {
-        $pgn = <<<EOT
-            1. f4 d5 2. Nf3 f5 3. e3 Nf6 4. b3 e6 5. Bb2 Bd6 6. Bd3 O-O 7. O-O Nbd7 8. c4 c6
-            9. Nc3 Nc5 10. Bc2 Qe7 11. d4 Nce4 12. Bxe4 Nxe4 13. c5 Bc7 14. b4 Bd7 15. a4 Be8
-            16. Ne5 g5 17. b5 Bxe5 18. fxe5 Nxc3 19. Bxc3 g4 20. Rb1 Qg5 21. Bd2 Qg6 22. Be1 Qg5
-            23. Rb3 Rc8 24. Bg3 Rc7 25. Bf4 Qg6 26. bxc6 Bxc6 27. Rb2 h5 28. a5 a6 29. Qe1 Bb5
-            30. Rff2 h4 31. Rb3 Rg7 32. Rfb2 Bc6 33. Qxh4 Kf7 34. Rxb7+ Bxb7 35. Rxb7+ Kg8
-            36. Rb6 Ra8 37. Qe1 Qe8 38. Qb4 Rh7 39. Bg5 Rg7 40. Bf6 Rf7 41. c6 Qf8 42. Qc3 Qh6
-            43. c7 f4 44. c8=Q+ Rf8 45. Qxe6+ Kh7 46. Rb7+ Kg6 47. Bh4+ Kh5 48. Qxh6+ Kxh6
-            49. exf4 Rxf4 50. Qc6+ Kh5 51. Rh7#
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-16.php';
 
         $this->play($pgn);
     }
 
     public function testGame17()
     {
-        $pgn = <<<EOT
-            1.e4 g6 2.d4 Bg7 3.Nf3 c6 4.Bd3 d5 5.c3 dxe4 6.Bxe4 Nf6 7.Bc2 O-O 8.O-O Nbd7
-            9.Nbd2 b6 10.Re1 Bb7 11.Nf1 c5 12.h3 Rc8 13.dxc5 Rxc5 14.Bf4 e6 15.Ne3 Re8
-            16.Qe2 Qa8 17.Nd2 Nh5 18.Bh2 Be5 19.f3 Bxh2+ 20.Kxh2 Qb8+ 21.Kg1 Ndf6
-            22.Qf2 Rd8 23.Rad1 Rcc8 24.Nec4 Rd5 25.Ne3 Rd7 26.Ng4 Rc5 27.Qh4 Kg7 28.Be4 Qd8
-            29.Bxb7 Rxd2 30.Rxd2 Qxd2 31.Qf2 Qf4 32.Rd1 Rc7 33.Ba6 Qa4 34.Bd3 Qxd1+
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-17.php';
 
         $this->play($pgn);
     }
 
     public function testGame18()
     {
-        $pgn = <<<EOT
-            1.e4 c5 2.Nc3 Nc6 3.Bb5 e6 4.Bxc6 bxc6 5.d3 d5 6.f4 Nf6 7.Nf3 Be7 8.O-O O-O
-            9.Qe2 a5 10.e5 Nd7 11.Kh1 f6 12.exf6 Rxf6 13.Bd2 Bd6 14.Ne5 Qc7 15.Ng4 Rf7
-            16.Rae1 Nb6 17.Ne5 Rf8 18.Rf3 Nd7 19.Na4 Nxe5 20.fxe5 Be7 21.Rxf8+ Bxf8 22.c4 Bd7
-            23.Qg4 Re8 24.h3 Bc8 25.Qe2 Be7 26.Rf1 Bd7 27.Qh5 g6 28.Qe2 Bf8 29.b3 Bc8 30.Bg5 Bd7
-            31.Qe1 Ra8 32.Qf2 Bg7 33.Qf7+ Kh8 34.Bf6
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-18.php';
 
         $this->play($pgn);
     }
 
     public function testGame19()
     {
-        $pgn = <<<EOT
-            1.e4 g6 2.d4 Bg7 3.Nc3 d5 4.exd5 Nf6 5.Bc4 Nbd7 6.Bg5 O-O 7.Qf3 Nb6 8.Bb3 a5
-            9.a4 Bg4 10.Qf4 Bf5 11.Bxf6 exf6 12.Nge2 Bd7 13.O-O f5 14.Qd2 Re8 15.Rad1 Qe7
-            16.Qf4 Rac8 17.Nc1 Qf6 18.Qd2 Qd6 19.Qd3 Qf6 20.Qd2 Re7 21.Nb5 Bxb5 22.axb5 a4
-            23.Ba2 Re4 24.c3 Rce8 25.Nd3 Qd8 26.Nc5 Re2 27.Qc1 a3 28.Rd2 Bh6 29.f4 Bxf4
-            30.Rxf4 Re1+ 31.Rf1 Rxc1 32.Rxc1 Qg5 33.Rcd1 Re1+ 34.Kf2 Qe3#
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-19.php';
 
         $this->play($pgn);
     }
 
     public function testGame20()
     {
-        $pgn = <<<EOT
-            1.e4 c6 2.Ne2 d5 3.e5 Bf5 4.Ng3 Bg6 5.h4 h6 6.h5 Bh7 7.d4 e6 8.Bd3 Bxd3
-            9.Qxd3 Nd7 10.Be3 c5 11.c3 Ne7 12.Nd2 Nc6 13.O-O Rc8 14.a3 cxd4 15.cxd4 a5
-            16.f4 Be7 17.Nf3 Qb6 18.f5 Qa6 19.Qd2 Nb6 20.Bf2 Kd7 21.Qf4 a4 22.Qg4 Rhg8
-            23.Rfe1 Na5 24.Ne2 Nb3 25.Rab1 Nc4 26.Nf4 Qc6 27.Re2 Rce8 28.Ne1 Ncd2
-            29.fxe6+ fxe6 30.Rd1 Bg5 31.Rexd2 Nxd2 32.Rxd2 Qc1 33.Qe2 Qc4 34.Ned3 Rc8
-            35.Qg4 Rge8 36.Rd1 b6 37.Rc1 Qb5 38.Rxc8 Kxc8 39.Be1 Qd7 40.Bb4 Kb7
-            41.Kh2 Qf7 42.g3 Qc7 43.Qd1 Qc6 44.Kh3 Qb5 45.Kg2 Qc6 46.Ne2 Qc4 47.Ndf4 Qc6
-            48.Nc3 Bxf4 49.gxf4 b5 50.Qf1 Rc8 51.Qxb5+ Qxb5 52.Nxb5 Rc2+ 53.Kf3 Rxb2
-            54.Nc3 Rd2 55.Nxa4 Rxd4 56.Nc5+ Kc6 57.Nxe6 Rd3+ 58.Kf2 d4 59.Nxg7
-EOT;
+        include self::EXAMPLES_PGN_FOLDER . 'pgn-20.php';
 
         $this->play($pgn);
     }

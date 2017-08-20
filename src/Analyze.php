@@ -151,10 +151,7 @@ class Analyze
     {
         $king = $board->getPiece($board->getTurn(), Symbol::KING);
 
-        if (in_array(
-            $king->getPosition()->current,
-            $board->getControl()->attack->{$king->getOppositeColor()})
-        ) {
+        if (in_array($king->getPosition()->current, $board->getControl()->attack->{$king->getOppositeColor()})) {
             return true;
         } else {
             return false;
@@ -169,21 +166,35 @@ class Analyze
      */
     public static function mate($board)
     {
-        $moves = 0;
-
         if (self::check($board)) {
-
+            
+            $moves = 0;
             $pieces = $board->getPiecesByColor($board->getTurn());
-
+            
             foreach ($pieces as $piece) {
-
+                
                 foreach($piece->getLegalMoves() as $square) {
-
+                    
                     $deepCopy = new DeepCopy();
                     $that = $deepCopy->copy($board);
-
+                    
                     switch($piece->getIdentity()) {
-
+                        
+                        case Symbol::KING:
+                            if (in_array($square, $board->getSquares()->used->{$piece->getOppositeColor()})) {
+                                $moves += (int) $that->play(
+                                    Convert::toObject($board->getTurn(),
+                                    Symbol::KING . "x$square")
+                                );
+                            }
+                            elseif (!in_array($square, $board->getControl()->space->{$piece->getOppositeColor()})) {
+                                $moves += (int) $that->play(
+                                    Convert::toObject($board->getTurn(),
+                                    Symbol::KING . $square)
+                                );
+                            }
+                            break;
+                            
                         case Symbol::PAWN:
                             if (in_array($square, $board->getSquares()->used->{$piece->getOppositeColor()})) {
                                 $moves += (int) $that->play(
@@ -197,23 +208,24 @@ class Analyze
                                 );
                             }
                             break;
-
+                            
                         default:
-                            $moves += (int) $that->play(
-                                Convert::toObject($board->getTurn(),
-                                $piece->getIdentity() . $square)
-                            );
                             if (in_array($square, $board->getSquares()->used->{$piece->getOppositeColor()})) {
                                 $moves += (int) $that->play(
                                     Convert::toObject($board->getTurn(),
                                     $piece->getIdentity() . "x$square")
                                 );
+                            } else {
+                                $moves += (int) $that->play(
+                                    Convert::toObject($board->getTurn(),
+                                    $piece->getIdentity() . $square)
+                                );                                
                             }
                             break;
                     }
                 }
             }
-
+            
             if ($moves === 0) {
                 return true;
             } else {

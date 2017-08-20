@@ -224,18 +224,6 @@ class Board extends \SplObjectStorage
     }
 
     /**
-     * Sets the castling status.
-     *
-     * @param stdClass $castling
-     */
-    private function setCastling($castling)
-    {
-        $this->castling = $castling;
-
-        return $this;
-    }
-
-    /**
      * Gets the previous move.
      *
      * @return stdClass
@@ -350,7 +338,9 @@ class Board extends \SplObjectStorage
                 }
             }
         } elseif (count($pieces) == 1 && current($pieces)->isMovable() && !$this->isCheck(current($pieces))) {
+            
             $piece = current($pieces);
+            
             switch($piece->getMove()->type) {
 
                 case Move::KING:
@@ -399,6 +389,7 @@ class Board extends \SplObjectStorage
                     return $this->move($piece);
                     break;
             }
+            
         } else {
             return false;
         }
@@ -414,8 +405,7 @@ class Board extends \SplObjectStorage
     {
         switch ($king->getMove()->type) {
             case Move::KING:
-                if (!in_array($king->getMove()->position->next,
-                    $this->control->space->{$king->getOppositeColor()})) {
+                if (!in_array($king->getMove()->position->next, $this->control->space->{$king->getOppositeColor()})) {
                     return $this->move($king);
                 } else {
                     return false;
@@ -544,17 +534,19 @@ class Board extends \SplObjectStorage
         try {
             // move the piece
             $pieceClass = new \ReflectionClass(get_class($piece));
+            
             $this->attach($pieceClass->newInstanceArgs([
                 $piece->getColor(),
                 $piece->getMove()->position->next,
                 $piece->getIdentity() === Symbol::ROOK ? $piece->getType(): null]
             ));
+            
             $this->detach($piece);
 
             // remove from the board the captured piece, if any
             if($piece->getMove()->isCapture) {
-                $this->detach(
-                    $this->getPieceByPosition($piece->getMove()->position->next)
+                $this->detach($this->getPieceByPosition(
+                    $piece->getMove()->position->next)
                 );
             }
 
@@ -731,8 +723,8 @@ class Board extends \SplObjectStorage
     private function isCheck($piece)
     {
         $deepCopy = new DeepCopy();
+        
         $that = $deepCopy->copy($this);
-
         $that->move($piece);
 
         $king = $that->getPiece($piece->getColor(), Symbol::KING);
@@ -742,5 +734,24 @@ class Board extends \SplObjectStorage
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Replicates the board for cloning purposes.
+     *
+     * @return Board
+     */
+    public function replicate()
+    {
+        $boardClass = new \ReflectionClass(get_class());
+        $boardReplicated = $boardClass->newInstanceArgs([iterator_to_array($this, false), $this->getCastling()]);
+        
+        $boardReplicated
+            ->setTurn($this->getTurn())
+            ->setSquares($this->getSquares())
+            ->setControl($this->getControl())
+            ->setPreviousMove($this->getPreviousMove());
+        
+        return $boardReplicated;
     }
 }

@@ -175,6 +175,9 @@ class Game
      */
     public function play($move)
     {
+        // workaround for deep clones to work in Analyze::mate($board)
+        $this->board = $this->board->replicate();
+        
         $result = $this->board->play($move);
 
         $this->checked->{Symbol::WHITE} = false;

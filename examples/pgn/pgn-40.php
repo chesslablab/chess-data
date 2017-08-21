@@ -1,9 +1,0 @@
-<?php
-
-$pgn = <<<EOT
-    1.d4 Nf6 2.c4 b6 3.Nc3 Bb7 4.f3 d5 5.cxd5 Nxd5 6.e4 Nxc3 7.bxc3 e6 8.Bb5+ Nd7
-    9.Ne2 Be7 10.O-O a6 11.Bd3 c5 12.Bb2 Qc7 13.f4 Nf6 14.Ng3 h5 15.Qe2 h4
-    16.Nh1 Nh5 17.Qg4 O-O-O 18.Rae1 Kb8 19.f5 e5 20.d5 c4 21.Bc2 Bc5+ 22.Nf2 g6
-    23.fxg6 Rdg8 24.Bc1 Bc8 25.Qf3 Rxg6 26.Kh1 Ng3+ 27.hxg3 hxg3+ 28.Nh3 Bxh3
-    29.gxh3 Rxh3+ 30.Kg2 Rh2#
-EOT;

@@ -7,7 +7,7 @@ use PGNChess\PGN\Symbol;
 
 class GameTest extends \PHPUnit_Framework_TestCase
 {
-    const EXAMPLES_PGN_FOLDER = '/../examples/pgn/';
+    const EXAMPLES_PGN_FOLDER = __DIR__ . '/../examples';
     
     protected function play($pgn)
     {
@@ -38,287 +38,287 @@ class GameTest extends \PHPUnit_Framework_TestCase
 
     public function testGame01()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-01.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-01.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame02()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-02.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-02.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame03()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-03.php'; 
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-03.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame04()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-04.php'; 
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-04.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame05()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-05.php'; 
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-05.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame06()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-06.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-06.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame07()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-07.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-07.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame08()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-08.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-08.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame09()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-09.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-09.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame10()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-10.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-10.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame11()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-11.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-11.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame12()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-12.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-12.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame13()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-13.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-13.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame14()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-14.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-14.pgn");
         
         $this->play($pgn);
     }
 
     public function testGame15()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-15.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-15.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame16()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-16.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-16.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame17()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-17.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-17.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame18()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-18.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-18.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame19()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-19.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-19.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame20()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-20.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-20.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame21()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-21.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-21.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame22()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-22.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-22.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame23()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-23.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-23.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame24()
     {
-    include self::EXAMPLES_PGN_FOLDER . 'pgn-24.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-24.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame25()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-25.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-25.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame26()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-26.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-26.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame27()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-27.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-27.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame28()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-28.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-28.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame29()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-29.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-29.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame30()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-30.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-30.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame31()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-31.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-31.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame32()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-32.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-32.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame33()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-33.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-33.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame34()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-34.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-34.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame35()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-35.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-35.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame36()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-36.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-36.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame37()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-37.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-37.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame38()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-38.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-38.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame39()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-39.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-39.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame40()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-40.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-40.pgn");
 
         $this->play($pgn);
     }
 
     public function testGame41()
     {
-        include self::EXAMPLES_PGN_FOLDER . 'pgn-41.php';
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-41.pgn");
 
         $this->play($pgn);
     }

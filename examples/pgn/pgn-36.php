@@ -1,0 +1,13 @@
+<?php
+
+$pgn = <<<EOT
+    1.e4 e5 2.Nf3 Nf6 3.Nxe5 d6 4.Nf3 Nxe4 5.d4 d5 6.Bd3 Nc6 7.O-O Be7 8.c4 Nb4
+    9.Be2 O-O 10.Nc3 Bf5 11.a3 Nxc3 12.bxc3 Nc6 13.Re1 Re8 14.Bf4 dxc4 15.Bxc4 Bd6
+    16.Rxe8+ Qxe8 17.Ng5 Bg6 18.Bxd6 cxd6 19.h4 Qe7 20.Qg4 h6 21.Nh3 Qf6 22.Re1 Bf5
+    23.Qf3 Kf8 24.Nf4 Bd7 25.g3 Re8 26.Rxe8+ Bxe8 27.Qe4 g5 28.hxg5 Qxg5 29.Bd5 Bd7
+    30.Qh7 Qf6 31.Bxf7 Ne7 32.Bb3 Bf5 33.Nh5 Bxh7 34.Nxf6 Bg6 35.Ng4 Kg7 36.Ne3 Be4
+    37.g4 Kf6 38.Kh2 b6 39.Kg3 Kg5 40.Bf7 Kf6 41.Bc4 Kg5 42.Bb3 Kf6 43.f3 Bg6
+    44.f4 Be4 45.Bc4 Bc6 46.Bd3 Bb7 47.Kh4 Bf3 48.Nc4 Nd5 49.Kg3 Bd1 50.Nxd6 Nxc3
+    51.Nf5 Kg6 52.d5 Ba4 53.d6 Bd7 54.Kh4 a5 55.Ne3+ Kf7 56.Kh5 b5 57.Kxh6 Ke6
+    58.g5 Kxd6 59.g6
+EOT;

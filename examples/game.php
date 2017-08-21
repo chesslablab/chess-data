@@ -1,5 +1,9 @@
 <?php
 
-include "/pgn/{$argv[1]}.php";
+if (!preg_match('/^pgn-/', $argv[1])) {
+    exit;
+}
 
-include 'print-game.php';
+require_once __DIR__ . "/pgn/{$argv[1]}.php";
+
+require_once 'print-game.php';

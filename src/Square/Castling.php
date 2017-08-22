@@ -25,7 +25,7 @@ class Castling
                 return (object) [
                     Symbol::KING => (object) [
                         Symbol::CASTLING_SHORT => (object) [
-                            'freeSquares' => (object) [
+                            'squares' => (object) [
                                 'f' => 'f1',
                                 'g' => 'g1'
                             ],
@@ -34,7 +34,7 @@ class Castling
                                 'next' => 'g1'
                         ]],
                         Symbol::CASTLING_LONG => (object) [
-                            'freeSquares' => (object) [
+                            'squares' => (object) [
                                 'b' => 'b1',
                                 'c' => 'c1',
                                 'd' => 'd1'
@@ -63,7 +63,7 @@ class Castling
                 return (object) [
                     Symbol::KING => (object) [
                         Symbol::CASTLING_SHORT => (object) [
-                            'freeSquares' => (object) [
+                            'squares' => (object) [
                                 'f' => 'f8',
                                 'g' => 'g8'
                             ],
@@ -72,7 +72,7 @@ class Castling
                                 'next' => 'g8'
                         ]],
                         Symbol::CASTLING_LONG => (object) [
-                            'freeSquares' => (object) [
+                            'squares' => (object) [
                                 'b' => 'b8',
                                 'c' => 'c8',
                                 'd' => 'd8'

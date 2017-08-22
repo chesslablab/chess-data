@@ -106,8 +106,8 @@ class King extends AbstractPiece
 
         if (
             !self::$boardStatus->castling->{$this->getColor()}->castled &&
-            in_array($castlingShort->freeSquares->f, self::$boardStatus->squares->free) &&
-            in_array($castlingShort->freeSquares->g, self::$boardStatus->squares->free)
+            in_array($castlingShort->squares->f, self::$boardStatus->squares->free) &&
+            in_array($castlingShort->squares->g, self::$boardStatus->squares->free)
         ) {
             $movesCastlingShort = [$castlingShort->position->next];
         }
@@ -117,9 +117,9 @@ class King extends AbstractPiece
 
         if (
             !self::$boardStatus->castling->{$this->getColor()}->castled &&
-            in_array($castlingLong->freeSquares->b, self::$boardStatus->squares->free) &&
-            in_array($castlingLong->freeSquares->c, self::$boardStatus->squares->free) &&
-            in_array($castlingLong->freeSquares->d, self::$boardStatus->squares->free)
+            in_array($castlingLong->squares->b, self::$boardStatus->squares->free) &&
+            in_array($castlingLong->squares->c, self::$boardStatus->squares->free) &&
+            in_array($castlingLong->squares->d, self::$boardStatus->squares->free)
         ) {
             $movesCastlingLong = [$castlingLong->position->next];
         }

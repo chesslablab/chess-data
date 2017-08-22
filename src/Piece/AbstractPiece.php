@@ -149,6 +149,8 @@ abstract class AbstractPiece implements Piece
     public function setMove(\stdClass $move)
     {
         $this->move = $move;
+        
+        return $this;
     }
 
     /**

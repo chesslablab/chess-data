@@ -34,7 +34,7 @@ for ($i=0; $i<count($moves); $i++) {
         }
 
         if ($game->isMated(Symbol::BLACK)) {
-            echo 'And Mate!' . PHP_EOL;
+            echo 'Mate!' . PHP_EOL;
             exit;
         }
 
@@ -55,7 +55,7 @@ for ($i=0; $i<count($moves); $i++) {
             }
 
             if ($game->isMated(Symbol::WHITE)) {
-                echo 'And Mate!' . PHP_EOL;
+                echo 'Mate!' . PHP_EOL;
                 exit;
             }
 

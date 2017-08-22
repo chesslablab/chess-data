@@ -1,7 +1,6 @@
 <?php
 namespace PGNChess;
 
-use DeepCopy\DeepCopy;
 use PGNChess\Exception\BoardException;
 use PGNChess\Square\Castling;
 use PGNChess\Square\Stats;
@@ -699,11 +698,20 @@ class Board extends \SplObjectStorage
      */
     private function leavesInCheck($piece)
     {
-        $that = (new DeepCopy())->copy($this);
-        $that->move($piece);
-        $king = $that->getPiece($piece->getColor(), Symbol::KING);
+        $that = (object) [
+            'board' => unserialize(serialize($this)),
+            'piece' => null,
+            'king' => null
+        ];
 
-        return in_array($king->getPosition()->current, $that->getControl()->attack->{$king->getOppositeColor()});
+        $that->piece = $that->board->getPieceByPosition($piece->getPosition()->current);
+        $that->board->move($that->piece->setMove($piece->getMove()));
+        $that->king = $that->board->getPiece($that->piece->getColor(), Symbol::KING);
+
+        return in_array(
+            $that->king->getPosition()->current, 
+            $that->board->getControl()->attack->{$that->king->getOppositeColor()}
+        );
     }
     
     public function isCheck()
@@ -717,7 +725,8 @@ class Board extends \SplObjectStorage
     {
         $escape = 0;
         
-        $board = (new DeepCopy())->copy($this);
+        $board = unserialize(serialize($this));
+        
         $pieces = $board->getPiecesByColor($this->turn);
         
         foreach ($pieces as $piece) {
@@ -768,21 +777,5 @@ class Board extends \SplObjectStorage
         }
         
         return $escape === 0;        
-    }
-    
-    /**
-     * Replicates the board for cloning purposes.
-     *
-     * @return Board
-     */
-    public function replicate()
-    {
-        $board = new Board(iterator_to_array($this, false), $this->getCastling());
-        
-        return $board
-                ->setTurn($this->getTurn())
-                ->setSquares($this->getSquares())
-                ->setControl($this->getControl())
-                ->setPreviousMove($this->getPreviousMove());
     }
 }

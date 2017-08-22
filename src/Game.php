@@ -1,7 +1,6 @@
 <?php
 namespace PGNChess;
 
-use DeepCopy\DeepCopy;
 use PGNChess\Board;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
@@ -177,14 +176,11 @@ class Game
     {
         $this->checked->{Symbol::WHITE} = false;
         $this->checked->{Symbol::BLACK} = false;
-
-        // workaround for deep clones to work in Analyze::mate($board)
-        $this->board = $this->board->replicate();
         
         $result = $this->board->play($move);
 
         if ($this->checked->{$this->board->getTurn()} = $this->board->isCheck()) {
-            $this->mated->{$this->board->getTurn()} = $this->board->isMate();
+            // $this->mated->{$this->board->getTurn()} = $this->board->isMate();
         }
 
         return $result;

@@ -1,7 +1,6 @@
 <?php
 namespace PGNChess;
 
-use DeepCopy\DeepCopy;
 use PGNChess\Board;
 use PGNChess\Exception\CastlingException;
 use PGNChess\PGN\Convert;

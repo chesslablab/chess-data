@@ -177,8 +177,6 @@ class Game
         $this->checked->{Symbol::WHITE} = false;
         $this->checked->{Symbol::BLACK} = false;
         
-        $this->board = $this->board->replicate(); // workaround for deep clone to work in the board's mate method
-        
         $result = $this->board->play($move);
         
         $this->checked->{$this->board->getTurn()} = $this->board->isCheck();
@@ -186,6 +184,8 @@ class Game
         if ($this->checked->{$this->board->getTurn()}) {
             $this->mated->{$this->board->getTurn()} = $this->board->isMate();
         }
+        
+        $this->board = $this->board->replicate(); // workaround for deep clone to work in the board's mate method
 
         return $result;
     }

@@ -322,4 +322,166 @@ class GameTest extends \PHPUnit_Framework_TestCase
 
         $this->play($pgn);
     }
+    
+    public function testGame42()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-42.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame43()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-43.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame44()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-44.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame45()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-45.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame46()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-46.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame47()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-47.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame48()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-48.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame49()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-49.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame50()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-50.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame51()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-51.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame52()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-52.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame53()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-53.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame54()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-54.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame55()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-55.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame56()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-56.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame57()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-57.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame58()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-58.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame59()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-59.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame60()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-60.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame61()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-61.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame62()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-62.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame63()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-63.pgn");
+
+        $this->play($pgn);
+    }
+    
+    public function testGame64()
+    {
+        $pgn = file_get_contents(self::EXAMPLES_PGN_FOLDER . "/game-64.pgn");
+
+        $this->play($pgn);
+    }
+    
 }

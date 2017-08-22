@@ -636,7 +636,7 @@ Need some more examples? Look at the format used in the following moves, they al
 
 ### 5. Testing
 
-PGN Chess is been developed following TDD principles, and it has been tested with dozens of different [sample chess games](https://github.com/programarivm/pgn-chess/blob/master/tests/GameTest.php).
+PGN Chess is been developed following TDD principles, and I am currently testing it with dozens of different [sample chess games](https://github.com/programarivm/pgn-chess/blob/master/tests/GameTest.php).
 
 ### 6. License
 

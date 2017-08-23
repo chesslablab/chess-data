@@ -38,6 +38,7 @@ class Pawn extends AbstractPiece
         $this->file = $this->position->current[0];
 
         switch ($this->color) {
+            
             case Symbol::WHITE:
                 $this->ranks = (object) [
                     'initial' => 2,
@@ -54,7 +55,7 @@ class Pawn extends AbstractPiece
                 ];
                 break;
         }
-
+        
         $this->position->capture = [];
         $this->position->scope = (object)[
             'up' => []
@@ -72,7 +73,7 @@ class Pawn extends AbstractPiece
     {
         return $this->file;
     }
-
+    
     /**
      * Calculates the pawn's scope.
      */
@@ -121,6 +122,7 @@ class Pawn extends AbstractPiece
         $moves = [];
 
         // add up squares
+        
         foreach($this->getPosition()->scope->up as $square) {
             if (in_array($square, self::$boardStatus->squares->free)) {
                 $moves[] = $square;
@@ -130,42 +132,60 @@ class Pawn extends AbstractPiece
         }
 
         // add capture squares
+        
         foreach($this->getPosition()->capture as $square) {
             if (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
                 $moves[] = $square;
             }
         }
 
-        // add en passant squares
-        if (
-            $this->ranks->initial === 2 &&
-            (int)$this->position->current[1] === 5 &&
-            self::$boardStatus->previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[0] ||
-            (isset($this->position->capture[1]) &&
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]+1) === $this->position->capture[1])))
-        ) {
-            $moves[] =  self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
-                        (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]+1);
-        } elseif (
-            $this->ranks->initial === 7 &&
-            (int)$this->position->current[1] === 4 &&
-            self::$boardStatus->previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN &&
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[0] ||
-            (isset($this->position->capture[1]) &&
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
-            (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]-1) === $this->position->capture[1])))
-        ) {
-            $moves[] =  self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[0] .
-                        (self::$boardStatus->previousMove->{$this->getOppositeColor()}->position->next[1]-1);
+        // en passant implementation
+        
+        if (self::$boardStatus->previousMove->{$this->getOppositeColor()}->identity === Symbol::PAWN) {
+            
+            switch ($this->getColor()) {
+
+                case Symbol::WHITE:
+
+                    if ((int)$this->position->current[1] === 5) {
+                        
+                        $captureSquare = 
+                            self::$boardStatus->previousMove->{Symbol::BLACK}->position->next[0] . 
+                            (self::$boardStatus->previousMove->{Symbol::BLACK}->position->next[1]+1);
+                            
+                        if (in_array($captureSquare, $this->position->capture)) {
+                            $this->position->enPassantSquare = self::$boardStatus->previousMove->{Symbol::BLACK}->position->next;
+                            $moves[] = $captureSquare;                            
+                        }
+                        
+                    }
+
+                    break;
+
+                case Symbol::BLACK:
+
+                    if ((int)$this->position->current[1] === 4) {
+                        
+                        $captureSquare = 
+                            self::$boardStatus->previousMove->{Symbol::WHITE}->position->next[0] .
+                            (self::$boardStatus->previousMove->{Symbol::WHITE}->position->next[1]-1);
+                        
+                        if (in_array($captureSquare, $this->position->capture)) {
+                            $this->enPassantSquare = self::$boardStatus->previousMove->{Symbol::WHITE}->position->next;
+                            $moves[] = $captureSquare;                            
+                        }
+
+                    }
+
+                    break;
+                    
+            }
+
         }
 
         return $moves;
     }
-
+    
     /**
      * Checks whether the pawn is promoted.
      *
@@ -173,10 +193,6 @@ class Pawn extends AbstractPiece
      */
     public function isPromoted()
     {
-        if ((int)$this->getMove()->position->next[1] === $this->ranks->promotion) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($this->move->newIdentity) && (int)$this->getMove()->position->next[1] === $this->ranks->promotion;
     }
 }

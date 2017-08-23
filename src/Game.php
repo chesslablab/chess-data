@@ -182,10 +182,10 @@ class Game
         $this->checked->{$this->board->getTurn()} = $this->board->isCheck();
 
         if ($this->checked->{$this->board->getTurn()}) {
-            $this->mated->{$this->board->getTurn()} = $this->board->isMate();
+            // $this->mated->{$this->board->getTurn()} = $this->board->isMate();
         }
         
-        $this->board = $this->board->replicate(); // workaround for deep clone to work in the board's mate method
+        // $this->board = $this->board->replicate(); // workaround for deep clone to work in the board's mate method
 
         return $result;
     }

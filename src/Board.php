@@ -318,6 +318,53 @@ final class Board extends \SplObjectStorage
         }
 
     }
+    
+    /**
+     * Captures a piece.
+     * 
+     * @param Piece $piece
+     */
+    private function capture(Piece $piece) 
+    {
+        switch ($piece->getIdentity()) {
+            
+            case Symbol::PAWN:
+                $piece->getLegalMoves(); // this creates the enPassantSquare property in the pawn's position object
+                if (!empty($piece->getPosition()->enPassantSquare)) {
+                    $this->detach($this->getPieceByPosition($piece->getPosition()->enPassantSquare));
+                } else {
+                    $this->detach($this->getPieceByPosition($piece->getMove()->position->next));
+                }
+                break;
+            
+            default:
+                $this->detach($this->getPieceByPosition($piece->getMove()->position->next));
+                break;            
+        }
+    }
+    
+    /**
+     * Promotes a pawn.
+     * 
+     * @param Pawn $pawn
+     */
+    private function promote(Pawn $pawn)
+    {
+        switch($pawn->getMove()->newIdentity) {
+            case Symbol::KNIGHT:
+                $this->attach(new Knight($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+            case Symbol::BISHOP:
+                $this->attach(new Bishop($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+            case Symbol::ROOK:
+                $this->attach(new Rook($pawn->getColor(), $pawn->getMove()->position->next, RookType::PROMOTED));
+                break;
+            default:
+                $this->attach(new Queen($pawn->getColor(), $pawn->getMove()->position->next));
+                break;
+        }        
+    }
 
     /**
      * Runs a chess move on the board.
@@ -434,19 +481,17 @@ final class Board extends \SplObjectStorage
 
                 case false:
                     // move the king
-                    $kingClass = new \ReflectionClass(get_class($king));
-                    $this->attach($kingClass->newInstanceArgs([
-                        $king->getColor(),
-                        Castling::info($king->getColor())->{Symbol::KING}->{$king->getMove()->pgn}->position->next]
-                    ));
+                    $this->attach(new King(
+                        $king->getColor(), 
+                        Castling::info($king->getColor())->{Symbol::KING}->{$king->getMove()->pgn}->position->next)
+                    );
                     $this->detach($king);
                     
                     // move the castling rook
-                    $rookClass = new \ReflectionClass(get_class($rook));
-                    $this->attach($rookClass->newInstanceArgs([
-                        $rook->getColor(),
+                    $this->attach(new Rook(
+                        $rook->getColor(), 
                         Castling::info($king->getColor())->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next,
-                        $rook->getIdentity() === Symbol::ROOK]
+                        $rook->getIdentity() === Symbol::ROOK
                     ));
                     $this->detach($rook);
                     
@@ -489,37 +534,15 @@ final class Board extends \SplObjectStorage
                 $piece->getMove()->position->next,
                 $piece->getIdentity() === Symbol::ROOK ? $piece->getType(): null]
             ));
-            
-            $this->detach($piece);
 
-            // remove from the board the captured piece, if any
-            if($piece->getMove()->isCapture) {
-                $this->detach($this->getPieceByPosition(
-                    $piece->getMove()->position->next)
-                );
+            // remove the captured piece from the board -- if any
+            if ($piece->getMove()->isCapture) {
+                $this->capture($piece);
             }
 
-            // if the piece is a pawn, promote
-            if ($piece->getIdentity() === Symbol::PAWN  && 
-                $piece->isPromoted() && 
-                isset($piece->getMove()->newIdentity)
-            ) {
-                switch($piece->getMove()->newIdentity) {
-                    case Symbol::KNIGHT:
-                        $this->attach(new Knight($piece->getColor(), $piece->getMove()->position->next));
-                        break;
-                    case Symbol::BISHOP:
-                        $this->attach(new Bishop($piece->getColor(), $piece->getMove()->position->next));
-                        break;
-                    case Symbol::ROOK:
-                        $this->attach(
-                            new Rook($piece->getColor(), $piece->getMove()->position->next, RookType::PROMOTED)
-                        );
-                        break;
-                    default:
-                        $this->attach(new Queen($piece->getColor(), $piece->getMove()->position->next));
-                        break;
-                }
+            // try to promote if the piece is a pawn
+            if ($piece->getIdentity() === Symbol::PAWN  && $piece->isPromoted()) {
+                $this->promote($piece);
             }
             
             $this->detach($piece);

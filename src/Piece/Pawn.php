@@ -150,11 +150,11 @@ class Pawn extends AbstractPiece
                     if ((int)$this->position->current[1] === 5) {
                         
                         $captureSquare = 
-                            self::$boardStatus->previousMove->{Symbol::BLACK}->position->next[0] . 
-                            (self::$boardStatus->previousMove->{Symbol::BLACK}->position->next[1]+1);
+                            self::$boardStatus->previousMove->{Symbol::BLACK}->position[0] . 
+                            (self::$boardStatus->previousMove->{Symbol::BLACK}->position[1]+1);
                             
                         if (in_array($captureSquare, $this->position->capture)) {
-                            $this->position->enPassantSquare = self::$boardStatus->previousMove->{Symbol::BLACK}->position->next;
+                            $this->position->enPassantSquare = self::$boardStatus->previousMove->{Symbol::BLACK}->position;
                             $moves[] = $captureSquare;                            
                         }
                         
@@ -167,11 +167,11 @@ class Pawn extends AbstractPiece
                     if ((int)$this->position->current[1] === 4) {
                         
                         $captureSquare = 
-                            self::$boardStatus->previousMove->{Symbol::WHITE}->position->next[0] .
-                            (self::$boardStatus->previousMove->{Symbol::WHITE}->position->next[1]-1);
+                            self::$boardStatus->previousMove->{Symbol::WHITE}->position[0] .
+                            (self::$boardStatus->previousMove->{Symbol::WHITE}->position[1]-1);
                         
                         if (in_array($captureSquare, $this->position->capture)) {
-                            $this->enPassantSquare = self::$boardStatus->previousMove->{Symbol::WHITE}->position->next;
+                            $this->enPassantSquare = self::$boardStatus->previousMove->{Symbol::WHITE}->position;
                             $moves[] = $captureSquare;                            
                         }
 

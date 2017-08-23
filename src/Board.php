@@ -61,6 +61,14 @@ final class Board extends \SplObjectStorage
      * @var stdClass
      */
     private $previousMove;
+    
+    
+    /**
+     * Captured pieces.
+     * 
+     * @var stdClass
+     */
+    private $capturedPieces;
 
     /**
      * Constructor.
@@ -131,16 +139,19 @@ final class Board extends \SplObjectStorage
         $this->previousMove = (object) [
             Symbol::WHITE => (object) [
                 'identity' => null,
-                'position' => (object) [
-                    'current' => null,
-                    'next' => null
-            ]],
+                'position' => null,
+                'isCapture' => null
+            ],
             Symbol::BLACK => (object) [
                 'identity' => null,
-                'position' => (object) [
-                    'current' => null,
-                    'next' => null
-            ]]
+                'position' => null,
+                'isCapture' => null
+            ]
+        ];
+        
+        $this->capturedPieces = (object) [
+            Symbol::WHITE => [],
+            Symbol::BLACK => []
         ];
 
         $this->refresh();
@@ -160,6 +171,7 @@ final class Board extends \SplObjectStorage
      * Sets the current turn.
      *
      * @param string $turn
+     * @return Board
      */
     public function setTurn($turn)
     {
@@ -182,6 +194,7 @@ final class Board extends \SplObjectStorage
      * Sets the free/used squares.
      *
      * @param stdClass $squares
+     * @return Board
      */
     private function setSquares($squares)
     {
@@ -204,6 +217,7 @@ final class Board extends \SplObjectStorage
      * Sets the squares controlled by both players.
      *
      * @param stdClass $control
+     * @return Board
      */
     private function setControl($control)
     {
@@ -236,10 +250,35 @@ final class Board extends \SplObjectStorage
      * Sets the previous move.
      *
      * @param stdClass $previousMove
+     * @return Board
      */
     private function setPreviousMove($previousMove)
     {
         $this->previousMove = $previousMove;
+
+        return $this;
+    }
+    
+    /**
+     * Gets the captured pieces of both players.
+     *
+     * @return stdClass
+     */
+    public function getCapturedPieces()
+    {
+        return $this->capturedPieces;
+    }
+
+    /**
+     * Adds a piece to the captured pieces object.
+     * 
+     * @param string $color
+     * @param array $piece
+     * @return Board
+     */
+    private function addCapturedPiece($color, $piece)
+    {
+        $this->capturedPieces->{$color}[] = $piece;
 
         return $this;
     }
@@ -260,7 +299,8 @@ final class Board extends \SplObjectStorage
             }
             $this->previousMove->{$piece->getColor()} = (object) [
                 'identity' => $piece->getIdentity(),
-                'position' => $piece->getMove()->position
+                'position' => $piece->getMove()->position->next,
+                'isCapture' => $piece->getMove()->isCapture
             ];
         }
 
@@ -276,7 +316,7 @@ final class Board extends \SplObjectStorage
 
         $this->control = $this->control();
     }
-
+    
     /**
      * Picks a piece to be moved.
      *
@@ -326,21 +366,37 @@ final class Board extends \SplObjectStorage
      */
     private function capture(Piece $piece) 
     {
+        $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
+        
         switch ($piece->getIdentity()) {
             
             case Symbol::PAWN:
                 $piece->getLegalMoves(); // this creates the enPassantSquare property in the pawn's position object
                 if (!empty($piece->getPosition()->enPassantSquare)) {
-                    $this->detach($this->getPieceByPosition($piece->getPosition()->enPassantSquare));
+                    $capturedPiece = $this->getPieceByPosition($piece->getPosition()->enPassantSquare);
+                    $this->detach($capturedPiece);
                 } else {
-                    $this->detach($this->getPieceByPosition($piece->getMove()->position->next));
+                    $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
+                    $this->detach($capturedPiece);
                 }
                 break;
             
             default:
-                $this->detach($this->getPieceByPosition($piece->getMove()->position->next));
+                $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
+                $this->detach($capturedPiece);
                 break;            
         }
+        
+        $capturedPieceData = (object) [
+            'identity' => $capturedPiece->getIdentity(),
+            'position' => $capturedPiece->getPosition()->current
+        ];
+        
+        $capturedPiece->getIdentity() === Symbol::ROOK 
+            ? $capturedPieceData->type = $capturedPiece->getType()
+            : null;
+        
+        $this->addCapturedPiece($piece->getColor(), $capturedPieceData);
     }
     
     /**

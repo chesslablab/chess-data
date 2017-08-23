@@ -252,16 +252,16 @@ Will generate this `$status` object:
             (
                 [w] => stdClass Object
                     (
-                        [castled] =>
+                        [castled] => 
                         [O-O] => 1
                         [O-O-O] => 1
                     )
 
                 [b] => stdClass Object
                     (
-                        [castled] =>
+                        [castled] => 
                         [O-O] => 1
-                        [O-O-O] =>
+                        [O-O-O] => 
                     )
 
             )
@@ -271,23 +271,15 @@ Will generate this `$status` object:
                 [w] => stdClass Object
                     (
                         [identity] => B
-                        [position] => stdClass Object
-                            (
-                                [current] =>
-                                [next] => b8
-                            )
-
+                        [position] => b8
+                        [isCapture] => 1
                     )
 
                 [b] => stdClass Object
                     (
                         [identity] => R
-                        [position] => stdClass Object
-                            (
-                                [current] =>
-                                [next] => b8
-                            )
-
+                        [position] => b8
+                        [isCapture] => 1
                     )
 
             )
@@ -325,11 +317,13 @@ $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG};
 
 // white's previous move
 $game->status()->previousMove->{Symbol::WHITE}->identity;
-$game->status()->previousMove->{Symbol::WHITE}->position->next;
+$game->status()->previousMove->{Symbol::WHITE}->position;
+$game->status()->previousMove->{Symbol::WHITE}->isCapture;
 
 // black's previous move
 $game->status()->previousMove->{Symbol::BLACK}->identity;
-$game->status()->previousMove->{Symbol::BLACK}->position->next;
+$game->status()->previousMove->{Symbol::BLACK}->position;
+$game->status()->previousMove->{Symbol::BLACK}->isCapture;
 ```
 
 #### 3.4. `getPieceByPosition()`

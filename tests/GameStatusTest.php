@@ -21,10 +21,10 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
 
         $status = (object) [
-            'turn' => Symbol::WHITE,
+            'turn' => 'w',
             'squares' => (object) [
                 'used' => (object) [
-                    Symbol::WHITE => [
+                    'w' => [
                         'a1',
                         'd1',
                         'e1',
@@ -41,7 +41,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
                         'd4',
                         'c3'
                     ],
-                    Symbol::BLACK => [
+                    'b' => [
                         'c8',
                         'd8',
                         'e8',
@@ -98,7 +98,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             ],
             'control' => (object) [
                 'space' => (object) [
-                    Symbol::WHITE => [
+                    'w' => [
                         'a3',
                         'a4',
                         'b1',
@@ -115,7 +115,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
                         'g3',
                         'h3'
                     ],
-                    Symbol::BLACK => [
+                    'b' => [
                         'a5',
                         'a6',
                         'a8',
@@ -137,36 +137,32 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'attack' => (object) [
-                    Symbol::WHITE => ['d5'],
-                    Symbol::BLACK => []
+                    'w' => ['d5'],
+                    'b' => []
                 ]
             ],
             'castling' => (object) [
-                Symbol::WHITE => (object) [
+                'w' => (object) [
                     'castled' => false,
-                    Symbol::CASTLING_SHORT => true,
-                    Symbol::CASTLING_LONG => true
+                    'O-O' => true,
+                    'O-O-O' => true
                 ],
-                Symbol::BLACK => (object) [
+                'b' => (object) [
                     'castled' => false,
-                    Symbol::CASTLING_SHORT => true,
-                    Symbol::CASTLING_LONG => false
+                    'O-O' => true,
+                    'O-O-O' => false
                 ]
             ],
             'previousMove' => (object) [
-                Symbol::WHITE => (object) [
+                'w' => (object) [
                     'identity' => Symbol::BISHOP,
-                    'position' => (object) [
-                        'current' => null,
-                        'next' => 'b8'
-                    ]
+                    'position' => 'b8',
+                    'isCapture' => true
                 ],
-                Symbol::BLACK => (object) [
+                'b' => (object) [
                     'identity' => Symbol::ROOK,
-                    'position' => (object) [
-                        'current' => null,
-                        'next' => 'b8'
-                    ]
+                    'position' => 'b8',
+                    'isCapture' => true
                 ]
             ]
         ];
@@ -181,30 +177,32 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($status->squares->free, $game->status()->squares->free);
 
         // white's control
-        $this->assertEquals($status->control->space->{Symbol::WHITE}, $game->status()->control->space->{Symbol::WHITE});
-        $this->assertEquals($status->control->attack->{Symbol::WHITE}, $game->status()->control->attack->{Symbol::WHITE});
+        $this->assertEquals($status->control->space->w, $game->status()->control->space->{Symbol::WHITE});
+        $this->assertEquals($status->control->attack->w, $game->status()->control->attack->{Symbol::WHITE});
 
         // black's control
-        $this->assertEquals($status->control->space->{Symbol::BLACK}, $game->status()->control->space->{Symbol::BLACK});
-        $this->assertEquals($status->control->attack->{Symbol::BLACK}, $game->status()->control->attack->{Symbol::BLACK});
+        $this->assertEquals($status->control->space->b, $game->status()->control->space->{Symbol::BLACK});
+        $this->assertEquals($status->control->attack->b, $game->status()->control->attack->{Symbol::BLACK});
 
         // white's castling
-        $this->assertEquals($status->castling->{Symbol::WHITE}->castled, $game->status()->castling->{Symbol::WHITE}->castled);
-        $this->assertEquals($status->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT});
-        $this->assertEquals($status->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG});
+        $this->assertEquals($status->castling->w->castled, $game->status()->castling->{Symbol::WHITE}->castled);
+        $this->assertEquals($status->castling->w->{'O-O'}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT});
+        $this->assertEquals($status->castling->w->{'O-O-O'}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG});
 
         // black's castling
-        $this->assertEquals($status->castling->{Symbol::BLACK}->castled, $game->status()->castling->{Symbol::BLACK}->castled);
-        $this->assertEquals($status->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT});
-        $this->assertEquals($status->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG});
+        $this->assertEquals($status->castling->b->castled, $game->status()->castling->{Symbol::BLACK}->castled);
+        $this->assertEquals($status->castling->b->{'O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT});
+        $this->assertEquals($status->castling->b->{'O-O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG});
 
         // white's previous move
-        $this->assertEquals($status->previousMove->{Symbol::WHITE}->identity, $game->status()->previousMove->{Symbol::WHITE}->identity);
-        $this->assertEquals($status->previousMove->{Symbol::WHITE}->position->next, $game->status()->previousMove->{Symbol::WHITE}->position->next);
+        $this->assertEquals($status->previousMove->w->identity, $game->status()->previousMove->{Symbol::WHITE}->identity);
+        $this->assertEquals($status->previousMove->w->position, $game->status()->previousMove->{Symbol::WHITE}->position);
+        $this->assertEquals($status->previousMove->w->isCapture, $game->status()->previousMove->{Symbol::WHITE}->isCapture);
 
         // black's previous move
-        $this->assertEquals($status->previousMove->{Symbol::BLACK}->identity, $game->status()->previousMove->{Symbol::BLACK}->identity);
-        $this->assertEquals($status->previousMove->{Symbol::BLACK}->position->next, $game->status()->previousMove->{Symbol::BLACK}->position->next);
+        $this->assertEquals($status->previousMove->b->identity, $game->status()->previousMove->{Symbol::BLACK}->identity);
+        $this->assertEquals($status->previousMove->b->position, $game->status()->previousMove->{Symbol::BLACK}->position);
+        $this->assertEquals($status->previousMove->b->isCapture, $game->status()->previousMove->{Symbol::BLACK}->isCapture);
     }
 
     public function testPlayAndCountPieces() {
@@ -389,8 +387,6 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $game->play(Convert::toObject(Symbol::BLACK, 'g6'));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Qxe6+'));
-
-        // TODO check status at this point
     }
 
     public function testGetPieceByPosition()

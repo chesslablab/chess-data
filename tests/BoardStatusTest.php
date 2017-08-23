@@ -153,31 +153,51 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($space, $board->getControl()->space);
     }
     
-    public function testCapturedPieces()
+    public function testCaptures()
     {
-        $capturedPieces = (object) [
+        $captures= (object) [
             'w' => [
                 (object) [
-                    'identity' => 'B',
-                    'position' => 'c3'
+                'capturing' => (object) [
+                    'identity' => 'P', 
+                    'position' => 'b2'],
+                'captured' => (object) [
+                    'identity' => 'B', 
+                    'position' => 'c3']
                 ],
                 (object) [
-                    'identity' => 'P',
-                    'position' => 'f5'
+                'capturing' => (object) [
+                    'identity' => 'P', 
+                    'position' => 'e5'],
+                'captured' => (object) [
+                    'identity' => 'P', 
+                    'position' => 'f5'],
                 ],
                 (object) [
-                    'identity' => 'P',
-                    'position' => 'c5'
+                'capturing' => (object) [
+                    'identity' => 'P', 
+                    'position' => 'd4'],
+                'captured' => (object) [
+                    'identity' => 'P', 
+                    'position' => 'c5']
                 ]
             ],
             'b' => [
                 (object) [
-                    'identity' => 'N',
-                    'position' => 'c3'
+                'capturing' => (object) [
+                    'identity' => 'B', 
+                    'position' => 'b4'],
+                'captured' => (object) [
+                    'identity' => 'N', 
+                    'position' => 'c3']
                 ],
                 (object) [
-                    'identity' => 'P',
-                    'position' => 'f6'
+                'capturing' => (object) [
+                    'identity' => 'R', 
+                    'position' => 'f8'],
+                'captured' => (object) [
+                    'identity' => 'P', 
+                    'position' => 'f6'],
                 ]
             ]
         ];
@@ -232,6 +252,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'dxc5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'e5')));
         
-        $this->assertEquals($capturedPieces, $board->getCapturedPieces());        
+        $this->assertEquals($captures, $board->getCaptures());
     }
 }

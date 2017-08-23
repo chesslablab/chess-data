@@ -56,11 +56,11 @@ final class Board extends \SplObjectStorage
     private $castling;
     
     /**
-     * Captured pieces.
+     * Captures.
      * 
      * @var stdClass
      */
-    private $capturedPieces;
+    private $captures;
     
     /**
      * History.
@@ -135,7 +135,7 @@ final class Board extends \SplObjectStorage
             Analyze::castling($this);
         }
         
-        $this->capturedPieces = (object) [
+        $this->captures = (object) [
             Symbol::WHITE => [],
             Symbol::BLACK => []
         ];
@@ -224,26 +224,26 @@ final class Board extends \SplObjectStorage
         return $this->castling;
     }
     
-    /**
-     * Gets the captured pieces of both players.
+   /**
+     * Gets the captures of both players.
      *
      * @return stdClass
      */
-    public function getCapturedPieces()
+    public function getCaptures()
     {
-        return $this->capturedPieces;
+        return $this->captures;
     }
 
     /**
-     * Adds a piece to the captured pieces object.
+     * Adds a new capture.
      * 
      * @param string $color
-     * @param array $piece
+     * @param stdClass $piece
      * @return Board
      */
-    private function addCapturedPiece($color, $piece)
+    private function addCapture($color, $capture)
     {
-        $this->capturedPieces->{$color}[] = $piece;
+        $this->captures->{$color}[] = $capture;
 
         return $this;
     }
@@ -377,11 +377,17 @@ final class Board extends \SplObjectStorage
             'position' => $capturedPiece->getPosition()->current
         ];
         
-        $capturedPiece->getIdentity() === Symbol::ROOK 
-            ? $capturedPieceData->type = $capturedPiece->getType()
-            : null;
+        $capturingPieceData = (object) [
+            'identity' => $piece->getIdentity(),
+            'position' => $piece->getPosition()->current
+        ];
         
-        $this->addCapturedPiece($piece->getColor(), $capturedPieceData);
+        $capture = (object) [
+            'capturing' => $capturingPieceData,
+            'captured' => $capturedPieceData
+        ];
+        
+        $this->addCapture($piece->getColor(), $capture);
     }
     
     /**
@@ -566,7 +572,7 @@ final class Board extends \SplObjectStorage
      */
     private function move(Piece $piece)
     {
-        try {
+        // try {
             // move the piece
             $pieceClass = new \ReflectionClass(get_class($piece));
             
@@ -589,11 +595,11 @@ final class Board extends \SplObjectStorage
             $this->detach($piece);
             $this->refresh($piece);
 
-        } catch (\Exception $e) {
+        /* } catch (\Exception $e) {
             throw new BoardException(
                 "Error moving: {$piece->getColor()} {$piece->getIdentity()} on {$piece->getMove()->position->next}."
             );
-        }
+        } */
 
         return true;
     }

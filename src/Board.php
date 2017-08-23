@@ -54,14 +54,6 @@ final class Board extends \SplObjectStorage
      * @var stdClass
      */
     private $castling;
-
-    /**
-     * Previous move.
-     *
-     * @var stdClass
-     */
-    private $previousMove;
-    
     
     /**
      * Captured pieces.
@@ -69,6 +61,13 @@ final class Board extends \SplObjectStorage
      * @var stdClass
      */
     private $capturedPieces;
+    
+    /**
+     * History.
+     * 
+     * @var array 
+     */
+    private $history;
 
     /**
      * Constructor.
@@ -135,24 +134,13 @@ final class Board extends \SplObjectStorage
 
             Analyze::castling($this);
         }
-
-        $this->previousMove = (object) [
-            Symbol::WHITE => (object) [
-                'identity' => null,
-                'position' => null,
-                'isCapture' => null
-            ],
-            Symbol::BLACK => (object) [
-                'identity' => null,
-                'position' => null,
-                'isCapture' => null
-            ]
-        ];
         
         $this->capturedPieces = (object) [
             Symbol::WHITE => [],
             Symbol::BLACK => []
         ];
+        
+        $this->history = [];
 
         $this->refresh();
     }
@@ -235,29 +223,6 @@ final class Board extends \SplObjectStorage
     {
         return $this->castling;
     }
-
-    /**
-     * Gets the previous move.
-     *
-     * @return stdClass
-     */
-    public function getPreviousMove()
-    {
-        return $this->previousMove;
-    }
-
-    /**
-     * Sets the previous move.
-     *
-     * @param stdClass $previousMove
-     * @return Board
-     */
-    private function setPreviousMove($previousMove)
-    {
-        $this->previousMove = $previousMove;
-
-        return $this;
-    }
     
     /**
      * Gets the captured pieces of both players.
@@ -282,6 +247,29 @@ final class Board extends \SplObjectStorage
 
         return $this;
     }
+    
+    /**
+     * Gets the history.
+     * 
+     * @return array
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+    
+    /**
+     * Adds a new entry to the history.
+     * 
+     * @param type $move
+     * @return Board
+     */
+    private function addHistoryEntry($move)
+    {
+        $this->history[] = $move;
+        
+        return $this;
+    }
 
     /**
      * Refreshes the board's status.
@@ -297,21 +285,18 @@ final class Board extends \SplObjectStorage
             if (!$this->castling->{$piece->getColor()}->castled) {
                 $this->trackCastling($piece);
             }
-            $this->previousMove->{$piece->getColor()} = (object) [
-                'identity' => $piece->getIdentity(),
-                'position' => $piece->getMove()->position->next,
-                'isCapture' => $piece->getMove()->isCapture
-            ];
+            $this->addHistoryEntry($piece->getMove());
+            $previousMove = end($this->history);
         }
 
         $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
 
         $this->squares = Stats::calc(iterator_to_array($this, false));
-
+        
         AbstractPiece::setBoardStatus((object)[
             'squares' => $this->squares,
             'castling' => $this->castling,
-            'previousMove' => $this->previousMove
+            'previousMove' => isset($previousMove) ? $previousMove : null 
         ]);
 
         $this->control = $this->control();
@@ -874,21 +859,5 @@ final class Board extends \SplObjectStorage
         }
         
         return $escape === 0;        
-    }
-    
-    /**
-     * Replicates the board for cloning purposes.
-     *
-     * @return Board
-     */
-    public function replicate()
-    {
-        $board = new Board(iterator_to_array($this, false), $this->getCastling());
-        
-        return $board
-            ->setTurn($this->getTurn())
-            ->setSquares($this->getSquares())
-            ->setControl($this->getControl())
-            ->setPreviousMove($this->getPreviousMove());
     }
 }

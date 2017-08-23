@@ -42,6 +42,13 @@ class Game
      * @var stdClass
      */
     private $status;
+    
+    /**
+     * History.
+     * 
+     * @var array 
+     */
+    private $history;
 
     /**
      * Constructor.
@@ -120,9 +127,18 @@ class Game
             'turn' => $this->board->getTurn(),
             'squares' => $this->board->getSquares(),
             'control' => $this->board->getControl(),
-            'castling' => $this->board->getCastling(),
-            'previousMove' => $this->board->getPreviousMove()
+            'castling' => $this->board->getCastling()
         ];
+    }
+    
+    /**
+     * Gets the game's history.
+     * 
+     * @return array
+     */
+    public function history()
+    {
+        return $this->board->getHistory();
     }
 
     /**
@@ -184,8 +200,6 @@ class Game
         if ($this->checked->{$this->board->getTurn()}) {
             // $this->mated->{$this->board->getTurn()} = $this->board->isMate();
         }
-        
-        // $this->board = $this->board->replicate(); // workaround for deep clone to work in the board's mate method
 
         return $result;
     }

@@ -152,18 +152,6 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
                     'O-O' => true,
                     'O-O-O' => false
                 ]
-            ],
-            'previousMove' => (object) [
-                'w' => (object) [
-                    'identity' => Symbol::BISHOP,
-                    'position' => 'b8',
-                    'isCapture' => true
-                ],
-                'b' => (object) [
-                    'identity' => Symbol::ROOK,
-                    'position' => 'b8',
-                    'isCapture' => true
-                ]
             ]
         ];
 
@@ -193,16 +181,6 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($status->castling->b->castled, $game->status()->castling->{Symbol::BLACK}->castled);
         $this->assertEquals($status->castling->b->{'O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT});
         $this->assertEquals($status->castling->b->{'O-O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG});
-
-        // white's previous move
-        $this->assertEquals($status->previousMove->w->identity, $game->status()->previousMove->{Symbol::WHITE}->identity);
-        $this->assertEquals($status->previousMove->w->position, $game->status()->previousMove->{Symbol::WHITE}->position);
-        $this->assertEquals($status->previousMove->w->isCapture, $game->status()->previousMove->{Symbol::WHITE}->isCapture);
-
-        // black's previous move
-        $this->assertEquals($status->previousMove->b->identity, $game->status()->previousMove->{Symbol::BLACK}->identity);
-        $this->assertEquals($status->previousMove->b->position, $game->status()->previousMove->{Symbol::BLACK}->position);
-        $this->assertEquals($status->previousMove->b->isCapture, $game->status()->previousMove->{Symbol::BLACK}->isCapture);
     }
 
     public function testPlayAndCountPieces() {

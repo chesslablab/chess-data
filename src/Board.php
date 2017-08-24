@@ -75,7 +75,7 @@ final class Board extends \SplObjectStorage
      * @param array $pieces
      * @param stdClass $castling
      */
-    public function __construct(array $pieces=null, $castling=null)
+    public function __construct(array $pieces=null, \stdClass $castling=null)
     {
         if (empty($pieces)) {
 
@@ -158,12 +158,12 @@ final class Board extends \SplObjectStorage
     /**
      * Sets the current turn.
      *
-     * @param string $turn
+     * @param string $color
      * @return Board
      */
-    public function setTurn($turn)
+    public function setTurn($color)
     {
-        $this->turn = Validate::color($turn);
+        $this->turn = Validate::color($color);
 
         return $this;
     }
@@ -184,7 +184,7 @@ final class Board extends \SplObjectStorage
      * @param stdClass $squares
      * @return Board
      */
-    private function setSquares($squares)
+    private function setSquares(\stdClass $squares)
     {
         $this->squares = $squares;
 
@@ -207,7 +207,7 @@ final class Board extends \SplObjectStorage
      * @param stdClass $control
      * @return Board
      */
-    private function setControl($control)
+    private function setControl(\stdClass $control)
     {
         $this->control = $control;
 
@@ -241,11 +241,21 @@ final class Board extends \SplObjectStorage
      * @param stdClass $piece
      * @return Board
      */
-    private function addCapture($color, $capture)
+    private function pushCapture($color, \stdClass $capture)
     {
         $this->captures->{$color}[] = $capture;
 
         return $this;
+    }
+    
+    /**
+     * Removes an element from the array of captures.
+     * 
+     * @param string $color
+     */
+    private function popCapture($color)
+    {
+        return array_pop($this->catpures{$color});
     }
     
     /**
@@ -259,9 +269,9 @@ final class Board extends \SplObjectStorage
     }
     
     /**
-     * Adds a new entry to the end of the history.
+     * Adds a new entry to the history.
      * 
-     * @param stdClass $piece Its previous position on the board along with a stdClass move object.
+     * @param stdClass $piece Its previous position on the board along with a move object.
      * @return Board
      */
     private function pushHistory(\stdClass $piece)
@@ -269,6 +279,16 @@ final class Board extends \SplObjectStorage
         $this->history[] = $piece;
         
         return $this;
+    }
+    
+    /**
+     * Removes an element from the history.
+     * 
+     * @param string $color
+     */
+    private function popHistory()
+    {
+        return array_pop($this->history);
     }
     
     /**
@@ -342,7 +362,7 @@ final class Board extends \SplObjectStorage
      * @param Piece $piece
      * @return Board
      */
-    private function refresh($piece=null)
+    private function refresh(Piece $piece=null)
     {
         if (isset($piece)) {
             
@@ -457,7 +477,7 @@ final class Board extends \SplObjectStorage
             'captured' => $capturedPieceData
         ];
         
-        $this->addCapture($piece->getColor(), $capture);
+        $this->pushCapture($piece->getColor(), $capture);
     }
     
     /**
@@ -674,58 +694,85 @@ final class Board extends \SplObjectStorage
         return true;
     }
     
-    // TODO
-    // 
-    // This method needs to be finished.
-    // 1. Look at testCaptures in BoardStatutTest, and add the rook type to the captures!
-    // 2. Think about how to undo the castling 
-    // 3. Think about how to undo the en passant 
-    //
-    // Once this method is finished, rewrite the leavesInCheck method
-    private function undoMove($piece)
+    /**
+     * Undoes the last move.
+     * 
+     * @return boolean
+     * @throws BoardException
+     */
+    private function undoMove()
     {
         try {
-            // remove the piece from the board
             
-            // ...
+            $previous = end($this->history);
             
-            // create the piece back and put it on its original square
-            
-            $pieceClass = new \ReflectionClass(get_class($piece));
-            
-            $this->attach($pieceClass->newInstanceArgs([
-                $piece->getColor(),
-                $piece->getPosition(),
-                $piece->getIdentity() === Symbol::ROOK ? $piece->getType() : null]
-            ));
-            
-            // if there is a captured piece, create it back on the board
-            
-            $previousMove = end($this->history);
+            $piece = $this->getPieceByPosition($previous->move->position->next);
+            $pieceUndone = $this->getPieceByPosition($previous->position);
 
-            if ($piece->getMove()->isCapture) {
+            $this->detach($piece);
+            $this->attach($pieceUndone);
+                       
+            switch($previous->move->type) {
+
+                case Move::KING_CASTLING_SHORT:
+                    
+                    $rook = $this->getPieceByPosition(
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->next
+                    );
+                            
+                    $rookUndone = new Rook(
+                        $previous->move->color,
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->current
+                    );
+
+                    $this->detach($rook);
+                    $this->attach($rookUndone);
+                    
+                    break;
                 
-                $capture = end($this->getCaptures()->{$previousMove->color});
-                
+                case Move::KING_CASTLING_LONG:
+                    
+                    $rook = $this->getPieceByPosition(
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->next
+                    );
+                            
+                    $rookUndone = new Rook(
+                        $previous->move->color,
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->current
+                    );
+
+                    $this->detach($rook);
+                    $this->attach($rookUndone);          
+                    
+                    break;
+            }
+            
+            if ($previous->move->isCapture) {
+
+                $capture = end($this->getCaptures()->{$previous->move->color});
+
                 $capturedPieceClass = new \ReflectionClass(
                     get_class(Convert::toClassName($capture->captured->identity))
                 );
-                
+
                 $this->attach($capturedPieceClass->newInstanceArgs([
-                    $previousMove->color === Symbol::WHITE ? Symbol::BLACK : Symbol::WHITE,
+                    $previous->move->color === Symbol::WHITE ? Symbol::BLACK : Symbol::WHITE,
                     $capture->captured->position,
-                    $capture->captured->identity === Symbol::ROOK ? $capture->captured->type : null]
-                ));
-                            
+                    $capture->captured->identity === Symbol::ROOK ? $capture->captured->type : null
+                ]));
+
             }
             
-            // remove the piece
-            
-            $this->detach($piece);
+            $this->popHistory();
+            $this->popCapture($previous->move->color);
             
         } catch (\Exception $e) {
             throw new BoardException(
-                "Error undoing move."
+                "Error undoing move: {$piece->getColor()} {$piece->getIdentity()} on {$piece->getMove()->position->next}."
             );
         }
 
@@ -825,7 +872,7 @@ final class Board extends \SplObjectStorage
      * @param Piece $piece
      * @return boolean
      */
-    private function leavesInCheck($piece)
+    private function leavesInCheck(Piece $piece)
     {
         $that = new \stdClass;
         

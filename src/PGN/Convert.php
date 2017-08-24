@@ -4,6 +4,12 @@ namespace PGNChess\PGN;
 use PGNChess\Exception\UnknownNotationException;
 use PGNChess\Square\Castling;
 use PGNChess\PGN\Validate;
+use PGNChess\Piece\Bishop;
+use PGNChess\Piece\King;
+use PGNChess\Piece\Knight;
+use PGNChess\Piece\Pawn;
+use PGNChess\Piece\Queen;
+use PGNChess\Piece\Rook;
 
 /**
  * Convert class.
@@ -213,16 +219,33 @@ class Convert
         }
     }
     
-    // TODO
-    // This method needs to be finished.
+    /**
+     * Gets the piece's PGN Chess class name according to its PGN identity.
+     * 
+     * @param string $identity
+     * @return string
+     */
     static public function toClassName($identity)
     {
         switch($identity) {
             case Symbol::BISHOP:
-                return 'Bishop';
+                return get_class(Bishop);
                 break;
-            
-        }
-        
+            case Symbol::KING:
+                return get_class(King);
+                break;
+            case Symbol::KNIGHT:
+                return get_class(Knight);
+                break;
+            case Symbol::PAWN:
+                return get_class(Pawn);
+                break;
+            case Symbol::QUEEN:
+                return get_class(Queen);
+                break;
+            case Symbol::ROOK:
+                return get_class(Rook);
+                break;            
+        }        
     }
 }

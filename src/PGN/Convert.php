@@ -212,4 +212,17 @@ class Convert
                 break;
         }
     }
+    
+    // TODO
+    // This method needs to be finished.
+    static public function toClassName($identity)
+    {
+        switch($identity) {
+            case Symbol::BISHOP:
+                return 'Bishop';
+                break;
+            
+        }
+        
+    }
 }

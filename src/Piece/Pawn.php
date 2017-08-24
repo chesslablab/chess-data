@@ -141,9 +141,9 @@ class Pawn extends AbstractPiece
 
         // en passant implementation
         
-        if (isset(self::$boardStatus->previousMove) &&
-            self::$boardStatus->previousMove->identity === Symbol::PAWN && 
-            self::$boardStatus->previousMove->color === $this->getOppositeColor()) {
+        if (isset(self::$boardStatus->lastHistoryEntry) &&
+            self::$boardStatus->lastHistoryEntry->move->identity === Symbol::PAWN && 
+            self::$boardStatus->lastHistoryEntry->move->color === $this->getOppositeColor()) {
             
             switch ($this->getColor()) {
 
@@ -152,11 +152,11 @@ class Pawn extends AbstractPiece
                     if ((int)$this->position->current[1] === 5) {
                         
                         $captureSquare = 
-                            self::$boardStatus->previousMove->position->next[0] . 
-                            (self::$boardStatus->previousMove->position->next[1]+1);
+                            self::$boardStatus->lastHistoryEntry->move->position->next[0] . 
+                            (self::$boardStatus->lastHistoryEntry->move->position->next[1]+1);
                             
                         if (in_array($captureSquare, $this->position->capture)) {
-                            $this->position->enPassantSquare = self::$boardStatus->previousMove->position->next;
+                            $this->position->enPassantSquare = self::$boardStatus->lastHistoryEntry->move->position->next;
                             $moves[] = $captureSquare;                            
                         }
                         
@@ -169,11 +169,11 @@ class Pawn extends AbstractPiece
                     if ((int)$this->position->current[1] === 4) {
                         
                         $captureSquare = 
-                            self::$boardStatus->previousMove->position->next[0] . 
-                            (self::$boardStatus->previousMove->position->next[1]-1);
+                            self::$boardStatus->lastHistoryEntry->move->position->next[0] . 
+                            (self::$boardStatus->lastHistoryEntry->move->position->next[1]-1);
                         
                         if (in_array($captureSquare, $this->position->capture)) {
-                            $this->position->enPassantSquare = self::$boardStatus->previousMove->position->next;
+                            $this->position->enPassantSquare = self::$boardStatus->lastHistoryEntry->move->position->next;
                             $moves[] = $captureSquare;                            
                         }
 

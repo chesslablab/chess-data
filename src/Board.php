@@ -259,16 +259,79 @@ final class Board extends \SplObjectStorage
     }
     
     /**
-     * Adds a new entry to the history.
+     * Adds a new entry to the end of the history.
      * 
-     * @param type $move
+     * @param stdClass $piece Its previous position on the board along with a stdClass move object.
      * @return Board
      */
-    private function addHistoryEntry($move)
+    private function pushHistory(\stdClass $piece)
     {
-        $this->history[] = $move;
+        $this->history[] = $piece;
         
         return $this;
+    }
+    
+    /**
+     * Gets the first piece on the board meeting the search criteria.
+     *
+     * @param string $color
+     * @param string $identity
+     * @return Piece
+     */
+    public function getPiece($color, $identity)
+    {
+        $this->rewind();
+
+        while ($this->valid()) {
+            $piece = $this->current();
+            if ($piece->getColor() === $color && $piece->getIdentity() === $identity) {
+                return $piece;
+            }
+            $this->next();
+        }
+
+        return null;
+    }    
+    
+    /**
+     * Gets all pieces by color.
+     *
+     * @param string $color
+     * @return array
+     */
+    public function getPiecesByColor($color)
+    {
+        $pieces = [];
+        $this->rewind();
+
+        while ($this->valid()) {
+            $piece = $this->current();
+            $piece->getColor() === $color ? $pieces[] = $piece : false;
+            $this->next();
+        }
+
+        return $pieces;
+    }
+
+    /**
+     * Gets a piece by its position on the board.
+     *
+     * @param string $square
+     * @return Piece
+     */
+    public function getPieceByPosition($square)
+    {
+        $this->rewind();
+
+        while ($this->valid()) {
+            $piece = $this->current();
+            if ($piece->getPosition()->current === $square) {
+                return $piece;
+            }
+            $this->next();
+        }
+
+        return null;
     }
 
     /**
@@ -282,21 +345,24 @@ final class Board extends \SplObjectStorage
     private function refresh($piece=null)
     {
         if (isset($piece)) {
+            
             if (!$this->castling->{$piece->getColor()}->castled) {
                 $this->trackCastling($piece);
             }
-            $this->addHistoryEntry($piece->getMove());
-            $previousMove = end($this->history);
+            
+            $this->pushHistory((object) [
+                'position' => $piece->getPosition()->current,
+                'move' => $piece->getMove()
+            ]);
         }
 
         $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
-
         $this->squares = Stats::calc(iterator_to_array($this, false));
         
         AbstractPiece::setBoardStatus((object)[
             'squares' => $this->squares,
             'castling' => $this->castling,
-            'previousMove' => isset($previousMove) ? $previousMove : null 
+            'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null 
         ]);
 
         $this->control = $this->control();
@@ -377,10 +443,14 @@ final class Board extends \SplObjectStorage
             'position' => $capturedPiece->getPosition()->current
         ];
         
+        $capturedPiece->getIdentity() === Symbol::ROOK ? $capturedPieceData->type = $capturedPiece->getType() : null;
+        
         $capturingPieceData = (object) [
             'identity' => $piece->getIdentity(),
             'position' => $piece->getPosition()->current
         ];
+        
+        $piece->getIdentity() === Symbol::ROOK ? $capturingPieceData->type = $piece->getType() : null;
         
         $capture = (object) [
             'capturing' => $capturingPieceData,
@@ -572,7 +642,7 @@ final class Board extends \SplObjectStorage
      */
     private function move(Piece $piece)
     {
-        // try {
+        try {
             // move the piece
             $pieceClass = new \ReflectionClass(get_class($piece));
             
@@ -595,76 +665,71 @@ final class Board extends \SplObjectStorage
             $this->detach($piece);
             $this->refresh($piece);
 
-        /* } catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new BoardException(
                 "Error moving: {$piece->getColor()} {$piece->getIdentity()} on {$piece->getMove()->position->next}."
             );
-        } */
+        }
 
         return true;
     }
-
-    /**
-     * Gets all pieces by color.
-     *
-     * @param string $color
-     * @return array
-     */
-    public function getPiecesByColor($color)
+    
+    // TODO
+    // 
+    // This method needs to be finished.
+    // 1. Look at testCaptures in BoardStatutTest, and add the rook type to the captures!
+    // 2. Think about how to undo the castling 
+    // 3. Think about how to undo the en passant 
+    //
+    // Once this method is finished, rewrite the leavesInCheck method
+    private function undoMove($piece)
     {
-        $pieces = [];
-        $this->rewind();
+        try {
+            // remove the piece from the board
+            
+            // ...
+            
+            // create the piece back and put it on its original square
+            
+            $pieceClass = new \ReflectionClass(get_class($piece));
+            
+            $this->attach($pieceClass->newInstanceArgs([
+                $piece->getColor(),
+                $piece->getPosition(),
+                $piece->getIdentity() === Symbol::ROOK ? $piece->getType() : null]
+            ));
+            
+            // if there is a captured piece, create it back on the board
+            
+            $previousMove = end($this->history);
 
-        while ($this->valid()) {
-            $piece = $this->current();
-            $piece->getColor() === $color ? $pieces[] = $piece : false;
-            $this->next();
-        }
-
-        return $pieces;
-    }
-
-    /**
-     * Gets the first piece on the board meeting the search criteria.
-     *
-     * @param string $color
-     * @param string $identity
-     * @return Piece
-     */
-    public function getPiece($color, $identity)
-    {
-        $this->rewind();
-
-        while ($this->valid()) {
-            $piece = $this->current();
-            if ($piece->getColor() === $color && $piece->getIdentity() === $identity) {
-                return $piece;
+            if ($piece->getMove()->isCapture) {
+                
+                $capture = end($this->getCaptures()->{$previousMove->color});
+                
+                $capturedPieceClass = new \ReflectionClass(
+                    get_class(Convert::toClassName($capture->captured->identity))
+                );
+                
+                $this->attach($capturedPieceClass->newInstanceArgs([
+                    $previousMove->color === Symbol::WHITE ? Symbol::BLACK : Symbol::WHITE,
+                    $capture->captured->position,
+                    $capture->captured->identity === Symbol::ROOK ? $capture->captured->type : null]
+                ));
+                            
             }
-            $this->next();
+            
+            // remove the piece
+            
+            $this->detach($piece);
+            
+        } catch (\Exception $e) {
+            throw new BoardException(
+                "Error undoing move."
+            );
         }
 
-        return null;
-    }
-
-    /**
-     * Gets a piece by its position on the board.
-     *
-     * @param string $square
-     * @return Piece
-     */
-    public function getPieceByPosition($square)
-    {
-        $this->rewind();
-
-        while ($this->valid()) {
-            $piece = $this->current();
-            if ($piece->getPosition()->current === $square) {
-                return $piece;
-            }
-            $this->next();
-        }
-
-        return null;
+        return true;        
     }
 
    /**

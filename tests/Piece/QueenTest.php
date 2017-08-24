@@ -9,7 +9,7 @@ class QueenTest extends \PHPUnit_Framework_TestCase
     public function testScope_a2()
     {
         $queen = new Queen(Symbol::WHITE, 'a2');
-        $example = (object) [
+        $scope = (object) [
             'up' => ['a3', 'a4', 'a5', 'a6', 'a7', 'a8'],
             'bottom' => ['a1'],
             'left' => [],
@@ -19,13 +19,13 @@ class QueenTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => [],
             'bottomRight' => ['b1']
         ];
-        $this->assertEquals($example, $queen->getPosition()->scope);
+        $this->assertEquals($scope, $queen->getScope());
     }
 
     public function testScope_d5()
     {
         $queen = new Queen(Symbol::WHITE, 'd5');
-        $example = (object) [
+        $scope = (object) [
             'up' => ['d6', 'd7', 'd8'],
             'bottom' => ['d4', 'd3', 'd2', 'd1'],
             'left' => ['c5', 'b5', 'a5'],
@@ -35,6 +35,6 @@ class QueenTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => ['c4', 'b3', 'a2'],
             'bottomRight' => ['e4', 'f3', 'g2', 'h1']
         ];
-        $this->assertEquals($example, $queen->getPosition()->scope);
+        $this->assertEquals($scope, $queen->getScope());
     }
 }

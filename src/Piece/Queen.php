@@ -47,9 +47,9 @@ class Queen extends Slider
      */
     protected function scope()
     {
-        $this->position->scope = (object) array_merge(
-            (array) $this->rook->getPosition()->scope,
-            (array) $this->bishop->getPosition()->scope
+        $this->scope = (object) array_merge(
+            (array) $this->rook->getScope(),
+            (array) $this->bishop->getScope()
         );
     }
 }

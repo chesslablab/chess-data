@@ -26,15 +26,14 @@ abstract class Slider extends AbstractPiece
     }
 
     /**
-     * Gets the legal moves that slider pieces can perform.
+     * Gets the legal moves of a slider piece.
      *
-     * @return array The legal moves that the slider piece (BRQ) can perform.
+     * @return array The slider piece's (BRQ) legal moves.
      */
     public function getLegalMoves()
     {
         $moves = [];
-
-        foreach ($this->getPosition()->scope as $direction) {
+        foreach ($this->scope as $direction) {
             foreach ($direction as $square) {
                 if (
                     !in_array($square, self::$boardStatus->squares->used->{$this->getColor()}) &&

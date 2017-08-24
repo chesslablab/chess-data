@@ -9,7 +9,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
     public function testScope_d4()
     {
         $knight = new Knight(Symbol::WHITE, 'd4');
-        $example = [
+        $jumps = [
             'c6',
             'b5',
             'b3',
@@ -19,27 +19,27 @@ class KnightTest extends \PHPUnit_Framework_TestCase
             'f5',
             'e6'
         ];
-        $this->assertEquals($example, $knight->getPosition()->scope->jumps);
+        $this->assertEquals($jumps, $knight->getScope()->jumps);
     }
 
     public function testScope_h1()
     {
         $knight = new Knight(Symbol::WHITE, 'h1');
-        $example = [
+        $jumps = [
             'g3',
             'f2'
         ];
-        $this->assertEquals($example, $knight->getPosition()->scope->jumps);
+        $this->assertEquals($jumps, $knight->getScope()->jumps);
     }
 
     public function testScope_b1()
     {
         $knight = new Knight(Symbol::WHITE, 'b1');
-        $example = [
+        $jumps = [
             'a3',
             'd2',
             'c3'
         ];
-        $this->assertEquals($example, $knight->getPosition()->scope->jumps);
+        $this->assertEquals($jumps, $knight->getScope()->jumps);
     }
 }

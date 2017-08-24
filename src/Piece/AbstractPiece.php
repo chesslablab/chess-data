@@ -27,6 +27,13 @@ abstract class AbstractPiece implements Piece
      * @var stdClass
      */
     protected $position;
+    
+    /**
+     * The piece's scope.
+     *
+     * @var array
+     */
+    protected $scope;
 
     /**
      * The piece's identity in PGN format.
@@ -66,12 +73,8 @@ abstract class AbstractPiece implements Piece
     public function __construct($color, $square, $identity)
     {
         $this->color = Validate::color($color);
-
-        $this->position = (object) [
-            'current' => Validate::square($square),
-            'scope' => []
-        ];
-
+        $this->position = Validate::square($square);
+        $this->scope = [];
         $this->identity = $identity;
     }
 
@@ -112,6 +115,16 @@ abstract class AbstractPiece implements Piece
     public function getPosition()
     {
         return $this->position;
+    }
+    
+    /**
+     * Gets the piece's scope.
+     *
+     * @return stdClass
+     */
+    public function getScope()
+    {
+        return $this->scope;
     }
 
     /**

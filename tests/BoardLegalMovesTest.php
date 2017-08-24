@@ -850,7 +850,7 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'f5')));        
         $pawn_e5 = $board->getPieceByPosition('e5');        
         $pawn_e5->getLegalMoves(); // this creates the enPassantSquare property in the pawn's position object
-        $this->assertEquals('f5', $pawn_e5->getPosition()->enPassantSquare);
+        $this->assertEquals('f5', $pawn_e5->getEnPassantSquare());
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'exf6')));        
     }
 

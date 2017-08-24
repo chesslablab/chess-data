@@ -194,7 +194,8 @@ class StatusTest extends \PHPUnit_Framework_TestCase
                 (object) [
                 'capturing' => (object) [
                     'identity' => 'R', 
-                    'position' => 'f8'],
+                    'position' => 'f8',
+                    'type' => 1],
                 'captured' => (object) [
                     'identity' => 'P', 
                     'position' => 'f6'],

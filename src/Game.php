@@ -156,7 +156,7 @@ class Game
         foreach ($pieces as $piece) {
             $result[] = (object) [
                 'identity' => $piece->getIdentity(),
-                'position' => $piece->getPosition()->current,
+                'position' => $piece->getPosition(),
                 'moves' => $piece->getLegalMoves()
             ];
         }
@@ -177,7 +177,7 @@ class Game
         return (object) [
             'color' => $piece->getColor(),
             'identity' => $piece->getIdentity(),
-            'position' => $piece->getPosition()->current,
+            'position' => $piece->getPosition(),
             'moves' => $piece->getLegalMoves()
         ];
     }

@@ -57,7 +57,7 @@ class Stats
         ];
 
         foreach ($pieces as $piece) {
-            $squares->{$piece->getColor()}[] = $piece->getPosition()->current;
+            $squares->{$piece->getColor()}[] = $piece->getPosition();
         }
 
         return $squares;

@@ -42,7 +42,7 @@ class Rook extends Slider
 
         parent::__construct($color, $square, Symbol::ROOK);
 
-        $this->position->scope = (object)[
+        $this->scope = (object)[
             'up' => [],
             'bottom' => [],
             'left' => [],
@@ -69,10 +69,10 @@ class Rook extends Slider
     {
         // up
         try {
-            $file = $this->position->current[0];
-            $rank = (int)$this->position->current[1] + 1;
+            $file = $this->position[0];
+            $rank = (int)$this->position[1] + 1;
             while (Validate::square($file.$rank)) {
-                $this->position->scope->up[] = $file . $rank;
+                $this->scope->up[] = $file . $rank;
                 $rank = (int)$rank + 1;
             }
         } catch (UnknownNotationException $e) {
@@ -81,10 +81,10 @@ class Rook extends Slider
 
         // down
         try {
-            $file = $this->position->current[0];
-            $rank = (int)$this->position->current[1] - 1;
+            $file = $this->position[0];
+            $rank = (int)$this->position[1] - 1;
             while (Validate::square($file.$rank)) {
-                $this->position->scope->bottom[] = $file . $rank;
+                $this->scope->bottom[] = $file . $rank;
                 $rank = (int)$rank - 1;
             }
         } catch (UnknownNotationException $e) {
@@ -93,10 +93,10 @@ class Rook extends Slider
 
         // left
         try {
-            $file = chr(ord($this->position->current[0]) - 1);
-            $rank = (int)$this->position->current[1];
+            $file = chr(ord($this->position[0]) - 1);
+            $rank = (int)$this->position[1];
             while (Validate::square($file.$rank)) {
-                $this->position->scope->left[] = $file . $rank;
+                $this->scope->left[] = $file . $rank;
                 $file = chr(ord($file) - 1);
             }
         } catch (UnknownNotationException $e) {
@@ -105,10 +105,10 @@ class Rook extends Slider
 
         // right
         try {
-            $file = chr(ord($this->position->current[0]) + 1);
-            $rank = (int)$this->position->current[1];
+            $file = chr(ord($this->position[0]) + 1);
+            $rank = (int)$this->position[1];
             while (Validate::square($file.$rank)) {
-                $this->position->scope->right[] = $file . $rank;
+                $this->scope->right[] = $file . $rank;
                 $file = chr(ord($file) + 1);
             }
         } catch (UnknownNotationException $e) {

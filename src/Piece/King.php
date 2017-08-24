@@ -55,7 +55,7 @@ class King extends AbstractPiece
         foreach ($pieces as $piece) {
             if (
                 $piece->getIdentity() === Symbol::ROOK &&
-                $piece->getPosition()->current ===
+                $piece->getPosition() ===
                 Castling::info($this->getColor())->{Symbol::ROOK}->{$this->getMove()->pgn}->position->current
             ) {
                 return $piece;
@@ -71,15 +71,15 @@ class King extends AbstractPiece
     protected function scope()
     {
         $scope =  array_merge(
-            (array) $this->rook->getPosition()->scope,
-            (array) $this->bishop->getPosition()->scope
+            (array) $this->rook->getScope(),
+            (array) $this->bishop->getScope()
         );
 
         foreach($scope as $key => $val) {
             $scope[$key] = !empty($val[0]) ? $val[0] : null;
         }
 
-        $this->position->scope = (object) array_filter(array_unique($scope));
+        $this->scope = (object) array_filter(array_unique($scope));
     }
 
     /**
@@ -91,13 +91,13 @@ class King extends AbstractPiece
     {
         $movesKing = array_values(
             array_intersect(
-                array_values((array)$this->position->scope),
+                array_values((array)$this->scope),
                 self::$boardStatus->squares->free
         ));
 
         $movesKingCaptures = array_values(
             array_intersect(
-                array_values((array)$this->position->scope),
+                array_values((array)$this->scope),
                 array_merge(self::$boardStatus->squares->used->{$this->getOppositeColor()})
         ));
 

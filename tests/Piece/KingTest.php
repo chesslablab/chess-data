@@ -9,21 +9,20 @@ class KingTest extends \PHPUnit_Framework_TestCase
     public function testScope_a2()
     {
         $king = new King(Symbol::WHITE, 'a2');
-        $example = (object) [
+        $scope = (object) [
             'up' => 'a3',
             'bottom' => 'a1',
             'right' => 'b2',
             'upRight' => 'b3',
             'bottomRight' => 'b1'
         ];
-        $position = $king->getPosition();
-        $this->assertEquals($example, $position->scope);
+        $this->assertEquals($scope, $king->getScope());
     }
 
     public function testScope_d5()
     {
         $king = new King(Symbol::WHITE, 'd5');
-        $example = (object) [
+        $scope = (object) [
             'up' => 'd6',
             'bottom' => 'd4',
             'left' => 'c5',
@@ -33,7 +32,6 @@ class KingTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => 'c4',
             'bottomRight' => 'e4'
         ];
-        $position = $king->getPosition();
-        $this->assertEquals($example, $position->scope);
+        $this->assertEquals($scope, $king->getScope());
     }
 }

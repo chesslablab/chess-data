@@ -325,7 +325,7 @@ final class Board extends \SplObjectStorage
 
         while ($this->valid()) {
             $piece = $this->current();
-            if ($piece->getPosition()->current === $square) {
+            if ($piece->getPosition() === $square) {
                 return $piece;
             }
             $this->next();
@@ -351,7 +351,7 @@ final class Board extends \SplObjectStorage
             }
             
             $this->pushHistory((object) [
-                'position' => $piece->getPosition()->current,
+                'position' => $piece->getPosition(),
                 'move' => $piece->getMove()
             ]);
         }
@@ -392,7 +392,7 @@ final class Board extends \SplObjectStorage
                         break;
                     
                     default:
-                        if (preg_match("/{$move->position->current}/", $piece->getPosition()->current)) {
+                        if (preg_match("/{$move->position->current}/", $piece->getPosition())) {
                             $found[] = $piece->setMove($move);
                         }
                         break;
@@ -423,8 +423,8 @@ final class Board extends \SplObjectStorage
             
             case Symbol::PAWN:
                 $piece->getLegalMoves(); // this creates the enPassantSquare property in the pawn's position object
-                if (!empty($piece->getPosition()->enPassantSquare)) {
-                    $capturedPiece = $this->getPieceByPosition($piece->getPosition()->enPassantSquare);
+                if (!empty($piece->getEnPassantSquare())) {
+                    $capturedPiece = $this->getPieceByPosition($piece->getEnPassantSquare());
                     $this->detach($capturedPiece);
                 } else {
                     $capturedPiece = $this->getPieceByPosition($piece->getMove()->position->next);
@@ -440,14 +440,14 @@ final class Board extends \SplObjectStorage
         
         $capturedPieceData = (object) [
             'identity' => $capturedPiece->getIdentity(),
-            'position' => $capturedPiece->getPosition()->current
+            'position' => $capturedPiece->getPosition()
         ];
         
         $capturedPiece->getIdentity() === Symbol::ROOK ? $capturedPieceData->type = $capturedPiece->getType() : null;
         
         $capturingPieceData = (object) [
             'identity' => $piece->getIdentity(),
-            'position' => $piece->getPosition()->current
+            'position' => $piece->getPosition()
         ];
         
         $piece->getIdentity() === Symbol::ROOK ? $capturingPieceData->type = $piece->getType() : null;
@@ -761,7 +761,7 @@ final class Board extends \SplObjectStorage
                             $control->space->{$piece->getColor()},
                             array_values(
                                 array_intersect(
-                                    array_values((array)$piece->getPosition()->scope),
+                                    array_values((array)$piece->getScope()),
                                     $this->squares->free
                     ))));
                     $control->attack->{$piece->getColor()} = array_unique(
@@ -769,7 +769,7 @@ final class Board extends \SplObjectStorage
                             $control->attack->{$piece->getColor()},
                             array_values(
                                 array_intersect(
-                                    array_values((array)$piece->getPosition()->scope),
+                                    array_values((array)$piece->getScope()),
                                     $this->squares->used->{$piece->getOppositeColor()}
                     ))));
                     break;
@@ -779,14 +779,14 @@ final class Board extends \SplObjectStorage
                         array_merge(
                             $control->space->{$piece->getColor()},
                             array_intersect(
-                                $piece->getPosition()->capture,
+                                $piece->getCaptureSquares(),
                                 $this->squares->free
                     )));
                     $control->attack->{$piece->getColor()} = array_unique(
                         array_merge(
                             $control->attack->{$piece->getColor()},
                             array_intersect(
-                                $piece->getPosition()->capture,
+                                $piece->getCaptureSquares(),
                                 $this->squares->used->{$piece->getOppositeColor()}
                     )));
                     break;
@@ -830,12 +830,12 @@ final class Board extends \SplObjectStorage
         $that = new \stdClass;
         
         $that->board =  unserialize(serialize($this));
-        $that->piece = $that->board->getPieceByPosition($piece->getPosition()->current);
+        $that->piece = $that->board->getPieceByPosition($piece->getPosition());
         $that->board->move($that->piece->setMove($piece->getMove()));
         $that->king = $that->board->getPiece($that->piece->getColor(), Symbol::KING);
 
         return in_array(
-            $that->king->getPosition()->current, 
+            $that->king->getPosition(), 
             $that->board->getControl()->attack->{$that->king->getOppositeColor()}
         );
     }
@@ -850,7 +850,7 @@ final class Board extends \SplObjectStorage
         $king = $this->getPiece($this->turn, Symbol::KING);
 
         return in_array(
-            $king->getPosition()->current, 
+            $king->getPosition(), 
             $this->control->attack->{$king->getOppositeColor()}
         );
     }

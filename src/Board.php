@@ -255,7 +255,7 @@ final class Board extends \SplObjectStorage
      */
     private function popCapture($color)
     {
-        return array_pop($this->catpures{$color});
+        return array_pop($this->captures->{$color});
     }
     
     /**
@@ -274,9 +274,16 @@ final class Board extends \SplObjectStorage
      * @param stdClass $piece Its previous position on the board along with a move object.
      * @return Board
      */
-    private function pushHistory(\stdClass $piece)
+    private function pushHistory(Piece $piece)
     {
-        $this->history[] = $piece;
+        $entry = (object) [
+            'position' => $piece->getPosition(),
+            'move' => $piece->getMove()
+        ];
+        
+        // $piece->getIdentity() === Symbol::ROOK ? $entry->type = $piece->getType() : null;
+        
+        $this->history[] = $entry;
         
         return $this;
     }
@@ -619,6 +626,96 @@ final class Board extends \SplObjectStorage
             );
         }
     }
+    
+    private function undoCastle()
+    {
+    // try {
+            
+            $previous = end($this->history);
+            
+            $king = $this->getPieceByPosition($previous->move->position->next);
+            $kingUndone = new King($previous->move->color, $previous->position);
+            
+            $this->detach($king);
+            $this->attach($kingUndone);
+                       
+            switch($previous->move->type) {
+
+                case Move::KING_CASTLING_SHORT:
+                    
+                    $rook = $this->getPieceByPosition(
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->next
+                    );
+                            
+                    $rookUndone = new Rook(
+                        $previous->move->color,
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->current,
+                        $rook->getType()
+                    );
+
+                    $this->detach($rook);
+                    $this->attach($rookUndone);
+                    
+                    break;
+                
+                case Move::KING_CASTLING_LONG:
+                    
+                    $rook = $this->getPieceByPosition(
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->next
+                    );
+                            
+                    $rookUndone = new Rook(
+                        $previous->move->color,
+                        Castling::info($previous->move->color)
+                            ->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->current,
+                        $rook->getType()
+                    );
+
+                    $this->detach($rook);
+                    $this->attach($rookUndone);          
+                    
+                    break;
+            }
+            
+            $this->castling = (object) [
+                Symbol::WHITE => (object) [
+                    'castled' => false,
+                    Symbol::CASTLING_SHORT => true,
+                    Symbol::CASTLING_LONG => true
+                ],
+                Symbol::BLACK => (object) [
+                    'castled' => false,
+                    Symbol::CASTLING_SHORT => true,
+                    Symbol::CASTLING_LONG => true
+            ]];
+            
+            $this->popHistory();
+            
+            // try to replace by refresh?
+            
+            $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
+            
+            $this->squares = Stats::calc(iterator_to_array($this, false));
+
+            AbstractPiece::setBoardStatus((object)[
+                'squares' => $this->squares,
+                'castling' => $this->castling,
+                'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null 
+            ]);
+
+            $this->control = $this->control();
+            
+        /* } catch (\Exception $e) {
+            throw new BoardException(
+                "Error undoing move: {$piece->getColor()} {$piece->getIdentity()} on {$piece->getMove()->position->next}."
+            );
+        } */
+
+        return true;        
+    }
 
     /**
      * Moves a piece.
@@ -636,7 +733,7 @@ final class Board extends \SplObjectStorage
                 $piece->getColor(),
                 $piece->getMove()->position->next,
                 $piece->getIdentity() === Symbol::ROOK ? $piece->getType(): null]
-            ));
+            ));            
 
             // remove the captured piece from the board -- if any
             if ($piece->getMove()->isCapture) {
@@ -648,7 +745,8 @@ final class Board extends \SplObjectStorage
                 $this->promote($piece);
             }
             
-            $this->detach($piece);
+            $this->detach($this->getPieceByPosition($piece->getPosition()));
+            
             $this->refresh($piece);
 
         } catch (\Exception $e) {
@@ -682,54 +780,13 @@ final class Board extends \SplObjectStorage
             );
             
             $this->detach($piece);
-            $this->attach($pieceUndone);
-                       
-            switch($previous->move->type) {
-
-                case Move::KING_CASTLING_SHORT:
-                    
-                    $rook = $this->getPieceByPosition(
-                        Castling::info($previous->move->color)
-                            ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->next
-                    );
-                            
-                    $rookUndone = new Rook(
-                        $previous->move->color,
-                        Castling::info($previous->move->color)
-                            ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->current
-                    );
-
-                    $this->detach($rook);
-                    $this->attach($rookUndone);
-                    
-                    break;
-                
-                case Move::KING_CASTLING_LONG:
-                    
-                    $rook = $this->getPieceByPosition(
-                        Castling::info($previous->move->color)
-                            ->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->next
-                    );
-                            
-                    $rookUndone = new Rook(
-                        $previous->move->color,
-                        Castling::info($previous->move->color)
-                            ->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->current
-                    );
-
-                    $this->detach($rook);
-                    $this->attach($rookUndone);          
-                    
-                    break;
-            }
+            $this->attach($pieceUndone);           
             
             if ($previous->move->isCapture) {
 
                 $capture = end($this->getCaptures()->{$previous->move->color});
 
-                $capturedPieceClass = new \ReflectionClass(
-                    get_class(Convert::toClassName($capture->captured->identity))
-                );
+                $capturedPieceClass = new \ReflectionClass(Convert::toClassName($capture->captured->identity));
 
                 $this->attach($capturedPieceClass->newInstanceArgs([
                     $previous->move->color === Symbol::WHITE ? Symbol::BLACK : Symbol::WHITE,
@@ -741,6 +798,20 @@ final class Board extends \SplObjectStorage
             }
             
             $this->popHistory();
+            
+            // try to replace by refresh?
+            
+            $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
+            
+            $this->squares = Stats::calc(iterator_to_array($this, false));
+        
+            AbstractPiece::setBoardStatus((object)[
+                'squares' => $this->squares,
+                'castling' => $this->castling,
+                'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null 
+            ]);
+
+            $this->control = $this->control();
             
         /* } catch (\Exception $e) {
             throw new BoardException(
@@ -767,10 +838,7 @@ final class Board extends \SplObjectStorage
                 $this->trackCastling($piece);
             }
             
-            $this->pushHistory((object) [
-                'position' => $piece->getPosition(),
-                'move' => $piece->getMove()
-            ]);
+            $this->pushHistory($piece);
         }
 
         $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
@@ -880,7 +948,17 @@ final class Board extends \SplObjectStorage
      */
     private function leavesInCheck(Piece $piece)
     {
-        $this->move($piece);
+        switch($piece->getMove()->type) {
+            case Move::KING_CASTLING_SHORT:
+                $this->castle($piece);
+                break;            
+            case Move::KING_CASTLING_LONG:
+                $this->castle($piece);
+                break;            
+            default:
+                $this->move($piece);
+                break;
+        }
 
         $king = $this->getPiece($piece->getColor(), Symbol::KING);
 
@@ -889,7 +967,17 @@ final class Board extends \SplObjectStorage
             $this->getControl()->attack->{$king->getOppositeColor()}
         );
 
-        $this->undoMove();
+        switch($piece->getMove()->type) {
+            case Move::KING_CASTLING_SHORT:
+                $this->undoCastle();
+                break;            
+            case Move::KING_CASTLING_LONG:
+                $this->undoCastle();
+                break;            
+            default:
+                $this->undoMove();
+                break;
+        }
         
         return $check;
     }

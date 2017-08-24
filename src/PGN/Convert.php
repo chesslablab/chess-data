@@ -229,22 +229,22 @@ class Convert
     {
         switch($identity) {
             case Symbol::BISHOP:
-                return get_class(Bishop);
+                return (new \ReflectionClass('\PGNChess\Piece\Bishop'))->getName();
                 break;
             case Symbol::KING:
-                return get_class(King);
+                return (new \ReflectionClass('\PGNChess\Piece\King'))->getName();
                 break;
             case Symbol::KNIGHT:
-                return get_class(Knight);
+                return (new \ReflectionClass('\PGNChess\Piece\Knight'))->getName();
                 break;
             case Symbol::PAWN:
-                return get_class(Pawn);
+                return (new \ReflectionClass('\PGNChess\Piece\Pawn'))->getName();
                 break;
             case Symbol::QUEEN:
-                return get_class(Queen);
+                return (new \ReflectionClass('\PGNChess\Piece\Queen'))->getName();
                 break;
             case Symbol::ROOK:
-                return get_class(Rook);
+                return (new \ReflectionClass('\PGNChess\Piece\Rook'))->getName();
                 break;            
         }        
     }

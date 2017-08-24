@@ -353,41 +353,7 @@ final class Board extends \SplObjectStorage
 
         return null;
     }
-
-    /**
-     * Refreshes the board's status.
-     *
-     * This method is run just after a piece is moved successfully.
-     *
-     * @param Piece $piece
-     * @return Board
-     */
-    private function refresh(Piece $piece=null)
-    {
-        if (isset($piece)) {
-            
-            if (!$this->castling->{$piece->getColor()}->castled) {
-                $this->trackCastling($piece);
-            }
-            
-            $this->pushHistory((object) [
-                'position' => $piece->getPosition(),
-                'move' => $piece->getMove()
-            ]);
-        }
-
-        $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
-        $this->squares = Stats::calc(iterator_to_array($this, false));
-        
-        AbstractPiece::setBoardStatus((object)[
-            'squares' => $this->squares,
-            'castling' => $this->castling,
-            'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null 
-        ]);
-
-        $this->control = $this->control();
-    }
-    
+   
     /**
      * Picks a piece to be moved.
      *
@@ -702,13 +668,19 @@ final class Board extends \SplObjectStorage
      */
     private function undoMove()
     {
-        try {
+        // try {
             
             $previous = end($this->history);
             
             $piece = $this->getPieceByPosition($previous->move->position->next);
-            $pieceUndone = $this->getPieceByPosition($previous->position);
-
+            
+            $pieceUndoneClass = new \ReflectionClass(get_class($piece));
+            $pieceUndone = $pieceUndoneClass->newInstanceArgs([
+                $previous->move->color,
+                $previous->position,
+                $previous->move->identity === Symbol::ROOK ? $piece->getType(): null]
+            );
+            
             $this->detach($piece);
             $this->attach($pieceUndone);
                        
@@ -764,19 +736,53 @@ final class Board extends \SplObjectStorage
                     $capture->captured->position,
                     $capture->captured->identity === Symbol::ROOK ? $capture->captured->type : null
                 ]));
-
+                
+                $this->popCapture($previous->move->color);
             }
             
             $this->popHistory();
-            $this->popCapture($previous->move->color);
             
-        } catch (\Exception $e) {
+        /* } catch (\Exception $e) {
             throw new BoardException(
                 "Error undoing move: {$piece->getColor()} {$piece->getIdentity()} on {$piece->getMove()->position->next}."
             );
-        }
+        } */
 
         return true;        
+    }
+    
+    /**
+     * Refreshes the board's status.
+     *
+     * This method is run just after a piece is moved successfully.
+     *
+     * @param Piece $piece
+     * @return Board
+     */
+    private function refresh(Piece $piece=null)
+    {
+        if (isset($piece)) {
+            
+            if (!$this->castling->{$piece->getColor()}->castled) {
+                $this->trackCastling($piece);
+            }
+            
+            $this->pushHistory((object) [
+                'position' => $piece->getPosition(),
+                'move' => $piece->getMove()
+            ]);
+        }
+
+        $this->turn === Symbol::WHITE ? $this->turn = Symbol::BLACK : $this->turn = Symbol::WHITE;
+        $this->squares = Stats::calc(iterator_to_array($this, false));
+        
+        AbstractPiece::setBoardStatus((object)[
+            'squares' => $this->squares,
+            'castling' => $this->castling,
+            'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null 
+        ]);
+
+        $this->control = $this->control();
     }
 
    /**
@@ -874,17 +880,18 @@ final class Board extends \SplObjectStorage
      */
     private function leavesInCheck(Piece $piece)
     {
-        $that = new \stdClass;
-        
-        $that->board =  unserialize(serialize($this));
-        $that->piece = $that->board->getPieceByPosition($piece->getPosition());
-        $that->board->move($that->piece->setMove($piece->getMove()));
-        $that->king = $that->board->getPiece($that->piece->getColor(), Symbol::KING);
+        $this->move($piece);
 
-        return in_array(
-            $that->king->getPosition(), 
-            $that->board->getControl()->attack->{$that->king->getOppositeColor()}
+        $king = $this->getPiece($piece->getColor(), Symbol::KING);
+
+        $check = in_array(
+            $king->getPosition(), 
+            $this->getControl()->attack->{$king->getOppositeColor()}
         );
+
+        $this->undoMove();
+        
+        return $check;
     }
     
     /**

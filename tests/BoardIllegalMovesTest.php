@@ -727,6 +727,56 @@ class IllegalMovesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $board->play(Convert::toObject(Symbol::WHITE, 'O-O')));
         $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'O-O')));
     }
+    
+    public function testOpponentThreateningCastlingSquares()
+    {
+        $pieces = [
+            new Pawn(Symbol::WHITE, 'a2'),
+            new Pawn(Symbol::WHITE, 'c2'),
+            new Pawn(Symbol::WHITE, 'c3'),
+            new Pawn(Symbol::WHITE, 'd4'),
+            new Pawn(Symbol::WHITE, 'f2'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG),
+            new King(Symbol::WHITE, 'e1'),
+            new Knight(Symbol::WHITE, 'g1'),
+            new Rook(Symbol::WHITE, 'h1', RookType::CASTLING_SHORT),
+            new Bishop(Symbol::WHITE, 'a3'),
+            new Bishop(Symbol::WHITE, 'd3'),            
+            new Pawn(Symbol::BLACK, 'a7'),
+            new Pawn(Symbol::BLACK, 'b6'),
+            new Pawn(Symbol::BLACK, 'c7'),
+            new Pawn(Symbol::BLACK, 'e6'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h6'),
+            new Rook(Symbol::BLACK, 'a8', RookType::CASTLING_LONG),
+            new Bishop(Symbol::BLACK, 'c8'),
+            new Queen(Symbol::BLACK, 'd8'),
+            new King(Symbol::BLACK, 'e8'),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Knight(Symbol::BLACK, 'd7'),
+            new Knight(Symbol::BLACK, 'f6')
+        ];
+        
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => true
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => false,
+                Symbol::CASTLING_SHORT => true,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+        
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nf3')));
+        $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'O-O')));
+    }
 
     public function testFalslyGame()
     {

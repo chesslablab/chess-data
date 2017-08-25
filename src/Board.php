@@ -798,13 +798,15 @@ final class Board extends \SplObjectStorage
         $this->turn = Symbol::oppositeColor($this->turn);
         $this->squares = Stats::calc(iterator_to_array($this, false));
         
-        AbstractPiece::setBoardStatus((object)[
+        AbstractPiece::setBoardStatus((object) [
             'squares' => $this->squares,
             'castling' => $this->castling,
             'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null 
         ]);
 
         $this->control = $this->control();
+        
+        AbstractPiece::setBoardControl($this->control);
     }
 
    /**

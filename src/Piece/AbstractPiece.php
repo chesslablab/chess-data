@@ -62,6 +62,13 @@ abstract class AbstractPiece implements Piece
      * @var \stdClass
      */
     protected static $boardStatus;
+    
+    /**
+     * Chess board control accessible by all pieces.
+     * 
+     * @var \stdClass 
+     */
+    protected static $boardControl;
 
     /**
      * Constructor.
@@ -167,13 +174,23 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
-     * Sets the board status.
+     * Sets the board status property.
      *
      * @param \stdClass $boardStatus
      */
     public static function setBoardStatus(\stdClass $boardStatus)
     {
         self::$boardStatus = $boardStatus;
+    }
+    
+    /**
+     * Sets the board control property.
+     *
+     * @param \stdClass $boardStatus
+     */
+    public static function setBoardControl(\stdClass $boardControl)
+    {
+        self::$boardControl = $boardControl;
     }
 
     /**

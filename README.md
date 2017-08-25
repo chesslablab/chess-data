@@ -39,7 +39,7 @@ All action takes place in the `$game` object. The call to the `$board->play` met
 
 It is up to you how to process the moves accordingly -- go into a loop till the player runs a valid move, ask them to please try again, play a sound, exit the game or whatever thing you consider appropriate. The important thing is that PGN Chess understands chess rules, internally replicating the game being played on the board.
 
-> **Side note**: PGN Chess games are actually run in the computer's memory. So, if it turns out that for whatever reason a player forgets to append the + symbol to their check moves, PGN Chess will anyway understand that it is a check move, as it is shown below. The same thing goes for checkmate moves.
+> **Side note**: PGN Chess games are actually run in the computer's memory. So, if it turns out that for whatever reason a player forgets to append the + symbol to their check moves, PGN Chess will anyway understand that it is a check move. The same thing goes for checkmate moves.
 
 ### 3. Game methods
 
@@ -79,10 +79,6 @@ The following sequence of moves:
 
 ```php
 <?php
-use PGNChess\Game;
-use PGNChess\PGN\Convert;
-use PGNChess\PGN\Symbol;
-
 $game = new Game;
 
 $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
@@ -101,188 +97,170 @@ Will generate this `$status` object:
 
     stdClass Object
     (
-        [turn] => w
-        [squares] => stdClass Object
-            (
-                [used] => stdClass Object
-                    (
-                        [w] => Array
-                            (
-                                [0] => a1
-                                [1] => d1
-                                [2] => e1
-                                [3] => f1
-                                [4] => g1
-                                [5] => h1
-                                [6] => a2
-                                [7] => b2
-                                [8] => c2
-                                [9] => e2
-                                [10] => f2
-                                [11] => g2
-                                [12] => h2
-                                [13] => d4
-                                [14] => c3
-                            )
+    [turn] => w
+    [squares] => stdClass Object
+        (
+            [used] => stdClass Object
+                (
+                    [w] => Array
+                        (
+                            [0] => a1
+                            [1] => d1
+                            [2] => e1
+                            [3] => f1
+                            [4] => g1
+                            [5] => h1
+                            [6] => a2
+                            [7] => b2
+                            [8] => c2
+                            [9] => e2
+                            [10] => f2
+                            [11] => g2
+                            [12] => h2
+                            [13] => d4
+                            [14] => c3
+                        )
 
-                        [b] => Array
-                            (
-                                [0] => c8
-                                [1] => d8
-                                [2] => e8
-                                [3] => f8
-                                [4] => h8
-                                [5] => a7
-                                [6] => b7
-                                [7] => e7
-                                [8] => f7
-                                [9] => g7
-                                [10] => h7
-                                [11] => c6
-                                [12] => d5
-                                [13] => f6
-                                [14] => b8
-                            )
+                    [b] => Array
+                        (
+                            [0] => c8
+                            [1] => d8
+                            [2] => e8
+                            [3] => f8
+                            [4] => h8
+                            [5] => a7
+                            [6] => b7
+                            [7] => e7
+                            [8] => f7
+                            [9] => g7
+                            [10] => h7
+                            [11] => c6
+                            [12] => d5
+                            [13] => f6
+                            [14] => b8
+                        )
 
-                    )
+                )
 
-                [free] => Array
-                    (
-                        [0] => a3
-                        [1] => a4
-                        [2] => a5
-                        [3] => a6
-                        [4] => a8
-                        [5] => b1
-                        [6] => b3
-                        [7] => b4
-                        [8] => b5
-                        [9] => b6
-                        [10] => c1
-                        [11] => c4
-                        [12] => c5
-                        [13] => c7
-                        [14] => d2
-                        [15] => d3
-                        [16] => d6
-                        [17] => d7
-                        [18] => e3
-                        [19] => e4
-                        [20] => e5
-                        [21] => e6
-                        [22] => f3
-                        [23] => f4
-                        [24] => f5
-                        [25] => g3
-                        [26] => g4
-                        [27] => g5
-                        [28] => g6
-                        [29] => g8
-                        [30] => h3
-                        [31] => h4
-                        [32] => h5
-                        [33] => h6
-                    )
+            [free] => Array
+                (
+                    [0] => a3
+                    [1] => a4
+                    [2] => a5
+                    [3] => a6
+                    [4] => a8
+                    [5] => b1
+                    [6] => b3
+                    [7] => b4
+                    [8] => b5
+                    [9] => b6
+                    [10] => c1
+                    [11] => c4
+                    [12] => c5
+                    [13] => c7
+                    [14] => d2
+                    [15] => d3
+                    [16] => d6
+                    [17] => d7
+                    [18] => e3
+                    [19] => e4
+                    [20] => e5
+                    [21] => e6
+                    [22] => f3
+                    [23] => f4
+                    [24] => f5
+                    [25] => g3
+                    [26] => g4
+                    [27] => g5
+                    [28] => g6
+                    [29] => g8
+                    [30] => h3
+                    [31] => h4
+                    [32] => h5
+                    [33] => h6
+                )
 
-            )
+        )
 
-        [control] => stdClass Object
-            (
-                [space] => stdClass Object
-                    (
-                        [w] => Array
-                            (
-                                [0] => a3
-                                [1] => a4
-                                [2] => b1
-                                [3] => b3
-                                [4] => b5
-                                [5] => c1
-                                [6] => c5
-                                [7] => d2
-                                [8] => d3
-                                [9] => e3
-                                [10] => e4
-                                [11] => e5
-                                [12] => f3
-                                [13] => g3
-                                [14] => h3
-                            )
+    [control] => stdClass Object
+        (
+            [space] => stdClass Object
+                (
+                    [w] => Array
+                        (
+                            [0] => a3
+                            [1] => a4
+                            [2] => b1
+                            [3] => b3
+                            [4] => b5
+                            [5] => c1
+                            [6] => c5
+                            [7] => d2
+                            [8] => d3
+                            [9] => e3
+                            [10] => e4
+                            [11] => e5
+                            [12] => f3
+                            [13] => g3
+                            [14] => h3
+                        )
 
-                        [b] => Array
-                            (
-                                [0] => a5
-                                [1] => a6
-                                [2] => a8
-                                [3] => b5
-                                [4] => b6
-                                [5] => c4
-                                [6] => c7
-                                [7] => d6
-                                [8] => d7
-                                [9] => e4
-                                [10] => e6
-                                [11] => f5
-                                [12] => g4
-                                [13] => g6
-                                [14] => g8
-                                [15] => h3
-                                [16] => h5
-                                [17] => h6
-                            )
+                    [b] => Array
+                        (
+                            [0] => a5
+                            [1] => a6
+                            [2] => a8
+                            [3] => b5
+                            [4] => b6
+                            [5] => c4
+                            [6] => c7
+                            [7] => d6
+                            [8] => d7
+                            [9] => e4
+                            [10] => e6
+                            [11] => f5
+                            [12] => g4
+                            [13] => g6
+                            [14] => g8
+                            [15] => h3
+                            [16] => h5
+                            [17] => h6
+                        )
 
-                    )
+                )
 
-                [attack] => stdClass Object
-                    (
-                        [w] => Array
-                            (
-                                [0] => d5
-                            )
+            [attack] => stdClass Object
+                (
+                    [w] => Array
+                        (
+                            [0] => d5
+                        )
 
-                        [b] => Array
-                            (
-                            )
+                    [b] => Array
+                        (
+                        )
 
-                    )
+                )
 
-            )
+        )
 
-        [castling] => stdClass Object
-            (
-                [w] => stdClass Object
-                    (
-                        [castled] => 
-                        [O-O] => 1
-                        [O-O-O] => 1
-                    )
+    [castling] => stdClass Object
+        (
+            [w] => stdClass Object
+                (
+                    [castled] =>
+                    [O-O] => 1
+                    [O-O-O] => 1
+                )
 
-                [b] => stdClass Object
-                    (
-                        [castled] => 
-                        [O-O] => 1
-                        [O-O-O] => 
-                    )
+            [b] => stdClass Object
+                (
+                    [castled] =>
+                    [O-O] => 1
+                    [O-O-O] =>
+                )
 
-            )
-
-        [previousMove] => stdClass Object
-            (
-                [w] => stdClass Object
-                    (
-                        [identity] => B
-                        [position] => b8
-                        [isCapture] => 1
-                    )
-
-                [b] => stdClass Object
-                    (
-                        [identity] => R
-                        [position] => b8
-                        [isCapture] => 1
-                    )
-
-            )
+        )
 
     )
 
@@ -314,16 +292,6 @@ $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG};
 $game->status()->castling->{Symbol::BLACK}->castled;
 $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT};
 $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG};
-
-// white's previous move
-$game->status()->previousMove->{Symbol::WHITE}->identity;
-$game->status()->previousMove->{Symbol::WHITE}->position;
-$game->status()->previousMove->{Symbol::WHITE}->isCapture;
-
-// black's previous move
-$game->status()->previousMove->{Symbol::BLACK}->identity;
-$game->status()->previousMove->{Symbol::BLACK}->position;
-$game->status()->previousMove->{Symbol::BLACK}->isCapture;
 ```
 
 #### 3.4. `getPieceByPosition()`
@@ -345,10 +313,6 @@ The following code:
 
 ```php
 <?php
-use PGNChess\Game;
-use PGNChess\PGN\Convert;
-use PGNChess\PGN\Symbol;
-
 $game = new Game;
 
 $piece = $game->getPieceByPosition('b8');
@@ -397,10 +361,6 @@ The following code:
 
 ```php
 <?php
-use PGNChess\Game;
-use PGNChess\PGN\Convert;
-use PGNChess\PGN\Symbol;
-
 $game = new Game;
 
 $blackPieces = $game->getPiecesByColor(Symbol::BLACK);
@@ -600,6 +560,224 @@ $blackPieces[1]->identity;
 $blackPieces[1]->position;
 $blackPieces[1]->moves;
 ```
+
+#### 3.6. `history()`
+
+Gets the game's history.
+
+    $history = $game->history();
+
+The following sequence of moves:
+
+```php
+<?php
+$game = new Game;
+
+$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
+$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
+$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
+$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
+$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+
+$history = $game->history();
+```
+
+Will generate the `$history` array containing PGN moves (converted to PHP objects):
+
+    Array
+    (
+        [0] => stdClass Object
+            (
+                [position] => d2
+                [move] => stdClass Object
+                    (
+                        [pgn] => d4
+                        [isCapture] =>
+                        [isCheck] =>
+                        [type] => [a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => w
+                        [identity] => P
+                        [position] => stdClass Object
+                            (
+                                [current] => d
+                                [next] => d4
+                            )
+
+                    )
+
+            )
+
+        [1] => stdClass Object
+            (
+                [position] => c7
+                [move] => stdClass Object
+                    (
+                        [pgn] => c6
+                        [isCapture] =>
+                        [isCheck] =>
+                        [type] => [a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => b
+                        [identity] => P
+                        [position] => stdClass Object
+                            (
+                                [current] => c
+                                [next] => c6
+                            )
+
+                    )
+
+            )
+
+        [2] => stdClass Object
+            (
+                [position] => c1
+                [move] => stdClass Object
+                    (
+                        [pgn] => Bf4
+                        [isCapture] =>
+                        [isCheck] =>
+                        [type] => [BRQ]{1}[a-h]{0,1}[1-8]{0,1}[a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => w
+                        [identity] => B
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => f4
+                            )
+
+                    )
+
+            )
+
+        [3] => stdClass Object
+            (
+                [position] => d7
+                [move] => stdClass Object
+                    (
+                        [pgn] => d5
+                        [isCapture] =>
+                        [isCheck] =>
+                        [type] => [a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => b
+                        [identity] => P
+                        [position] => stdClass Object
+                            (
+                                [current] => d
+                                [next] => d5
+                            )
+
+                    )
+
+            )
+
+        [4] => stdClass Object
+            (
+                [position] => b1
+                [move] => stdClass Object
+                    (
+                        [pgn] => Nc3
+                        [isCapture] =>
+                        [isCheck] =>
+                        [type] => N[a-h]{0,1}[1-8]{0,1}[a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => w
+                        [identity] => N
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => c3
+                            )
+
+                    )
+
+            )
+
+        [5] => stdClass Object
+            (
+                [position] => g8
+                [move] => stdClass Object
+                    (
+                        [pgn] => Nf6
+                        [isCapture] =>
+                        [isCheck] =>
+                        [type] => N[a-h]{0,1}[1-8]{0,1}[a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => b
+                        [identity] => N
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => f6
+                            )
+
+                    )
+
+            )
+
+        [6] => stdClass Object
+            (
+                [position] => f4
+                [move] => stdClass Object
+                    (
+                        [pgn] => Bxb8
+                        [isCapture] => 1
+                        [isCheck] =>
+                        [type] => [BRQ]{1}[a-h]{0,1}[1-8]{0,1}x[a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => w
+                        [identity] => B
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => b8
+                            )
+
+                    )
+
+            )
+
+        [7] => stdClass Object
+            (
+                [position] => a8
+                [move] => stdClass Object
+                    (
+                        [pgn] => Rxb8
+                        [isCapture] => 1
+                        [isCheck] =>
+                        [type] => [BRQ]{1}[a-h]{0,1}[1-8]{0,1}x[a-h]{1}[1-8]{1}[\+\#]{0,1}
+                        [color] => b
+                        [identity] => R
+                        [position] => stdClass Object
+                            (
+                                [current] =>
+                                [next] => b8
+                            )
+
+                    )
+
+                [type] => castling long
+            )
+
+    )
+
+The `type` property in the array above is a regular expression that corresponds to the chess move that a player can make according to the following table.
+
+> **Side note**: This information is managed this way for programmatic purposes because it is computer-friendly and it is encoded in the `PGNChess\PGN\Move` class. In fact, it is thanks to regular expressions that PGN Chess can translate a PGN move into a PHP object that can be processed by PHP applications. For further information about how chess moves and PGN symbols are encoded with regular expressions please look at the [PGN](https://github.com/programarivm/pgn-chess/tree/master/src/PGN) folder.
+
+| Chess move                           | Regular expression                                          |
+|--------------------------------------|-------------------------------------------------------------|
+| `Move::KING`                         | `K[a-h]{1}[1-8]{1}`                                         |
+| `Move::KING_CASTLING_SHORT`          | `O-O[\+\#]{0,1}`                                            |
+| `Move::KING_CASTLING_LONG`           | `O-O-O[\+\#]{0,1}`                                          |
+| `Move::KING_CAPTURES`                | `Kx[a-h]{1}[1-8]{1}`                                        |
+| `Move::PIECE`                        | `[BRQ]{1}[a-h]{0,1}[1-8]{0,1}[a-h]{1}[1-8]{1}[\+\#]{0,1}`   |
+| `Move::PIECE_CAPTURES`               | `[BRQ]{1}[a-h]{0,1}[1-8]{0,1}x[a-h]{1}[1-8]{1}[\+\#]{0,1}`  |
+| `Move::KNIGHT`                       | `N[a-h]{0,1}[1-8]{0,1}[a-h]{1}[1-8]{1}[\+\#]{0,1}`          |
+| `Move::KNIGHT_CAPTURES`              | `N[a-h]{0,1}[1-8]{0,1}x[a-h]{1}[1-8]{1}[\+\#]{0,1}`         |
+| `Move::PAWN`                         | `[a-h]{1}[1-8]{1}[\+\#]{0,1}`                               |
+| `Move::PAWN_CAPTURES`                | `[a-h]{1}x[a-h]{1}[1-8]{1}[\+\#]{0,1}`                      |
+| `Move::PAWN_PROMOTES`                | `[a-h]{1}[1-8]{1}=[NBRQ]{1}[\+\#]{0,1}`                     |
+| `Move::PAWN_CAPTURES_AND_PROMOTES`   | `[a-h]{1}x[a-h]{1}[1-8]{1}=[NBRQ]{1}[\+\#]{0,1}`            |
 
 ### 4. About the PGN format
 

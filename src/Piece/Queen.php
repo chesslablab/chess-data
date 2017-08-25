@@ -17,12 +17,12 @@ use PGNChess\Piece\Type\RookType;
 class Queen extends Slider
 {
     /**
-     * @var PGNChess\Piece\Rook
+     * @var \PGNChess\Piece\Rook
      */
     private $rook;
 
     /**
-     * @var PGNChess\Piece\Bishop
+     * @var \PGNChess\Piece\Bishop
      */
     private $bishop;
 

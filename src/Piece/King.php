@@ -19,12 +19,12 @@ use PGNChess\Piece\Type\RookType;
 class King extends AbstractPiece
 {
     /**
-     * @var PGNChess\Piece\Rook
+     * @var \PGNChess\Piece\Rook
      */
     private $rook;
 
     /**
-     * @var PGNChess\Piece\Bishop
+     * @var \PGNChess\Piece\Bishop
      */
     private $bishop;
 
@@ -48,7 +48,7 @@ class King extends AbstractPiece
      * Gets the king's castling rook.
      *
      * @param array $pieces
-     * @return null|PGNChess\Piece\Rook
+     * @return mixed \PGNChess\Piece\Rook|null
      */
     public function getCastlingRook(array $pieces)
     {

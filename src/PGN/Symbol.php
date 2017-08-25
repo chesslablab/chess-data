@@ -24,4 +24,20 @@ class Symbol
     const CASTLING_LONG = 'O-O-O';
     const SQUARE = '[a-h]{1}[1-8]{1}';
     const CHECK = '[\+\#]{0,1}';
+    
+    
+    /**
+     * Gets the opposite color.
+     * 
+     * @param string $color
+     * @return type
+     */
+    static public function oppositeColor($color)
+    {
+        if ($color == Symbol::WHITE) {
+            return Symbol::BLACK;
+        } else {
+            return Symbol::WHITE;
+        }        
+    }
 }

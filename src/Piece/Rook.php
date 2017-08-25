@@ -28,7 +28,7 @@ class Rook extends Slider
      * @param string $color
      * @param string $square
      * @param string $castling
-     * @throws PieceTypeException
+     * @throws \PGNChess\Exception\PieceTypeException
      */
     public function __construct($color, $square, $type)
     {

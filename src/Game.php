@@ -18,14 +18,14 @@ class Game
     /**
      * Chess board.
      *
-     * @var PGNChess\Game\Board
+     * @var \PGNChess\Game\Board
      */
     private $board;
 
     /**
      * Determines whether the current player is checked.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     private $checked;
 
@@ -39,7 +39,7 @@ class Game
     /**
      * Board's status.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     private $status;
     
@@ -71,25 +71,23 @@ class Game
     /**
      * Gets the chess board.
      *
-     * @return Board
+     * @return \PGNChess\Game\Board
      */
     public function getBoard()
     {
         return $this->board;
     }
-
+    
     /**
      * Sets the chess board.
      *
-     * @param Board $board
+     * @param \PGNChess\Game\Board $board
      */
     public function setBoard(Board $board)
     {
         $this->board = $board;
-
         $this->checked->{Symbol::WHITE} = false;
         $this->checked->{Symbol::BLACK} = false;
-
         $this->mated->{Symbol::WHITE} = false;
         $this->mated->{Symbol::BLACK} = false;
     }
@@ -119,7 +117,7 @@ class Game
     /**
      * Gets the current board's status.
      *
-     * @return stdClass
+     * @return \stdClass
      */
     public function status()
     {
@@ -168,7 +166,7 @@ class Game
      * Gets a piece by its position on the board.
      *
      * @param $square
-     * @return stdClass
+     * @return \stdClass
      */
     public function getPieceByPosition($square)
     {
@@ -185,7 +183,7 @@ class Game
     /**
      * Plays a chess move on the board.
      *
-     * @param stdClass $move
+     * @param \stdClass $move
      * @return boolean
      */
     public function play($move)
@@ -198,7 +196,7 @@ class Game
         $this->checked->{$this->board->getTurn()} = $this->board->isCheck();
 
         if ($this->checked->{$this->board->getTurn()}) {
-            // $this->mated->{$this->board->getTurn()} = $this->board->isMate();
+            $this->mated->{$this->board->getTurn()} = $this->board->isMate();
         }
 
         return $result;

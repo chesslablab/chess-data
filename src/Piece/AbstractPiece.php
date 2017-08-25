@@ -24,7 +24,7 @@ abstract class AbstractPiece implements Piece
     /**
      * The piece's position on the board.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     protected $position;
     
@@ -45,7 +45,7 @@ abstract class AbstractPiece implements Piece
     /**
      * The piece's next move to be performed on the board.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     protected $move;
 
@@ -59,7 +59,7 @@ abstract class AbstractPiece implements Piece
     /**
      * Chess board status accessible by all pieces.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     protected static $boardStatus;
 
@@ -110,7 +110,7 @@ abstract class AbstractPiece implements Piece
     /**
      * Gets the piece's position on the board.
      *
-     * @return stdClass
+     * @return \stdClass
      */
     public function getPosition()
     {
@@ -120,7 +120,7 @@ abstract class AbstractPiece implements Piece
     /**
      * Gets the piece's scope.
      *
-     * @return stdClass
+     * @return \stdClass
      */
     public function getScope()
     {
@@ -138,9 +138,9 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
-     * Gets the piece's next move.
+     * Gets the piece's move.
      *
-     * @return stdClass
+     * @return \stdClass
      */
     public function getMove()
     {
@@ -157,7 +157,7 @@ abstract class AbstractPiece implements Piece
     /**
      * Sets the piece's next move.
      *
-     * @param stdClass $move
+     * @param \stdClass $move
      */
     public function setMove(\stdClass $move)
     {
@@ -169,7 +169,7 @@ abstract class AbstractPiece implements Piece
     /**
      * Sets the board status.
      *
-     * @param stdClass $boardStatus
+     * @param \stdClass $boardStatus
      */
     public static function setBoardStatus(\stdClass $boardStatus)
     {
@@ -177,7 +177,7 @@ abstract class AbstractPiece implements Piece
     }
 
     /**
-     * Checks whether or not the piece can be moved on the board.
+     * Checks whether or not the piece can be moved.
      *
      * @return boolean true if the piece can be moved; otherwise false
      */

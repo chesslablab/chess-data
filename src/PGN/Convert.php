@@ -25,8 +25,8 @@ class Convert
      *
      * @param string $color
      * @param string $pgn
-     * @return stdClass
-     * @throws UnknownNotationException
+     * @return \stdClass
+     * @throws \PGNChess\Exception\UnknownNotationException
      */
     static public function toObject($color, $pgn)
     {

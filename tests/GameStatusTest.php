@@ -189,112 +189,112 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
 
         $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
         $game->play(Convert::toObject(Symbol::BLACK, 'e5'));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
         $game->play(Convert::toObject(Symbol::BLACK, 'd6'));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'O-O'));
         $game->play(Convert::toObject(Symbol::BLACK, 'a6'));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Bxc6+'));
         $game->play(Convert::toObject(Symbol::BLACK, 'bxc6'));
-        $this->assertEquals(15, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(15, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(15, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(15, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
         $game->play(Convert::toObject(Symbol::BLACK, 'exd4'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(15, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(15, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nxd4'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Bd7'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Re1'));
         $game->play(Convert::toObject(Symbol::BLACK, 'c5'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Be7'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
         $game->play(Convert::toObject(Symbol::BLACK, 'c6'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Be6'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Qd3'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Rad1'));
         $game->play(Convert::toObject(Symbol::BLACK, 'd5'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Ng5'));
         $game->play(Convert::toObject(Symbol::BLACK, 'd4'));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nxe6'));
         $game->play(Convert::toObject(Symbol::BLACK, 'fxe6'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Na4'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Qa5'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'b3'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Rd8'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nb2'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Nh5'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Be5'));
         $game->play(Convert::toObject(Symbol::BLACK, 'O-O'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Nc4'));
         $game->play(Convert::toObject(Symbol::BLACK, 'Qb4'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Qh3'));
         $game->play(Convert::toObject(Symbol::BLACK, 'g6'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
         $game->play(Convert::toObject(Symbol::WHITE, 'Qxe6+'));
-        $this->assertEquals(13, count($game->getPiecesByColor(Symbol::WHITE)));
-        $this->assertEquals(12, count($game->getPiecesByColor(Symbol::BLACK)));
+        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
+        $this->assertEquals(12, count($game->pieces(Symbol::BLACK)));
     }
 
     public function testGame02AndCheckStatus() {
@@ -381,7 +381,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->assertEquals($piece, $game->getPieceByPosition('b8'));
+        $this->assertEquals($piece, $game->piece('b8'));
 
         $this->assertEquals($piece->color, Symbol::BLACK);
         $this->assertEquals($piece->identity, Symbol::KNIGHT);
@@ -506,7 +506,7 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->assertEquals($blackPieces, $game->getPiecesByColor(Symbol::BLACK));
+        $this->assertEquals($blackPieces, $game->pieces(Symbol::BLACK));
 
         $this->assertEquals($blackPieces[1]->identity, Symbol::KNIGHT);
         $this->assertEquals($blackPieces[1]->position, 'b8');

@@ -39,6 +39,13 @@ class Game
      * @var array 
      */
     private $history;
+    
+    /**
+     * Captures.
+     * 
+     * @var array 
+     */
+    private $captures;
 
     /**
      * Constructor.
@@ -48,26 +55,6 @@ class Game
         $this->board = new Board;
     }
   
-    /**
-     * Calculates whether the current player is checked.
-     *
-     * @return boolean
-     */
-    public function isCheck()
-    {
-       return $this->board->isCheck();
-    }
-
-    /**
-     * Calculates whether the current player is mated.
-     *
-     * @return boolean
-     */
-    public function isMate()
-    {
-        return $this->board->isMate();
-    }
-
     /**
      * Gets the board's status.
      *
@@ -90,7 +77,32 @@ class Game
      */
     public function history()
     {
-        return $this->board->getHistory();
+        $userFriendlyHistory = [];
+        
+        $boardHistory = $this->board->getHistory();
+        
+        foreach ($boardHistory as $entry) {            
+            $userFriendlyHistory[] = (object) [
+                'pgn' => $entry->move->pgn,
+                'color' => $entry->move->color,
+                'identity' => $entry->move->identity,
+                'position' => $entry->position,
+                'isCapture' => $entry->move->isCapture,
+                'isCheck' => $entry->move->isCheck
+            ];            
+        }
+        
+        return $userFriendlyHistory;
+    }
+    
+    /**
+     * Gets the pieces captured by both players.
+     * 
+     * @return array
+     */
+    public function captures()
+    {
+        return $this->board->getCaptures();
     }
 
     /**
@@ -99,7 +111,7 @@ class Game
      * @param string $color
      * @return array
      */
-    public function getPiecesByColor($color)
+    public function pieces($color)
     {
         $result = [];
 
@@ -122,7 +134,7 @@ class Game
      * @param string $square
      * @return \stdClass
      */
-    public function getPieceByPosition($square)
+    public function piece($square)
     {
         $piece = $this->board->getPieceByPosition(Validate::square($square));
 
@@ -132,6 +144,26 @@ class Game
             'position' => $piece->getPosition(),
             'moves' => $piece->getLegalMoves()
         ];
+    }
+    
+    /**
+     * Calculates whether the current player is checked.
+     *
+     * @return boolean
+     */
+    public function isCheck()
+    {
+       return $this->board->isCheck();
+    }
+
+    /**
+     * Calculates whether the current player is mated.
+     *
+     * @return boolean
+     */
+    public function isMate()
+    {
+        return $this->board->isMate();
     }
 
     /**

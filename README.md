@@ -73,7 +73,6 @@ Gets the current game's status.
 | `squares`      | Free/used squares on the board             |
 | `control`      | Squares controlled by both players         |
 | `castling`     | The castling status of the two kings       |
-| `previousMove` | The previous move                          |
 
 The following sequence of moves:
 

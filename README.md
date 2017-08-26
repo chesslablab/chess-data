@@ -43,20 +43,20 @@ It is up to you how to process the moves accordingly -- go into a loop till the 
 
 ### 3. Game methods
 
-#### 3.1. `isChecked()`
+#### 3.1. `isCheck()`
 
-In order to know whether or not a move checks the opponent's king.
+In order to know whether or not the game is in check.
 
 ```php
-$isChecked = $game->isChecked(Symbol::WHITE);
+$isCheck = $game->isCheck();
 ```
 
-#### 3.2. `isMated()`
+#### 3.2. `isMate()`
 
-Find out if a player is checkmated.
+Find out if the game is over.
 
 ```php
-$isMated = $game->isMated(Symbol::WHITE);
+$isMate = $game->isMate();
 ```
 
 #### 3.3. `status()`

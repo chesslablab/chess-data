@@ -8,6 +8,10 @@ use PGNChess\PGN\Validate;
 
 /**
  * Game class.
+ * 
+ * This is a wrapper of the Board class that make available to the outside world
+ * a few methods of it only. Additionally, it outputs the data managed internally
+ * in a user-friendly way.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
@@ -21,21 +25,7 @@ class Game
      * @var \PGNChess\Game\Board
      */
     private $board;
-
-    /**
-     * Determines whether the current player is checked.
-     *
-     * @var \stdClass
-     */
-    private $checked;
-
-    /**
-     * Determines whether the current player is mated.
-     *
-     * @var stdClass
-     */
-    private $mated;
-
+    
     /**
      * Board's status.
      *
@@ -56,66 +46,30 @@ class Game
     public function __construct()
     {
         $this->board = new Board;
-
-        $this->checked = (object) [
-            Symbol::WHITE => false,
-            Symbol::BLACK => false
-        ];
-
-        $this->mated = (object) [
-            Symbol::WHITE => false,
-            Symbol::BLACK => false
-        ];
     }
-
+  
     /**
-     * Gets the chess board.
+     * Calculates whether the current player is checked.
      *
-     * @return \PGNChess\Game\Board
-     */
-    public function getBoard()
-    {
-        return $this->board;
-    }
-    
-    /**
-     * Sets the chess board.
-     *
-     * @param \PGNChess\Game\Board $board
-     */
-    public function setBoard(Board $board)
-    {
-        $this->board = $board;
-        $this->checked->{Symbol::WHITE} = false;
-        $this->checked->{Symbol::BLACK} = false;
-        $this->mated->{Symbol::WHITE} = false;
-        $this->mated->{Symbol::BLACK} = false;
-    }
-
-    /**
-     * Shows whether the given player is checked.
-     *
-     * @param string $color
      * @return boolean
      */
-    public function isChecked($color)
+    public function isCheck()
     {
-        return $this->checked->{Validate::color($color)};
+       return $this->board->isCheck();
     }
 
     /**
-     * Shows whether the given player is mated.
+     * Calculates whether the current player is mated.
      *
-     * @param string $color
      * @return boolean
      */
-    public function isMated($color)
+    public function isMate()
     {
-        return $this->mated->{Validate::color($color)};
+        return $this->board->isMate();
     }
 
     /**
-     * Gets the current board's status.
+     * Gets the board's status.
      *
      * @return \stdClass
      */
@@ -130,7 +84,7 @@ class Game
     }
     
     /**
-     * Gets the game's history.
+     * Gets the board's history.
      * 
      * @return array
      */
@@ -165,7 +119,7 @@ class Game
     /**
      * Gets a piece by its position on the board.
      *
-     * @param $square
+     * @param string $square
      * @return \stdClass
      */
     public function getPieceByPosition($square)
@@ -188,17 +142,6 @@ class Game
      */
     public function play($move)
     {
-        $this->checked->{Symbol::WHITE} = false;
-        $this->checked->{Symbol::BLACK} = false;
-        
-        $result = $this->board->play($move);
-        
-        $this->checked->{$this->board->getTurn()} = $this->board->isCheck();
-
-        if ($this->checked->{$this->board->getTurn()}) {
-            $this->mated->{$this->board->getTurn()} = $this->board->isMate();
-        }
-
-        return $result;
+        return $this->board->play($move);
     }
 }

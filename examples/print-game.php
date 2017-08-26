@@ -29,11 +29,11 @@ for ($i=0; $i<count($moves); $i++) {
 
     if ($game->play(Convert::toObject(Symbol::WHITE, $whiteMove))) {
 
-        if ($game->isChecked(Symbol::BLACK)) {
+        if ($game->isCheck()) {
             echo 'Check!' . PHP_EOL;
         }
 
-        if ($game->isMated(Symbol::BLACK)) {
+        if ($game->isMate()) {
             echo 'Mate!' . PHP_EOL;
             exit;
         }
@@ -50,11 +50,11 @@ for ($i=0; $i<count($moves); $i++) {
 
         if ($game->play(Convert::toObject(Symbol::BLACK, $blackMove))) {
 
-            if ($game->isChecked(Symbol::WHITE)) {
+            if ($game->isCheck()) {
                 echo 'Check!' . PHP_EOL;
             }
 
-            if ($game->isMated(Symbol::WHITE)) {
+            if ($game->isMate()) {
                 echo 'Mate!' . PHP_EOL;
                 exit;
             }

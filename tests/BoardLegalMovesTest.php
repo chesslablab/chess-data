@@ -885,4 +885,111 @@ class LegalMovesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'h8=Q')));
     }
+    
+    public function testCheck()
+    {
+        $pieces = [
+            new Rook(Symbol::WHITE, 'a7', RookType::CASTLING_LONG),
+            new Pawn(Symbol::WHITE, 'd4'),
+            new Queen(Symbol::WHITE, 'e3'),
+            new King(Symbol::WHITE, 'g1'),
+            new Pawn(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new King(Symbol::BLACK, 'e8'),
+            new Knight(Symbol::BLACK, 'e4'),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Rook(Symbol::BLACK, 'g5', RookType::CASTLING_LONG),
+            new Rook(Symbol::BLACK, 'h8', RookType::CASTLING_SHORT),
+            new Pawn(Symbol::BLACK, 'h7')
+        ];
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ra8+')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'Kd8')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'Kf8')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Ke7')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'h3')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'Nc2')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Rxg2+')));
+        $this->assertEquals(true, $board->isCheck());
+    }
+
+    public function testCheckandCheckmate()
+    {
+        $pieces = [
+            new Pawn(Symbol::WHITE, 'd5'),
+            new Queen(Symbol::WHITE, 'f5'),
+            new King(Symbol::WHITE, 'g2'),
+            new Pawn(Symbol::WHITE, 'h2'),
+            new Rook(Symbol::WHITE, 'h8', RookType::CASTLING_LONG),
+            new King(Symbol::BLACK, 'e7'),
+            new Pawn(Symbol::BLACK, 'f7'),
+            new Pawn(Symbol::BLACK, 'g7'),
+            new Pawn(Symbol::BLACK, 'h7')
+        ];
+
+        $castling = (object) [
+            Symbol::WHITE => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ],
+            Symbol::BLACK => (object) [
+                'castled' => true,
+                Symbol::CASTLING_SHORT => false,
+                Symbol::CASTLING_LONG => false
+            ]
+        ];
+
+        $board = new Board($pieces, $castling);
+
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'd6+')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'Kd7')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(false, $board->play(Convert::toObject(Symbol::BLACK, 'Ke6')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Kxd6')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Re8')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Kc7')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Re7+')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Kd8')));
+        $this->assertEquals(false, $board->isCheck());
+        $this->assertEquals(false, $board->isMate());
+        $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Qd7#')));
+        $this->assertEquals(true, $board->isCheck());
+        $this->assertEquals(true, $board->isMate());
+    }
 }

@@ -410,6 +410,7 @@ final class Board extends \SplObjectStorage
      * Captures a piece.
      * 
      * @param \PGNChess\Piece\Piece $piece
+     * @return \PGNChess\Board
      */
     private function capture(Piece $piece) 
     {
@@ -452,12 +453,15 @@ final class Board extends \SplObjectStorage
         ];
         
         $this->pushCapture($piece->getColor(), $capture);
+        
+        return $this;
     }
     
     /**
      * Promotes a pawn.
      * 
      * @param \PGNChess\Piece\Pawn $pawn
+     * @return \PGNChess\Board
      */
     private function promote(Pawn $pawn)
     {
@@ -477,6 +481,8 @@ final class Board extends \SplObjectStorage
                 $this->attach(new Queen($pawn->getColor(), $pawn->getMove()->position->next));
                 break;
         }
+        
+        return $this;
     }
 
     /**
@@ -506,15 +512,12 @@ final class Board extends \SplObjectStorage
             $piece = current($pieces);
             
             switch($piece->getMove()->type) {
-
                 case Move::KING_CASTLING_SHORT:
                     $this->canCastleShort($this->turn) ? $isLegalMove = $this->castle($piece) : $isLegalMove = false;
                     break;
-
                 case Move::KING_CASTLING_LONG:
                     $this->canCastleLong($this->turn) ? $isLegalMove = $this->castle($piece) : $isLegalMove = false;
                     break;
-
                 default:
                     $isLegalMove = $this->move($piece);
                     break;
@@ -571,7 +574,6 @@ final class Board extends \SplObjectStorage
      *
      * @param \PGNChess\Piece\King $king
      * @return boolean true if the castling is successfully run; otherwise false.
-     * @throws \PGNChess\Exception\BoardException
      */
     private function castle(King $king)
     {
@@ -601,6 +603,12 @@ final class Board extends \SplObjectStorage
         }
     }
     
+    /**
+     * Undoes a castle move.
+     * 
+     * @param \stdClass $previousCastling
+     * @return \PGNChess\Board
+     */
     private function undoCastle($previousCastling)
     {            
         $previous = end($this->history);
@@ -650,10 +658,9 @@ final class Board extends \SplObjectStorage
         }
 
         $this->castling = $previousCastling;
-
         $this->popHistory()->refresh();
-
-        return true;        
+        
+        return $this;
     }
     
     /**
@@ -709,8 +716,7 @@ final class Board extends \SplObjectStorage
      * Moves a piece.
      *
      * @param \PGNChess\Piece\Piece $piece
-     * @return boolean true if the move is successfully performed; otherwise false
-     * @throws \PGNChess\Exception\BoardException
+     * @return boolean true if the move is successfully run; otherwise false
      */
     private function move(Piece $piece)
     {
@@ -745,8 +751,7 @@ final class Board extends \SplObjectStorage
      * Undoes the last move.
      * 
      * @param \stdClass $previousCastling
-     * @return boolean
-     * @throws \PGNChess\Exception\BoardException
+     * @return \PGNChess\Board
      */
     private function undoMove($previousCastling)
     {            
@@ -794,13 +799,15 @@ final class Board extends \SplObjectStorage
 
         $this->popHistory()->refresh();
 
-        return true;        
+        return $this;        
     }
     
     /**
      * Refreshes the board's status.
      *
      * This method is run just after a piece is moved successfully.
+     * 
+     * @return \PGNChess\Board
      */
     private function refresh()
     {
@@ -816,6 +823,8 @@ final class Board extends \SplObjectStorage
         $this->control = $this->control();
         
         AbstractPiece::setBoardControl($this->control);
+        
+        return $this;
     }
 
    /**

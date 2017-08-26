@@ -518,8 +518,7 @@ final class Board extends \SplObjectStorage
                 default:
                     $isLegalMove = $this->move($piece);
                     break;
-            }
-            
+            }            
         }
         
         return $isLegalMove;
@@ -660,20 +659,31 @@ final class Board extends \SplObjectStorage
     /**
      * Updates the king's ability to castle.
      * 
-     * @param \stdClass $castling
+     * Setting the $castling param to true means that the king castled successfully.
+     * 
+     * On the other hand, setting the $pieceMoved param is for when a move is run on 
+     * the board -- the program needs to figure out whether the piece moved was the king 
+     * or a rook.
+     * 
+     * @param boolean $castling
      * @param \PGNChess\Piece\Piece $pieceMoved
      * @return \PGNChess\Board
+     * @throws \PGNChess\Exception\BoardException
      */
     private function trackCastling($castling=false, Piece $pieceMoved=null)
     {
-        // king actually castling
+        if ($castling && isset($pieceMoved)) {
+            throw new BoardException("Error while tracking {$this->turn} king's ability to castle");
+        }
+        
+        // king castled successfully
         if ($castling) {            
             $this->castling->{$this->turn}->castled = true;
             $this->castling->{$this->turn}->{Symbol::CASTLING_SHORT} = false;
             $this->castling->{$this->turn}->{Symbol::CASTLING_LONG} = false;            
         }
         
-        // king/rook being moved
+        // king/rook was moved
         if (isset($pieceMoved)) {
         
             if ($pieceMoved->getIdentity() === Symbol::KING) {

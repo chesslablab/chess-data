@@ -106,6 +106,7 @@ class King extends AbstractPiece
 
         if (
             !self::$boardStatus->castling->{$this->getColor()}->castled &&
+            self::$boardStatus->castling->{$this->getColor()}->{Symbol::CASTLING_SHORT} &&
             in_array($castlingShort->squares->f, self::$boardStatus->squares->free) &&
             in_array($castlingShort->squares->g, self::$boardStatus->squares->free) &&
             !in_array($castlingShort->squares->f, self::$boardControl->space->{$this->getOppositeColor()}) &&
@@ -119,6 +120,7 @@ class King extends AbstractPiece
 
         if (
             !self::$boardStatus->castling->{$this->getColor()}->castled &&
+            self::$boardStatus->castling->{$this->getColor()}->{Symbol::CASTLING_LONG} &&
             in_array($castlingLong->squares->b, self::$boardStatus->squares->free) &&
             in_array($castlingLong->squares->c, self::$boardStatus->squares->free) &&
             in_array($castlingLong->squares->d, self::$boardStatus->squares->free) &&

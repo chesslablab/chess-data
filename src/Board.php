@@ -660,35 +660,34 @@ final class Board extends \SplObjectStorage
     /**
      * Updates the king's ability to castle.
      * 
-     * @param type $castled
-     * @param \PGNChess\Piece\Piece $piece
-     * @return Board
+     * @param \stdClass $castling
+     * @param \PGNChess\Piece\Piece $pieceMoved
+     * @return \PGNChess\Board
      */
-    private function trackCastling($castled=false, Piece $piece=null)
+    private function trackCastling($castling=false, Piece $pieceMoved=null)
     {
-        // this is the king actually castling
-        if ($castled) {
+        // king actually castling
+        if ($castling) {            
             $this->castling->{$this->turn}->castled = true;
+            $this->castling->{$this->turn}->{Symbol::CASTLING_SHORT} = false;
+            $this->castling->{$this->turn}->{Symbol::CASTLING_LONG} = false;            
         }
         
-        // this is the king/rook being moved
-        if (isset($piece)) {
+        // king/rook being moved
+        if (isset($pieceMoved)) {
         
-            if ($piece->getIdentity() === Symbol::KING) {
+            if ($pieceMoved->getIdentity() === Symbol::KING) {
+                
+                $this->castling->{$this->turn}->castled = false;
+                $this->castling->{$this->turn}->{Symbol::CASTLING_SHORT} = false;
+                $this->castling->{$this->turn}->{Symbol::CASTLING_LONG} = false;
 
-                $this->castling->{$piece->getColor()}->{Symbol::CASTLING_SHORT} = false;
-                $this->castling->{$piece->getColor()}->{Symbol::CASTLING_LONG} = false;
+            } elseif ($pieceMoved->getIdentity() === Symbol::ROOK) {
 
-            } elseif ($piece->getIdentity() === Symbol::ROOK) {
-
-                if ($piece->getType() === RookType::CASTLING_SHORT) {
-
-                    $this->castling->{$piece->getColor()}->{Symbol::CASTLING_SHORT} = false;
-
-                } elseif ($piece->getType() === RookType::CASTLING_LONG) {
-
-                    $this->castling->{$piece->getColor()}->{Symbol::CASTLING_LONG} = false;
-
+                if ($pieceMoved->getType() === RookType::CASTLING_SHORT) {
+                    $this->castling->{$this->turn}->{Symbol::CASTLING_SHORT} = false;
+                } elseif ($pieceMoved->getType() === RookType::CASTLING_LONG) {
+                    $this->castling->{$this->turn}->{Symbol::CASTLING_LONG} = false;
                 }            
             }
         }

@@ -924,31 +924,25 @@ final class Board extends \SplObjectStorage
     {
         $previousCastling = unserialize(serialize($this->castling));
         
-        switch($piece->getMove()->type) {
+        if ($piece->getMove()->type === Move::KING_CASTLING_SHORT || 
+            $piece->getMove()->type === Move::KING_CASTLING_LONG) {
             
-            case Move::KING_CASTLING_SHORT:
-                $this->castle($piece);
-                $king = $this->getPiece($piece->getColor(), Symbol::KING);
-                $check = in_array($king->getPosition(), $this->getControl()->attack->{$king->getOppositeColor()});
-                $this->undoCastle($previousCastling);
-                break;
+            $this->castle($piece);
+            $king = $this->getPiece($piece->getColor(), Symbol::KING);
+            $leavesInCheck = in_array($king->getPosition(), $this->getControl()->attack->{$king->getOppositeColor()});
+            $this->undoCastle($previousCastling);
             
-            case Move::KING_CASTLING_LONG:
-                $this->castle($piece);
-                $king = $this->getPiece($piece->getColor(), Symbol::KING);
-                $check = in_array($king->getPosition(), $this->getControl()->attack->{$king->getOppositeColor()});
-                $this->undoCastle($previousCastling);
-                break;
             
-            default:
-                $this->move($piece);
-                $king = $this->getPiece($piece->getColor(), Symbol::KING);
-                $check = in_array($king->getPosition(), $this->getControl()->attack->{$king->getOppositeColor()});
-                $this->undoMove($previousCastling);
-                break;
+        } else {
+            
+            $this->move($piece);
+            $king = $this->getPiece($piece->getColor(), Symbol::KING);
+            $leavesInCheck = in_array($king->getPosition(), $this->getControl()->attack->{$king->getOppositeColor()});
+            $this->undoMove($previousCastling);
+            
         }
         
-        return $check;
+        return $leavesInCheck;
     }
     
     /**

@@ -34,7 +34,7 @@ use PGNChess\PGN\Symbol;
 
 $game = new Game;
 
-$isLegalMove = $game->play(Convert::toObject(Symbol::WHITE, 'e4');
+$isLegalMove = $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
 ```
 All action takes place in the `$game` object. The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board.
 

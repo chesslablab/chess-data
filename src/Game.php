@@ -22,31 +22,10 @@ class Game
     /**
      * Chess board.
      *
-     * @var \PGNChess\Game\Board
+     * @var Board
      */
     private $board;
     
-    /**
-     * Board's status.
-     *
-     * @var \stdClass
-     */
-    private $status;
-    
-    /**
-     * History.
-     * 
-     * @var array 
-     */
-    private $history;
-    
-    /**
-     * Captures.
-     * 
-     * @var array 
-     */
-    private $captures;
-
     /**
      * Constructor.
      */
@@ -137,6 +116,15 @@ class Game
     public function piece($square)
     {
         $piece = $this->board->getPieceByPosition(Validate::square($square));
+
+        if ($piece == null) {
+            return (object) [
+                'color' => null,
+                'identity' => null,
+                'position' => $square,
+                'moves' => [],
+            ];
+        }
 
         return (object) [
             'color' => $piece->getColor(),

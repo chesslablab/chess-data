@@ -25,6 +25,9 @@
       "homepage": "https://programarivm.com"
     }
   ],
+  "require": {
+    "php": ">=5.4"
+  },
   "require-dev": {
     "phpunit/phpunit": "~5.0"
   },

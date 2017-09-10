@@ -8,8 +8,8 @@ use PGNChess\PGN\Validate;
 
 /**
  * Game class.
- * 
- * This is a wrapper of the Board class that make available to the outside world
+ *
+ * This is a wrapper of the Board class that makes available to the outside world
  * a few methods of it only. Additionally, it outputs the data managed internally
  * in a user-friendly way.
  *
@@ -25,7 +25,7 @@ class Game
      * @var Board
      */
     private $board;
-    
+
     /**
      * Constructor.
      */
@@ -33,7 +33,7 @@ class Game
     {
         $this->board = new Board;
     }
-  
+
     /**
      * Gets the board's status.
      *
@@ -48,19 +48,19 @@ class Game
             'castling' => $this->board->getCastling()
         ];
     }
-    
+
     /**
      * Gets the board's history.
-     * 
+     *
      * @return array
      */
     public function history()
     {
         $userFriendlyHistory = [];
-        
+
         $boardHistory = $this->board->getHistory();
-        
-        foreach ($boardHistory as $entry) {            
+
+        foreach ($boardHistory as $entry) {
             $userFriendlyHistory[] = (object) [
                 'pgn' => $entry->move->pgn,
                 'color' => $entry->move->color,
@@ -68,15 +68,15 @@ class Game
                 'position' => $entry->position,
                 'isCapture' => $entry->move->isCapture,
                 'isCheck' => $entry->move->isCheck
-            ];            
+            ];
         }
-        
+
         return $userFriendlyHistory;
     }
-    
+
     /**
      * Gets the pieces captured by both players.
-     * 
+     *
      * @return array
      */
     public function captures()
@@ -111,29 +111,24 @@ class Game
      * Gets a piece by its position on the board.
      *
      * @param string $square
-     * @return \stdClass
+     * @return mixed null|\stdClass
      */
     public function piece($square)
     {
         $piece = $this->board->getPieceByPosition(Validate::square($square));
 
-        if ($piece == null) {
+        if ($piece === null) {
+            return null;
+        } else {
             return (object) [
-                'color' => null,
-                'identity' => null,
-                'position' => $square,
-                'moves' => [],
+                'color' => $piece->getColor(),
+                'identity' => $piece->getIdentity(),
+                'position' => $piece->getPosition(),
+                'moves' => $piece->getLegalMoves()
             ];
         }
-
-        return (object) [
-            'color' => $piece->getColor(),
-            'identity' => $piece->getIdentity(),
-            'position' => $piece->getPosition(),
-            'moves' => $piece->getLegalMoves()
-        ];
     }
-    
+
     /**
      * Calculates whether the current player is checked.
      *

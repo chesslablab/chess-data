@@ -512,4 +512,11 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($blackPieces[1]->position, 'b8');
         $this->assertEquals($blackPieces[1]->moves, ['a6', 'c6']);
     }
+
+    public function testEmptySquare()
+    {
+        $game = new Game();
+        $piece = $game->piece('e3');
+        $this->assertNull($piece);
+    }
 }

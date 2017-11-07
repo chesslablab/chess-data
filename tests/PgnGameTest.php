@@ -26,11 +26,11 @@ class PgnGameTest extends \PHPUnit_Framework_TestCase
         for ($i=0; $i<count($moves); $i++) {
 
             $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
-            $this->assertEquals(true, $game->play(Convert::toObject(Symbol::WHITE, $whiteMove)));
+            $this->assertEquals(true, $game->play(Symbol::WHITE, $whiteMove));
 
             if (isset($moves[$i][1])) {
                 $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
-                $this->assertEquals(true, $game->play(Convert::toObject(Symbol::BLACK, $blackMove)));
+                $this->assertEquals(true, $game->play(Symbol::BLACK, $blackMove));
             }
         }
     }

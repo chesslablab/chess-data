@@ -152,11 +152,12 @@ class Game
     /**
      * Plays a chess move on the board.
      *
-     * @param \stdClass $move
+     * @param string $color
+     * @param string $pgn
      * @return boolean
      */
-    public function play($move)
+    public function play($color, $pgn)
     {
-        return $this->board->play($move);
+        return $this->board->play(Convert::toObject($color, $pgn));
     }
 }

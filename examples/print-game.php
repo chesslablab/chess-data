@@ -27,7 +27,7 @@ for ($i=0; $i<count($moves); $i++) {
 
     echo Symbol::WHITE . " played {$whiteMove}" . PHP_EOL;
 
-    if ($game->play(Convert::toObject(Symbol::WHITE, $whiteMove))) {
+    if ($game->play(Symbol::WHITE, $whiteMove)) {
 
         if ($game->isCheck()) {            
             echo 'Check!' . PHP_EOL;            
@@ -49,7 +49,7 @@ for ($i=0; $i<count($moves); $i++) {
 
         echo Symbol::BLACK . " played {$blackMove}" . PHP_EOL;
 
-        if ($game->play(Convert::toObject(Symbol::BLACK, $blackMove))) {
+        if ($game->play(Symbol::BLACK, $blackMove)) {
 
             if ($game->isCheck()) {
                 echo 'Check!' . PHP_EOL;

@@ -34,7 +34,7 @@ use PGNChess\PGN\Symbol;
 
 $game = new Game;
 
-$isLegalMove = $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
+$isLegalMove = $game->play(Symbol::WHITE, 'e4');
 ```
 All action takes place in the `$game` object. The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board.
 
@@ -83,14 +83,14 @@ The following sequence of moves:
 <?php
 $game = new Game;
 
-$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+$game->play(Symbol::WHITE, 'd4');
+$game->play(Symbol::BLACK, 'c6');
+$game->play(Symbol::WHITE, 'Bf4');
+$game->play(Symbol::BLACK, 'd5');
+$game->play(Symbol::WHITE, 'Nc3');
+$game->play(Symbol::BLACK, 'Nf6');
+$game->play(Symbol::WHITE, 'Bxb8');
+$game->play(Symbol::BLACK, 'Rxb8');
 
 $status = $game->status();
 ```
@@ -575,14 +575,14 @@ The following sequence of moves:
 <?php
 $game = new Game;
 
-$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+$game->play(Symbol::WHITE, 'd4');
+$game->play(Symbol::BLACK, 'c6');
+$game->play(Symbol::WHITE, 'Bf4');
+$game->play(Symbol::BLACK, 'd5');
+$game->play(Symbol::WHITE, 'Nc3');
+$game->play(Symbol::BLACK, 'Nf6');
+$game->play(Symbol::WHITE, 'Bxb8');
+$game->play(Symbol::BLACK, 'Rxb8');
 
 $history = $game->history();
 ```
@@ -685,14 +685,14 @@ The following sequence of moves:
 <?php
 $game = new Game;
 
-$game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'c6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-$game->play(Convert::toObject(Symbol::BLACK, 'd5'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
-$game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
-$game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+$game->play(Symbol::WHITE, 'd4');
+$game->play(Symbol::BLACK, 'c6');
+$game->play(Symbol::WHITE, 'Bf4');
+$game->play(Symbol::BLACK, 'd5');
+$game->play(Symbol::WHITE, 'Nc3');
+$game->play(Symbol::BLACK, 'Nf6');
+$game->play(Symbol::WHITE, 'Bxb8');
+$game->play(Symbol::BLACK, 'Rxb8');
 
 $captures = $game->captures();
 ```

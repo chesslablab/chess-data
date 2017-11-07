@@ -11,14 +11,14 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
     {
         $game = new Game;
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'c6'));
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd5'));
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bxb8'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Rxb8'));
+        $game->play(Symbol::WHITE, 'd4');
+        $game->play(Symbol::BLACK, 'c6');
+        $game->play(Symbol::WHITE, 'Bf4');
+        $game->play(Symbol::BLACK, 'd5');
+        $game->play(Symbol::WHITE, 'Nc3');
+        $game->play(Symbol::BLACK, 'Nf6');
+        $game->play(Symbol::WHITE, 'Bxb8');
+        $game->play(Symbol::BLACK, 'Rxb8');
 
         $status = (object) [
             'turn' => 'w',
@@ -187,112 +187,112 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
 
         $game = new Game;
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'e5'));
+        $game->play(Symbol::WHITE, 'e4');
+        $game->play(Symbol::BLACK, 'e5');
         $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
+        $game->play(Symbol::WHITE, 'Nf3');
+        $game->play(Symbol::BLACK, 'Nc6');
         $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd6'));
+        $game->play(Symbol::WHITE, 'Bb5');
+        $game->play(Symbol::BLACK, 'd6');
         $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'O-O'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'a6'));
+        $game->play(Symbol::WHITE, 'O-O');
+        $game->play(Symbol::BLACK, 'a6');
         $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bxc6+'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'bxc6'));
+        $game->play(Symbol::WHITE, 'Bxc6+');
+        $game->play(Symbol::BLACK, 'bxc6');
         $this->assertEquals(15, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(15, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'exd4'));
+        $game->play(Symbol::WHITE, 'd4');
+        $game->play(Symbol::BLACK, 'exd4');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(15, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nxd4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Bd7'));
+        $game->play(Symbol::WHITE, 'Nxd4');
+        $game->play(Symbol::BLACK, 'Bd7');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Re1'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'c5'));
+        $game->play(Symbol::WHITE, 'Re1');
+        $game->play(Symbol::BLACK, 'c5');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Be7'));
+        $game->play(Symbol::WHITE, 'Nf3');
+        $game->play(Symbol::BLACK, 'Be7');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+        $game->play(Symbol::WHITE, 'Nc3');
+        $game->play(Symbol::BLACK, 'c6');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Be6'));
+        $game->play(Symbol::WHITE, 'Bf4');
+        $game->play(Symbol::BLACK, 'Be6');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Qd3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+        $game->play(Symbol::WHITE, 'Qd3');
+        $game->play(Symbol::BLACK, 'Nf6');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Rad1'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+        $game->play(Symbol::WHITE, 'Rad1');
+        $game->play(Symbol::BLACK, 'd5');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Ng5'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd4'));
+        $game->play(Symbol::WHITE, 'Ng5');
+        $game->play(Symbol::BLACK, 'd4');
         $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nxe6'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'fxe6'));
+        $game->play(Symbol::WHITE, 'Nxe6');
+        $game->play(Symbol::BLACK, 'fxe6');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Na4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Qa5'));
+        $game->play(Symbol::WHITE, 'Na4');
+        $game->play(Symbol::BLACK, 'Qa5');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'b3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Rd8'));
+        $game->play(Symbol::WHITE, 'b3');
+        $game->play(Symbol::BLACK, 'Rd8');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nb2'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nh5'));
+        $game->play(Symbol::WHITE, 'Nb2');
+        $game->play(Symbol::BLACK, 'Nh5');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Be5'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'O-O'));
+        $game->play(Symbol::WHITE, 'Be5');
+        $game->play(Symbol::BLACK, 'O-O');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nc4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Qb4'));
+        $game->play(Symbol::WHITE, 'Nc4');
+        $game->play(Symbol::BLACK, 'Qb4');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Qh3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'g6'));
+        $game->play(Symbol::WHITE, 'Qh3');
+        $game->play(Symbol::BLACK, 'g6');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Qxe6+'));
+        $game->play(Symbol::WHITE, 'Qxe6+');
         $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
         $this->assertEquals(12, count($game->pieces(Symbol::BLACK)));
     }
@@ -301,70 +301,70 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
 
         $game = new Game;
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'e4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'e5'));
+        $game->play(Symbol::WHITE, 'e4');
+        $game->play(Symbol::BLACK, 'e5');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nc6'));
+        $game->play(Symbol::WHITE, 'Nf3');
+        $game->play(Symbol::BLACK, 'Nc6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bb5'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd6'));
+        $game->play(Symbol::WHITE, 'Bb5');
+        $game->play(Symbol::BLACK, 'd6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'O-O'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'a6'));
+        $game->play(Symbol::WHITE, 'O-O');
+        $game->play(Symbol::BLACK, 'a6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bxc6+'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'bxc6'));
+        $game->play(Symbol::WHITE, 'Bxc6+');
+        $game->play(Symbol::BLACK, 'bxc6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'd4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'exd4'));
+        $game->play(Symbol::WHITE, 'd4');
+        $game->play(Symbol::BLACK, 'exd4');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nxd4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Bd7'));
+        $game->play(Symbol::WHITE, 'Nxd4');
+        $game->play(Symbol::BLACK, 'Bd7');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Re1'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'c5'));
+        $game->play(Symbol::WHITE, 'Re1');
+        $game->play(Symbol::BLACK, 'c5');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nf3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Be7'));
+        $game->play(Symbol::WHITE, 'Nf3');
+        $game->play(Symbol::BLACK, 'Be7');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nc3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'c6'));
+        $game->play(Symbol::WHITE, 'Nc3');
+        $game->play(Symbol::BLACK, 'c6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Bf4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Be6'));
+        $game->play(Symbol::WHITE, 'Bf4');
+        $game->play(Symbol::BLACK, 'Be6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Qd3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nf6'));
+        $game->play(Symbol::WHITE, 'Qd3');
+        $game->play(Symbol::BLACK, 'Nf6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Rad1'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd5'));
+        $game->play(Symbol::WHITE, 'Rad1');
+        $game->play(Symbol::BLACK, 'd5');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Ng5'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'd4'));
+        $game->play(Symbol::WHITE, 'Ng5');
+        $game->play(Symbol::BLACK, 'd4');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nxe6'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'fxe6'));
+        $game->play(Symbol::WHITE, 'Nxe6');
+        $game->play(Symbol::BLACK, 'fxe6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Na4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Qa5'));
+        $game->play(Symbol::WHITE, 'Na4');
+        $game->play(Symbol::BLACK, 'Qa5');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'b3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Rd8'));
+        $game->play(Symbol::WHITE, 'b3');
+        $game->play(Symbol::BLACK, 'Rd8');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nb2'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Nh5'));
+        $game->play(Symbol::WHITE, 'Nb2');
+        $game->play(Symbol::BLACK, 'Nh5');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Be5'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'O-O'));
+        $game->play(Symbol::WHITE, 'Be5');
+        $game->play(Symbol::BLACK, 'O-O');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Nc4'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'Qb4'));
+        $game->play(Symbol::WHITE, 'Nc4');
+        $game->play(Symbol::BLACK, 'Qb4');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Qh3'));
-        $game->play(Convert::toObject(Symbol::BLACK, 'g6'));
+        $game->play(Symbol::WHITE, 'Qh3');
+        $game->play(Symbol::BLACK, 'g6');
 
-        $game->play(Convert::toObject(Symbol::WHITE, 'Qxe6+'));
+        $game->play(Symbol::WHITE, 'Qxe6+');
     }
 
     public function testGetPieceByPosition()

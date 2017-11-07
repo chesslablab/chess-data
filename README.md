@@ -24,12 +24,11 @@ Via composer:
 
 ### 2. Instantiation
 
-Just instantiate a game and play PGN moves converted into PHP objects:
+Just instantiate a game and play PGN moves:
 
 ```php
 <?php
 use PGNChess\Game;
-use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 
 $game = new Game;

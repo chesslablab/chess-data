@@ -10,7 +10,7 @@ use PGNChess\PGN\Validate;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 abstract class AbstractPiece implements Piece
 {

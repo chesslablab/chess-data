@@ -23,7 +23,7 @@ use PGNChess\Piece\Type\RookType;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 final class Board extends \SplObjectStorage
 {

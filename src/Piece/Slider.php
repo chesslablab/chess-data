@@ -9,7 +9,7 @@ namespace PGNChess\Piece;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 abstract class Slider extends AbstractPiece
 {

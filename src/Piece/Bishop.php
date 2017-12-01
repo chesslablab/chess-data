@@ -11,7 +11,7 @@ use PGNChess\Piece\AbstractPiece;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 class Bishop extends Slider
 {

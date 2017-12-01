@@ -8,7 +8,7 @@ use PGNChess\Exception;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 final class CastlingException extends \InvalidArgumentException implements Exception
 {

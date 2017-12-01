@@ -6,7 +6,7 @@ namespace PGNChess\PGN;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 class Symbol
 {

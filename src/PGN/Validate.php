@@ -9,7 +9,7 @@ use PGNChess\PGN\Symbol;
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
- * @license MIT
+ * @license GPL
  */
 class Validate
 {

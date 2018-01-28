@@ -2,7 +2,7 @@
   "name": "programarivm/pgn-chess",
   "description": "A simple, friendly, and powerful PGN library for running chess games from within PHP applications.",
   "type": "library",
-  "license": "GPL",
+  "license": "GPL-3.0-only",
   "keywords": [
       "chess",
       "library",

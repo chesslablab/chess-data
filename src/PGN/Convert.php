@@ -214,14 +214,14 @@ class Convert
                 break;
 
             default:
-                throw new UnknownNotationException("This move is not valid: $pgn.");
+                throw new UnknownNotationException("Unknown PGN notation.");
                 break;
         }
     }
-    
+
     /**
      * Gets the piece's PGN Chess class name according to its PGN identity.
-     * 
+     *
      * @param string $identity
      * @return string
      */
@@ -245,7 +245,7 @@ class Convert
                 break;
             case Symbol::ROOK:
                 return (new \ReflectionClass('\PGNChess\Piece\Rook'))->getName();
-                break;            
-        }        
+                break;
+        }
     }
 }

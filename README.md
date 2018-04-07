@@ -17,6 +17,10 @@ PGN Chess is capable of validating and playing PGN notated games, and comes to t
 - Build chess-related web apps
 - Play chess moves
 
+### 0. Example
+
+Look at [React PGN Chess](https://github.com/programarivm/react-pgn-chess), this is a basic chess server that uses PGN Chess along with [Ratchet](http://socketo.me/) (PHP WebSockets).
+
 ### 1. Install
 
 Via composer:

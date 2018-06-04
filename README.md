@@ -1,7 +1,6 @@
 ## PGN Chess for PHP
 
 [![Build Status](https://travis-ci.org/programarivm/pgn-chess.svg?branch=master)](https://travis-ci.org/programarivm/pgn-chess)
-[![Packagist](https://img.shields.io/packagist/dt/programarivm/pgn-chess.svg)](https://packagist.org/packages/programarivm/pgn-chess)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ![PGN Chess](/resources/chess-move.jpg?raw=true)

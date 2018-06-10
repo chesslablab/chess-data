@@ -1,4 +1,5 @@
-<?php
+<?
+
 namespace PGNChess\Tests;
 
 use PGNChess\Board;
@@ -13,8 +14,9 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Type\RookType;
+use PHPUnit\Framework\TestCase;
 
-class AnalyzeTest extends \PHPUnit_Framework_TestCase
+class AnalyzeTest extends TestCase
 {
     // Here comes a batch of castling tests.
     //
@@ -50,7 +52,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
     //         ]
     //     ];
 
-    public function testInvalidWhiteShortCastling()
+    /**
+     * @test
+     */
+    public function invalid_white_short_castling()
     {
         $this->expectException(CastlingException::class);
 
@@ -85,7 +90,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testInvalidWhiteLongCastling()
+    /**
+     * @test
+     */
+    public function invalid_white_long_castling()
     {
         $this->expectException(CastlingException::class);
 
@@ -120,7 +128,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testInvalidBlackShortCastling()
+    /**
+     * @test
+     */
+    public function invalid_black_short_castling()
     {
         $this->expectException(CastlingException::class);
 
@@ -155,7 +166,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testInvalidBlackLongCastling()
+    /**
+     * @test
+     */
+    public function invalid_black_long_castling()
     {
         $this->expectException(CastlingException::class);
 
@@ -190,7 +204,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testEmptyCastlingObject()
+    /**
+     * @test
+     */
+    public function empty_castling_object()
     {
         $this->expectException(CastlingException::class);
 
@@ -212,7 +229,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces);
     }
 
-    public function testEmptyWhiteCastlingObject()
+    /**
+     * @test
+     */
+    public function empty_white_castling_object()
     {
         $this->expectException(CastlingException::class);
 
@@ -242,7 +262,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testEmptyBlackCastlingObject()
+    /**
+     * @test
+     */
+    public function empty_black_castling_object()
     {
         $this->expectException(CastlingException::class);
 
@@ -272,7 +295,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testInvalidWhiteCastlingObjectNoCastledProperty()
+    /**
+     * @test
+     */
+    public function invalid_white_castling_object_no_castled_property()
     {
         $this->expectException(CastlingException::class);
 
@@ -306,7 +332,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testInvalidWhiteCastlingObjectNoCastlingShortProperty()
+    /**
+     * @test
+     */
+    public function invalid_white_castling_object_no_castling_short_property()
     {
         $this->expectException(CastlingException::class);
 
@@ -340,7 +369,10 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
         $board = new Board($pieces, $castling);
     }
 
-    public function testInvalidWhiteCastlingObjectNoCastlingLongProperty()
+    /**
+     * @test
+     */
+    public function invalid_white_castling_object_no_castling_long_property()
     {
         $this->expectException(CastlingException::class);
 

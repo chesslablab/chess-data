@@ -1,14 +1,20 @@
 <?php
+
 namespace PGNChess\Tests\Square;
 
 use PGNChess\Square\Castling;
 use PGNChess\PGN\Symbol;
+use PHPUnit\Framework\TestCase;
 
-class CastlingTest extends \PHPUnit_Framework_TestCase
+class CastlingTest extends TestCase
 {
-    public function testWhiteLongCastlingInfo()
+    /**
+     * @test
+     */
+    public function white_long_castling_info()
     {
         $castlingInfo = Castling::info(Symbol::WHITE);
+
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_LONG}->squares->b, 'b1');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_LONG}->squares->c, 'c1');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_LONG}->squares->d, 'd1');
@@ -18,9 +24,13 @@ class CastlingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($castlingInfo->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->next, 'd1');
     }
 
-    public function testBlackLongCastlingInfo()
+    /**
+     * @test
+     */
+    public function black_long_castling_info()
     {
         $castlingInfo = Castling::info(Symbol::BLACK);
+
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_LONG}->squares->b, 'b8');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_LONG}->squares->c, 'c8');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_LONG}->squares->d, 'd8');
@@ -30,9 +40,13 @@ class CastlingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($castlingInfo->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->next, 'd8');
     }
 
-    public function testWhiteShortCastlingInfo()
+    /**
+     * @test
+     */
+    public function white_short_castling_info()
     {
         $castlingInfo = Castling::info(Symbol::WHITE);
+
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_SHORT}->squares->f, 'f1');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_SHORT}->squares->g, 'g1');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_SHORT}->position->current, 'e1');
@@ -41,9 +55,13 @@ class CastlingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($castlingInfo->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->next, 'f1');
     }
 
-    public function testBlackShortCastlingInfo()
+    /**
+     * @test
+     */
+    public function black_short_castling_info()
     {
         $castlingInfo = Castling::info(Symbol::BLACK);
+        
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_SHORT}->squares->f, 'f8');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_SHORT}->squares->g, 'g8');
         $this->assertEquals($castlingInfo->{Symbol::KING}->{Symbol::CASTLING_SHORT}->position->current, 'e8');

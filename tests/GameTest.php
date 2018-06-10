@@ -1,13 +1,18 @@
 <?php
+
 namespace PGNChess\Tests;
 
 use PGNChess\Game;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
+use PHPUnit\Framework\TestCase;
 
-class GameStatusTest extends \PHPUnit_Framework_TestCase
+class GameTest extends TestCase
 {
-    public function testPlayGame01AndCheckStatus()
+    /**
+     * @test
+     */
+    public function game01_check_status()
     {
         $game = new Game;
 
@@ -183,7 +188,10 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($status->castling->b->{'O-O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG});
     }
 
-    public function testPlayAndCountPieces() {
+    /**
+     * @test
+     */
+    public function count_pieces() {
 
         $game = new Game;
 
@@ -297,77 +305,10 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(12, count($game->pieces(Symbol::BLACK)));
     }
 
-    public function testGame02AndCheckStatus() {
-
-        $game = new Game;
-
-        $game->play(Symbol::WHITE, 'e4');
-        $game->play(Symbol::BLACK, 'e5');
-
-        $game->play(Symbol::WHITE, 'Nf3');
-        $game->play(Symbol::BLACK, 'Nc6');
-
-        $game->play(Symbol::WHITE, 'Bb5');
-        $game->play(Symbol::BLACK, 'd6');
-
-        $game->play(Symbol::WHITE, 'O-O');
-        $game->play(Symbol::BLACK, 'a6');
-
-        $game->play(Symbol::WHITE, 'Bxc6+');
-        $game->play(Symbol::BLACK, 'bxc6');
-
-        $game->play(Symbol::WHITE, 'd4');
-        $game->play(Symbol::BLACK, 'exd4');
-
-        $game->play(Symbol::WHITE, 'Nxd4');
-        $game->play(Symbol::BLACK, 'Bd7');
-
-        $game->play(Symbol::WHITE, 'Re1');
-        $game->play(Symbol::BLACK, 'c5');
-
-        $game->play(Symbol::WHITE, 'Nf3');
-        $game->play(Symbol::BLACK, 'Be7');
-
-        $game->play(Symbol::WHITE, 'Nc3');
-        $game->play(Symbol::BLACK, 'c6');
-
-        $game->play(Symbol::WHITE, 'Bf4');
-        $game->play(Symbol::BLACK, 'Be6');
-
-        $game->play(Symbol::WHITE, 'Qd3');
-        $game->play(Symbol::BLACK, 'Nf6');
-
-        $game->play(Symbol::WHITE, 'Rad1');
-        $game->play(Symbol::BLACK, 'd5');
-
-        $game->play(Symbol::WHITE, 'Ng5');
-        $game->play(Symbol::BLACK, 'd4');
-
-        $game->play(Symbol::WHITE, 'Nxe6');
-        $game->play(Symbol::BLACK, 'fxe6');
-
-        $game->play(Symbol::WHITE, 'Na4');
-        $game->play(Symbol::BLACK, 'Qa5');
-
-        $game->play(Symbol::WHITE, 'b3');
-        $game->play(Symbol::BLACK, 'Rd8');
-
-        $game->play(Symbol::WHITE, 'Nb2');
-        $game->play(Symbol::BLACK, 'Nh5');
-
-        $game->play(Symbol::WHITE, 'Be5');
-        $game->play(Symbol::BLACK, 'O-O');
-
-        $game->play(Symbol::WHITE, 'Nc4');
-        $game->play(Symbol::BLACK, 'Qb4');
-
-        $game->play(Symbol::WHITE, 'Qh3');
-        $game->play(Symbol::BLACK, 'g6');
-
-        $game->play(Symbol::WHITE, 'Qxe6+');
-    }
-
-    public function testGetPieceByPosition()
+    /**
+     * @test
+     */
+    public function piece_by_position()
     {
         $game = new Game;
 
@@ -382,14 +323,16 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($piece, $game->piece('b8'));
-
         $this->assertEquals($piece->color, Symbol::BLACK);
         $this->assertEquals($piece->identity, Symbol::KNIGHT);
         $this->assertEquals($piece->position, 'b8');
         $this->assertEquals($piece->moves, ['a6', 'c6']);
     }
 
-    public function testGetBlackPieces()
+    /**
+     * @test
+     */
+    public function black_pieces()
     {
         $game = new Game;
 
@@ -507,16 +450,19 @@ class GameStatusTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($blackPieces, $game->pieces(Symbol::BLACK));
-
         $this->assertEquals($blackPieces[1]->identity, Symbol::KNIGHT);
         $this->assertEquals($blackPieces[1]->position, 'b8');
         $this->assertEquals($blackPieces[1]->moves, ['a6', 'c6']);
     }
 
-    public function testEmptySquare()
+    /**
+     * @test
+     */
+    public function empty_square()
     {
         $game = new Game();
         $piece = $game->piece('e3');
+
         $this->assertNull($piece);
     }
 }

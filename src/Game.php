@@ -1,9 +1,8 @@
 <?php
+
 namespace PGNChess;
 
-use PGNChess\Board;
 use PGNChess\PGN\Convert;
-use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validate;
 
 /**
@@ -31,7 +30,7 @@ class Game
      */
     public function __construct()
     {
-        $this->board = new Board;
+        $this->board = new Board();
     }
 
     /**
@@ -45,7 +44,7 @@ class Game
             'turn' => $this->board->getTurn(),
             'squares' => $this->board->getSquares(),
             'control' => $this->board->getControl(),
-            'castling' => $this->board->getCastling()
+            'castling' => $this->board->getCastling(),
         ];
     }
 
@@ -67,7 +66,7 @@ class Game
                 'identity' => $entry->move->identity,
                 'position' => $entry->position,
                 'isCapture' => $entry->move->isCapture,
-                'isCheck' => $entry->move->isCheck
+                'isCheck' => $entry->move->isCheck,
             ];
         }
 
@@ -100,7 +99,7 @@ class Game
             $result[] = (object) [
                 'identity' => $piece->getIdentity(),
                 'position' => $piece->getPosition(),
-                'moves' => $piece->getLegalMoves()
+                'moves' => $piece->getLegalMoves(),
             ];
         }
 
@@ -124,7 +123,7 @@ class Game
                 'color' => $piece->getColor(),
                 'identity' => $piece->getIdentity(),
                 'position' => $piece->getPosition(),
-                'moves' => $piece->getLegalMoves()
+                'moves' => $piece->getLegalMoves(),
             ];
         }
     }
@@ -132,17 +131,17 @@ class Game
     /**
      * Calculates whether the current player is checked.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCheck()
     {
-       return $this->board->isCheck();
+        return $this->board->isCheck();
     }
 
     /**
      * Calculates whether the current player is mated.
      *
-     * @return boolean
+     * @return bool
      */
     public function isMate()
     {
@@ -154,7 +153,7 @@ class Game
      *
      * @param string $color
      * @param string $pgn
-     * @return boolean
+     * @return bool
      */
     public function play($color, $pgn)
     {

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class PgnGameTest extends TestCase
 {
-    const EXAMPLES_FOLDER = __DIR__ . '/../examples';
+    const EXAMPLES_FOLDER = __DIR__ . '/../../examples';
 
     protected function play($pgn)
     {

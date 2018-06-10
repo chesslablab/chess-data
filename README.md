@@ -774,15 +774,13 @@ Need some more examples? Look at the format used in the following moves, they al
     Kb2 58. Kd2 Kxb3 59. Kc1 Ka3 60. Kd2 Kb2 61. Kd3 a1=Q 62. Kc4 Ka3 63. Kc5
     Qb2 64. Kd6 Qc2 65. Ke6 Qd2 {White forfeits on time} 0-1
 
-### 5. Testing
+See more [sample chess games](https://github.com/programarivm/pgn-chess/blob/master/tests/GameTest.php).
 
-PGN Chess is been developed following TDD principles, and it has been tested with dozens of different [sample chess games](https://github.com/programarivm/pgn-chess/blob/master/tests/GameTest.php).
-
-### 6. License
+### 5. License
 
 The GNU General Public License.
 
-### 7. Contributions
+### 6. Contributions
 
 Would you help make this library better? Contributions are welcome.
 

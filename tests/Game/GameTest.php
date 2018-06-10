@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChess\Tests;
+namespace PGNChess\Tests\Game;
 
 use PGNChess\Game;
 use PGNChess\PGN\Convert;
@@ -12,7 +12,7 @@ class GameTest extends TestCase
     /**
      * @test
      */
-    public function game01_check_status()
+    public function game_check_status()
     {
         $game = new Game;
 

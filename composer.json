@@ -35,5 +35,10 @@
     "psr-4": {
       "PGNChess\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PGNChess\\Tests\\": "tests/"
+    }
   }
 }

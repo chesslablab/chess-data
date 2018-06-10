@@ -3,46 +3,75 @@ namespace PGNChess\Tests\PGN;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Validate;
+use PHPUnit\Framework\TestCase;
 
-class ValidateTest extends \PHPUnit_Framework_TestCase
+class ValidateTest extends TestCase
 {
-    public function testColorThrowException()
+    /**
+     * @test
+     */
+    public function color_green_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
         Validate::color('green');
     }
 
-    public function testColorIsOk()
+    /**
+     * @test
+     */
+    public function color_white()
     {
         $this->assertEquals(Symbol::WHITE, Validate::color(Symbol::WHITE));
+    }
+
+    /**
+     * @test
+     */
+    public function color_black()
+    {
         $this->assertEquals(Symbol::BLACK, Validate::color(Symbol::BLACK));
     }
 
-    public function testSquareIntegerThrowsException()
+    /**
+     * @test
+     */
+    public function square_integer_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
         Validate::square(9);
     }
 
-    public function testSquareFloatThrowsException()
+    /**
+     * @test
+     */
+    public function square_float_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
         Validate::square(9.75);
     }
 
-    public function testSquareA9ThrowsException()
+    /**
+     * @test
+     */
+    public function square_a9_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
         Validate::square('a9');
     }
 
-    public function testSquareFooThrowsException()
+    /**
+     * @test
+     */
+    public function square_foo_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
         Validate::square('foo');
     }
 
-    public function testSquareIsOk()
+    /**
+     * @test
+     */
+    public function square_e4()
     {
         $this->assertEquals(Validate::square('e4'), 'e4');
     }

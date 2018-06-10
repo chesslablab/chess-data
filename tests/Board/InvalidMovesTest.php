@@ -1,5 +1,6 @@
 <?php
-namespace PGNChess\Tests;
+
+namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
 use PGNChess\Exception\BoardException;
@@ -13,52 +14,74 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Type\RookType;
+use PHPUnit\Framework\TestCase;
 
-class InvalidMovesTest extends \PHPUnit_Framework_TestCase
+class InvalidMovesTest extends TestCase
 {
-    public function testNumericValue()
+    /**
+     * @test
+     */
+    public function numeric_value()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 9)));
     }
 
-    public function testFoo()
+    /**
+     * @test
+     */
+    public function foo()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'foo')));
     }
 
-    public function testBar()
+    /**
+     * @test
+     */
+    public function bar()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'bar')));
     }
 
-    public function test_e9()
+    /**
+     * @test
+     */
+    public function e9()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e9')));
     }
 
-    public function test_e10()
+    /**
+     * @test
+     */
+    public function e10()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e10')));
     }
 
-    public function test_Nw3()
+    /**
+     * @test
+     */
+    public function Nw3()
     {
         $this->expectException(UnknownNotationException::class);
         $board = new Board;
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nw3')));
     }
 
-    public function testPieceDoesNotExist()
+    /**
+     * @test
+     */
+    public function piece_does_not_exist()
     {
         $this->expectException(BoardException::class);
 

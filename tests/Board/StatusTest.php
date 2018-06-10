@@ -1,5 +1,6 @@
 <?php
-namespace PGNChess\Tests;
+
+namespace PGNChess\Tests\Board;
 
 use PGNChess\Board;
 use PGNChess\PGN\Convert;
@@ -11,10 +12,14 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
 use PGNChess\Type\RookType;
+use PHPUnit\Framework\TestCase;
 
-class StatusTest extends \PHPUnit_Framework_TestCase
+class StatusTest extends TestCase
 {
-    public function testInstantiateDefaultBoardAndCountSquares()
+    /**
+     * @test
+     */
+    public function count_squares_in_new_board()
     {
         $board = new Board;
 
@@ -23,7 +28,10 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getSquares()->used->b), 16);
     }
 
-    public function testInstantiateCustomBoardAndCountSquares()
+    /**
+     * @test
+     */
+    public function count_squares_in_custom_board()
     {
         $pieces = [
             new Bishop(Symbol::WHITE, 'c1'),
@@ -55,7 +63,10 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($board->getSquares()->used->b), 3);
     }
 
-    public function testPlaySomeMovesAndCheckCastling()
+    /**
+     * @test
+     */
+    public function play_some_moves_and_check_castling()
     {
         $board = new Board;
 
@@ -84,7 +95,10 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($castling, $board->getCastling());
     }
 
-    public function testPlaySomeMovesAndCheckSpace()
+    /**
+     * @test
+     */
+    public function play_some_moves_and_check_space()
     {
         $game = [
             'e4 e5',
@@ -152,111 +166,117 @@ class StatusTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($space, $board->getControl()->space);
     }
-    
-    public function testCaptures()
+
+    /**
+     * @test
+     */
+    public function captures()
     {
         $captures= (object) [
             'w' => [
                 (object) [
                 'capturing' => (object) [
-                    'identity' => 'P', 
+                    'identity' => 'P',
                     'position' => 'b2'],
                 'captured' => (object) [
-                    'identity' => 'B', 
+                    'identity' => 'B',
                     'position' => 'c3']
                 ],
                 (object) [
                 'capturing' => (object) [
-                    'identity' => 'P', 
+                    'identity' => 'P',
                     'position' => 'e5'],
                 'captured' => (object) [
-                    'identity' => 'P', 
+                    'identity' => 'P',
                     'position' => 'f5'],
                 ],
                 (object) [
                 'capturing' => (object) [
-                    'identity' => 'P', 
+                    'identity' => 'P',
                     'position' => 'd4'],
                 'captured' => (object) [
-                    'identity' => 'P', 
+                    'identity' => 'P',
                     'position' => 'c5']
                 ]
             ],
             'b' => [
                 (object) [
                 'capturing' => (object) [
-                    'identity' => 'B', 
+                    'identity' => 'B',
                     'position' => 'b4'],
                 'captured' => (object) [
-                    'identity' => 'N', 
+                    'identity' => 'N',
                     'position' => 'c3']
                 ],
                 (object) [
                 'capturing' => (object) [
-                    'identity' => 'R', 
+                    'identity' => 'R',
                     'position' => 'f8',
                     'type' => 1],
                 'captured' => (object) [
-                    'identity' => 'P', 
+                    'identity' => 'P',
                     'position' => 'f6'],
                 ]
             ]
         ];
-        
+
         $board = new Board;
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'e6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'd4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'd5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nc3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Bb4')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'c5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Qg4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Ne7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nf3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Nbc6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'a3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Bxc3')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'bxc3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Qc7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Rb1')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'O-O')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Bd3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'f5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'exf6')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Rxf6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Qh3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'g6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Qh4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Rf7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Qg3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Qa5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ng5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Rg7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'dxc5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'e5')));
-        
+
         $this->assertEquals($captures, $board->getCaptures());
     }
-    
-    public function testKingsLegalMovesWhenMovedAndNotCastled() 
+
+    /**
+     * @test
+     */
+    public function kings_legal_moves_when_moved_and_not_castled()
     {
         $kingsLegalMoves = [
             'e8',
@@ -266,71 +286,71 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             'd6',
             'f6'
         ];
-        
+
         $board = new Board;
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'e4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'e6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'd4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'd5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nc3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Bb4')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ne2')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Nf6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'a3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Be7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'exd5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Nxd5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Nxd5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'exd5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Ng3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'g6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Bh6')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Be6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Bd3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Nc6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'O-O')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Bf6')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'c3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Ne7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Qb3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Qc8')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Rae1')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Ng8')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Bc1')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Ne7')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'f4')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Bh4')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'f5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Bxg3')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'hxg3')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'gxf5')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Bg5')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Rg8')));
-        
+
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::WHITE, 'Bxe7')));
         $this->assertEquals(true, $board->play(Convert::toObject(Symbol::BLACK, 'Kxe7')));
-        
+
         $king = $board->getPieceByPosition('e7');
-        
-        $this->assertEquals($kingsLegalMoves, $king->getLegalMoves()); 
+
+        $this->assertEquals($kingsLegalMoves, $king->getLegalMoves());
     }
 }

@@ -1,12 +1,17 @@
 <?php
+
 namespace PGNChess\Tests\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Knight;
+use PHPUnit\Framework\TestCase;
 
-class KnightTest extends \PHPUnit_Framework_TestCase
+class KnightTest extends TestCase
 {
-    public function testScope_d4()
+    /**
+     * @test
+     */
+    public function scope_d4()
     {
         $knight = new Knight(Symbol::WHITE, 'd4');
         $jumps = [
@@ -19,20 +24,28 @@ class KnightTest extends \PHPUnit_Framework_TestCase
             'f5',
             'e6'
         ];
+
         $this->assertEquals($jumps, $knight->getScope()->jumps);
     }
 
-    public function testScope_h1()
+    /**
+     * @test
+     */
+    public function scope_h1()
     {
         $knight = new Knight(Symbol::WHITE, 'h1');
         $jumps = [
             'g3',
             'f2'
         ];
+
         $this->assertEquals($jumps, $knight->getScope()->jumps);
     }
 
-    public function testScope_b1()
+    /**
+     * @test
+     */
+    public function scope_b1()
     {
         $knight = new Knight(Symbol::WHITE, 'b1');
         $jumps = [
@@ -40,6 +53,7 @@ class KnightTest extends \PHPUnit_Framework_TestCase
             'd2',
             'c3'
         ];
+
         $this->assertEquals($jumps, $knight->getScope()->jumps);
     }
 }

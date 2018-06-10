@@ -1,13 +1,18 @@
 <?php
+
 namespace PGNChess\Tests\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Type\RookType;
+use PHPUnit\Framework\TestCase;
 
-class RookTest extends \PHPUnit_Framework_TestCase
+class RookTest extends Testcase
 {
-    public function testScope_a2()
+    /**
+     * @test
+     */
+    public function scope_a2()
     {
         $rook = new Rook(Symbol::WHITE, 'a2', RookType::PROMOTED);
         $scope = (object) [
@@ -16,10 +21,14 @@ class RookTest extends \PHPUnit_Framework_TestCase
             'left' => [],
             'right' => ['b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2']
         ];
+
         $this->assertEquals($scope, $rook->getScope());
     }
 
-    public function testScope_d5()
+    /**
+     * @test
+     */
+    public function scope_d5()
     {
         $rook = new Rook(Symbol::WHITE, 'd5', RookType::PROMOTED);
         $scope = (object) [
@@ -28,6 +37,7 @@ class RookTest extends \PHPUnit_Framework_TestCase
             'left' => ['c5', 'b5', 'a5'],
             'right' => ['e5', 'f5', 'g5', 'h5']
         ];
+
         $this->assertEquals($scope, $rook->getScope());
     }
 }

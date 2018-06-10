@@ -1,12 +1,17 @@
 <?php
+
 namespace PGNChess\Tests\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Bishop;
+use PHPUnit\Framework\TestCase;
 
-class BishopTest extends \PHPUnit_Framework_TestCase
+class BishopTest extends TestCase
 {
-    public function testScope_a2()
+    /**
+     * @test
+     */
+    public function scope_a2()
     {
         $bishop = new Bishop(Symbol::WHITE, 'a2');
         $scope = (object) [
@@ -15,10 +20,14 @@ class BishopTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => [],
             'bottomRight' => ['b1']
         ];
+
         $this->assertEquals($scope, $bishop->getScope());
     }
 
-    public function testScope_d5()
+    /**
+     * @test
+     */
+    public function scope_d5()
     {
         $bishop = new Bishop(Symbol::WHITE, 'd5');
         $scope = (object) [
@@ -27,10 +36,14 @@ class BishopTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => ['c4', 'b3', 'a2'],
             'bottomRight' => ['e4', 'f3', 'g2', 'h1']
         ];
+
         $this->assertEquals($scope, $bishop->getScope());
     }
 
-    public function testScope_a8()
+    /**
+     * @test
+     */
+    public function scope_a8()
     {
         $bishop = new Bishop(Symbol::WHITE, 'a8');
         $scope = (object) [
@@ -39,7 +52,7 @@ class BishopTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => [],
             'bottomRight' => ['b7', 'c6', 'd5', 'e4', 'f3', 'g2', 'h1']
         ];
+
         $this->assertEquals($scope, $bishop->getScope());
     }
-
 }

@@ -1,12 +1,17 @@
 <?php
+
 namespace PGNChess\Tests\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Queen;
+use PHPUnit\Framework\TestCase;
 
-class QueenTest extends \PHPUnit_Framework_TestCase
+class QueenTest extends TestCase
 {
-    public function testScope_a2()
+    /**
+     * @test
+     */
+    public function scope_a2()
     {
         $queen = new Queen(Symbol::WHITE, 'a2');
         $scope = (object) [
@@ -19,10 +24,14 @@ class QueenTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => [],
             'bottomRight' => ['b1']
         ];
+
         $this->assertEquals($scope, $queen->getScope());
     }
 
-    public function testScope_d5()
+    /**
+     * @test
+     */
+    public function scope_d5()
     {
         $queen = new Queen(Symbol::WHITE, 'd5');
         $scope = (object) [
@@ -35,6 +44,7 @@ class QueenTest extends \PHPUnit_Framework_TestCase
             'bottomLeft' => ['c4', 'b3', 'a2'],
             'bottomRight' => ['e4', 'f3', 'g2', 'h1']
         ];
+
         $this->assertEquals($scope, $queen->getScope());
     }
 }

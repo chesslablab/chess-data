@@ -1,4 +1,5 @@
 <?php
+
 namespace PGNChess\Tests\PGN;
 
 use PGNChess\PGN\Symbol;

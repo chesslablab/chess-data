@@ -1,4 +1,5 @@
 <?php
+
 namespace PGNChess\Tests\PGN;
 
 use PGNChess\Exception\UnknownNotationException;
@@ -109,7 +110,7 @@ class ConvertTest extends TestCase
                 'next' =>'g5'
             ]
         ];
-        
+
         $this->assertEquals(Convert::toObject(Symbol::WHITE, $move), $example);
     }
 

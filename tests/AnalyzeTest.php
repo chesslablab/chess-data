@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace PGNChess\Tests;
 
@@ -18,40 +18,6 @@ use PHPUnit\Framework\TestCase;
 
 class AnalyzeTest extends TestCase
 {
-    // Here comes a batch of castling tests.
-    //
-    // Given the following custom board:
-    //
-    //     $pieces = [
-    //         new Pawn(Symbol::WHITE, 'a2'),
-    //         new Pawn(Symbol::WHITE, 'a3'),
-    //         new Pawn(Symbol::WHITE, 'c3'),
-    //         new Rook(Symbol::WHITE, 'e6', RookType::CASTLING_LONG),
-    //         new King(Symbol::WHITE, 'f3'), // in check!
-    //         new Pawn(Symbol::BLACK, 'a6'),
-    //         new Pawn(Symbol::BLACK, 'b5'),
-    //         new Pawn(Symbol::BLACK, 'c4'),
-    //         new Knight(Symbol::BLACK, 'd3'),
-    //         new Rook(Symbol::BLACK, 'f5', RookType::CASTLING_SHORT),
-    //         new King(Symbol::BLACK, 'g5'),
-    //         new Pawn(Symbol::BLACK, 'h7')
-    //    ];
-    //
-    // A valid castling object is:
-    //
-    //     $castling = (object) [
-    //         Symbol::WHITE => (object) [
-    //             'castled' => true,
-    //              Symbol::CASTLING_SHORT => false,
-    //              Symbol::CASTLING_LONG => false
-    //         ],
-    //         Symbol::BLACK => (object) [
-    //             'castled' => true,
-    //             Symbol::CASTLING_SHORT => false,
-    //             Symbol::CASTLING_LONG => false
-    //         ]
-    //     ];
-
     /**
      * @test
      */

@@ -4,7 +4,6 @@ namespace PGNChess\Tests\Game;
 
 use PGNChess\Game;
 use PGNChess\PGN\Convert;
-use PGNChess\PGN\Symbol;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
@@ -16,14 +15,14 @@ class GameTest extends TestCase
     {
         $game = new Game;
 
-        $game->play(Symbol::WHITE, 'd4');
-        $game->play(Symbol::BLACK, 'c6');
-        $game->play(Symbol::WHITE, 'Bf4');
-        $game->play(Symbol::BLACK, 'd5');
-        $game->play(Symbol::WHITE, 'Nc3');
-        $game->play(Symbol::BLACK, 'Nf6');
-        $game->play(Symbol::WHITE, 'Bxb8');
-        $game->play(Symbol::BLACK, 'Rxb8');
+        $game->play('w', 'd4');
+        $game->play('b', 'c6');
+        $game->play('w', 'Bf4');
+        $game->play('b', 'd5');
+        $game->play('w', 'Nc3');
+        $game->play('b', 'Nf6');
+        $game->play('w', 'Bxb8');
+        $game->play('b', 'Rxb8');
 
         $status = (object) [
             'turn' => 'w',
@@ -170,22 +169,22 @@ class GameTest extends TestCase
         $this->assertEquals($status->squares->free, $game->status()->squares->free);
 
         // white's control
-        $this->assertEquals($status->control->space->w, $game->status()->control->space->{Symbol::WHITE});
-        $this->assertEquals($status->control->attack->w, $game->status()->control->attack->{Symbol::WHITE});
+        $this->assertEquals($status->control->space->w, $game->status()->control->space->{'w'});
+        $this->assertEquals($status->control->attack->w, $game->status()->control->attack->{'w'});
 
         // black's control
-        $this->assertEquals($status->control->space->b, $game->status()->control->space->{Symbol::BLACK});
-        $this->assertEquals($status->control->attack->b, $game->status()->control->attack->{Symbol::BLACK});
+        $this->assertEquals($status->control->space->b, $game->status()->control->space->{'b'});
+        $this->assertEquals($status->control->attack->b, $game->status()->control->attack->{'b'});
 
         // white's castling
-        $this->assertEquals($status->castling->w->castled, $game->status()->castling->{Symbol::WHITE}->castled);
-        $this->assertEquals($status->castling->w->{'O-O'}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT});
-        $this->assertEquals($status->castling->w->{'O-O-O'}, $game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG});
+        $this->assertEquals($status->castling->w->castled, $game->status()->castling->{'w'}->castled);
+        $this->assertEquals($status->castling->w->{'O-O'}, $game->status()->castling->{'w'}->{'O-O'});
+        $this->assertEquals($status->castling->w->{'O-O-O'}, $game->status()->castling->{'w'}->{'O-O-O'});
 
         // black's castling
-        $this->assertEquals($status->castling->b->castled, $game->status()->castling->{Symbol::BLACK}->castled);
-        $this->assertEquals($status->castling->b->{'O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT});
-        $this->assertEquals($status->castling->b->{'O-O-O'}, $game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG});
+        $this->assertEquals($status->castling->b->castled, $game->status()->castling->{'b'}->castled);
+        $this->assertEquals($status->castling->b->{'O-O'}, $game->status()->castling->{'b'}->{'O-O'});
+        $this->assertEquals($status->castling->b->{'O-O-O'}, $game->status()->castling->{'b'}->{'O-O-O'});
     }
 
     /**
@@ -195,114 +194,114 @@ class GameTest extends TestCase
 
         $game = new Game;
 
-        $game->play(Symbol::WHITE, 'e4');
-        $game->play(Symbol::BLACK, 'e5');
-        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'e4');
+        $game->play('b', 'e5');
+        $this->assertEquals(16, count($game->pieces('w')));
+        $this->assertEquals(16, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nf3');
-        $game->play(Symbol::BLACK, 'Nc6');
-        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nf3');
+        $game->play('b', 'Nc6');
+        $this->assertEquals(16, count($game->pieces('w')));
+        $this->assertEquals(16, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Bb5');
-        $game->play(Symbol::BLACK, 'd6');
-        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Bb5');
+        $game->play('b', 'd6');
+        $this->assertEquals(16, count($game->pieces('w')));
+        $this->assertEquals(16, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'O-O');
-        $game->play(Symbol::BLACK, 'a6');
-        $this->assertEquals(16, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(16, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'O-O');
+        $game->play('b', 'a6');
+        $this->assertEquals(16, count($game->pieces('w')));
+        $this->assertEquals(16, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Bxc6+');
-        $game->play(Symbol::BLACK, 'bxc6');
-        $this->assertEquals(15, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(15, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Bxc6+');
+        $game->play('b', 'bxc6');
+        $this->assertEquals(15, count($game->pieces('w')));
+        $this->assertEquals(15, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'd4');
-        $game->play(Symbol::BLACK, 'exd4');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(15, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'd4');
+        $game->play('b', 'exd4');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(15, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nxd4');
-        $game->play(Symbol::BLACK, 'Bd7');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nxd4');
+        $game->play('b', 'Bd7');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Re1');
-        $game->play(Symbol::BLACK, 'c5');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Re1');
+        $game->play('b', 'c5');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nf3');
-        $game->play(Symbol::BLACK, 'Be7');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nf3');
+        $game->play('b', 'Be7');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nc3');
-        $game->play(Symbol::BLACK, 'c6');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nc3');
+        $game->play('b', 'c6');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Bf4');
-        $game->play(Symbol::BLACK, 'Be6');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Bf4');
+        $game->play('b', 'Be6');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Qd3');
-        $game->play(Symbol::BLACK, 'Nf6');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Qd3');
+        $game->play('b', 'Nf6');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Rad1');
-        $game->play(Symbol::BLACK, 'd5');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Rad1');
+        $game->play('b', 'd5');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Ng5');
-        $game->play(Symbol::BLACK, 'd4');
-        $this->assertEquals(14, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(14, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Ng5');
+        $game->play('b', 'd4');
+        $this->assertEquals(14, count($game->pieces('w')));
+        $this->assertEquals(14, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nxe6');
-        $game->play(Symbol::BLACK, 'fxe6');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nxe6');
+        $game->play('b', 'fxe6');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Na4');
-        $game->play(Symbol::BLACK, 'Qa5');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Na4');
+        $game->play('b', 'Qa5');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'b3');
-        $game->play(Symbol::BLACK, 'Rd8');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'b3');
+        $game->play('b', 'Rd8');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nb2');
-        $game->play(Symbol::BLACK, 'Nh5');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nb2');
+        $game->play('b', 'Nh5');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Be5');
-        $game->play(Symbol::BLACK, 'O-O');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Be5');
+        $game->play('b', 'O-O');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Nc4');
-        $game->play(Symbol::BLACK, 'Qb4');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Nc4');
+        $game->play('b', 'Qb4');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Qh3');
-        $game->play(Symbol::BLACK, 'g6');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(13, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Qh3');
+        $game->play('b', 'g6');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(13, count($game->pieces('b')));
 
-        $game->play(Symbol::WHITE, 'Qxe6+');
-        $this->assertEquals(13, count($game->pieces(Symbol::WHITE)));
-        $this->assertEquals(12, count($game->pieces(Symbol::BLACK)));
+        $game->play('w', 'Qxe6+');
+        $this->assertEquals(13, count($game->pieces('w')));
+        $this->assertEquals(12, count($game->pieces('b')));
     }
 
     /**
@@ -323,8 +322,8 @@ class GameTest extends TestCase
         ];
 
         $this->assertEquals($piece, $game->piece('b8'));
-        $this->assertEquals($piece->color, Symbol::BLACK);
-        $this->assertEquals($piece->identity, Symbol::KNIGHT);
+        $this->assertEquals($piece->color, 'b');
+        $this->assertEquals($piece->identity, 'N');
         $this->assertEquals($piece->position, 'b8');
         $this->assertEquals($piece->moves, ['a6', 'c6']);
     }
@@ -449,8 +448,8 @@ class GameTest extends TestCase
             ]
         ];
 
-        $this->assertEquals($blackPieces, $game->pieces(Symbol::BLACK));
-        $this->assertEquals($blackPieces[1]->identity, Symbol::KNIGHT);
+        $this->assertEquals($blackPieces, $game->pieces('b'));
+        $this->assertEquals($blackPieces[1]->identity, 'N');
         $this->assertEquals($blackPieces[1]->position, 'b8');
         $this->assertEquals($blackPieces[1]->moves, ['a6', 'c6']);
     }

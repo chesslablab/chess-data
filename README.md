@@ -33,11 +33,10 @@ Just instantiate a game and play PGN moves:
 ```php
 <?php
 use PGNChess\Game;
-use PGNChess\PGN\Symbol;
 
 $game = new Game;
 
-$isLegalMove = $game->play(Symbol::WHITE, 'e4');
+$isLegalMove = $game->play('w', 'e4');
 ```
 All action takes place in the `$game` object. The call to the `$board->play` method returns `true` or `false` depending on whether or not a chess move can be run on the board.
 
@@ -86,14 +85,14 @@ The following sequence of moves:
 <?php
 $game = new Game;
 
-$game->play(Symbol::WHITE, 'd4');
-$game->play(Symbol::BLACK, 'c6');
-$game->play(Symbol::WHITE, 'Bf4');
-$game->play(Symbol::BLACK, 'd5');
-$game->play(Symbol::WHITE, 'Nc3');
-$game->play(Symbol::BLACK, 'Nf6');
-$game->play(Symbol::WHITE, 'Bxb8');
-$game->play(Symbol::BLACK, 'Rxb8');
+$game->play('w', 'd4');
+$game->play('b', 'c6');
+$game->play('w', 'Bf4');
+$game->play('b', 'd5');
+$game->play('w', 'Nc3');
+$game->play('b', 'Nf6');
+$game->play('w', 'Bxb8');
+$game->play('b', 'Rxb8');
 
 $status = $game->status();
 ```
@@ -281,22 +280,22 @@ $game->status()->squares->used;
 $game->status()->squares->free;
 
 // white's control
-$game->status()->control->space->{Symbol::WHITE};
-$game->status()->control->attack->{Symbol::WHITE};
+$game->status()->control->space->{'w'};
+$game->status()->control->attack->{'w'};
 
 // black's control
-$game->status()->control->space->{Symbol::BLACK};
-$game->status()->control->attack->{Symbol::BLACK};
+$game->status()->control->space->{'b'};
+$game->status()->control->attack->{'b'};
 
 // white's castling
-$game->status()->castling->{Symbol::WHITE}->castled;
-$game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_SHORT};
-$game->status()->castling->{Symbol::WHITE}->{Symbol::CASTLING_LONG};
+$game->status()->castling->{'w'}->castled;
+$game->status()->castling->{'w'}->{'O-O'};
+$game->status()->castling->{'w'}->{'O-O-O'};
 
 // black's castling
-$game->status()->castling->{Symbol::BLACK}->castled;
-$game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_SHORT};
-$game->status()->castling->{Symbol::BLACK}->{Symbol::CASTLING_LONG};
+$game->status()->castling->{'b'}->castled;
+$game->status()->castling->{'b'}->{'O-O'};
+$game->status()->castling->{'b'}->{'O-O-O'};
 ```
 
 #### 3.4. `piece()`
@@ -352,7 +351,7 @@ $piece->moves;
 
 Gets the pieces on the board by color.
 
-    $blackPieces = $game->pieces(Symbol::BLACK);
+    $blackPieces = $game->pieces('b');
 
 `$blackPieces` is an array of PHP objects containing information about black pieces.
 
@@ -368,7 +367,7 @@ The following code:
 <?php
 $game = new Game;
 
-$blackPieces = $game->pieces(Symbol::BLACK);
+$blackPieces = $game->pieces('b');
 ```
 
 Will generate this `$blackPieces` array of objects:
@@ -578,14 +577,14 @@ The following sequence of moves:
 <?php
 $game = new Game;
 
-$game->play(Symbol::WHITE, 'd4');
-$game->play(Symbol::BLACK, 'c6');
-$game->play(Symbol::WHITE, 'Bf4');
-$game->play(Symbol::BLACK, 'd5');
-$game->play(Symbol::WHITE, 'Nc3');
-$game->play(Symbol::BLACK, 'Nf6');
-$game->play(Symbol::WHITE, 'Bxb8');
-$game->play(Symbol::BLACK, 'Rxb8');
+$game->play('w', 'd4');
+$game->play('b', 'c6');
+$game->play('w', 'Bf4');
+$game->play('b', 'd5');
+$game->play('w', 'Nc3');
+$game->play('b', 'Nf6');
+$game->play('w', 'Bxb8');
+$game->play('b', 'Rxb8');
 
 $history = $game->history();
 ```
@@ -688,14 +687,14 @@ The following sequence of moves:
 <?php
 $game = new Game;
 
-$game->play(Symbol::WHITE, 'd4');
-$game->play(Symbol::BLACK, 'c6');
-$game->play(Symbol::WHITE, 'Bf4');
-$game->play(Symbol::BLACK, 'd5');
-$game->play(Symbol::WHITE, 'Nc3');
-$game->play(Symbol::BLACK, 'Nf6');
-$game->play(Symbol::WHITE, 'Bxb8');
-$game->play(Symbol::BLACK, 'Rxb8');
+$game->play('w', 'd4');
+$game->play('b', 'c6');
+$game->play('w', 'Bf4');
+$game->play('b', 'd5');
+$game->play('w', 'Nc3');
+$game->play('b', 'Nf6');
+$game->play('w', 'Bxb8');
+$game->play('b', 'Rxb8');
 
 $captures = $game->captures();
 ```

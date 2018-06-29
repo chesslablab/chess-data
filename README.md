@@ -32,6 +32,7 @@ Just instantiate a game and play PGN moves:
 
 ```php
 <?php
+
 use PGNChess\Game;
 
 $game = new Game;
@@ -83,6 +84,7 @@ The following sequence of moves:
 
 ```php
 <?php
+
 $game = new Game;
 
 $game->play('w', 'd4');
@@ -272,6 +274,7 @@ The status properties of the game can be easily accessed this way:
 
 ```php
 <?php
+
 // current turn
 $game->status()->turn;
 
@@ -317,6 +320,7 @@ The following code:
 
 ```php
 <?php
+
 $game = new Game;
 
 $piece = $game->piece('b8');
@@ -341,6 +345,7 @@ The piece's properties can be easily accessed this way:
 
 ```php
 <?php
+
 $piece->color;
 $piece->identity;
 $piece->position;
@@ -365,6 +370,7 @@ The following code:
 
 ```php
 <?php
+
 $game = new Game;
 
 $blackPieces = $game->pieces('b');
@@ -560,6 +566,7 @@ Pieces' properties can be easily accessed this way:
 
 ```php
 <?php
+
 $blackPieces[1]->identity;
 $blackPieces[1]->position;
 $blackPieces[1]->moves;
@@ -575,6 +582,7 @@ The following sequence of moves:
 
 ```php
 <?php
+
 $game = new Game;
 
 $game->play('w', 'd4');
@@ -685,6 +693,7 @@ The following sequence of moves:
 
 ```php
 <?php
+
 $game = new Game;
 
 $game->play('w', 'd4');

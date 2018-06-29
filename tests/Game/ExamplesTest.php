@@ -11,30 +11,6 @@ class PgnGameTest extends TestCase
 {
     const EXAMPLES_FOLDER = __DIR__ . '/../../examples';
 
-    protected function play($pgn)
-    {
-        $pairs = array_filter(preg_split('/[0-9]+\./', $pgn));
-
-        $moves = [];
-
-        foreach ($pairs as $pair) {
-            $moves[] = array_values(array_filter(explode(' ', $pair)));
-        }
-
-        $moves = array_values(array_filter($moves));
-
-        $game = new Game;
-
-        for ($i=0; $i<count($moves); $i++) {
-            $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
-            $this->assertEquals(true, $game->play(Symbol::WHITE, $whiteMove));
-            if (isset($moves[$i][1])) {
-                $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
-                $this->assertEquals(true, $game->play(Symbol::BLACK, $blackMove));
-            }
-        }
-    }
-
     /**
      * @test
      */
@@ -883,5 +859,29 @@ class PgnGameTest extends TestCase
         $pgn = file_get_contents(self::EXAMPLES_FOLDER . "/game-85.pgn");
 
         $this->play($pgn);
+    }
+
+    protected function play($pgn)
+    {
+        $pairs = array_filter(preg_split('/[0-9]+\./', $pgn));
+
+        $moves = [];
+
+        foreach ($pairs as $pair) {
+            $moves[] = array_values(array_filter(explode(' ', $pair)));
+        }
+
+        $moves = array_values(array_filter($moves));
+
+        $game = new Game;
+
+        for ($i=0; $i<count($moves); $i++) {
+            $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
+            $this->assertEquals(true, $game->play(Symbol::WHITE, $whiteMove));
+            if (isset($moves[$i][1])) {
+                $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
+                $this->assertEquals(true, $game->play(Symbol::BLACK, $blackMove));
+            }
+        }
     }
 }

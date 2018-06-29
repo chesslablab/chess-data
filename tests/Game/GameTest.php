@@ -12,7 +12,7 @@ class GameTest extends TestCase
     /**
      * @test
      */
-    public function game_check_status()
+    public function check_status()
     {
         $game = new Game;
 

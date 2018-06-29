@@ -11,7 +11,7 @@ class PawnTest extends TestCase
     /**
      * @test
      */
-    public function scope_white_a2()
+    public function white_a2()
     {
         $pawn = new Pawn(Symbol::WHITE, 'a2');
 
@@ -27,7 +27,7 @@ class PawnTest extends TestCase
     /**
      * @test
      */
-    public function scope_white_d5()
+    public function white_d5()
     {
         $pawn = new Pawn(Symbol::WHITE, 'd5');
 
@@ -43,7 +43,7 @@ class PawnTest extends TestCase
     /**
      * @test
      */
-    public function scope_white_f7()
+    public function white_f7()
     {
         $pawn = new Pawn(Symbol::WHITE, 'f7');
 
@@ -59,7 +59,7 @@ class PawnTest extends TestCase
     /**
      * @test
      */
-    public function scope_white_f8()
+    public function white_f8()
     {
         $pawn = new Pawn(Symbol::WHITE, 'f8');
 
@@ -75,7 +75,7 @@ class PawnTest extends TestCase
     /**
      * @test
      */
-    public function scope_black_a2()
+    public function black_a2()
     {
         $pawn = new Pawn(Symbol::BLACK, 'a2');
 
@@ -91,7 +91,7 @@ class PawnTest extends TestCase
     /**
      * @test
      */
-    public function scope_black_d5()
+    public function black_d5()
     {
         $pawn = new Pawn(Symbol::BLACK, 'd5');
 

@@ -41,7 +41,7 @@ class ConvertTest extends TestCase
     /**
 	 * @test
 	 */
-    public function short_castling_throws_exception()
+    public function O_O_throws_exception()
     {
         $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::BLACK, 'a-a');
@@ -50,7 +50,7 @@ class ConvertTest extends TestCase
     /**
 	 * @test
 	 */
-    public function long_castling_throws_exception()
+    public function O_O_O_throws_exception()
     {
         $this->expectException(UnknownNotationException::class);
         Convert::toObject(Symbol::WHITE, 'c-c-c');
@@ -271,7 +271,7 @@ class ConvertTest extends TestCase
     /**
      * @test
      */
-    public function short_castling()
+    public function O_O()
     {
         $move = 'O-O';
         $example = (object) [
@@ -290,7 +290,7 @@ class ConvertTest extends TestCase
     /**
 	 * @test
 	 */
-    public function long_castling()
+    public function O_O_O()
     {
         $move = 'O-O-O';
         $example = (object) [

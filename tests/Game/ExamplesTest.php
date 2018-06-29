@@ -4,7 +4,6 @@ namespace PGNChess\Tests\Game;
 
 use PGNChess\Game;
 use PGNChess\PGN\Convert;
-use PGNChess\PGN\Symbol;
 use PHPUnit\Framework\TestCase;
 
 class PgnGameTest extends TestCase
@@ -877,10 +876,10 @@ class PgnGameTest extends TestCase
 
         for ($i=0; $i<count($moves); $i++) {
             $whiteMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][0]));
-            $this->assertEquals(true, $game->play(Symbol::WHITE, $whiteMove));
+            $this->assertEquals(true, $game->play('w', $whiteMove));
             if (isset($moves[$i][1])) {
                 $blackMove = str_replace("\r", '', str_replace("\n", '', $moves[$i][1]));
-                $this->assertEquals(true, $game->play(Symbol::BLACK, $blackMove));
+                $this->assertEquals(true, $game->play('b', $blackMove));
             }
         }
     }

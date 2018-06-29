@@ -49,18 +49,18 @@ class Game
     }
 
     /**
-     * Gets the board's history.
+     * Gets the board's history in a user-friendly way.
      *
      * @return array
      */
     public function history()
     {
-        $userFriendlyHistory = [];
+        $history = [];
 
         $boardHistory = $this->board->getHistory();
 
         foreach ($boardHistory as $entry) {
-            $userFriendlyHistory[] = (object) [
+            $history[] = (object) [
                 'pgn' => $entry->move->pgn,
                 'color' => $entry->move->color,
                 'identity' => $entry->move->identity,
@@ -70,7 +70,7 @@ class Game
             ];
         }
 
-        return $userFriendlyHistory;
+        return $history;
     }
 
     /**

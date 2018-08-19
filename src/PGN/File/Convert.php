@@ -3,41 +3,41 @@
 namespace PGNChess\PGN\File;
 
 use PGNChess\Db\MySql;
-use PGNChess\PGN\File\Syntax as PgnFileSyntax;
+use PGNChess\Exception\InvalidPgnFileSyntaxException;
 use PGNChess\PGN\Tag;
-use PGNChess\PGN\Validate;
+use PGNChess\PGN\Validate as PgnValidate;
+use PGNChess\PGN\File\Validate as PgnFileValidate;
 
 /**
- * ToMySql class.
+ * Convert class.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
  * @link https://programarivm.com
  * @license GPL
  */
-class ToMySql
+class Convert extends AbstractFile
 {
-    private $filepath;
-
     /**
      * Constructor.
      *
-     * @throws \PGNChess\Exception\UnknownNotationException
+     * @throws \PGNChess\Exception\InvalidPgnFileSyntaxException
      */
     public function __construct($filepath)
     {
-        (new PgnFileSyntax)->check($filepath);
+        parent::__construct($filepath);
 
-        $this->filepath = $filepath;
+        $result = (new PgnFileValidate($filepath))->syntax();
+        if ($result->valid === 0 || !empty($result->errors)) {
+            throw new InvalidPgnFileSyntaxException('Invalid PGN file.', $result->errors);
+        }
     }
 
     /**
-     * Converts a pgn file into MySql code.
-     *
-     * Precondition: the input file is valid pgn.
+     * Converts a valid pgn file into a MySQL INSERT statement.
      *
      * @return string The MySQL code
      */
-    public function convert()
+    public function toMySql()
     {
         $sql = 'INSERT INTO games (';
         foreach (Tag::getConstants() as $key => $value) {
@@ -52,7 +52,7 @@ class ToMySql
             while (!feof($file)) {
                 $line = preg_replace('~[[:cntrl:]]~', '', fgets($file));
                 try {
-                    $tag = Validate::tag($line);
+                    $tag = PgnValidate::tag($line);
                     $tags[$tag->name] = $tag->value;
                 } catch (\Exception $e) {
                     if ($this->startsMovetext($line)) {
@@ -75,34 +75,5 @@ class ToMySql
         $sql = substr($sql, 0, -2).';'.PHP_EOL;
 
         return $sql;
-    }
-
-    private function startsMovetext($line)
-    {
-        return $this->startsWith($line, '1.');
-    }
-
-    private function endsMovetext($line)
-    {
-        return $this->endsWith($line, '0-1') || $this->endsWith($line, '1-0') || $this->endsWith($line, '1/2-1/2');
-    }
-
-    public function startsWith($haystack, $needle)
-    {
-        return strcasecmp(substr($haystack, 0, strlen($needle)), $needle) === 0;
-    }
-
-    private function endsWith($haystack, $needle)
-    {
-        return strcasecmp(substr($haystack, strlen($haystack) - strlen($needle)), $needle) === 0;
-    }
-
-    private function resetTags()
-    {
-        foreach (Tag::getConstants() as $key => $value) {
-            $tags[$value] = null;
-        }
-
-        return $tags;
     }
 }

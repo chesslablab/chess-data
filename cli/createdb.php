@@ -31,7 +31,7 @@ $mysqli->begin_transaction();
 $sql = 'DROP DATABASE IF EXISTS ' . getenv('DB_NAME');
 $mysqli->query($sql);
 
-$sql = 'CREATE DATABASE ' . getenv('DB_NAME');
+$sql = 'CREATE DATABASE ' . getenv('DB_NAME') . ' DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci';
 $mysqli->query($sql);
 
 $mysqli->select_db(getenv('DB_NAME'));

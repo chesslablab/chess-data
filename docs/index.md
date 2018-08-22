@@ -40,7 +40,7 @@ It is up to you how to process the moves accordingly -- go into a loop till the 
 
 ### Documentation
 
-For further information please read the [Documentation](https://pgn-chess.readthedocs.io/en/latest/).
+Please see the [Documentation](https://pgn-chess.readthedocs.io/en/latest/).
 
 ### License
 

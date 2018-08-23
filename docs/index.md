@@ -4,10 +4,6 @@
 [![Documentation Status](https://readthedocs.org/projects/pgn-chess/badge/?version=latest)](https://pgn-chess.readthedocs.io/en/latest/?badge=latest)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<p align="center">
-	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-move.jpg" />
-</p>
-
 PGN Chess is a chess board representation to play and validate PGN games (player vs player). It also provides with a PHP CLI command to seed a database with PGN games.
 
 ### Install

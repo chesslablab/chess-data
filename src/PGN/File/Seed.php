@@ -5,6 +5,7 @@ namespace PGNChess\PGN\File;
 use PGNChess\Db\Pdo;
 use PGNChess\Exception\PgnFileSyntaxException;
 use PGNChess\PGN\Tag;
+use PGNChess\PGN\Movetext;
 use PGNChess\PGN\Validate as PgnValidate;
 use PGNChess\PGN\File\Validate as PgnFileValidate;
 
@@ -38,10 +39,11 @@ class Seed extends AbstractFile
                         Tag::reset($tags);
                         $movetext = '';
                     } elseif (Tag::isStr($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
+                        $movetext = Movetext::init("$movetext $line")->filter();
                         if (!PgnValidate::movetext($movetext)) {
                             $this->result->errors[] = [
                                 'tags' => array_filter($tags),
-                                'movetext' => trim($movetext)
+                                'movetext' => $movetext
                             ];
                         } else {
                             try {
@@ -49,14 +51,13 @@ class Seed extends AbstractFile
                                 Tag::reset($preparedTags);
                                 Pdo::getInstance()->query(
                                     $this->sql(),
-                                    $this->values(array_replace($preparedTags, $tags),
-                                    trim($movetext))
+                                    $this->values(array_replace($preparedTags, $tags), $movetext)
                                 );
                                 $this->result->valid += 1;
                             } catch (\Exception $e) {
                                 $this->result->errors[] = [
                                     'tags' => array_filter($tags),
-                                    'movetext' => trim($movetext)
+                                    'movetext' => $movetext
                                 ];
                             }
                         }

@@ -5,7 +5,8 @@ php:
   - 7.2
 
 before_script:
+  - mysql -u root --password="" < tests/integration/data/travis.sql
   - composer install --no-interaction
 
 script:
-  - vendor/bin/phpunit --testsuite unit
+  - vendor/bin/phpunit

@@ -6,12 +6,10 @@ use PGNChess\PGN\Symbol;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate as PgnValidate;
 use PGNChess\PGN\File\Movetext as PgnFileMovetext;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class ValidateTest extends TestCase
+class ValidateTest extends AbstractUnitTestCase
 {
-    const DATA_FOLDER = __DIR__.'/File/data';
-
     /**
      * @test
      */

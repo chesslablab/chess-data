@@ -5,9 +5,9 @@ namespace PGNChess\Tests\Unit\Piece;
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Type\RookType;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class RookTest extends Testcase
+class RookTest extends AbstractUnitTestCase
 {
     /**
      * @test

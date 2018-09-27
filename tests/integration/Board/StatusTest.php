@@ -1,22 +1,14 @@
 <?php
 
-namespace PGNChess\Tests\Integration\PGN\File;
+namespace PGNChess\Tests\Integration\Board;
 
 use PGNChess\Board;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractIntegrationTestCase;
 
-class StatusTest extends TestCase
+class StatusTest extends AbstractIntegrationTestCase
 {
-    public static function setUpBeforeClass()
-    {
-        if ($_ENV['APP_ENV'] !== 'test') {
-            echo 'The integration tests can run on test environment only.' . PHP_EOL;
-            exit;
-        }
-    }
-
     /**
      * @test
      */

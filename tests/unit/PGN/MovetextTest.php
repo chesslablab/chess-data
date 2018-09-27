@@ -3,9 +3,9 @@
 namespace PGNChess\Tests\Unit\PGN;
 
 use PGNChess\PGN\Movetext;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class MovetextTest extends TestCase
+class MovetextTest extends AbstractUnitTestCase
 {
     /**
      * @test

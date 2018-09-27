@@ -12,9 +12,9 @@ use PGNChess\Piece\Pawn;
 use PGNChess\Piece\Queen;
 use PGNChess\Piece\Rook;
 use PGNChess\Piece\Type\RookType;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class IllegalMovesTest extends TestCase
+class IllegalMovesTest extends AbstractUnitTestCase
 {
     /**
      * @test

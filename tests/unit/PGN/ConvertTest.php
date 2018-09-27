@@ -7,9 +7,9 @@ use PGNChess\Square\Castling;
 use PGNChess\PGN\Convert;
 use PGNChess\PGN\Move;
 use PGNChess\PGN\Symbol;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class ConvertTest extends TestCase
+class ConvertTest extends AbstractUnitTestCase
 {
     /**
      * @test

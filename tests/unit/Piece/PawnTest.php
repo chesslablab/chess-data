@@ -4,9 +4,9 @@ namespace PGNChess\Tests\Unit\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Pawn;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class PawnTest extends TestCase
+class PawnTest extends AbstractUnitTestCase
 {
     /**
      * @test

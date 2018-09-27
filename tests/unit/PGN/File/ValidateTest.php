@@ -3,12 +3,10 @@
 namespace PGNChess\Tests\Unit\PGN\File;
 
 use PGNChess\PGN\File\Validate as PgnFileValidate;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class ValidateTest extends TestCase
+class ValidateTest extends AbstractUnitTestCase
 {
-    const DATA_FOLDER = __DIR__.'/data';
-
     /**
      * @dataProvider gamesWithThreeInvalidData
      * @test

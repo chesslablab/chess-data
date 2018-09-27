@@ -5,19 +5,12 @@ namespace PGNChess\Tests\Integration\PGN\File;
 use PGNChess\Db\Pdo;
 use PGNChess\Exception\PgnFileSyntaxException;
 use PGNChess\PGN\File\Seed as PgnFileSeed;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractIntegrationTestCase;
 
-class SeedTest extends TestCase
+class SeedTest extends AbstractIntegrationTestCase
 {
-    const DATA_FOLDER = __DIR__.'/../../data';
-
     public static function setUpBeforeClass()
     {
-        if ($_ENV['APP_ENV'] !== 'test') {
-            echo 'The integration tests can run on test environment only.' . PHP_EOL;
-            exit;
-        }
-
         Pdo::getInstance()->query('TRUNCATE TABLE games');
     }
 

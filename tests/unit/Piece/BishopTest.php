@@ -4,9 +4,9 @@ namespace PGNChess\Tests\Unit\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\Bishop;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class BishopTest extends TestCase
+class BishopTest extends AbstractUnitTestCase
 {
     /**
      * @test

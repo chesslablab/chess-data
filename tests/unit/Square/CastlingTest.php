@@ -4,9 +4,9 @@ namespace PGNChess\Tests\Unit\Square;
 
 use PGNChess\Square\Castling;
 use PGNChess\PGN\Symbol;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class CastlingTest extends TestCase
+class CastlingTest extends AbstractUnitTestCase
 {
     /**
      * @test

@@ -4,9 +4,9 @@ namespace PGNChess\Tests\Unit\Piece;
 
 use PGNChess\PGN\Symbol;
 use PGNChess\Piece\King;
-use PHPUnit\Framework\TestCase;
+use PGNChess\Tests\AbstractUnitTestCase;
 
-class KingTest extends TestCase
+class KingTest extends AbstractUnitTestCase
 {
     /**
      * @test

@@ -4,11 +4,14 @@ php:
   - 7.1
   - 7.2
 
+before_install:
+  - mysql -e 'CREATE DATABASE pgn_chess_test;'
+
 before_script:
   - composer install --no-interaction
-  - cp .env.example .env
+  - cp .env.travis .env
 
 script:
   - php cli/db-create.php
-  - php cli/db-seed.php
-  - vendor/bin/phpunit
+  - php cli/db-seed.php tests/integration/data/01-games.pgn
+  - vendor/bin/phpunit --configuration phpunit-travis.xml

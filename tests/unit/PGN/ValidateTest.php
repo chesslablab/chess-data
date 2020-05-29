@@ -295,7 +295,7 @@ class ValidateTest extends AbstractUnitTestCase
      */
     public function movetexts_data($filename)
     {
-        $string = preg_replace('~[[:cntrl:]]~', '', file_get_contents(self::DATA_FOLDER."/$filename"));
+        $string = preg_replace('~[[:cntrl:]]~', '', file_get_contents(self::DATA_FOLDER."/movetext/$filename"));
 
         $this->assertTrue(PgnValidate::movetext($string));
     }
@@ -303,10 +303,10 @@ class ValidateTest extends AbstractUnitTestCase
     public function movetextData()
     {
         return [
-            ['movetext-01.txt'],
-            ['movetext-02.txt'],
-            ['movetext-03.txt'],
-            ['movetext-04.txt'],
+            ['01.txt'],
+            ['02.txt'],
+            ['03.txt'],
+            ['04.txt'],
         ];
     }
 }

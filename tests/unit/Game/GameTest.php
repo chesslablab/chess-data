@@ -476,7 +476,7 @@ class GameTest extends AbstractUnitTestCase
      */
     public function play_sample_games($filename)
     {
-        $pgn = file_get_contents(self::DATA_FOLDER."/$filename");
+        $pgn = file_get_contents(self::DATA_FOLDER."/game/$filename");
 
         $pairs = array_filter(preg_split('/[0-9]+\./', $pgn));
 
@@ -500,8 +500,8 @@ class GameTest extends AbstractUnitTestCase
     public function playSampleGamesData()
     {
         $data = [];
-        for ($i = 1; $i <= 85; ++$i) {
-            $i <= 9 ? $data[] = ["game-0$i.pgn"] : $data[] = ["game-$i.pgn"];
+        for ($i = 1; $i <= 99; ++$i) {
+            $i <= 9 ? $data[] = ["0$i.pgn"] : $data[] = ["$i.pgn"];
         }
 
         return $data;

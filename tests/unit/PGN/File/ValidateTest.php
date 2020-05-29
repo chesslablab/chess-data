@@ -8,62 +8,43 @@ use PGNChess\Tests\AbstractUnitTestCase;
 class ValidateTest extends AbstractUnitTestCase
 {
     /**
-     * @dataProvider gamesWithThreeInvalidData
+     * @dataProvider nonStrData
      * @test
      */
-    public function syntax_games_with_three_invalid($filename)
+    public function non_str($filename, $invalid)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/$filename"))->syntax();
+        $result = (new PgnFileValidate(self::DATA_FOLDER."/non-str/$filename"))->syntax();
 
-        $this->assertTrue($result->valid > 0);
-        $this->assertEquals(3, count($result->errors));
+        $this->assertEquals($invalid, count($result->errors));
     }
 
-    public function gamesWithThreeInvalidData()
+    public function nonStrData()
     {
         return [
-            ['games-01-with-three-invalid.pgn'],
+            ['01.pgn', 8],
+            ['02.pgn', 17],
+            ['03.pgn', 15],
         ];
     }
 
     /**
-     * @dataProvider gamesData
+     * @dataProvider syntaxData
      * @test
      */
-    public function syntax_games($filename)
+    public function syntax($filename)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/$filename"))->syntax();
+        $result = (new PgnFileValidate(self::DATA_FOLDER."/syntax/$filename"))->syntax();
 
         $this->assertTrue($result->valid > 0);
         $this->assertTrue(!isset($result->errors));
     }
 
-    public function gamesData()
+    public function syntaxData()
     {
         return [
-            ['games-01.pgn'],
-            ['games-02.pgn'],
-            ['games-03.pgn'],
-        ];
-    }
-
-    /**
-     * @dataProvider nonStrGamesData
-     * @test
-     */
-    public function syntax_non_str_games($filename, $invalid)
-    {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/$filename"))->syntax();
-
-        $this->assertEquals($invalid, count($result->errors));
-    }
-
-    public function nonStrGamesData()
-    {
-        return [
-            ['non-str-games-01.pgn', 8],
-            ['non-str-games-02.pgn', 17],
-            ['non-str-games-03.pgn', 15],
+            ['01.pgn'],
+            ['02.pgn'],
+            ['03.pgn'],
         ];
     }
 
@@ -71,9 +52,9 @@ class ValidateTest extends AbstractUnitTestCase
      * @dataProvider textData
      * @test
      */
-    public function syntax_text($filename)
+    public function text($filename)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/$filename"))->syntax();
+        $result = (new PgnFileValidate(self::DATA_FOLDER."/text/$filename"))->syntax();
 
         $this->assertEquals(0, $result->valid);
         $this->assertTrue(!isset($result->errors));
@@ -82,30 +63,49 @@ class ValidateTest extends AbstractUnitTestCase
     public function textData()
     {
         return [
-            ['text-01.pgn'],
-            ['text-02.pgn'],
-            ['text-03.pgn'],
+            ['01.pgn'],
+            ['02.pgn'],
+            ['03.pgn'],
         ];
     }
 
     /**
-     * @dataProvider textWithNonStrGamesData
+     * @dataProvider textWithNonStrData
      * @test
      */
-    public function syntax_text_with_non_str_games($filename, $nErrors)
+    public function text_with_non_str($filename, $nErrors)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/$filename"))->syntax();
+        $result = (new PgnFileValidate(self::DATA_FOLDER."/text-with-non-str/$filename"))->syntax();
 
         $this->assertEquals(0, $result->valid);
         $this->assertEquals($nErrors, count($result->errors));
     }
 
-    public function textWithNonStrGamesData()
+    public function textWithNonStrData()
     {
         return [
-            ['text-with-non-str-games-01.pgn', 1],
-            ['text-with-non-str-games-02.pgn', 4],
-            ['text-with-non-str-games-03.pgn', 2],
+            ['01.pgn', 1],
+            ['02.pgn', 4],
+            ['03.pgn', 2],
+        ];
+    }
+
+    /**
+     * @dataProvider withThreeInvalidData
+     * @test
+     */
+    public function with_three_invalid($filename)
+    {
+        $result = (new PgnFileValidate(self::DATA_FOLDER."/with-three-invalid/$filename"))->syntax();
+
+        $this->assertTrue($result->valid > 0);
+        $this->assertEquals(3, count($result->errors));
+    }
+
+    public function withThreeInvalidData()
+    {
+        return [
+            ['01.pgn'],
         ];
     }
 }

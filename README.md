@@ -53,7 +53,8 @@ Create the testing database:
 
 Seed the testing database with sample games:
 
-	docker exec -it pgn_chess_php_fpm php cli/db-seed.php data/integration/games.pgn
+	docker exec -it pgn_chess_php_fpm php cli/db-seed.php data/integration/01_games.pgn
+	docker exec -it pgn_chess_php_fpm php cli/db-seed.php data/integration/02_games.pgn
 
 Run the tests:
 

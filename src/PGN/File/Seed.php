@@ -103,14 +103,14 @@ class Seed extends AbstractFile
 
         foreach ($tags as $key => $value) {
             $values[] = [
-                'parameter' => ":$key",
+                'param' => ":$key",
                 'value' => $value,
                 'type' => \PDO::PARAM_STR
             ];
         }
 
         $values[] = [
-            'parameter' => ':movetext',
+            'param' => ':movetext',
             'value' => trim($movetext),
             'type' => \PDO::PARAM_STR
         ];

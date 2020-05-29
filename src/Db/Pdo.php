@@ -87,7 +87,7 @@ class Pdo
 
         foreach ($values as $value) {
             $stmt->bindValue(
-                $value['parameter'],
+                $value['param'],
                 $value['value'],
                 $value['type'] ?? null
             );

@@ -16,5 +16,5 @@ before_script:
 
 script:
   - php cli/db-create.php
-  - php cli/db-seed.php tests/integration/data/01-games.pgn
+  - php cli/db-seed.php data/integration/01_games.pgn
   - vendor/bin/phpunit --configuration phpunit-travis.xml

@@ -5,8 +5,15 @@ php:
   - 7.2
 
 before_script:
-  - mysql -u root --password="" < tests/integration/data/travis.sql
   - composer install --no-interaction
+
+env:
+  - DB_DRIVER=mysql
+  - DB_HOST=localhost
+  - DB_NAME=pgn_chess_test
+  - DB_PASSWORD=password
+  - DB_PORT=3306
+  - DB_USER=root
 
 script:
   - php cli/db-create.php

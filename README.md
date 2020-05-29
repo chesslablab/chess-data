@@ -35,6 +35,30 @@ All action takes place in the `$game` object. The call to the `$game->play` meth
 
 For further information please read the [Documentation](https://pgn-chess.readthedocs.io/en/latest/).
 
+### Development
+
+Should you want to play around with the development environment follow the steps below.
+
+Create an `.env` file:
+
+		cp .env.example .env
+
+Bootstrap the environment:
+
+		bash/dev/start.sh
+
+Create the testing database:
+
+		docker exec -it pgn_chess_php_fpm php cli/db-create.php
+
+Seed the testing database with sample games:
+
+		docker exec -it pgn_chess_php_fpm php cli/db-seed.php tests/integration/data/01-games.pgn
+
+Run the tests:
+
+		docker exec -it pgn_chess_php_fpm vendor/bin/phpunit tests --configuration phpunit-docker.xml
+
 ### License
 
 The GNU General Public License.

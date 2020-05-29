@@ -9,4 +9,6 @@ before_script:
   - composer install --no-interaction
 
 script:
+  - php cli/db-create.php
+  - php cli/db-seed.php
   - vendor/bin/phpunit

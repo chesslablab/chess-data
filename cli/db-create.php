@@ -3,6 +3,7 @@
 namespace PGNChess\Cli;
 
 use Dotenv\Dotenv;
+use PGNChess\Db\Pdo;
 use PGNChess\PGN\Tag;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -10,31 +11,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $dotenv = new Dotenv(__DIR__.'/../');
 $dotenv->load();
 
-$mysqli = new \MySQLI(
-    getenv('DB_HOST'),
-    getenv('DB_USER'),
-    getenv('DB_PASSWORD')
-);
+$sql = 'CREATE DATABASE IF NOT EXISTS ' . getenv('DB_NAME');
 
-echo 'This will remove the current PGN Chess database and the data will be lost.' . PHP_EOL;
-echo 'Do you want to proceed? (Y/N): ';
+Pdo::getInstance()->query($sql);
 
-$handle = fopen ('php://stdin','r');
-$line = fgets($handle);
-if (trim($line) != 'Y' && trim($line) != 'y') {
-    exit;
-}
-fclose($handle);
+$sql = 'DROP TABLE IF EXISTS games';
 
-$mysqli->begin_transaction();
-
-$sql = 'DROP DATABASE IF EXISTS ' . getenv('DB_NAME');
-$mysqli->query($sql);
-
-$sql = 'CREATE DATABASE ' . getenv('DB_NAME') . ' DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci';
-$mysqli->query($sql);
-
-$mysqli->select_db(getenv('DB_NAME'));
+Pdo::getInstance()->query($sql);
 
 $sql = 'CREATE TABLE games (' .
     Tag::EVENT          . ' VARCHAR(64) NULL, ' . // STR (Seven Tag Roster)
@@ -76,7 +59,5 @@ $sql = 'CREATE TABLE games (' .
     Tag::PLY_COUNT      . ' VARCHAR(32) NULL, ' .
     'movetext  TEXT NOT NULL
 )';
-$mysqli->query($sql);
 
-$mysqli->commit();
-$mysqli->close();
+Pdo::getInstance()->query($sql);

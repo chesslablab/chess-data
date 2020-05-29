@@ -23,7 +23,7 @@ class ConvertTest extends AbstractIntegrationTestCase
     public function pgnData()
     {
         return [
-            ['01-games.pgn']
+            ['games.pgn']
         ];
     }
 }

@@ -8,7 +8,7 @@ use PGNChess\Tests\AbstractUnitTestCase;
 
 class GameTest extends AbstractUnitTestCase
 {
-    const DATA_FOLDER = __DIR__.'/../data';
+    const DATA_FOLDER = __DIR__.'/../../../data/unit';
 
     protected $game;
 

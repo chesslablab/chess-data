@@ -7,15 +7,8 @@ php:
 before_script:
   - composer install --no-interaction
 
-env:
-  - DB_DRIVER=mysql
-  - DB_HOST=localhost
-  - DB_NAME=pgn_chess_test
-  - DB_PASSWORD=password
-  - DB_PORT=3306
-  - DB_USER=root
-
 script:
+  - cp .env.example .env
   - php cli/db-create.php
   - php cli/db-seed.php
   - vendor/bin/phpunit

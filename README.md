@@ -1,3 +1,4 @@
+
 ## PGN Chess
 
 [![Build Status](https://travis-ci.org/programarivm/pgn-chess.svg?branch=master)](https://travis-ci.org/programarivm/pgn-chess)
@@ -8,9 +9,7 @@
 	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-move.jpg" />
 </p>
 
-PGN Chess is a chess board representation to play and validate PGN games (player vs player). It also provides with a PHP CLI command to seed a database with PGN games.
-
-> Learn how this can work by looking at [PGN Chess Server](https://github.com/programarivm/pgn-chess-server), which is a WebSocket server listening to chess commands.
+PGN Chess is a chess board representation to play and validate PGN games (player vs player). It also provides with a PHP CLI command to seed a database with PGN games. See it in action at [PGN Chess Server](https://github.com/programarivm/pgn-chess-server), which is a WebSocket server listening to chess commands.
 
 ### Install
 

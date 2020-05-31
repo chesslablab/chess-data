@@ -22,8 +22,6 @@ Via composer:
 Just instantiate a game and play PGN moves:
 
 ```php
-<?php
-
 use PGNChess\Game;
 
 $game = new Game;
@@ -68,8 +66,6 @@ Gets the current game's status.
 The following sequence of moves:
 
 ```php
-<?php
-
 $game = new Game;
 
 $game->play('w', 'd4');
@@ -258,8 +254,6 @@ Will generate this `$status` object:
 The status properties of the game are accessed this way:
 
 ```php
-<?php
-
 // current turn
 $game->status()->turn;
 
@@ -304,8 +298,6 @@ Gets a piece by its position on the board.
 The following code:
 
 ```php
-<?php
-
 $game = new Game;
 
 $piece = $game->piece('b8');
@@ -329,8 +321,6 @@ Will generate this `$piece` object:
 The piece's properties are accessed this way:
 
 ```php
-<?php
-
 $piece->color;
 $piece->identity;
 $piece->position;
@@ -354,8 +344,6 @@ Gets the pieces on the board by color.
 The following code:
 
 ```php
-<?php
-
 $game = new Game;
 
 $blackPieces = $game->pieces('b');
@@ -550,8 +538,6 @@ Will generate this `$blackPieces` array of objects:
 Pieces' properties are accessed this way:
 
 ```php
-<?php
-
 $blackPieces[1]->identity;
 $blackPieces[1]->position;
 $blackPieces[1]->moves;
@@ -566,8 +552,6 @@ Gets the game's history.
 The following sequence of moves:
 
 ```php
-<?php
-
 $game = new Game;
 
 $game->play('w', 'd4');
@@ -677,8 +661,6 @@ Gets the pieces captured by both players.
 The following sequence of moves:
 
 ```php
-<?php
-
 $game = new Game;
 
 $game->play('w', 'd4');
@@ -749,8 +731,6 @@ Fetches from the database random metadata of the current game.
 The following sequence of moves:
 
 ```php
-<?php
-
 $game = new Game;
 
 $game->play('w', 'd4');

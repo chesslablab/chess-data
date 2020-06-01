@@ -11,6 +11,16 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $dotenv = new Dotenv(__DIR__.'/../');
 $dotenv->load();
 
+echo 'This will remove the current PGN Chess database and the data will be lost.' . PHP_EOL;
+echo 'Do you want to proceed? (Y/N): ';
+
+$handle = fopen ('php://stdin','r');
+$line = fgets($handle);
+if (trim($line) != 'Y' && trim($line) != 'y') {
+    exit;
+}
+fclose($handle);
+
 $sql = 'CREATE DATABASE IF NOT EXISTS ' . getenv('DB_NAME');
 
 Pdo::getInstance()->query($sql);

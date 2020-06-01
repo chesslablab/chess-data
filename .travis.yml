@@ -15,6 +15,6 @@ before_script:
   - cp .env.travis .env
 
 script:
-  - y | php cli/db-create.php
-  - y | php cli/db-seed.php data/integration/01_games.pgn --no-interaction
+  - php cli/db-create.php --quiet
+  - php cli/db-seed.php data/integration/01_games.pgn --no-interaction --quiet
   - vendor/bin/phpunit --configuration phpunit-travis.xml

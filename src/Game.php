@@ -76,9 +76,9 @@ class Game
     /**
      * Gets the pieces captured by both players.
      *
-     * @return array
+     * @return \stdClass
      */
-    public function captures(): array
+    public function captures(): \stdClass
     {
         return $this->board->getCaptures();
     }

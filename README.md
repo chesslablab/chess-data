@@ -80,9 +80,7 @@ $game->play('b', 'Rxb8');
 $status = $game->status();
 ```
 
-<details>
-<summary>Will generate this `$status` object</summary>
-<pre>
+<pre style="overflow-y: scroll !important; max-height: 50vh !important;">
 stdClass Object
 (
 [turn] => w
@@ -252,7 +250,6 @@ stdClass Object
 
 )
 </pre>
-</details>
 
 The status properties of the game are accessed this way:
 

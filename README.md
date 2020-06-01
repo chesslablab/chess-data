@@ -6,7 +6,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <p align="center">
-	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-move.jpg" />
+	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
 PGN Chess is a chess board representation to play and validate PGN games. It also provides with a PHP CLI command to seed a database with PGN games. See it in action at [PGN Chess Server](https://github.com/programarivm/pgn-chess-server), which is a WebSocket server listening to chess commands.

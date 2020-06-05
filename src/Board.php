@@ -129,9 +129,7 @@ final class Board extends \SplObjectStorage
             foreach ($pieces as $piece) {
                 $this->attach($piece);
             }
-
             $this->castling = $castling;
-
             Analyze::castling($this);
         }
 
@@ -282,9 +280,7 @@ final class Board extends \SplObjectStorage
             'position' => $piece->getPosition(),
             'move' => $piece->getMove(),
         ];
-
         $piece->getIdentity() === Symbol::ROOK ? $entry->type = $piece->getType() : null;
-
         $this->history[] = $entry;
 
         return $this;
@@ -334,7 +330,6 @@ final class Board extends \SplObjectStorage
     {
         $pieces = [];
         $this->rewind();
-
         while ($this->valid()) {
             $piece = $this->current();
             $piece->getColor() === $color ? $pieces[] = $piece : false;
@@ -353,7 +348,6 @@ final class Board extends \SplObjectStorage
     public function getPieceByPosition(string $square): ?Piece
     {
         $this->rewind();
-
         while ($this->valid()) {
             $piece = $this->current();
             if ($piece->getPosition() === $square) {
@@ -375,13 +369,11 @@ final class Board extends \SplObjectStorage
     private function pickPiece(\stdClass $move)
     {
         $found = [];
-
         $pieces = $this->getPiecesByColor($move->color);
 
         foreach ($pieces as $piece) {
             if ($piece->getIdentity() === $move->identity) {
                 switch ($piece->getIdentity()) {
-
                     case Symbol::KING:
                         return [$piece->setMove($move)];
                         break;
@@ -413,7 +405,6 @@ final class Board extends \SplObjectStorage
     private function capture(Piece $piece): Board
     {
         $piece->getLegalMoves(); // this creates the enPassantSquare property in the pawn's position object
-
         if ($piece->getIdentity() === Symbol::PAWN && !empty($piece->getEnPassantSquare()) &&
             empty($this->getPieceByPosition($piece->getMove()->position->next))
            ) {
@@ -460,7 +451,6 @@ final class Board extends \SplObjectStorage
     private function promote(Pawn $pawn): Board
     {
         $this->detach($this->getPieceByPosition($pawn->getMove()->position->next));
-
         switch ($pawn->getMove()->newIdentity) {
             case Symbol::KNIGHT:
                 $this->attach(new Knight($pawn->getColor(), $pawn->getMove()->position->next));
@@ -492,7 +482,6 @@ final class Board extends \SplObjectStorage
         }
 
         $isLegalMove = false;
-
         $pieces = $this->pickPiece($move);
 
         if (count($pieces) > 1) {
@@ -571,23 +560,19 @@ final class Board extends \SplObjectStorage
     private function castle(King $king): bool
     {
         $rook = $king->getCastlingRook(iterator_to_array($this, false));
-
         if (!empty($rook)) {
             $this->detach($this->getPieceByPosition($king->getPosition()));
             $this->attach(new King(
                 $king->getColor(),
                 Castling::info($king->getColor())->{Symbol::KING}->{$king->getMove()->pgn}->position->next)
-                         );
-
+             );
             $this->detach($rook);
             $this->attach(new Rook(
                 $rook->getColor(),
                 Castling::info($king->getColor())->{Symbol::ROOK}->{$king->getMove()->pgn}->position->next,
                 $rook->getIdentity() === Symbol::ROOK
             ));
-
             $this->trackCastling(true)->pushHistory($king)->refresh();
-
             return true;
         } else {
             return false;
@@ -611,43 +596,32 @@ final class Board extends \SplObjectStorage
         $this->attach($kingUndone);
 
         switch ($previous->move->type) {
-
             case Move::KING_CASTLING_SHORT:
-
                 $rook = $this->getPieceByPosition(
                     Castling::info($previous->move->color)->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->next
                 );
-
                 $rookUndone = new Rook(
                     $previous->move->color,
-                    Castling::info($previous->move->color)
-                    ->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->current,
+                    Castling::info($previous->move->color)->{Symbol::ROOK}->{Symbol::CASTLING_SHORT}->position->current,
                     $rook->getType()
                 );
-
                 $this->detach($rook);
                 $this->attach($rookUndone);
-
                 break;
 
             case Move::KING_CASTLING_LONG:
-
                 $rook = $this->getPieceByPosition(
                     Castling::info($previous->move->color)->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->next
                 );
-
                 $rookUndone = new Rook(
                     $previous->move->color,
                     Castling::info($previous->move->color)->{Symbol::ROOK}->{Symbol::CASTLING_LONG}->position->current,
                     $rook->getType()
                 );
-
                 $this->detach($rook);
                 $this->attach($rookUndone);
-
                 break;
         }
-
         $this->castling = $previousCastling;
         $this->popHistory()->refresh();
 
@@ -743,9 +717,7 @@ final class Board extends \SplObjectStorage
     private function undoMove(\stdClass $previousCastling): Board
     {
         $previous = end($this->history);
-
         $piece = $this->getPieceByPosition($previous->move->position->next);
-
         $this->detach($piece);
 
         if ($previous->move->type === Move::PAWN_PROMOTES ||
@@ -757,27 +729,23 @@ final class Board extends \SplObjectStorage
                 $previous->move->color,
                 $previous->position,
                 $piece->getIdentity() === Symbol::ROOK ? $piece->getType() : null, ]
-                                                             );
+            );
         }
 
         $this->attach($pieceUndone);
 
         if ($previous->move->isCapture) {
             $capture = end($this->getCaptures()->{$previous->move->color});
-
             $capturedClass = new \ReflectionClass(Convert::toClassName($capture->captured->identity));
-
             $this->attach($capturedClass->newInstanceArgs([
                 $previous->move->color === Symbol::WHITE ? Symbol::BLACK : Symbol::WHITE,
                 $capture->captured->position,
                 $capture->captured->identity === Symbol::ROOK ? $capture->captured->type : null,
             ]));
-
             $this->popCapture($previous->move->color);
         }
 
         isset($previousCastling) ? $this->castling = $previousCastling : null;
-
         $this->popHistory()->refresh();
 
         return $this;
@@ -794,15 +762,12 @@ final class Board extends \SplObjectStorage
     {
         $this->turn = Symbol::oppositeColor($this->turn);
         $this->squares = Stats::calc(iterator_to_array($this, false));
-
         $this->sendBoardStatus((object) [
             'squares' => $this->squares,
             'castling' => $this->castling,
             'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null,
         ]);
-
         $this->control = $this->control();
-
         $this->sendBoardControl($this->control);
 
         return $this;
@@ -826,11 +791,9 @@ final class Board extends \SplObjectStorage
         ], ];
 
         $this->rewind();
-
         while ($this->valid()) {
             $piece = $this->current();
             switch ($piece->getIdentity()) {
-
                 case Symbol::KING:
                     $control->space->{$piece->getColor()} = array_unique(
                         array_merge(
@@ -932,7 +895,6 @@ final class Board extends \SplObjectStorage
     private function leavesInCheck(Piece $piece): bool
     {
         $previousCastling = unserialize(serialize($this->castling));
-
         if ($piece->getMove()->type === Move::KING_CASTLING_SHORT ||
             $piece->getMove()->type === Move::KING_CASTLING_LONG) {
             $this->castle($piece);
@@ -972,15 +934,12 @@ final class Board extends \SplObjectStorage
     public function isMate(): bool
     {
         $escape = 0;
-
         $pieces = $this->getPiecesByColor($this->turn);
 
         foreach ($pieces as $piece) {
             $legalMoves = $piece->getLegalMoves();
-
             foreach ($legalMoves as $square) {
                 switch ($piece->getIdentity()) {
-
                     case Symbol::KING:
                         if (in_array($square, $this->getSquares()->used->{$piece->getOppositeColor()})) {
                             $escape += (int) !$this->leavesInCheck(

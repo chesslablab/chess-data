@@ -80,7 +80,6 @@ final class Board extends \SplObjectStorage
     public function __construct(array $pieces = null, \stdClass $castling = null)
     {
         if (empty($pieces)) {
-
             $this->attach(new Rook(Symbol::WHITE, 'a1', RookType::CASTLING_LONG));
             $this->attach(new Knight(Symbol::WHITE, 'b1'));
             $this->attach(new Bishop(Symbol::WHITE, 'c1'));
@@ -796,7 +795,7 @@ final class Board extends \SplObjectStorage
         $this->turn = Symbol::oppositeColor($this->turn);
         $this->squares = Stats::calc(iterator_to_array($this, false));
 
-        AbstractPiece::setBoardStatus((object) [
+        $this->sendBoardStatus((object) [
             'squares' => $this->squares,
             'castling' => $this->castling,
             'lastHistoryEntry' => !empty($this->history) ? end($this->history) : null,
@@ -804,7 +803,7 @@ final class Board extends \SplObjectStorage
 
         $this->control = $this->control();
 
-        AbstractPiece::setBoardControl($this->control);
+        $this->sendBoardControl($this->control);
 
         return $this;
     }
@@ -894,6 +893,34 @@ final class Board extends \SplObjectStorage
         sort($control->attack->{Symbol::BLACK});
 
         return $control;
+    }
+
+    /**
+     * Sends the board's status to all pieces.
+     *
+     * @param \stdClass $boardStatus
+     */
+    private function sendBoardStatus(\stdClass $boardStatus): void
+    {
+        $this->rewind();
+        while ($this->valid()) {
+            $this->current()->setBoardStatus($boardStatus);
+            $this->next();
+        }
+    }
+
+    /**
+     * Sends the board's control information to all pieces.
+     *
+     * @param \stdClass $boardStatus
+     */
+    private function sendBoardControl(\stdClass $boardControl): void
+    {
+        $this->rewind();
+        while ($this->valid()) {
+            $this->current()->setBoardControl($boardControl);
+            $this->next();
+        }
     }
 
     /**

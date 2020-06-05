@@ -34,7 +34,7 @@ abstract class AbstractPiece implements Piece
      *
      * @var array
      */
-    protected $scope;
+    protected $scope = [];
 
     /**
      * The piece's identity in PGN format.
@@ -58,18 +58,18 @@ abstract class AbstractPiece implements Piece
     protected $legalMoves;
 
     /**
-     * Chess board status accessible by all pieces.
+     * Chess board status.
      *
      * @var \stdClass
      */
-    protected static $boardStatus;
+    protected $boardStatus;
 
     /**
-     * Chess board control accessible by all pieces.
+     * Chess board control.
      *
      * @var \stdClass
      */
-    protected static $boardControl;
+    protected $boardControl;
 
     /**
      * Constructor.
@@ -82,7 +82,6 @@ abstract class AbstractPiece implements Piece
     {
         $this->color = PgnValidate::color($color);
         $this->position = PgnValidate::square($square);
-        $this->scope = [];
         $this->identity = $identity;
     }
 
@@ -179,9 +178,14 @@ abstract class AbstractPiece implements Piece
      *
      * @param \stdClass $boardStatus
      */
-    public static function setBoardStatus(\stdClass $boardStatus): void
+    public function setBoardStatus(\stdClass $boardStatus): void
     {
-        self::$boardStatus = $boardStatus;
+        $this->boardStatus = $boardStatus;
+    }
+
+    public function getBoardStatus()
+    {
+        return $this->boardStatus;
     }
 
     /**
@@ -189,9 +193,14 @@ abstract class AbstractPiece implements Piece
      *
      * @param \stdClass $boardStatus
      */
-    public static function setBoardControl(\stdClass $boardControl): void
+    public function setBoardControl(\stdClass $boardControl): void
     {
-        self::$boardControl = $boardControl;
+        $this->boardControl = $boardControl;
+    }
+
+    public function getBoardControl()
+    {
+        return $this->boardControl;
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace PGNChess\Piece;
 
 /**
@@ -36,14 +37,14 @@ abstract class Slider extends AbstractPiece
         foreach ($this->scope as $direction) {
             foreach ($direction as $square) {
                 if (
-                    !in_array($square, self::$boardStatus->squares->used->{$this->getColor()}) &&
-                    !in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})
+                    !in_array($square, $this->getBoardStatus()->squares->used->{$this->getColor()}) &&
+                    !in_array($square, $this->getBoardStatus()->squares->used->{$this->getOppositeColor()})
                 ) {
                     $moves[] = $square;
-                } elseif (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
+                } elseif (in_array($square, $this->getBoardStatus()->squares->used->{$this->getOppositeColor()})) {
                     $moves[] = $square;
                     break 1;
-                } elseif (in_array($square, self::$boardStatus->squares->used->{$this->getColor()})) {
+                } elseif (in_array($square, $this->getBoardStatus()->squares->used->{$this->getColor()})) {
                     break 1;
                 }
             }

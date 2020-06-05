@@ -156,7 +156,7 @@ class Pawn extends AbstractPiece
         // add up squares
 
         foreach($this->scope->up as $square) {
-            if (in_array($square, self::$boardStatus->squares->free)) {
+            if (in_array($square, $this->getBoardStatus()->squares->free)) {
                 $moves[] = $square;
             } else {
                 break;
@@ -166,16 +166,16 @@ class Pawn extends AbstractPiece
         // add capture squares
 
         foreach($this->captureSquares as $square) {
-            if (in_array($square, self::$boardStatus->squares->used->{$this->getOppositeColor()})) {
+            if (in_array($square, $this->getBoardStatus()->squares->used->{$this->getOppositeColor()})) {
                 $moves[] = $square;
             }
         }
 
         // en passant implementation
 
-        if (isset(self::$boardStatus->lastHistoryEntry) &&
-            self::$boardStatus->lastHistoryEntry->move->identity === Symbol::PAWN &&
-            self::$boardStatus->lastHistoryEntry->move->color === $this->getOppositeColor()) {
+        if (isset($this->getBoardStatus()->lastHistoryEntry) &&
+            $this->getBoardStatus()->lastHistoryEntry->move->identity === Symbol::PAWN &&
+            $this->getBoardStatus()->lastHistoryEntry->move->color === $this->getOppositeColor()) {
 
             switch ($this->getColor()) {
 
@@ -184,11 +184,11 @@ class Pawn extends AbstractPiece
                     if ((int)$this->position[1] === 5) {
 
                         $captureSquare =
-                            self::$boardStatus->lastHistoryEntry->move->position->next[0] .
-                            (self::$boardStatus->lastHistoryEntry->move->position->next[1]+1);
+                            $this->getBoardStatus()->lastHistoryEntry->move->position->next[0] .
+                            ($this->getBoardStatus()->lastHistoryEntry->move->position->next[1]+1);
 
                         if (in_array($captureSquare, $this->captureSquares)) {
-                            $this->enPassantSquare = self::$boardStatus->lastHistoryEntry->move->position->next;
+                            $this->enPassantSquare = $this->getBoardStatus()->lastHistoryEntry->move->position->next;
                             $moves[] = $captureSquare;
                         }
 
@@ -201,11 +201,11 @@ class Pawn extends AbstractPiece
                     if ((int)$this->position[1] === 4) {
 
                         $captureSquare =
-                            self::$boardStatus->lastHistoryEntry->move->position->next[0] .
-                            (self::$boardStatus->lastHistoryEntry->move->position->next[1]-1);
+                            $this->getBoardStatus()->lastHistoryEntry->move->position->next[0] .
+                            ($this->getBoardStatus()->lastHistoryEntry->move->position->next[1]-1);
 
                         if (in_array($captureSquare, $this->captureSquares)) {
-                            $this->enPassantSquare = self::$boardStatus->lastHistoryEntry->move->position->next;
+                            $this->enPassantSquare = $this->getBoardStatus()->lastHistoryEntry->move->position->next;
                             $moves[] = $captureSquare;
                         }
 

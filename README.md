@@ -386,7 +386,7 @@ Seed the testing database with sample games:
 
 Run the tests:
 
-	docker exec -it pgn_chess_php_fpm vendor/bin/phpunit tests --configuration phpunit-docker.xml
+	docker exec -it pgn_chess_php_fpm vendor/bin/phpunit --configuration phpunit-docker.xml
 
 ### License
 

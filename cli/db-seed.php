@@ -1,10 +1,10 @@
 <?php
 
-namespace PGNChess\Cli;
+namespace PGNChessData\Cli;
 
 use Dotenv\Dotenv;
-use PGNChess\Exception\PgnFileCharacterEncodingException;
-use PGNChess\PGN\File\Seed as PgnFileSeed;
+use PGNChessData\Exception\PgnFileCharacterEncodingException;
+use PGNChessData\File\Seed as PgnFileSeed;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

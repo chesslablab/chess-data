@@ -1,10 +1,10 @@
 <?php
 
-namespace PGNChess\Cli;
+namespace PGNChessData\Cli;
 
 use Dotenv\Dotenv;
-use PGNChess\Db\Pdo;
 use PGNChess\PGN\Tag;
+use PGNChessData\Db\Pdo;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

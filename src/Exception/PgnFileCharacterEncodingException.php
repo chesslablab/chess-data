@@ -1,7 +1,8 @@
 <?php
-namespace PGNChess\Exception;
 
-use PGNChess\Exception;
+namespace PGNChessData\Exception;
+
+use PGNChessData\Exception;
 
 /**
  * Thrown when the file's character encoding is not UTF-8.

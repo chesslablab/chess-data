@@ -1,9 +1,9 @@
 <?php
 
-namespace PGNChess\Cli;
+namespace PGNChessData\Cli;
 
 use Dotenv\Dotenv;
-use PGNChess\PGN\File\Convert as PgnFileConvert;
+use PGNChessData\File\Convert as PgnFileConvert;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

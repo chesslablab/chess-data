@@ -1,9 +1,9 @@
 <?php
 
-namespace PGNChess\Cli;
+namespace PGNChessData\Cli;
 
 use Dotenv\Dotenv;
-use PGNChess\PGN\File\Validate as PgnFileValidate;
+use PGNChessData\File\Validate as PgnFileValidate;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

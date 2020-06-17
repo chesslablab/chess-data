@@ -4,7 +4,7 @@
 	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-PGN Chess Data provides you with PHP CLI tools to manage a database of PGN games.
+PGN Chess Data provides you with CLI tools to manage a database of PGN games.
 
 ### Set Up
 

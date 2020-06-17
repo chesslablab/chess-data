@@ -5,8 +5,8 @@ namespace PGNChessData\File;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Movetext;
 use PGNChess\PGN\Validate as PgnValidate;
+use PGNChessData\Pdo;
 use PGNChessData\File\Validate as PgnFileValidate;
-use PGNChessData\Db\Pdo;
 use PGNChessData\Exception\PgnFileSyntaxException;
 
 class Seed extends AbstractFile

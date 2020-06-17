@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessDb;
+namespace PGNChessData;
 
 /**
  * MySql class.

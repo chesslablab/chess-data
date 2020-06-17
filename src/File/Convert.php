@@ -4,8 +4,8 @@ namespace PGNChessData\File;
 
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate as PgnValidate;
+use PGNChessData\MySql;
 use PGNChessData\File\Validate as PgnFileValidate;
-use PGNChessData\Db\MySql;
 use PGNChessData\Exception\PgnFileSyntaxException;
 
 class Convert extends AbstractFile

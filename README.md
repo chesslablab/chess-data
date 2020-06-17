@@ -50,7 +50,7 @@ Converts a PGN file into a MySQL `INSERT` statement.
 	Do you want to proceed? (Y/N): y
 	Good! This is a valid PGN file.
 
-### `load.sh`
+#### `load.sh`
 
 	bash/load.sh
 	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y

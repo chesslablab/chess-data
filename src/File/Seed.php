@@ -35,7 +35,7 @@ class Seed extends AbstractFile
                 } catch (\Exception $e) {
                     if (!Tag::mandatory($tags) && $this->line->startsMovetext($line)) {
                         $this->result->errors[] = ['tags' => array_filter($tags)];
-                        Tag::reset($tags);
+                        $tags = [];
                         $movetext = '';
                     } elseif (Tag::mandatory($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
                         $movetext .= ' ' . $line;
@@ -46,11 +46,9 @@ class Seed extends AbstractFile
                             ];
                         } else {
                             try {
-                                $preparedTags = [];
-                                Tag::reset($preparedTags);
                                 Pdo::getInstance()->query(
                                     $this->sql(),
-                                    $this->values(array_replace($preparedTags, $tags), $movetext)
+                                    $this->values(array_replace($this->nullTags(), $tags), $movetext)
                                 );
                                 $this->result->valid += 1;
                             } catch (\Exception $e) {
@@ -60,7 +58,7 @@ class Seed extends AbstractFile
                                 ];
                             }
                         }
-                        Tag::reset($tags);
+                        $tags = [];
                         $movetext = '';
                     } elseif (Tag::mandatory($tags)) {
                         $movetext .= ' ' . $line;
@@ -115,5 +113,15 @@ class Seed extends AbstractFile
         ];
 
         return $values;
+    }
+
+    protected function nullTags()
+    {
+        $nullTags = [];
+        foreach (Tag::all() as $key => $value) {
+            $nullTags[$value] = null;
+        }
+
+        return $nullTags;
     }
 }

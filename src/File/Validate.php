@@ -32,7 +32,7 @@ class Validate extends AbstractFile
                 } catch (\Exception $e) {
                     if (!Tag::mandatory($tags) && $this->line->startsMovetext($line)) {
                         $this->result->errors[] = ['tags' => array_filter($tags)];
-                        Tag::reset($tags);
+                        $tags = [];
                         $movetext = '';
                     } elseif (Tag::mandatory($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
                         $movetext .= ' ' . $line;
@@ -41,7 +41,7 @@ class Validate extends AbstractFile
                                 'tags' => array_filter($tags),
                                 'movetext' => trim($movetext)]
                             : $this->result->valid += 1;
-                        Tag::reset($tags);
+                        $tags = [];
                         $movetext = '';
                     } elseif (Tag::mandatory($tags)) {
                         $movetext .= ' ' . $line;

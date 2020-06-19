@@ -47,7 +47,7 @@ class Convert extends AbstractFile
                         }
                         $movetext = MySql::getInstance()->escape($movetext.$line);
                         $sql .= "'$movetext'),(" . PHP_EOL;
-                        Tag::reset($tags);
+                        $tags = [];
                         $movetext = '';
                     } else {
                         $movetext .= $line;

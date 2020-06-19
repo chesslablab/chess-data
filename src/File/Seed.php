@@ -3,7 +3,6 @@
 namespace PGNChessData\File;
 
 use PGNChess\PGN\Tag;
-use PGNChess\PGN\Movetext;
 use PGNChess\PGN\Validate as PgnValidate;
 use PGNChessData\Pdo;
 use PGNChessData\File\Validate as PgnFileValidate;
@@ -39,7 +38,7 @@ class Seed extends AbstractFile
                         Tag::reset($tags);
                         $movetext = '';
                     } elseif (Tag::mandatory($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
-                        $movetext = Movetext::init("$movetext $line")->filter();
+                        $movetext .= ' ' . $line;
                         if (!PgnValidate::movetext($movetext)) {
                             $this->result->errors[] = [
                                 'tags' => array_filter($tags),

@@ -34,11 +34,11 @@ class Seed extends AbstractFile
                     $tag = PgnValidate::tag($line);
                     $tags[$tag->name] = $tag->value;
                 } catch (\Exception $e) {
-                    if (!Tag::isStr($tags) && $this->line->startsMovetext($line)) {
+                    if (!Tag::mandatory($tags) && $this->line->startsMovetext($line)) {
                         $this->result->errors[] = ['tags' => array_filter($tags)];
                         Tag::reset($tags);
                         $movetext = '';
-                    } elseif (Tag::isStr($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
+                    } elseif (Tag::mandatory($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
                         $movetext = Movetext::init("$movetext $line")->filter();
                         if (!PgnValidate::movetext($movetext)) {
                             $this->result->errors[] = [
@@ -63,7 +63,7 @@ class Seed extends AbstractFile
                         }
                         Tag::reset($tags);
                         $movetext = '';
-                    } elseif (Tag::isStr($tags)) {
+                    } elseif (Tag::mandatory($tags)) {
                         $movetext .= ' ' . $line;
                     }
                 }

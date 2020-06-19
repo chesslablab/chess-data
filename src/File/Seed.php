@@ -81,13 +81,13 @@ class Seed extends AbstractFile
     {
         $sql = 'INSERT INTO games (';
 
-        foreach (Tag::getConstants() as $key => $value) {
+        foreach (Tag::all() as $key => $value) {
             $sql .= "$value, ";
         }
 
         $sql .= 'movetext) VALUES (';
 
-        foreach (Tag::getConstants() as $key => $value) {
+        foreach (Tag::all() as $key => $value) {
             $sql .= ":$value, ";
         }
 

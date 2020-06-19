@@ -24,7 +24,7 @@ class Convert extends AbstractFile
     public function toMySqlScript(): string
     {
         $sql = 'INSERT INTO games (';
-        foreach (Tag::getConstants() as $key => $value) {
+        foreach (Tag::all() as $key => $value) {
             $sql .= $value.', ';
         }
         $sql .= 'movetext) VALUES (';

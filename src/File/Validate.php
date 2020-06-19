@@ -21,7 +21,6 @@ class Validate extends AbstractFile
 
     public function syntax(): \stdClass
     {
-        $tags = [];
         $movetext = '';
         if ($file = fopen($this->filepath, 'r')) {
             while (!feof($file)) {

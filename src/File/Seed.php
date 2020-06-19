@@ -24,7 +24,6 @@ class Seed extends AbstractFile
 
     public function db(): \stdClass
     {
-        $tags = [];
         $movetext = '';
         if ($file = fopen($this->filepath, 'r')) {
             while (!feof($file)) {

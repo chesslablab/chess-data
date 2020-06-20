@@ -30,14 +30,6 @@ try {
     exit;
 }
 
-if ($result->valid === 0) {
-    echo 'Whoops! It seems as if no games are valid in this file.' . PHP_EOL;
-} elseif (!empty($result->errors)) {
-    echo "Whoops! It seems as if some games are not valid. {$result->valid} were inserted into the database." . PHP_EOL;
-} else {
-    echo "Good! This is a valid PGN file. {$result->valid} games were inserted into the database." . PHP_EOL;
-}
-
 if (!empty($result->errors)) {
     echo '--------------------------------------------------------' . PHP_EOL;
     foreach ($result->errors as $error) {
@@ -51,5 +43,13 @@ if (!empty($result->errors)) {
         }
         echo '--------------------------------------------------------' . PHP_EOL;
     }
-    echo 'Please check these games. Do they provide the STR (Seven Tag Roster)? Is the movetext valid?' . PHP_EOL;
+    echo count($result->errors).' games listed above did not pass the validation.' . PHP_EOL;
+}
+
+if ($result->valid === 0) {
+    echo 'Whoops! It seems as if no games are valid in this file.' . PHP_EOL;
+} elseif (!empty($result->errors)) {
+    echo "{$result->valid} valid games were inserted into the database." . PHP_EOL;
+} else {
+    echo "Good! This is a valid PGN file. {$result->valid} games were inserted into the database." . PHP_EOL;
 }

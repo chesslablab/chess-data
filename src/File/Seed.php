@@ -31,15 +31,16 @@ class Seed extends AbstractFile
                     $tag = Validate::tag($line);
                     $tags[$tag->name] = $tag->value;
                 } catch (\Exception $e) {
-                    if (!Validate::tags($tags) && $this->line->startsMovetext($line)) {
+                    if ($this->line->startsMovetext($line) && !Validate::tags($tags)) {
                         $this->result->errors[] = ['tags' => array_filter($tags)];
                         $tags = [];
                         $movetext = '';
-                    } elseif (Validate::tags($tags) &&
-                        (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))
+                    } elseif (($this->line->isMovetext($line) || $this->line->endsMovetext($line)) &&
+                        Validate::tags($tags)
                     ) {
                         $movetext .= ' ' . $line;
-                        if (!Validate::movetext($movetext)) {
+                        $validMovetext = Validate::movetext($movetext);
+                        if (!$validMovetext) {
                             $this->result->errors[] = [
                                 'tags' => array_filter($tags),
                                 'movetext' => $movetext
@@ -48,13 +49,13 @@ class Seed extends AbstractFile
                             try {
                                 Pdo::getInstance()->query(
                                     $this->sql(),
-                                    $this->values(array_replace($this->nullTags(), $tags), $movetext)
+                                    $this->values($tags, $validMovetext)
                                 );
-                                $this->result->valid += 1;
+                                $this->result->valid++;
                             } catch (\Exception $e) {
                                 $this->result->errors[] = [
                                     'tags' => array_filter($tags),
-                                    'movetext' => $movetext
+                                    'movetext' => $validMovetext
                                 ];
                             }
                         }
@@ -93,6 +94,8 @@ class Seed extends AbstractFile
     protected function values(array $tags, string $movetext): array
     {
         $values = [];
+
+        $tags = array_replace($this->nullTags(), $tags);
 
         foreach ($tags as $key => $value) {
             $values[] = [

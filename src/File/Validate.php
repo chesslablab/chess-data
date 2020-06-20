@@ -29,19 +29,19 @@ class Validate extends AbstractFile
                     $tag = PgnValidate::tag($line);
                     $tags[$tag->name] = $tag->value;
                 } catch (\Exception $e) {
-                    if (!PgnValidate::tags($tags) && $this->line->startsMovetext($line)) {
+                    if ($this->line->startsMovetext($line) && !PgnValidate::tags($tags)) {
                         $this->result->errors[] = ['tags' => array_filter($tags)];
                         $tags = [];
                         $movetext = '';
-                    } elseif (PgnValidate::tags($tags) &&
-                        (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))
+                    } elseif (($this->line->isMovetext($line) || $this->line->endsMovetext($line)) &&
+                        PgnValidate::tags($tags)
                     ) {
                         $movetext .= ' ' . $line;
                         !PgnValidate::movetext($movetext)
                             ? $this->result->errors[] = [
                                 'tags' => array_filter($tags),
                                 'movetext' => trim($movetext)]
-                            : $this->result->valid += 1;
+                            : $this->result->valid++;
                         $tags = [];
                         $movetext = '';
                     } elseif (PgnValidate::tags($tags)) {

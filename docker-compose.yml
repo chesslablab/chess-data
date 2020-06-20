@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3.6"
 
 services:
   php_fpm:
@@ -13,7 +13,8 @@ services:
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:
-      image: mysql:5.7
+      image: mysql:8
+      command: mysqld --default-authentication-plugin=mysql_native_password
       container_name: pgn_chess_data_mysql
       restart: always
       networks:

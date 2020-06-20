@@ -29,11 +29,13 @@ class Validate extends AbstractFile
                     $tag = PgnValidate::tag($line);
                     $tags[$tag->name] = $tag->value;
                 } catch (\Exception $e) {
-                    if (!Tag::mandatory($tags) && $this->line->startsMovetext($line)) {
+                    if (!PgnValidate::tags($tags) && $this->line->startsMovetext($line)) {
                         $this->result->errors[] = ['tags' => array_filter($tags)];
                         $tags = [];
                         $movetext = '';
-                    } elseif (Tag::mandatory($tags) && (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))) {
+                    } elseif (PgnValidate::tags($tags) &&
+                        (($this->line->isMovetext($line) || $this->line->endsMovetext($line)))
+                    ) {
                         $movetext .= ' ' . $line;
                         !PgnValidate::movetext($movetext)
                             ? $this->result->errors[] = [
@@ -42,16 +44,12 @@ class Validate extends AbstractFile
                             : $this->result->valid += 1;
                         $tags = [];
                         $movetext = '';
-                    } elseif (Tag::mandatory($tags)) {
+                    } elseif (PgnValidate::tags($tags)) {
                         $movetext .= ' ' . $line;
                     }
                 }
             }
             fclose($file);
-        }
-
-        if (empty($this->result->errors)) {
-            unset($this->result->errors);
         }
 
         return $this->result;

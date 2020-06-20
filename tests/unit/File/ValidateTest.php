@@ -36,7 +36,6 @@ class ValidateTest extends AbstractUnitTestCase
         $result = (new PgnFileValidate(self::DATA_FOLDER."/syntax/$filename"))->syntax();
 
         $this->assertTrue($result->valid > 0);
-        $this->assertTrue(!isset($result->errors));
     }
 
     public function syntaxData()
@@ -57,7 +56,6 @@ class ValidateTest extends AbstractUnitTestCase
         $result = (new PgnFileValidate(self::DATA_FOLDER."/text/$filename"))->syntax();
 
         $this->assertEquals(0, $result->valid);
-        $this->assertTrue(!isset($result->errors));
     }
 
     public function textData()

@@ -28,11 +28,11 @@ class Seed extends AbstractFile
                     $tags[$tag->name] = $tag->value;
                 } catch (UnknownNotationException $e) {
                     if ($this->line->isOneLinerMovetext($line)) {
-                        if (Validate::tags($tags) && $validated = Validate::movetext($line)) {
+                        if (Validate::tags($tags) && $validMovetext = Validate::movetext($line)) {
                             try {
                                 Pdo::getInstance()->query(
                                     $this->sql(),
-                                    $this->values($tags, $validated)
+                                    $this->values($tags, $validMovetext)
                                 );
                             } catch (\PDOException $e) {
                             }
@@ -45,11 +45,11 @@ class Seed extends AbstractFile
                         }
                     } elseif ($this->line->endsMovetext($line)) {
                         $movetext .= ' ' . $line;
-                        if ($validated = Validate::movetext($line)) {
+                        if ($validMovetext = Validate::movetext($line)) {
                             try {
                                 Pdo::getInstance()->query(
                                     $this->sql(),
-                                    $this->values($tags, $validated)
+                                    $this->values($tags, $validMovetext)
                                 );
                             } catch (\PDOException $e) {
                             }

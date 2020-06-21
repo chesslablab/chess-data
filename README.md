@@ -36,7 +36,6 @@ Find out your Docker container's IP address:
     This will search for valid PGN games in the file.
     Large files (for example 50MB) may take a few seconds to be inserted into the database.
     Do you want to proceed? (Y/N): y
-    Good! This is a valid PGN file. 3201 games were inserted into the database.
 
 #### `tomysql.php`
 
@@ -55,13 +54,11 @@ Converts a PGN file into a MySQL `INSERT` statement.
 #### `load.sh`
 
 	bash/load.sh
-	This will load all PGN files stored in the data/games folder. Are you sure to continue? (y|n) y
-	Good! This is a valid PGN file. 512 games were inserted into the database.
-	Loading games for 3 s...
-	Good! This is a valid PGN file. 1335 games were inserted into the database.
-	Loading games for 11 s...
+	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
+	Loading games for 1 s...
+	Loading games for 2 s...
+	Loading games for 32 s...
 	The loading of games is completed.
-
 
 ### Development
 

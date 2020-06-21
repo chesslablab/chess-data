@@ -15,14 +15,9 @@ class Seed extends AbstractFile
     public function __construct(string $filepath)
     {
         parent::__construct($filepath);
-
-        $this->result = (object) [
-            'valid' => 0,
-            'errors' => []
-        ];
     }
 
-    public function db(): \stdClass
+    public function db()
     {
         $tags = [];
         $movetext = '';
@@ -34,22 +29,11 @@ class Seed extends AbstractFile
                     $tags[$tag->name] = $tag->value;
                 } catch (UnknownNotationException $e) {
                     if ($this->line->isOneLinerMovetext($line)) {
-                        if (Validate::tags($tags)) {
-                            if ($validated = Validate::movetext($line)) {
-                                Pdo::getInstance()->query(
-                                    $this->sql(),
-                                    $this->values($tags, $validated)
-                                );
-                                $this->result->valid++;
-                            } else {
-                                $this->result->errors[] = [
-                                    'movetext' => trim($line)
-                                ];
-                            }
-                        } else {
-                            $this->result->errors[] = [
-                                'tags' => array_filter($tags)
-                            ];
+                        if (Validate::tags($tags) && $validated = Validate::movetext($line)) {
+                            Pdo::getInstance()->query(
+                                $this->sql(),
+                                $this->values($tags, $validated)
+                            );
                         }
                         $tags = [];
                         $movetext = '';
@@ -57,9 +41,6 @@ class Seed extends AbstractFile
                         if (Validate::tags($tags)) {
                             $movetext .= ' ' . $line;
                         } else {
-                            $this->result->errors[] = [
-                                'tags' => array_filter($tags)
-                            ];
                             $tags = [];
                             $movetext = '';
                         }
@@ -70,11 +51,6 @@ class Seed extends AbstractFile
                                 $this->sql(),
                                 $this->values($tags, $validated)
                             );
-                            $this->result->valid++;
-                        } else {
-                            $this->result->errors[] = [
-                                'movetext' => trim($line)
-                            ];
                         }
                         $tags = [];
                         $movetext = '';
@@ -85,8 +61,6 @@ class Seed extends AbstractFile
             }
             fclose($file);
         }
-
-        return $this->result;
     }
 
     protected function sql(): string

@@ -27,4 +27,5 @@ try {
     $result = (new PgnFileSeed($argv[1]))->db();
 } catch (PgnFileCharacterEncodingException $e) {
     echo $e->getMessage() . PHP_EOL;
+    exit;
 }

@@ -6,7 +6,6 @@ use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate;
 use PGNChessData\Pdo;
-use PGNChessData\Exception\PgnFileSyntaxException;
 
 class Seed extends AbstractFile
 {
@@ -30,24 +29,28 @@ class Seed extends AbstractFile
                 } catch (UnknownNotationException $e) {
                     if ($this->line->isOneLinerMovetext($line)) {
                         if (Validate::tags($tags) && $validated = Validate::movetext($line)) {
-                            Pdo::getInstance()->query(
-                                $this->sql(),
-                                $this->values($tags, $validated)
-                            );
+                            try {
+                                Pdo::getInstance()->query(
+                                    $this->sql(),
+                                    $this->values($tags, $validated)
+                                );
+                            } catch (\PDOException $e) {}
                         }
                         $tags = [];
                         $movetext = '';
                     } elseif ($this->line->startsMovetext($line)) {
                         if (Validate::tags($tags)) {
                             $movetext .= ' ' . $line;
-                        } 
+                        }
                     } elseif ($this->line->endsMovetext($line)) {
                         $movetext .= ' ' . $line;
                         if ($validated = Validate::movetext($line)) {
-                            Pdo::getInstance()->query(
-                                $this->sql(),
-                                $this->values($tags, $validated)
-                            );
+                            try {
+                                Pdo::getInstance()->query(
+                                    $this->sql(),
+                                    $this->values($tags, $validated)
+                                );
+                            } catch (\PDOException $e) {}
                         }
                         $tags = [];
                         $movetext = '';

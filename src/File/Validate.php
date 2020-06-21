@@ -2,6 +2,7 @@
 
 namespace PGNChessData\File;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate as PgnValidate;
 
@@ -29,23 +30,45 @@ class Validate extends AbstractFile
                 try {
                     $tag = PgnValidate::tag($line);
                     $tags[$tag->name] = $tag->value;
-                } catch (\Exception $e) {
-                    if ($this->line->startsMovetext($line) && !PgnValidate::tags($tags)) {
-                        $this->result->errors[] = ['tags' => array_filter($tags)];
+                } catch (UnknownNotationException $e) {
+                    if ($this->line->isOneLinerMovetext($line)) {
+                        if (PgnValidate::tags($tags)) {
+                            if (PgnValidate::movetext($line)) {
+                                $this->result->valid++;
+                            } else {
+                                $this->result->errors[] = [
+                                    'movetext' => trim($line)
+                                ];
+                            }
+                        } else {
+                            $this->result->errors[] = [
+                                'tags' => array_filter($tags)
+                            ];
+                        }
                         $tags = [];
                         $movetext = '';
-                    } elseif (($this->line->isMovetext($line) || $this->line->endsMovetext($line)) &&
-                        PgnValidate::tags($tags)
-                    ) {
+                    } elseif ($this->line->startsMovetext($line)) {
+                        if (PgnValidate::tags($tags)) {
+                            $movetext .= ' ' . $line;
+                        } else {
+                            $this->result->errors[] = [
+                                'tags' => array_filter($tags)
+                            ];
+                            $tags = [];
+                            $movetext = '';
+                        }
+                    } elseif ($this->line->endsMovetext($line)) {
                         $movetext .= ' ' . $line;
-                        !PgnValidate::movetext($movetext)
-                            ? $this->result->errors[] = [
-                                'tags' => array_filter($tags),
-                                'movetext' => trim($movetext)]
-                            : $this->result->valid++;
+                        if (PgnValidate::movetext($movetext)) {
+                            $this->result->valid++;
+                        } else {
+                            $this->result->errors[] = [
+                                'movetext' => trim($line)
+                            ];
+                        }
                         $tags = [];
                         $movetext = '';
-                    } elseif (PgnValidate::tags($tags)) {
+                    } else {
                         $movetext .= ' ' . $line;
                     }
                 }

@@ -2,6 +2,7 @@
 
 namespace PGNChessData\File;
 
+use PGNChess\Exception\UnknownNotationException;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate;
 use PGNChessData\Pdo;
@@ -31,38 +32,53 @@ class Seed extends AbstractFile
                 try {
                     $tag = Validate::tag($line);
                     $tags[$tag->name] = $tag->value;
-                } catch (\Exception $e) {
-                    if ($this->line->startsMovetext($line) && !Validate::tags($tags)) {
-                        $this->result->errors[] = ['tags' => array_filter($tags)];
-                        $tags = [];
-                        $movetext = '';
-                    } elseif (($this->line->isMovetext($line) || $this->line->endsMovetext($line)) &&
-                        Validate::tags($tags)
-                    ) {
-                        $movetext .= ' ' . $line;
-                        $validMovetext = Validate::movetext($movetext);
-                        if (!$validMovetext) {
-                            $this->result->errors[] = [
-                                'tags' => array_filter($tags),
-                                'movetext' => $movetext
-                            ];
-                        } else {
-                            try {
+                } catch (UnknownNotationException $e) {
+                    if ($this->line->isOneLinerMovetext($line)) {
+                        if (Validate::tags($tags)) {
+                            if ($validated = Validate::movetext($line)) {
                                 Pdo::getInstance()->query(
                                     $this->sql(),
-                                    $this->values($tags, $validMovetext)
+                                    $this->values($tags, $validated)
                                 );
                                 $this->result->valid++;
-                            } catch (\Exception $e) {
+                            } else {
                                 $this->result->errors[] = [
-                                    'tags' => array_filter($tags),
-                                    'movetext' => $validMovetext
+                                    'movetext' => trim($line)
                                 ];
                             }
+                        } else {
+                            $this->result->errors[] = [
+                                'tags' => array_filter($tags)
+                            ];
                         }
                         $tags = [];
                         $movetext = '';
-                    } elseif (Validate::tags($tags)) {
+                    } elseif ($this->line->startsMovetext($line)) {
+                        if (Validate::tags($tags)) {
+                            $movetext .= ' ' . $line;
+                        } else {
+                            $this->result->errors[] = [
+                                'tags' => array_filter($tags)
+                            ];
+                            $tags = [];
+                            $movetext = '';
+                        }
+                    } elseif ($this->line->endsMovetext($line)) {
+                        $movetext .= ' ' . $line;
+                        if ($validated = Validate::movetext($line)) {
+                            Pdo::getInstance()->query(
+                                $this->sql(),
+                                $this->values($tags, $validated)
+                            );
+                            $this->result->valid++;
+                        } else {
+                            $this->result->errors[] = [
+                                'movetext' => trim($line)
+                            ];
+                        }
+                        $tags = [];
+                        $movetext = '';
+                    } else {
                         $movetext .= ' ' . $line;
                     }
                 }

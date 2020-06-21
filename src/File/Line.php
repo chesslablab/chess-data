@@ -7,7 +7,7 @@ use PGNChess\PGN\Symbol;
 
 class Line
 {
-    public function isMovetext(string $line): bool
+    public function isOneLinerMovetext(string $line): bool
     {
         return $this->startsMovetext($line) && $this->endsMovetext($line);
     }

@@ -34,7 +34,8 @@ class Seed extends AbstractFile
                                     $this->sql(),
                                     $this->values($tags, $validated)
                                 );
-                            } catch (\PDOException $e) {}
+                            } catch (\PDOException $e) {
+                            }
                         }
                         $tags = [];
                         $movetext = '';
@@ -50,7 +51,8 @@ class Seed extends AbstractFile
                                     $this->sql(),
                                     $this->values($tags, $validated)
                                 );
-                            } catch (\PDOException $e) {}
+                            } catch (\PDOException $e) {
+                            }
                         }
                         $tags = [];
                         $movetext = '';
@@ -67,14 +69,14 @@ class Seed extends AbstractFile
     {
         $sql = 'INSERT INTO games (';
 
-        foreach (Tag::all() as $key => $value) {
-            $sql .= "$value, ";
+        foreach (Tag::mandatory() as $name) {
+            $sql .= "$name, ";
         }
 
         $sql .= 'movetext) VALUES (';
 
-        foreach (Tag::all() as $key => $value) {
-            $sql .= ":$value, ";
+        foreach (Tag::mandatory() as $name) {
+            $sql .= ":$name, ";
         }
 
         $sql .= ':movetext)';
@@ -86,12 +88,10 @@ class Seed extends AbstractFile
     {
         $values = [];
 
-        $tags = array_replace($this->nullTags(), $tags);
-
-        foreach ($tags as $key => $value) {
+        foreach (Tag::mandatory() as $name) {
             $values[] = [
-                'param' => ":$key",
-                'value' => $value,
+                'param' => ":$name",
+                'value' => $tags[$name],
                 'type' => \PDO::PARAM_STR
             ];
         }
@@ -103,15 +103,5 @@ class Seed extends AbstractFile
         ];
 
         return $values;
-    }
-
-    protected function nullTags()
-    {
-        $nullTags = [];
-        foreach (Tag::all() as $key => $value) {
-            $nullTags[$value] = null;
-        }
-
-        return $nullTags;
     }
 }

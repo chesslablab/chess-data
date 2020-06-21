@@ -21,7 +21,7 @@ class ValidateTest extends AbstractUnitTestCase
     public function nonStrData()
     {
         return [
-            ['01.pgn', 8],
+            ['01.pgn', 5],
             ['02.pgn', 17],
             ['03.pgn', 15],
         ];

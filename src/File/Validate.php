@@ -32,17 +32,11 @@ class Validate extends AbstractFile
                     $tags[$tag->name] = $tag->value;
                 } catch (UnknownNotationException $e) {
                     if ($this->line->isOneLinerMovetext($line)) {
-                        if (PgnValidate::tags($tags)) {
-                            if (PgnValidate::movetext($line)) {
-                                $this->result->valid++;
-                            } else {
-                                $this->result->errors[] = [
-                                    'movetext' => trim($line)
-                                ];
-                            }
+                        if (PgnValidate::tags($tags) && PgnValidate::movetext($line)) {
+                            $this->result->valid++;
                         } else {
                             $this->result->errors[] = [
-                                'tags' => array_filter($tags)
+                                'tags' => array_filter($tags),
                             ];
                         }
                         $tags = [];
@@ -50,12 +44,6 @@ class Validate extends AbstractFile
                     } elseif ($this->line->startsMovetext($line)) {
                         if (PgnValidate::tags($tags)) {
                             $movetext .= ' ' . $line;
-                        } else {
-                            $this->result->errors[] = [
-                                'tags' => array_filter($tags)
-                            ];
-                            $tags = [];
-                            $movetext = '';
                         }
                     } elseif ($this->line->endsMovetext($line)) {
                         $movetext .= ' ' . $line;
@@ -63,7 +51,7 @@ class Validate extends AbstractFile
                             $this->result->valid++;
                         } else {
                             $this->result->errors[] = [
-                                'movetext' => trim($line)
+                                'tags' => array_filter($tags),
                             ];
                         }
                         $tags = [];

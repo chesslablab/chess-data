@@ -40,10 +40,7 @@ class Seed extends AbstractFile
                     } elseif ($this->line->startsMovetext($line)) {
                         if (Validate::tags($tags)) {
                             $movetext .= ' ' . $line;
-                        } else {
-                            $tags = [];
-                            $movetext = '';
-                        }
+                        } 
                     } elseif ($this->line->endsMovetext($line)) {
                         $movetext .= ' ' . $line;
                         if ($validated = Validate::movetext($line)) {

@@ -24,44 +24,42 @@ class Validate extends AbstractFile
     {
         $tags = [];
         $movetext = '';
-        if ($file = fopen($this->filepath, 'r')) {
-            while (!feof($file)) {
-                $line = preg_replace('~[[:cntrl:]]~', '', fgets($file));
-                try {
-                    $tag = PgnValidate::tag($line);
-                    $tags[$tag->name] = $tag->value;
-                } catch (UnknownNotationException $e) {
-                    if ($this->line->isOneLinerMovetext($line)) {
-                        if (PgnValidate::tags($tags) && PgnValidate::movetext($line)) {
-                            $this->result->valid++;
-                        } else {
-                            $this->result->errors[] = [
-                                'tags' => array_filter($tags),
-                            ];
-                        }
-                        $tags = [];
-                        $movetext = '';
-                    } elseif ($this->line->startsMovetext($line)) {
-                        if (PgnValidate::tags($tags)) {
-                            $movetext .= ' ' . $line;
-                        }
-                    } elseif ($this->line->endsMovetext($line)) {
-                        $movetext .= ' ' . $line;
-                        if (PgnValidate::movetext($movetext)) {
-                            $this->result->valid++;
-                        } else {
-                            $this->result->errors[] = [
-                                'tags' => array_filter($tags),
-                            ];
-                        }
-                        $tags = [];
-                        $movetext = '';
+        $file = new \SplFileObject($this->filepath);
+        while (!$file->eof()) {
+            $line = rtrim($file->fgets());
+            try {
+                $tag = PgnValidate::tag($line);
+                $tags[$tag->name] = $tag->value;
+            } catch (UnknownNotationException $e) {
+                if ($this->line->isOneLinerMovetext($line)) {
+                    if (PgnValidate::tags($tags) && PgnValidate::movetext($line)) {
+                        $this->result->valid++;
                     } else {
+                        $this->result->errors[] = [
+                            'tags' => array_filter($tags),
+                        ];
+                    }
+                    $tags = [];
+                    $movetext = '';
+                } elseif ($this->line->startsMovetext($line)) {
+                    if (PgnValidate::tags($tags)) {
                         $movetext .= ' ' . $line;
                     }
+                } elseif ($this->line->endsMovetext($line)) {
+                    $movetext .= ' ' . $line;
+                    if (PgnValidate::movetext($movetext)) {
+                        $this->result->valid++;
+                    } else {
+                        $this->result->errors[] = [
+                            'tags' => array_filter($tags),
+                        ];
+                    }
+                    $tags = [];
+                    $movetext = '';
+                } else {
+                    $movetext .= ' ' . $line;
                 }
             }
-            fclose($file);
         }
 
         return $this->result;

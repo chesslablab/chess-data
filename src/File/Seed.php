@@ -20,48 +20,46 @@ class Seed extends AbstractFile
     {
         $tags = [];
         $movetext = '';
-        if ($file = fopen($this->filepath, 'r')) {
-            while (!feof($file)) {
-                $line = preg_replace('~[[:cntrl:]]~', '', fgets($file));
-                try {
-                    $tag = Validate::tag($line);
-                    $tags[$tag->name] = $tag->value;
-                } catch (UnknownNotationException $e) {
-                    if ($this->line->isOneLinerMovetext($line)) {
-                        if (Validate::tags($tags) && $validMovetext = Validate::movetext($line)) {
-                            try {
-                                Pdo::getInstance()->query(
-                                    $this->sql(),
-                                    $this->values($tags, $validMovetext)
-                                );
-                            } catch (\PDOException $e) {
-                            }
+        $file = new \SplFileObject($this->filepath);
+        while (!$file->eof()) {
+            $line = rtrim($file->fgets());
+            try {
+                $tag = Validate::tag($line);
+                $tags[$tag->name] = $tag->value;
+            } catch (UnknownNotationException $e) {
+                if ($this->line->isOneLinerMovetext($line)) {
+                    if (Validate::tags($tags) && $validMovetext = Validate::movetext($line)) {
+                        try {
+                            Pdo::getInstance()->query(
+                                $this->sql(),
+                                $this->values($tags, $validMovetext)
+                            );
+                        } catch (\PDOException $e) {
                         }
-                        $tags = [];
-                        $movetext = '';
-                    } elseif ($this->line->startsMovetext($line)) {
-                        if (Validate::tags($tags)) {
-                            $movetext .= ' ' . $line;
-                        }
-                    } elseif ($this->line->endsMovetext($line)) {
-                        $movetext .= ' ' . $line;
-                        if ($validMovetext = Validate::movetext($line)) {
-                            try {
-                                Pdo::getInstance()->query(
-                                    $this->sql(),
-                                    $this->values($tags, $validMovetext)
-                                );
-                            } catch (\PDOException $e) {
-                            }
-                        }
-                        $tags = [];
-                        $movetext = '';
-                    } else {
+                    }
+                    $tags = [];
+                    $movetext = '';
+                } elseif ($this->line->startsMovetext($line)) {
+                    if (Validate::tags($tags)) {
                         $movetext .= ' ' . $line;
                     }
+                } elseif ($this->line->endsMovetext($line)) {
+                    $movetext .= ' ' . $line;
+                    if ($validMovetext = Validate::movetext($line)) {
+                        try {
+                            Pdo::getInstance()->query(
+                                $this->sql(),
+                                $this->values($tags, $validMovetext)
+                            );
+                        } catch (\PDOException $e) {
+                        }
+                    }
+                    $tags = [];
+                    $movetext = '';
+                } else {
+                    $movetext .= ' ' . $line;
                 }
             }
-            fclose($file);
         }
     }
 

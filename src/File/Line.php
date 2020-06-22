@@ -27,11 +27,11 @@ class Line
 
     public function startsWith(string $haystack, string $needle): bool
     {
-        return strcasecmp(substr($haystack, 0, strlen($needle)), $needle) === 0;
+        return strncmp($haystack, $needle, strlen($needle)) === 0;
     }
 
     public function endsWith(string $haystack, string $needle): bool
     {
-        return strcasecmp(substr($haystack, strlen($haystack) - strlen($needle)), $needle) === 0;
+        return substr($haystack, -strlen($needle)) === $needle;
     }
 }

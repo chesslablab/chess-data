@@ -29,13 +29,7 @@ class Seed extends AbstractFile
             } catch (UnknownNotationException $e) {
                 if ($this->line->isOneLinerMovetext($line)) {
                     if (Validate::tags($tags) && $validMovetext = Validate::movetext($line)) {
-                        try {
-                            Pdo::getInstance()->query(
-                                $this->sql(),
-                                $this->values($tags, $validMovetext)
-                            );
-                        } catch (\PDOException $e) {
-                        }
+                        $this->insert($tags, $validMovetext);
                     }
                     $tags = [];
                     $movetext = '';
@@ -45,14 +39,8 @@ class Seed extends AbstractFile
                     }
                 } elseif ($this->line->endsMovetext($line)) {
                     $movetext .= ' ' . $line;
-                    if ($validMovetext = Validate::movetext($line)) {
-                        try {
-                            Pdo::getInstance()->query(
-                                $this->sql(),
-                                $this->values($tags, $validMovetext)
-                            );
-                        } catch (\PDOException $e) {
-                        }
+                    if ($validMovetext = Validate::movetext($movetext)) {
+                        $this->insert($tags, $validMovetext);
                     }
                     $tags = [];
                     $movetext = '';
@@ -63,28 +51,11 @@ class Seed extends AbstractFile
         }
     }
 
-    protected function sql(): string
-    {
-        $sql = 'INSERT INTO games (';
-
-        foreach (Tag::mandatory() as $name) {
-            $sql .= "$name, ";
-        }
-
-        $sql .= 'movetext) VALUES (';
-
-        foreach (Tag::mandatory() as $name) {
-            $sql .= ":$name, ";
-        }
-
-        $sql .= ':movetext)';
-
-        return $sql;
-    }
-
-    protected function values(array $tags, string $movetext): array
+    protected function insert(array $tags, string $movetext)
     {
         $values = [];
+        $params = '';
+        $sql = 'INSERT INTO games (';
 
         foreach (Tag::mandatory() as $name) {
             $values[] = [
@@ -92,14 +63,24 @@ class Seed extends AbstractFile
                 'value' => $tags[$name],
                 'type' => \PDO::PARAM_STR
             ];
+            $params .= ":$name, ";
+            $sql .= "$name, ";
         }
+
+        $sql .= "movetext) VALUES ($params:movetext)";
 
         $values[] = [
             'param' => ':movetext',
-            'value' => trim($movetext),
+            'value' => $movetext,
             'type' => \PDO::PARAM_STR
         ];
 
-        return $values;
+        try {
+            return Pdo::getInstance()->query($sql, $values);
+        } catch (\PDOException $e) {
+
+        }
+
+        return false;
     }
 }

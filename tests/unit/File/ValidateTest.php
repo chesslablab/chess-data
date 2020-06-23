@@ -15,7 +15,7 @@ class ValidateTest extends AbstractUnitTestCase
     {
         $result = (new PgnFileValidate(self::DATA_FOLDER."/non-str/$filename"))->syntax();
 
-        $this->assertEquals($invalid, count($result->errors));
+        $this->assertEquals($invalid, $result->total - $result->valid);
     }
 
     public function nonStrData()
@@ -76,7 +76,7 @@ class ValidateTest extends AbstractUnitTestCase
         $result = (new PgnFileValidate(self::DATA_FOLDER."/text-with-non-str/$filename"))->syntax();
 
         $this->assertEquals(0, $result->valid);
-        $this->assertEquals($nErrors, count($result->errors));
+        $this->assertEquals($nErrors, $result->total - $result->valid);
     }
 
     public function textWithNonStrData()
@@ -97,7 +97,7 @@ class ValidateTest extends AbstractUnitTestCase
         $result = (new PgnFileValidate(self::DATA_FOLDER."/with-three-invalid/$filename"))->syntax();
 
         $this->assertTrue($result->valid > 0);
-        $this->assertEquals(3, count($result->errors));
+        $this->assertEquals(3, $result->total - $result->valid);
     }
 
     public function withThreeInvalidData()

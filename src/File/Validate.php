@@ -8,18 +8,6 @@ use PGNChess\PGN\Validate as PgnValidate;
 
 class Validate extends AbstractFile
 {
-    private $result = [];
-
-    public function __construct(string $filepath)
-    {
-        parent::__construct($filepath);
-
-        $this->result = (object) [
-            'valid' => 0,
-            'errors' => []
-        ];
-    }
-
     public function syntax(): \stdClass
     {
         $tags = [];
@@ -35,12 +23,11 @@ class Validate extends AbstractFile
                     if (PgnValidate::tags($tags) && PgnValidate::movetext($line)) {
                         $this->result->valid++;
                     } else {
-                        $this->result->errors[] = [
-                            'tags' => array_filter($tags),
-                        ];
+                        echo $this->printTags($tags);
                     }
                     $tags = [];
                     $movetext = '';
+                    $this->result->total++;
                 } elseif ($this->line->startsMovetext($line)) {
                     if (PgnValidate::tags($tags)) {
                         $movetext .= ' ' . $line;
@@ -50,12 +37,11 @@ class Validate extends AbstractFile
                     if (PgnValidate::movetext($movetext)) {
                         $this->result->valid++;
                     } else {
-                        $this->result->errors[] = [
-                            'tags' => array_filter($tags),
-                        ];
+                        echo $this->printTags($tags);
                     }
                     $tags = [];
                     $movetext = '';
+                    $this->result->total++;
                 } else {
                     $movetext .= ' ' . $line;
                 }
@@ -63,5 +49,15 @@ class Validate extends AbstractFile
         }
 
         return $this->result;
+    }
+
+    protected function printTags($tags): string
+    {
+        $txt = '';
+        foreach (array_filter($tags) as $key => $val) {
+            $txt .= "$key: $val" . PHP_EOL;
+        }
+
+        return $txt . PHP_EOL;
     }
 }

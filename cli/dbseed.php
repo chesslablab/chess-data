@@ -29,3 +29,13 @@ try {
     echo $e->getMessage() . PHP_EOL;
     exit;
 }
+
+if ($result->valid === 0) {
+    echo 'Whoops! It seems as if no games are valid in this file.' . PHP_EOL;
+} else {
+    $invalid = $result->total - $result->valid;
+    if ($invalid > 0) {
+        echo "{$invalid} games did not pass the validation." . PHP_EOL;
+    }
+    echo "{$result->valid} games out of a total of {$result->total} are OK." . PHP_EOL;
+}

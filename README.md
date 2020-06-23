@@ -32,10 +32,12 @@ Find out your Docker container's IP address:
 
 #### `dbseed.php`
 
-    php cli/dbseed.php data/games/01.pgn
-    This will search for valid PGN games in the file.
-    Large files (for example 50MB) may take a few seconds to be inserted into the database.
-    Do you want to proceed? (Y/N): y
+	php cli/dbseed.php data/games/02.pgn
+	This will search for valid PGN games in the file.
+	Large files (for example 50MB) may take a few seconds to be inserted into the database.
+	Do you want to proceed? (Y/N): y
+	4 games did not pass the validation.
+	1331 games out of a total of 1335 are OK.
 
 #### `tomysql.php`
 
@@ -45,19 +47,61 @@ Converts a PGN file into a MySQL `INSERT` statement.
 
 #### `syntax.php`
 
-    php cli/syntax.php data/games/01.pgn
+	php cli/syntax.php data/games/02.pgn
 	This will search for syntax errors in the PGN file.
-	Large files (for example 50MB) may take a few seconds to be parsed.
+	Large files (for example 50MB) may take a few seconds to be parsed. Games not passing the validation will be printed.
 	Do you want to proceed? (Y/N): y
-	Good! This is a valid PGN file.
+	Event: Gibraltar Masters 2019
+	Site: Caleta ENG
+	Date: 2019.01.29
+	Round: 8.17
+	White: Ramirez,Alej
+	Black: Cheparinov,I
+	Result: 1/2-1/2
+	WhiteElo: 2567
+	BlackElo: 2691
+
+	Event: Gibraltar Masters 2019
+	Site: Caleta ENG
+	Date: 2019.01.30
+	Round: 9.34
+	White: Pigott,J
+	Black: Short,N
+	Result: 0-1
+	WhiteElo: 2387
+	BlackElo: 2648
+
+	Event: Gibraltar Masters 2019
+	Site: Caleta ENG
+	Date: 2019.01.31
+	Round: 10.30
+	White: Cramling,P
+	Black: Yuffa,D
+	Result: 0-1
+	WhiteElo: 2462
+	BlackElo: 2578
+
+	Event: Gibraltar Masters 2019
+	Site: Caleta ENG
+	Date: 2019.01.31
+	Round: 10.26
+	White: Harsha,B
+	Black: Vocaturo,D
+	Result: 1/2-1/2
+	WhiteElo: 2481
+	BlackElo: 2626
+
+	4 games did not pass the validation.
+	1331 games out of a total of 1335 are OK.
 
 #### `load.sh`
 
-	bash/load.sh
+	bash/load.sh 
 	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
-	Loading games for 1 s...
-	Loading games for 2 s...
-	Loading games for 32 s...
+
+	1002 games did not pass the validation.
+	104023 games out of a total of 105025 are OK.
+	Loading games for 593 s...
 	The loading of games is completed.
 
 ### Development

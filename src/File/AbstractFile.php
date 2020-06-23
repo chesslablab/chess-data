@@ -10,6 +10,8 @@ abstract class AbstractFile
 
     protected $line;
 
+    protected $result;
+
     public function __construct(string $filepath)
     {
         $content = file_get_contents($filepath);
@@ -23,5 +25,9 @@ abstract class AbstractFile
 
         $this->filepath = $filepath;
         $this->line = new Line;
+        $this->result = (object) [
+            'total' => 0,
+            'valid' => 0,
+        ];
     }
 }

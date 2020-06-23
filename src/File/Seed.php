@@ -9,14 +9,7 @@ use PGNChessData\Pdo;
 
 class Seed extends AbstractFile
 {
-    private $result = [];
-
-    public function __construct(string $filepath)
-    {
-        parent::__construct($filepath);
-    }
-
-    public function db()
+    public function db(): \stdClass
     {
         $tags = [];
         $movetext = '';
@@ -29,10 +22,13 @@ class Seed extends AbstractFile
             } catch (UnknownNotationException $e) {
                 if ($this->line->isOneLinerMovetext($line)) {
                     if (Validate::tags($tags) && $validMovetext = Validate::movetext($line)) {
-                        $this->insert($tags, $validMovetext);
+                        if ($this->insert($tags, $validMovetext)) {
+                            $this->result->valid++;
+                        }
                     }
                     $tags = [];
                     $movetext = '';
+                    $this->result->total++;
                 } elseif ($this->line->startsMovetext($line)) {
                     if (Validate::tags($tags)) {
                         $movetext .= ' ' . $line;
@@ -40,15 +36,20 @@ class Seed extends AbstractFile
                 } elseif ($this->line->endsMovetext($line)) {
                     $movetext .= ' ' . $line;
                     if ($validMovetext = Validate::movetext($movetext)) {
-                        $this->insert($tags, $validMovetext);
+                        if ($this->insert($tags, $validMovetext)) {
+                            $this->result->valid++;
+                        }
                     }
                     $tags = [];
                     $movetext = '';
+                    $this->result->total++;
                 } else {
                     $movetext .= ' ' . $line;
                 }
             }
         }
+
+        return $this->result;
     }
 
     protected function insert(array $tags, string $movetext)

@@ -24,24 +24,24 @@ Find out your Docker container's IP address:
 
 ### Command Line Interface (CLI)
 
-#### `dbcreate.php`
+#### `create.php`
 
-    php cli/dbcreate.php
+    php cli/create.php
     This will remove the current PGN Chess database and the data will be lost.
     Do you want to proceed? (Y/N): y
 
-#### `dbseed.php`
+#### `seed.php`
 
-	php cli/dbseed.php data/games/02.pgn
+	php cli/seed.php data/games/02.pgn
 	This will search for valid PGN games in the file.
 	Large files (for example 50MB) may take a few seconds to be inserted into the database.
 	Do you want to proceed? (Y/N): y
 	4 games did not pass the validation.
 	1331 games out of a total of 1335 are OK.
 
-#### `syntax.php`
+#### `validate.php`
 
-	php cli/syntax.php data/games/02.pgn
+	php cli/validate.php data/games/02.pgn
 	This will search for syntax errors in the PGN file.
 	Large files (for example 50MB) may take a few seconds to be parsed. Games not passing the validation will be printed.
 	Do you want to proceed? (Y/N): y

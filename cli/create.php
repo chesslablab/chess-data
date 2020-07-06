@@ -40,7 +40,7 @@ $sql = 'CREATE TABLE games (' .
     Tag::WHITE_ELO                  . ' CHAR(8) NULL, ' .
     Tag::BLACK_ELO                  . ' CHAR(8) NULL, ' .
     Tag::ECO                        . ' CHAR(8) NULL, ' .
-    'movetext  VARCHAR(3072)
+    'movetext  VARCHAR(3072), attack JSON, center JSON, material JSON, space JSON  
 ) ENGINE = MYISAM';
 
 Pdo::getInstance()->query($sql);

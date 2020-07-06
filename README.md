@@ -39,12 +39,6 @@ Find out your Docker container's IP address:
 	4 games did not pass the validation.
 	1331 games out of a total of 1335 are OK.
 
-#### `tomysql.php`
-
-Converts a PGN file into a MySQL `INSERT` statement.
-
-    php cli/tomysql.php data/games/01.pgn > data/games/01.mysql
-
 #### `syntax.php`
 
 	php cli/syntax.php data/games/02.pgn
@@ -96,7 +90,7 @@ Converts a PGN file into a MySQL `INSERT` statement.
 
 #### `load.sh`
 
-	bash/load.sh 
+	bash/load.sh
 	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
 
 	1002 games did not pass the validation.

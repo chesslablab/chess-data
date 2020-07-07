@@ -98,6 +98,12 @@ Find out your Docker container's IP address:
 	Loading games for 593 s...
 	The loading of games is completed.
 
+### Dashboard
+
+Dashboard for data visualization:
+
+	npm start
+
 ### Development
 
 Should you want to play around with the development environment follow the steps below.

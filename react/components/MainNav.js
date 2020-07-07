@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -7,45 +8,38 @@ import WidgetsIcon from '@material-ui/icons/Widgets';
 import FlashAutoIcon from '@material-ui/icons/FlashAuto';
 import SecurityIcon from '@material-ui/icons/Security';
 import GrainIcon from '@material-ui/icons/Grain';
-import PanoramaIcon from '@material-ui/icons/Panorama';
 
-export const mainListItems = (
+export const MainNav = (
   <div>
-    <ListItem button>
+    <ListItem button component={Link} to="/attack">
       <ListItemIcon>
         <FlashAutoIcon />
       </ListItemIcon>
       <ListItemText primary="Attack" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/center">
       <ListItemIcon>
         <VerticalAlignCenterIcon />
       </ListItemIcon>
       <ListItemText primary="Center" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/king-safety">
       <ListItemIcon>
         <SecurityIcon />
       </ListItemIcon>
       <ListItemText primary="King safety" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/material">
       <ListItemIcon>
         <GrainIcon />
       </ListItemIcon>
       <ListItemText primary="Material" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PanoramaIcon />
-      </ListItemIcon>
-      <ListItemText primary="Space" />
-    </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/space">
       <ListItemIcon>
         <WidgetsIcon />
       </ListItemIcon>
-      <ListItemText primary="Square" />
+      <ListItemText primary="Space" />
     </ListItem>
   </div>
 );

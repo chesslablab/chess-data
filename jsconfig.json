@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "baseUrl": "react"
+  },
+  "include": ["react"]
+}

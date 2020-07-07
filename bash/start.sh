@@ -22,3 +22,4 @@ sed -i "s/DB_HOST=.*/DB_HOST=${GATEWAY}/g" .env
 
 # install dependencies
 docker exec -it pgn_chess_data_php_fpm composer install
+docker exec -it pgn_chess_data_php_fpm npm install

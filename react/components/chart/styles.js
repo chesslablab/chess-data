@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
+  breadcrumbs: {
+    paddingBottom: theme.spacing(2),
+  },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',

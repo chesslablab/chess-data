@@ -2,11 +2,13 @@ import React from 'react';
 import { CartesianGrid, Legend, LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import clsx from 'clsx';
 import useStyles from 'components/chart/styles';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Movetext from 'components/Movetext';
 import Paper from '@material-ui/core/Paper';
 import SevenTagRoster from 'components/SevenTagRoster';
-import Movetext from 'components/Movetext';
+import Typography from '@material-ui/core/Typography';
 
 const data = [
   {
@@ -92,6 +94,10 @@ export default function MaterialChart() {
 
   return (
     <Container maxWidth="lg" className={classes.container}>
+      <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Typography color="textSecondary">Heuristic</Typography>
+        <Typography color="textPrimary">Material</Typography>
+      </Breadcrumbs>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8} lg={9}>
           <Paper className={fixedHeightPaper}>

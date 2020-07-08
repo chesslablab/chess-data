@@ -15,31 +15,31 @@ export const MainNav = (
       <ListItemIcon>
         <FlashAutoIcon />
       </ListItemIcon>
-      <ListItemText primary="Attack" />
+      <ListItemText secondary="Attack" />
     </ListItem>
     <ListItem button component={Link} to="/center">
       <ListItemIcon>
         <VerticalAlignCenterIcon />
       </ListItemIcon>
-      <ListItemText primary="Center" />
+      <ListItemText secondary="Center" />
     </ListItem>
     <ListItem button component={Link} to="/king-safety">
       <ListItemIcon>
         <SecurityIcon />
       </ListItemIcon>
-      <ListItemText primary="King safety" />
+      <ListItemText secondary="King safety" />
     </ListItem>
     <ListItem button component={Link} to="/material">
       <ListItemIcon>
         <GrainIcon />
       </ListItemIcon>
-      <ListItemText primary="Material" />
+      <ListItemText secondary="Material" />
     </ListItem>
     <ListItem button component={Link} to="/space">
       <ListItemIcon>
         <WidgetsIcon />
       </ListItemIcon>
-      <ListItemText primary="Space" />
+      <ListItemText secondary="Space" />
     </ListItem>
   </div>
 );

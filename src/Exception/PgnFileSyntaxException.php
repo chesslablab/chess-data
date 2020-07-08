@@ -2,8 +2,6 @@
 
 namespace PGNChessData\Exception;
 
-use PGNChessData\Exception;
-
 /**
  * Thrown when a pgn file syntax exception occurs.
  *
@@ -11,7 +9,7 @@ use PGNChessData\Exception;
  * @link https://programarivm.com
  * @license GPL
  */
-final class PgnFileSyntaxException extends \InvalidArgumentException implements Exception
+final class PgnFileSyntaxException extends \InvalidArgumentException
 {
     private $result;
 

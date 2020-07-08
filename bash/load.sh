@@ -14,9 +14,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 APP_PATH="$(dirname $DIR)"
 cd $APP_PATH
 
-for file in data/games/*
+for file in data/players/*
 do
-  php cli/dbseed.php $file --quiet
+  php cli/seed.php $file --quiet
   echo "Loading games for $SECONDS s...";
 done
 

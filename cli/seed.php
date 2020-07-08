@@ -4,7 +4,8 @@ namespace PGNChessData\Cli;
 
 use Dotenv\Dotenv;
 use PGNChessData\Exception\PgnFileCharacterEncodingException;
-use PGNChessData\File\Seed as PgnFileSeed;
+use PGNChessData\Seeder\Basic as BasicSeeder;
+use PGNChessData\Seeder\Heuristic as HeuristicSeeder;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -24,10 +25,13 @@ if (!in_array('--quiet', $argv)) {
 }
 
 try {
-    $result = (new PgnFileSeed($argv[1]))->db();
-} catch (PgnFileCharacterEncodingException $e) {
+  if (in_array('--heuristics', $argv)) {
+    $result = (new HeuristicSeeder($argv[1]))->db();
+  } else {
+    $result = (new BasicSeeder($argv[1]))->db();
+  }
+} catch (\Exception $e) {
     echo $e->getMessage() . PHP_EOL;
-    exit;
 }
 
 if ($result->valid === 0) {

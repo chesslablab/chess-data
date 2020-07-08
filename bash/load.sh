@@ -16,7 +16,7 @@ cd $APP_PATH
 
 for file in data/players/*
 do
-  php cli/seed.php $file --quiet
+  php cli/seed.php $file --quiet $1
   echo "Loading games for $SECONDS s...";
 done
 

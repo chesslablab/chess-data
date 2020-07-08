@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessData\File;
+namespace PGNChessData\Seeder;
 
 use PGNChess\Exception\UnknownNotationException;
 use PGNChess\Heuristic\AttackSnapshot;
@@ -10,8 +10,9 @@ use PGNChess\Heuristic\SpaceSnapshot;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate;
 use PGNChessData\Pdo;
+use PGNChessData\File\AbstractFile;
 
-class Seed extends AbstractFile
+class Heuristic extends AbstractFile
 {
     public function db(): \stdClass
     {

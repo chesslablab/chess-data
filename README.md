@@ -30,6 +30,10 @@ Find out your Docker container's IP address:
     This will remove the current PGN Chess database and the data will be lost.
     Do you want to proceed? (Y/N): y
 
+With heuristics evaluation data:
+
+    php cli/create.php --heuristics
+
 #### `seed.php`
 
 	php cli/seed.php data/games/02.pgn
@@ -38,6 +42,10 @@ Find out your Docker container's IP address:
 	Do you want to proceed? (Y/N): y
 	4 games did not pass the validation.
 	1331 games out of a total of 1335 are OK.
+
+With heuristics evaluation data:
+
+	php cli/seed.php data/games/02.pgn --heuristics
 
 #### `validate.php`
 
@@ -98,9 +106,11 @@ Find out your Docker container's IP address:
 	Loading games for 593 s...
 	The loading of games is completed.
 
-### Dashboard
+With heuristics evaluation data:
 
-Dashboard for data visualization:
+	bash/load.sh --heuristics
+
+### Dashboard for Data Visualization
 
 	npm start
 

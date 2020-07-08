@@ -4,9 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import { MainNav } from 'components/MainNav';
+import MainNav from 'components/MainNav';
 import AttackChart from 'components/chart/Attack';
 import CenterChart from 'components/chart/Center';
 import KingSafetyChart from 'components/chart/KingSafety';
@@ -51,8 +49,7 @@ export default function App() {
           paper: clsx(classes.drawerPaper),
         }}
       >
-        <Divider />
-        <List>{MainNav}</List>
+        <MainNav />
       </Drawer>
       <main className={classes.content}>
         <Switch>

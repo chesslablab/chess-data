@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { connect as databaseConnect } from 'actions/databaseActions';
-import { disconnect as databaseDisconnect } from 'actions/databaseActions';
+import { connect as dbConnect } from 'actions/dbActions';
+import { disconnect as dbDisconnect } from 'actions/dbActions';
 import { makeStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
@@ -31,26 +31,26 @@ const MainNav = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const databaseReducer = useSelector(state => state.databaseReducer);
+  const dbReducer = useSelector(state => state.dbReducer);
   const dispatch = useDispatch();
 
-  const handleClickDatabaseSubmenu = () => {
+  const handleClickDbSubmenu = () => {
     setOpen(!open);
   };
 
-  const handleClickConnect = (e) => {
+  const handleClickDbConnect = (e) => {
     e.preventDefault();
-    dispatch(databaseConnect());
+    dispatch(dbConnect());
   };
 
-  const handleClickDisconnect = (e) => {
+  const handleClickDbDisconnect = (e) => {
     e.preventDefault();
-    dispatch(databaseDisconnect());
+    dispatch(dbDisconnect());
   };
 
   return (
     <div>
-      <ListItem button onClick={handleClickDatabaseSubmenu}>
+      <ListItem button onClick={handleClickDbSubmenu}>
         <ListItemIcon>
           <StorageIcon />
         </ListItemIcon>
@@ -60,14 +60,14 @@ const MainNav = () => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {
-            databaseReducer.connected
-              ? <ListItem button className={classes.nested} onClick={handleClickDisconnect}>
+            dbReducer.connected
+              ? <ListItem button className={classes.nested} onClick={handleClickDbDisconnect}>
                   <ListItemIcon>
                     <PowerOffIcon />
                   </ListItemIcon>
                   <ListItemText secondary="Disconnect" />
                 </ListItem>
-              : <ListItem button className={classes.nested} onClick={handleClickConnect}>
+              : <ListItem button className={classes.nested} onClick={handleClickDbConnect}>
                   <ListItemIcon>
                     <PowerIcon />
                   </ListItemIcon>

@@ -1,8 +1,8 @@
-import databaseActionTypes from 'constants/databaseActionTypes';
+import dbActionTypes from 'constants/dbActionTypes';
 
-const database = (state = {}, action) => {
+const db = (state = {}, action) => {
   switch (action.type) {
-    case databaseActionTypes.CLICK_DATABASE_CONNECT:
+    case dbActionTypes.CLICK_DATABASE_CONNECT:
       // TODO
       console.log("TODO: Connect to database.");
       return {
@@ -19,4 +19,4 @@ const database = (state = {}, action) => {
   }
 };
 
-export default database;
+export default db;

@@ -1,4 +1,7 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { connect as databaseConnect } from 'actions/databaseActions';
+import { disconnect as databaseDisconnect } from 'actions/databaseActions';
 import { makeStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
@@ -16,6 +19,7 @@ import FlashAutoIcon from '@material-ui/icons/FlashAuto';
 import SecurityIcon from '@material-ui/icons/Security';
 import GrainIcon from '@material-ui/icons/Grain';
 import PowerIcon from '@material-ui/icons/Power';
+import PowerOffIcon from '@material-ui/icons/PowerOff';
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -23,17 +27,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainNav() {
+const MainNav = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleClick = () => {
+  const databaseReducer = useSelector(state => state.databaseReducer);
+  const dispatch = useDispatch();
+
+  const handleClickDatabaseSubmenu = () => {
     setOpen(!open);
+  };
+
+  const handleClickConnect = (e) => {
+    e.preventDefault();
+    dispatch(databaseConnect());
+  };
+
+  const handleClickDisconnect = (e) => {
+    e.preventDefault();
+    dispatch(databaseDisconnect());
   };
 
   return (
     <div>
-      <ListItem button onClick={handleClick}>
+      <ListItem button onClick={handleClickDatabaseSubmenu}>
         <ListItemIcon>
           <StorageIcon />
         </ListItemIcon>
@@ -42,12 +59,21 @@ export default function MainNav() {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <PowerIcon />
-            </ListItemIcon>
-            <ListItemText secondary="Connect" />
-          </ListItem>
+          {
+            databaseReducer.connected
+              ? <ListItem button className={classes.nested} onClick={handleClickDisconnect}>
+                  <ListItemIcon>
+                    <PowerOffIcon />
+                  </ListItemIcon>
+                  <ListItemText secondary="Disconnect" />
+                </ListItem>
+              : <ListItem button className={classes.nested} onClick={handleClickConnect}>
+                  <ListItemIcon>
+                    <PowerIcon />
+                  </ListItemIcon>
+                  <ListItemText secondary="Connect" />
+                </ListItem>
+          }
         </List>
       </Collapse>
       <Divider />
@@ -84,3 +110,5 @@ export default function MainNav() {
     </div>
   );
 }
+
+export default MainNav;

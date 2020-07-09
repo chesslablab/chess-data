@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { connect as dbConnect } from 'actions/dbActions';
 import { disconnect as dbDisconnect } from 'actions/dbActions';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
-import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,6 +20,8 @@ import SecurityIcon from '@material-ui/icons/Security';
 import GrainIcon from '@material-ui/icons/Grain';
 import PowerIcon from '@material-ui/icons/Power';
 import PowerOffIcon from '@material-ui/icons/PowerOff';
+
+import DbConnectModal from 'components/modal/DbConnect';
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -50,63 +52,66 @@ const MainNav = () => {
 
   return (
     <div>
-      <ListItem button onClick={handleClickDbSubmenu}>
-        <ListItemIcon>
-          <StorageIcon />
-        </ListItemIcon>
-        <ListItemText secondary="Database" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {
-            dbReducer.connected
-              ? <ListItem button className={classes.nested} onClick={handleClickDbDisconnect}>
-                  <ListItemIcon>
-                    <PowerOffIcon />
-                  </ListItemIcon>
-                  <ListItemText secondary="Disconnect" />
-                </ListItem>
-              : <ListItem button className={classes.nested} onClick={handleClickDbConnect}>
-                  <ListItemIcon>
-                    <PowerIcon />
-                  </ListItemIcon>
-                  <ListItemText secondary="Connect" />
-                </ListItem>
-          }
-        </List>
-      </Collapse>
-      <Divider />
-      <ListItem button component={Link} to="/attack">
-        <ListItemIcon>
-          <FlashAutoIcon />
-        </ListItemIcon>
-        <ListItemText secondary="Attack" />
-      </ListItem>
-      <ListItem button component={Link} to="/center">
-        <ListItemIcon>
-          <VerticalAlignCenterIcon />
-        </ListItemIcon>
-        <ListItemText secondary="Center" />
-      </ListItem>
-      <ListItem button component={Link} to="/king-safety">
-        <ListItemIcon>
-          <SecurityIcon />
-        </ListItemIcon>
-        <ListItemText secondary="King safety" />
-      </ListItem>
-      <ListItem button component={Link} to="/material">
-        <ListItemIcon>
-          <GrainIcon />
-        </ListItemIcon>
-        <ListItemText secondary="Material" />
-      </ListItem>
-      <ListItem button component={Link} to="/space">
-        <ListItemIcon>
-          <WidgetsIcon />
-        </ListItemIcon>
-        <ListItemText secondary="Space" />
-      </ListItem>
+      <div>
+        <ListItem button onClick={handleClickDbSubmenu}>
+          <ListItemIcon>
+            <StorageIcon />
+          </ListItemIcon>
+          <ListItemText secondary="Database" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {
+              dbReducer.connected
+                ? <ListItem button className={classes.nested} onClick={handleClickDbDisconnect}>
+                    <ListItemIcon>
+                      <PowerOffIcon />
+                    </ListItemIcon>
+                    <ListItemText secondary="Disconnect" />
+                  </ListItem>
+                : <ListItem button className={classes.nested} onClick={handleClickDbConnect}>
+                    <ListItemIcon>
+                      <PowerIcon />
+                    </ListItemIcon>
+                    <ListItemText secondary="Connect" />
+                  </ListItem>
+            }
+          </List>
+        </Collapse>
+        <Divider />
+        <ListItem button component={Link} to="/attack">
+          <ListItemIcon>
+            <FlashAutoIcon />
+          </ListItemIcon>
+          <ListItemText secondary="Attack" />
+        </ListItem>
+        <ListItem button component={Link} to="/center">
+          <ListItemIcon>
+            <VerticalAlignCenterIcon />
+          </ListItemIcon>
+          <ListItemText secondary="Center" />
+        </ListItem>
+        <ListItem button component={Link} to="/king-safety">
+          <ListItemIcon>
+            <SecurityIcon />
+          </ListItemIcon>
+          <ListItemText secondary="King safety" />
+        </ListItem>
+        <ListItem button component={Link} to="/material">
+          <ListItemIcon>
+            <GrainIcon />
+          </ListItemIcon>
+          <ListItemText secondary="Material" />
+        </ListItem>
+        <ListItem button component={Link} to="/space">
+          <ListItemIcon>
+            <WidgetsIcon />
+          </ListItemIcon>
+          <ListItemText secondary="Space" />
+        </ListItem>
+      </div>
+      <DbConnectModal />
     </div>
   );
 }

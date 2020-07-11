@@ -14,7 +14,7 @@ class Pdo
     /**
      * Reference to the Pdo instance.
      *
-     * @var \PGNChessData\Db\Pdo
+     * @var \Telecoming\Db\Pdo
      */
     private static $instance;
 
@@ -51,11 +51,11 @@ class Pdo
      */
     protected function __construct()
     {
-        $this->dsn = getenv('DB_DRIVER') . ':host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME');
+        $this->dsn = $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
         $this->pdo = new \PDO(
             $this->dsn,
-            getenv('DB_USER'),
-            getenv('DB_PASSWORD')
+            $_ENV['DB_USER'],
+            $_ENV['DB_PASSWORD']
         );
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }

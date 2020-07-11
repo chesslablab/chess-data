@@ -8,7 +8,7 @@ use PGNChessData\Pdo;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = new Dotenv(__DIR__.'/../');
+$dotenv = Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
 if (!in_array('--quiet', $argv)) {
@@ -22,7 +22,7 @@ if (!in_array('--quiet', $argv)) {
     fclose($handle);
 }
 
-$sql = 'CREATE DATABASE IF NOT EXISTS ' . getenv('DB_NAME');
+$sql = 'CREATE DATABASE IF NOT EXISTS ' . $_ENV['DB_NAME'];
 
 Pdo::getInstance()->query($sql);
 

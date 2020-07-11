@@ -6,7 +6,9 @@
 	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-PGN Chess Data provides you with CLI tools to manage a database of PGN games.
+This repo provides you with CLI tools to manage a [PGN Chess](https://github.com/programarivm/pgn-chess) database and an API for the purpose to study chess games as well as to analyze the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+
+For further information on how to plot the API data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
 
@@ -14,15 +16,15 @@ Create an `.env` file:
 
     cp .env.example .env
 
-Start the server:
+Start the environment:
 
     bash/start.sh
 
-Find out your Docker container's IP address:
-
-    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_php_fpm
-
 ### Command Line Interface (CLI)
+
+If you're using Docker find the IP address of the PHP container:
+
+		docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_php_fpm
 
 #### `create.php`
 
@@ -110,9 +112,13 @@ With heuristics evaluation data:
 
 	bash/load.sh --heuristics
 
-### Dashboard for Data Visualization
+### API
 
-	npm start
+If you're using Docker find the IP address of the NGINX container:
+
+    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_nginx
+
+To do: Write documentation.
 
 ### Development
 

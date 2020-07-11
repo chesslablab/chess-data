@@ -8,7 +8,7 @@ use PGNChessData\File\Validate as PgnFileValidate;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = new Dotenv(__DIR__.'/../');
+$dotenv = Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
 echo 'This will search for syntax errors in the PGN file.' . PHP_EOL;

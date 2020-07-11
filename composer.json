@@ -1,6 +1,6 @@
 {
   "name": "programarivm/pgn-chess-data",
-  "description": "PGN Chess Data provides you with PHP CLI tools to manage a database of PGN games.",
+  "description": "CLI tools to manage a PGN Chess database and an API for the purpose to study chess games as well as to analyze programmer-defined heuristic evaluation functions.",
   "type": "project",
   "license": "GPL-3.0-only",
   "keywords": [

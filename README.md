@@ -24,7 +24,7 @@ Start the environment:
 
 If you're using Docker find the IP address of the PHP container:
 
-		docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_php_fpm
+	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_php_fpm
 
 #### `create.php`
 

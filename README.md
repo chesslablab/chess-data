@@ -118,7 +118,17 @@ If you're using Docker find the IP address of the NGINX container:
 
     docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_nginx
 
-To do: Write documentation.
+#### `/api/query`
+
+| Method       | Description                                       |
+|--------------|---------------------------------------------------|
+| `POST`       | Queries the database                              |
+
+| Parameter    | Description                                       |
+|--------------|---------------------------------------------------|
+| `sql`        | SQL query to fetch records from the `games` table |
+
+	curl --insecure -d '{"sql": "SELECT * FROM games WHERE WhiteElo > 2800"}' -H "Content-Type: application/json" -X POST https://172.20.0.4/api/query
 
 ### Development
 

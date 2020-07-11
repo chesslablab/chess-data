@@ -8,8 +8,8 @@ $dotenv = Dotenv\Dotenv::createImmutable(APP_PATH);
 $dotenv->load();
 
 switch (true) {
-    case '/api/sql/query' === $_SERVER['REQUEST_URI']:
-        require APP_PATH . '/src/Api/Sql/Query.php';
+    case '/api/query' === $_SERVER['REQUEST_URI'] && $_SERVER['REQUEST_METHOD'] === 'POST':
+        require APP_PATH . '/src/Api/Query.php';
         exit;
     default:
         http_response_code(404);

@@ -5,6 +5,7 @@ namespace PGNChessData\Seeder;
 use PGNChess\Exception\UnknownNotationException;
 use PGNChess\Heuristic\AttackSnapshot;
 use PGNChess\Heuristic\CenterSnapshot;
+use PGNChess\Heuristic\KingSafetySnapshot;
 use PGNChess\Heuristic\MaterialSnapshot;
 use PGNChess\Heuristic\SpaceSnapshot;
 use PGNChess\PGN\Tag;
@@ -73,7 +74,7 @@ class Heuristic extends AbstractFile
             $sql .= "$name, ";
         }
 
-        $sql .= "movetext, attack, center, material, space) VALUES ($params:movetext, :attack, :center, :material, :space)";
+        $sql .= "movetext, attack, center, king_safety, material, space) VALUES ($params:movetext, :attack, :center, :king_safety, :material, :space)";
 
         array_push($values,
             [
@@ -89,6 +90,11 @@ class Heuristic extends AbstractFile
             [
                 'param' => ':center',
                 'value' => json_encode((new CenterSnapshot($movetext))->take()),
+                'type' => \PDO::PARAM_STR
+            ],
+            [
+                'param' => ':king_safety',
+                'value' => json_encode((new KingSafetySnapshot($movetext))->take()),
                 'type' => \PDO::PARAM_STR
             ],
             [

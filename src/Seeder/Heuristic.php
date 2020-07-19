@@ -5,6 +5,7 @@ namespace PGNChessData\Seeder;
 use PGNChess\Exception\UnknownNotationException;
 use PGNChess\Heuristic\AttackSnapshot;
 use PGNChess\Heuristic\CenterSnapshot;
+use PGNChess\Heuristic\CheckSnapshot;
 use PGNChess\Heuristic\ConnectivitySnapshot;
 use PGNChess\Heuristic\KingSafetySnapshot;
 use PGNChess\Heuristic\MaterialSnapshot;
@@ -75,45 +76,50 @@ class Heuristic extends AbstractFile
             $sql .= "$name, ";
         }
 
-        $sql .= "movetext, attack, center, connectivity, king_safety, material, space) VALUES
-                ($params:movetext, :attack, :center, :connectivity, :king_safety, :material, :space)";
+        $sql .= "`movetext`, `attack`, `center`, `check`, `connectivity`, `king_safety`, `material`, `space`) VALUES
+                ($params:movetext, :attack, :center, :check, :connectivity, :king_safety, :material, :space)";
 
         array_push($values,
             [
                 'param' => ':movetext',
                 'value' => $movetext,
-                'type' => \PDO::PARAM_STR
+                'type' => \PDO::PARAM_STR,
             ],
             [
                 'param' => ':attack',
                 'value' => json_encode((new AttackSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR
+                'type' => \PDO::PARAM_STR,
             ],
             [
                 'param' => ':center',
                 'value' => json_encode((new CenterSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR
+                'type' => \PDO::PARAM_STR,
+            ],
+            [
+                'param' => ':check',
+                'value' => json_encode((new CheckSnapshot($movetext))->take()),
+                'type' => \PDO::PARAM_STR,
             ],
             [
                 'param' => ':connectivity',
                 'value' => json_encode((new ConnectivitySnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR
+                'type' => \PDO::PARAM_STR,
             ],
             [
                 'param' => ':king_safety',
                 'value' => json_encode((new KingSafetySnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR
+                'type' => \PDO::PARAM_STR,
             ],
             [
                 'param' => ':material',
                 'value' => json_encode((new MaterialSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR
+                'type' => \PDO::PARAM_STR,
             ],
             [
                 'param' => ':space',
                 'value' => json_encode((new SpaceSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR
-            ]
+                'type' => \PDO::PARAM_STR,
+            ],
         );
 
         try {

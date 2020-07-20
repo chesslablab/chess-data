@@ -27,7 +27,8 @@
   "require": {
     "php": ">=7.1",
     "programarivm/pgn-chess": "^1.1",
-    "vlucas/phpdotenv": "^5.0"
+    "vlucas/phpdotenv": "^5.0",
+    "rubix/ml": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"

@@ -53,6 +53,7 @@ if (in_array('--heuristics', $argv)) {
         ADD COLUMN `connectivity` JSON,
         ADD COLUMN `king_safety` JSON,
         ADD COLUMN `material` JSON,
-        ADD COLUMN `space` JSON';
+        ADD COLUMN `space` JSON,
+        ADD COLUMN `label` JSON';
     Pdo::getInstance()->query($sql);
 }

@@ -10,6 +10,7 @@ use PGNChess\Heuristic\ConnectivitySnapshot;
 use PGNChess\Heuristic\KingSafetySnapshot;
 use PGNChess\Heuristic\MaterialSnapshot;
 use PGNChess\Heuristic\SpaceSnapshot;
+use PGNChess\ML\Supervised\Regression\Labeller\PrimesSnapshot as PrimesLabellerSnapshot;
 use PGNChess\PGN\Tag;
 use PGNChess\PGN\Validate;
 use PGNChessData\Pdo;
@@ -76,8 +77,24 @@ class Heuristic extends AbstractFile
             $sql .= "$name, ";
         }
 
-        $sql .= "`movetext`, `attack`, `center`, `check`, `connectivity`, `king_safety`, `material`, `space`) VALUES
-                ($params:movetext, :attack, :center, :check, :connectivity, :king_safety, :material, :space)";
+        $sql .= "`movetext`,
+                `attack`,
+                `center`,
+                `check`,
+                `connectivity`,
+                `king_safety`,
+                `material`,
+                `space`,
+                `label`) VALUES
+                ($params:movetext,
+                :attack,
+                :center,
+                :check,
+                :connectivity,
+                :king_safety,
+                :material,
+                :space,
+                :label)";
 
         array_push($values,
             [
@@ -118,6 +135,11 @@ class Heuristic extends AbstractFile
             [
                 'param' => ':space',
                 'value' => json_encode((new SpaceSnapshot($movetext))->take()),
+                'type' => \PDO::PARAM_STR,
+            ],
+            [
+                'param' => ':label',
+                'value' => json_encode((new PrimesLabellerSnapshot($movetext))->take()),
                 'type' => \PDO::PARAM_STR,
             ],
         );

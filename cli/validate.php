@@ -4,7 +4,7 @@ namespace PGNChessData\Cli;
 
 use Dotenv\Dotenv;
 use PGNChessData\Exception\PgnFileCharacterEncodingException;
-use PGNChessData\File\Validate as PgnFileValidate;
+use PGNChessData\Validator\Syntax as SyntaxValidator;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -22,7 +22,7 @@ if (trim($line) != 'Y' && trim($line) != 'y') {
 fclose($handle);
 
 try {
-    $result = (new PgnFileValidate($argv[1]))->syntax();
+    $result = (new SyntaxValidator($argv[1]))->syntax();
 } catch (PgnFileCharacterEncodingException $e) {
     echo $e->getMessage() . PHP_EOL;
     exit;

@@ -1,11 +1,11 @@
 <?php
 
-namespace PGNChessData\Tests\Unit\File;
+namespace PGNChessData\Tests\Unit\Validator;
 
-use PGNChessData\File\Validate as PgnFileValidate;
+use PGNChessData\Validator\Syntax as SyntaxValidator;
 use PGNChessData\Tests\AbstractUnitTestCase;
 
-class ValidateTest extends AbstractUnitTestCase
+class SyntaxTest extends AbstractUnitTestCase
 {
     /**
      * @dataProvider nonStrData
@@ -13,7 +13,7 @@ class ValidateTest extends AbstractUnitTestCase
      */
     public function non_str($filename, $invalid)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/non-str/$filename"))->syntax();
+        $result = (new SyntaxValidator(self::DATA_FOLDER."/non-str/$filename"))->syntax();
 
         $this->assertEquals($invalid, $result->total - $result->valid);
     }
@@ -33,7 +33,7 @@ class ValidateTest extends AbstractUnitTestCase
      */
     public function syntax($filename)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/syntax/$filename"))->syntax();
+        $result = (new SyntaxValidator(self::DATA_FOLDER."/syntax/$filename"))->syntax();
 
         $this->assertTrue($result->valid > 0);
     }
@@ -53,7 +53,7 @@ class ValidateTest extends AbstractUnitTestCase
      */
     public function text($filename)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/text/$filename"))->syntax();
+        $result = (new SyntaxValidator(self::DATA_FOLDER."/text/$filename"))->syntax();
 
         $this->assertEquals(0, $result->valid);
     }
@@ -73,7 +73,7 @@ class ValidateTest extends AbstractUnitTestCase
      */
     public function text_with_non_str($filename, $nErrors)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/text-with-non-str/$filename"))->syntax();
+        $result = (new SyntaxValidator(self::DATA_FOLDER."/text-with-non-str/$filename"))->syntax();
 
         $this->assertEquals(0, $result->valid);
         $this->assertEquals($nErrors, $result->total - $result->valid);
@@ -94,7 +94,7 @@ class ValidateTest extends AbstractUnitTestCase
      */
     public function with_three_invalid($filename)
     {
-        $result = (new PgnFileValidate(self::DATA_FOLDER."/with-three-invalid/$filename"))->syntax();
+        $result = (new SyntaxValidator(self::DATA_FOLDER."/with-three-invalid/$filename"))->syntax();
 
         $this->assertTrue($result->valid > 0);
         $this->assertEquals(3, $result->total - $result->valid);

@@ -26,9 +26,9 @@ if (!in_array('--quiet', $argv)) {
 
 try {
   if (in_array('--heuristics', $argv)) {
-    $result = (new HeuristicSeeder($argv[1]))->db();
+    $result = (new HeuristicSeeder($argv[1]))->seed();
   } else {
-    $result = (new BasicSeeder($argv[1]))->db();
+    $result = (new BasicSeeder($argv[1]))->seed();
   }
 } catch (\Exception $e) {
     echo $e->getMessage() . PHP_EOL;

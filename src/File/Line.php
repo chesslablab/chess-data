@@ -2,7 +2,6 @@
 
 namespace PGNChessData\File;
 
-use PGNChess\PGN\Tag;
 use PGNChess\PGN\Symbol;
 
 class Line

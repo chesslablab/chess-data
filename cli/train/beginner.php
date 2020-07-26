@@ -9,7 +9,7 @@ use PGNChess\Evaluation\Check as CheckEvaluation;
 use PGNChess\Evaluation\Connectivity as ConnectivityEvaluation;
 use PGNChess\Evaluation\KingSafety as KingSafetyEvaluation;
 use PGNChess\Evaluation\Material as MaterialEvaluation;
-use PGNChess\ML\Supervised\Regression\Labeller\Primes as PrimesLabeller;
+use PGNChess\ML\Supervised\Regression\Labeller\PrimesLabeller;
 use PGNChess\PGN\Symbol;
 use PGNChessData\Pdo;
 use Rubix\ML\PersistentModel;
@@ -30,7 +30,7 @@ const DATA_FOLDER = __DIR__.'/../../model';
 $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
 $dotenv->load();
 
-$sql = 'SELECT * FROM games LIMIT 1000';
+$sql = 'SELECT * FROM games LIMIT 10';
 
 $games = Pdo::getInstance()
             ->query($sql)

@@ -30,7 +30,7 @@ const DATA_FOLDER = __DIR__.'/../../model';
 $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
 $dotenv->load();
 
-$sql = 'SELECT * FROM games LIMIT 10';
+$sql = 'SELECT * FROM games LIMIT 1000';
 
 $games = Pdo::getInstance()
             ->query($sql)

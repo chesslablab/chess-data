@@ -6,7 +6,11 @@
 	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to manage a [PGN Chess](https://github.com/programarivm/pgn-chess) database and an API for the purpose to study chess games as well as to analyze the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+This repo provides you with CLI tools to manage a [PGN Chess](https://github.com/programarivm/pgn-chess) database and an API for the purpose to study chess games as well as to analyze heuristic snapshots, which is to say the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+
+A so-called snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. So for example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Day 79 of <a href="https://twitter.com/hashtag/100DaysOfCode?src=hash&amp;ref_src=twsrc%5Etfw">#100DaysOfCode</a> <a href="https://twitter.com/hashtag/CodeNewbie?src=hash&amp;ref_src=twsrc%5Etfw">#CodeNewbie</a> <a href="https://twitter.com/hashtag/React?src=hash&amp;ref_src=twsrc%5Etfw">#React</a><br>Learned about <a href="https://twitter.com/hashtag/MLP?src=hash&amp;ref_src=twsrc%5Etfw">#MLP</a> <a href="https://twitter.com/hashtag/regression?src=hash&amp;ref_src=twsrc%5Etfw">#regression</a>. Added the <a href="https://twitter.com/hashtag/check?src=hash&amp;ref_src=twsrc%5Etfw">#check</a> feature to the dimensionality of my machine <a href="https://twitter.com/hashtag/learning?src=hash&amp;ref_src=twsrc%5Etfw">#learning</a> sample. This <a href="https://twitter.com/hashtag/chess?src=hash&amp;ref_src=twsrc%5Etfw">#chess</a> feature looks more like a digital signal than any of the other ones. <a href="https://t.co/0oroVSJ4Or">https://t.co/0oroVSJ4Or</a> <a href="https://t.co/FuUDbKlBRH">pic.twitter.com/FuUDbKlBRH</a></p>&mdash; programarivm (@programarivm) <a href="https://twitter.com/programarivm/status/1284920391824289793?ref_src=twsrc%5Etfw">July 19, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 For further information on how to plot the API data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
@@ -28,15 +32,19 @@ If you're using Docker find the IP address of the PHP container:
 
 #### `create.php`
 
+Create a database with STR tag pairs and movetexts:
+
     php cli/create.php
     This will remove the current PGN Chess database and the data will be lost.
     Do you want to proceed? (Y/N): y
 
-With heuristics evaluation data:
+Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
 
     php cli/create.php --heuristics
 
 #### `seed.php`
+
+Seed the database with STR tag pairs and movetexts:
 
 	php cli/seed.php data/games/02.pgn
 	This will search for valid PGN games in the file.
@@ -45,11 +53,13 @@ With heuristics evaluation data:
 	4 games did not pass the validation.
 	1331 games out of a total of 1335 are OK.
 
-With heuristics evaluation data:
+Seed the database with STR tag pairs, movetexts and heuristic snapshots for visual study:
 
 	php cli/seed.php data/games/02.pgn --heuristics
 
 #### `validate.php`
+
+Validates that the PGN syntax in a text file is correct:
 
 	php cli/validate.php data/games/02.pgn
 	This will search for syntax errors in the PGN file.
@@ -100,6 +110,8 @@ With heuristics evaluation data:
 
 #### `load.sh`
 
+Load STR tag pairs and movetexts from multiple PGN files:
+
 	bash/load.sh
 	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
 
@@ -108,7 +120,7 @@ With heuristics evaluation data:
 	Loading games for 593 s...
 	The loading of games is completed.
 
-With heuristics evaluation data:
+Load STR tag pairs, movetexts and heuristic snapshots from multiple PGN files for visual study:
 
 	bash/load.sh --heuristics
 

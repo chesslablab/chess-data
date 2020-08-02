@@ -3,19 +3,15 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use PGNChess\Evaluation\Attack as AttackEvaluation;
-use PGNChess\Evaluation\Center as CenterEvaluation;
-use PGNChess\Evaluation\Check as CheckEvaluation;
-use PGNChess\Evaluation\Connectivity as ConnectivityEvaluation;
-use PGNChess\Evaluation\KingSafety as KingSafetyEvaluation;
-use PGNChess\Evaluation\Material as MaterialEvaluation;
-use PGNChess\ML\Supervised\Regression\Labeller\PrimesLabeller;
+use PGNChess\Player;
+use PGNChess\ML\Supervised\Regression\Labeller\Primes\Labeller as PrimesLabeller;
+use PGNChess\ML\Supervised\Regression\Sampler\Primes\Sampler as PrimesSampler;
+use PGNChess\PGN\Convert;
 use PGNChess\PGN\Symbol;
 use PGNChessData\Pdo;
 use Rubix\ML\PersistentModel;
 use Rubix\ML\CrossValidation\Metrics\RSquared;
 use Rubix\ML\Datasets\Labeled;
-use Rubix\ML\Datasets\Unlabeled;
 use Rubix\ML\NeuralNet\CostFunctions\LeastSquares;
 use Rubix\ML\NeuralNet\Layers\Dense;
 use Rubix\ML\NeuralNet\Layers\Activation;
@@ -40,27 +36,16 @@ $samples = [];
 $labels = [];
 
 foreach ($games as $game) {
-    $attack = json_decode($game['attack']);
-    $connectivity = json_decode($game['connectivity']);
-    $center = json_decode($game['center']);
-    $kingSafety = json_decode($game['king_safety']);
-    $material = json_decode($game['material']);
-    $check = json_decode($game['check']);
-    for ($i = 0; $i < count($attack); $i++) {
-        $samples[] = [
-            $attack[$i]->{Symbol::WHITE},
-            $connectivity[$i]->{Symbol::WHITE},
-            $center[$i]->{Symbol::WHITE},
-            $kingSafety[$i]->{Symbol::WHITE},
-            $material[$i]->{Symbol::WHITE},
-            $check[$i]->{Symbol::WHITE},
-        ];
-        $labels[] = PrimesLabeller::WEIGHT[AttackEvaluation::NAME] * $attack[$i]->{Symbol::BLACK} +
-                    PrimesLabeller::WEIGHT[ConnectivityEvaluation::NAME] * $connectivity[$i]->{Symbol::BLACK} +
-                    PrimesLabeller::WEIGHT[CenterEvaluation::NAME] * $center[$i]->{Symbol::BLACK} +
-                    PrimesLabeller::WEIGHT[KingSafetyEvaluation::NAME] * $kingSafety[$i]->{Symbol::BLACK} +
-                    PrimesLabeller::WEIGHT[MaterialEvaluation::NAME] * $material[$i]->{Symbol::BLACK} +
-                    PrimesLabeller::WEIGHT[CheckEvaluation::NAME] * $check[$i]->{Symbol::BLACK};
+    $player = new Player($game['movetext']);
+    foreach ($player->getMoves() as $move) {
+        $player->getBoard()->play(Convert::toStdObj(Symbol::WHITE, $move[0]));
+        if (isset($move[1])) {
+            $player->getBoard()->play(Convert::toStdObj(Symbol::BLACK, $move[1]));
+        }
+        $sample = (new PrimesSampler($player->getBoard()))->sample();
+        $label = (new PrimesLabeller($sample))->label();
+        $samples[] = $sample[Symbol::WHITE];
+        $labels[] = $label[Symbol::BLACK];
     }
 }
 

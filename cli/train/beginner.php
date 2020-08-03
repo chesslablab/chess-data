@@ -26,7 +26,7 @@ const DATA_FOLDER = __DIR__.'/../../model';
 $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
 $dotenv->load();
 
-$sql = 'SELECT * FROM games LIMIT 100';
+$sql = "SELECT * FROM games WHERE id BETWEEN {$argv[1]} AND {$argv[2]}";
 
 $games = Pdo::getInstance()
             ->query($sql)

@@ -31,6 +31,7 @@ $sql = 'DROP TABLE IF EXISTS games';
 Pdo::getInstance()->query($sql);
 
 $sql = 'CREATE TABLE games (' .
+    ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
     Tag::EVENT                      . ' CHAR(64) NULL, ' . // STR (Seven Tag Roster)
     Tag::SITE                       . ' CHAR(64) NULL, ' .
     Tag::DATE                       . ' CHAR(16) NULL, ' .
@@ -40,8 +41,9 @@ $sql = 'CREATE TABLE games (' .
     Tag::WHITE_ELO                  . ' CHAR(8) NULL, ' .
     Tag::BLACK_ELO                  . ' CHAR(8) NULL, ' .
     Tag::ECO                        . ' CHAR(8) NULL, ' .
-    'movetext  VARCHAR(3072)
-) ENGINE = MYISAM';
+    ' movetext  VARCHAR(3072), ' .
+    'PRIMARY KEY (id) ' .
+') ENGINE = InnoDB';
 
 Pdo::getInstance()->query($sql);
 

@@ -15,12 +15,49 @@ const DATA_FOLDER = __DIR__.'/../../model';
 $estimator = PersistentModel::load(new Filesystem(DATA_FOLDER.'/beginner.model'));
 
 $board = new Board;
+
+
 $board->play(Convert::toStdObj(Symbol::WHITE, 'e4'));
+echo "w e4" . PHP_EOL;
 
 $sample = (new PrimesSampler($board))->sample();
-
 $prediction = $estimator->predictSample($sample[Symbol::WHITE]);
 $decoded = (new PrimesLabelDecoder($board))->decode(Symbol::BLACK, $prediction);
 
-echo "Prediction: {$prediction}" . PHP_EOL;
-echo "Decoded: {$decoded}" . PHP_EOL;
+// b6
+echo "b {$decoded}" . PHP_EOL;
+$board->play(Convert::toStdObj(Symbol::BLACK, $decoded));
+$board->play(Convert::toStdObj(Symbol::WHITE, 'd4'));
+echo "w d4" . PHP_EOL;
+
+$sample = (new PrimesSampler($board))->sample();
+$prediction = $estimator->predictSample($sample[Symbol::WHITE]);
+$decoded = (new PrimesLabelDecoder($board))->decode(Symbol::BLACK, $prediction);
+
+// b5
+echo "b {$decoded}" . PHP_EOL;
+$board->play(Convert::toStdObj(Symbol::BLACK, $decoded));
+$board->play(Convert::toStdObj(Symbol::WHITE, 'Nf3'));
+echo "w Nf3" . PHP_EOL;
+
+$sample = (new PrimesSampler($board))->sample();
+$prediction = $estimator->predictSample($sample[Symbol::WHITE]);
+$decoded = (new PrimesLabelDecoder($board))->decode(Symbol::BLACK, $prediction);
+
+// Nc6
+echo "b {$decoded}" . PHP_EOL;
+$board->play(Convert::toStdObj(Symbol::BLACK, $decoded));
+$board->play(Convert::toStdObj(Symbol::WHITE, 'Bxb5'));
+echo "w Bxb5" . PHP_EOL;
+
+$sample = (new PrimesSampler($board))->sample();
+$prediction = $estimator->predictSample($sample[Symbol::WHITE]);
+$decoded = (new PrimesLabelDecoder($board))->decode(Symbol::BLACK, $prediction);
+
+// Nh6
+echo "b {$decoded}" . PHP_EOL;
+$board->play(Convert::toStdObj(Symbol::BLACK, $decoded));
+$board->play(Convert::toStdObj(Symbol::WHITE, 'Bxc6'));
+echo "w Bxc6" . PHP_EOL;
+
+echo $board->getMovetext() . PHP_EOL;

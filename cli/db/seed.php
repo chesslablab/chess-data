@@ -7,9 +7,9 @@ use PGNChessData\Exception\PgnFileCharacterEncodingException;
 use PGNChessData\Seeder\Basic as BasicSeeder;
 use PGNChessData\Seeder\Heuristic as HeuristicSeeder;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__.'/../');
+$dotenv = Dotenv::createImmutable(__DIR__.'/../../');
 $dotenv->load();
 
 if (!in_array('--quiet', $argv)) {

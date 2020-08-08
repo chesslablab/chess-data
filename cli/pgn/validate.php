@@ -6,9 +6,9 @@ use Dotenv\Dotenv;
 use PGNChessData\Exception\PgnFileCharacterEncodingException;
 use PGNChessData\Validator\Syntax as SyntaxValidator;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__.'/../');
+$dotenv = Dotenv::createImmutable(__DIR__.'/../../');
 $dotenv->load();
 
 echo 'This will search for syntax errors in the PGN file.' . PHP_EOL;

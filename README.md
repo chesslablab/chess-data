@@ -32,13 +32,13 @@ Then, if you're using Docker you might want to find the IP address of your PHP c
 
 Create a database with STR tag pairs and movetexts:
 
-    php cli/create.php
+    php cli/db/create.php
     This will remove the current PGN Chess database and the data will be lost.
     Do you want to proceed? (Y/N): y
 
 Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
 
-    php cli/create.php --heuristics
+    php cli/db/create.php --heuristics
 
 #### `load.sh`
 
@@ -68,7 +68,7 @@ Play with the `beginner.model`:
 
 Seed the database with STR tag pairs and movetexts:
 
-	php cli/seed.php data/games/02.pgn
+	php cli/db/seed.php data/games/02.pgn
 	This will search for valid PGN games in the file.
 	Large files (for example 50MB) may take a few seconds to be inserted into the database.
 	Do you want to proceed? (Y/N): y
@@ -77,7 +77,7 @@ Seed the database with STR tag pairs and movetexts:
 
 Seed the database with STR tag pairs, movetexts and heuristic snapshots for visual study:
 
-	php cli/seed.php data/games/02.pgn --heuristics
+	php cli/db/seed.php data/games/02.pgn --heuristics
 
 #### `train.php`
 
@@ -106,7 +106,7 @@ Train the `beginner.model` with the games identified with an ID from `1` to `100
 
 Validates that the PGN syntax in a text file is correct:
 
-	php cli/validate.php data/games/02.pgn
+	php cli/pgn/validate.php data/games/02.pgn
 	This will search for syntax errors in the PGN file.
 	Large files (for example 50MB) may take a few seconds to be parsed. Games not passing the validation will be printed.
 	Do you want to proceed? (Y/N): y

@@ -26,21 +26,9 @@ Then, if you're using Docker you might want to find the IP address of your PHP c
 
 	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_php_fpm
 
-### Command Line Interface (CLI)
+### Bash Scripts
 
-#### `create.php`
-
-Create a database with STR tag pairs and movetexts:
-
-    php cli/db/create.php
-    This will remove the current PGN Chess database and the data will be lost.
-    Do you want to proceed? (Y/N): y
-
-Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
-
-    php cli/db/create.php --heuristics
-
-#### `load.sh`
+#### `bash/load.sh`
 
 Load STR tag pairs and movetexts from multiple PGN files:
 
@@ -56,15 +44,21 @@ Load STR tag pairs, movetexts and heuristic snapshots from multiple PGN files fo
 
 	bash/load.sh --heuristics
 
-#### `play.php`
+### Command Line Interface (CLI)
 
-Play with the `beginner.model`:
+#### `cli/db/create.php`
 
-	php cli/play/beginner.php
-	Prediction: 570.13386056267
-	Decoded: c6
+Create a database with STR tag pairs and movetexts:
 
-#### `seed.php`
+    php cli/db/create.php
+    This will remove the current PGN Chess database and the data will be lost.
+    Do you want to proceed? (Y/N): y
+
+Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
+
+    php cli/db/create.php --heuristics
+
+#### `cli/db/seed.php`
 
 Seed the database with STR tag pairs and movetexts:
 
@@ -79,30 +73,7 @@ Seed the database with STR tag pairs, movetexts and heuristic snapshots for visu
 
 	php cli/db/seed.php data/games/02.pgn --heuristics
 
-#### `train.php`
-
-Train the `beginner.model` with the games identified with an ID from `1` to `100`:
-
-	php cli/train/beginner.php 1 100
-	[2020-08-02 15:32:14] beginner.INFO: Learner init MLP Regressor {hidden_layers: [0: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 1: Activation {activation_fn: ReLU}, 2: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 3: Activation {activation_fn: ReLU}, 4: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 5: Activation {activation_fn: ReLU}, 6: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 7: Activation {activation_fn: ReLU}], batch_size: 128, optimizer: RMS Prop {rate: 0.001, decay: 0.1}, alpha: 0.001, epochs: 100, min_change: 1.0E-5, window: 3, hold_out: 0.1, cost_fn: Least Squares, metric: R Squared}
-	[2020-08-02 15:32:14] beginner.INFO: Training started
-	[2020-08-02 15:32:25] beginner.INFO: Epoch 1 R Squared=0.94634926347514 Least Squares=94238.878402936
-	[2020-08-02 15:32:37] beginner.INFO: Epoch 2 R Squared=0.96649146513525 Least Squares=1142.1373874594
-	[2020-08-02 15:32:51] beginner.INFO: Epoch 3 R Squared=0.97117243174116 Least Squares=1185.2010264815
-	[2020-08-02 15:33:04] beginner.INFO: Epoch 4 R Squared=0.94546383822505 Least Squares=1062.9393909794
-	[2020-08-02 15:33:17] beginner.INFO: Epoch 5 R Squared=0.97429089706881 Least Squares=1021.7216523576
-	[2020-08-02 15:33:29] beginner.INFO: Epoch 6 R Squared=0.96820369201207 Least Squares=1013.5754980441
-	[2020-08-02 15:33:41] beginner.INFO: Epoch 7 R Squared=0.9778175516864 Least Squares=899.41283826994
-	[2020-08-02 15:33:52] beginner.INFO: Epoch 8 R Squared=0.96860370301558 Least Squares=918.29175554535
-	[2020-08-02 15:34:02] beginner.INFO: Epoch 9 R Squared=0.97610453676813 Least Squares=929.87241344354
-	[2020-08-02 15:34:14] beginner.INFO: Epoch 10 R Squared=0.97839266028844 Least Squares=906.37782887962
-	[2020-08-02 15:34:25] beginner.INFO: Epoch 11 R Squared=0.95885220810568 Least Squares=871.08193382194
-	[2020-08-02 15:34:37] beginner.INFO: Epoch 12 R Squared=0.95919889786785 Least Squares=865.28135340945
-	[2020-08-02 15:34:47] beginner.INFO: Epoch 13 R Squared=0.97794930923409 Least Squares=880.09646901067
-	[2020-08-02 15:34:47] beginner.INFO: Parameters restored from snapshot at epoch 10.
-	[2020-08-02 15:34:47] beginner.INFO: Training complete
-
-#### `validate.php`
+#### `cli/pgn/validate.php`
 
 Validates that the PGN syntax in a text file is correct:
 
@@ -152,6 +123,45 @@ Validates that the PGN syntax in a text file is correct:
 
 	4 games did not pass the validation.
 	1331 games out of a total of 1335 are OK.
+
+#### `cli/play/beginner.php`
+
+Play with the `beginner.model`:
+
+	php cli/play/beginner.php
+	Prediction: 570.13386056267
+	Decoded: c6
+
+#### `cli/prepare/beginner.php`
+
+Create the `1_100_beginner.csv` dataset with the games identified with an ID from `1` to `100`:
+
+	php cli/prepare/beginner.php 1 100
+	Prediction: 570.13386056267
+	Decoded: c6
+
+#### `cli/train/beginner.php`
+
+Train the `beginner.model` with the games identified with an ID from `1` to `100`:
+
+	php cli/train/beginner.php 1 100
+	[2020-08-02 15:32:14] beginner.INFO: Learner init MLP Regressor {hidden_layers: [0: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 1: Activation {activation_fn: ReLU}, 2: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 3: Activation {activation_fn: ReLU}, 4: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 5: Activation {activation_fn: ReLU}, 6: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 7: Activation {activation_fn: ReLU}], batch_size: 128, optimizer: RMS Prop {rate: 0.001, decay: 0.1}, alpha: 0.001, epochs: 100, min_change: 1.0E-5, window: 3, hold_out: 0.1, cost_fn: Least Squares, metric: R Squared}
+	[2020-08-02 15:32:14] beginner.INFO: Training started
+	[2020-08-02 15:32:25] beginner.INFO: Epoch 1 R Squared=0.94634926347514 Least Squares=94238.878402936
+	[2020-08-02 15:32:37] beginner.INFO: Epoch 2 R Squared=0.96649146513525 Least Squares=1142.1373874594
+	[2020-08-02 15:32:51] beginner.INFO: Epoch 3 R Squared=0.97117243174116 Least Squares=1185.2010264815
+	[2020-08-02 15:33:04] beginner.INFO: Epoch 4 R Squared=0.94546383822505 Least Squares=1062.9393909794
+	[2020-08-02 15:33:17] beginner.INFO: Epoch 5 R Squared=0.97429089706881 Least Squares=1021.7216523576
+	[2020-08-02 15:33:29] beginner.INFO: Epoch 6 R Squared=0.96820369201207 Least Squares=1013.5754980441
+	[2020-08-02 15:33:41] beginner.INFO: Epoch 7 R Squared=0.9778175516864 Least Squares=899.41283826994
+	[2020-08-02 15:33:52] beginner.INFO: Epoch 8 R Squared=0.96860370301558 Least Squares=918.29175554535
+	[2020-08-02 15:34:02] beginner.INFO: Epoch 9 R Squared=0.97610453676813 Least Squares=929.87241344354
+	[2020-08-02 15:34:14] beginner.INFO: Epoch 10 R Squared=0.97839266028844 Least Squares=906.37782887962
+	[2020-08-02 15:34:25] beginner.INFO: Epoch 11 R Squared=0.95885220810568 Least Squares=871.08193382194
+	[2020-08-02 15:34:37] beginner.INFO: Epoch 12 R Squared=0.95919889786785 Least Squares=865.28135340945
+	[2020-08-02 15:34:47] beginner.INFO: Epoch 13 R Squared=0.97794930923409 Least Squares=880.09646901067
+	[2020-08-02 15:34:47] beginner.INFO: Parameters restored from snapshot at epoch 10.
+	[2020-08-02 15:34:47] beginner.INFO: Training complete
 
 ### API
 

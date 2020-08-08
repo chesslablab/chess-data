@@ -137,8 +137,6 @@ Play with the `beginner.model`:
 Create the `1_100_beginner.csv` dataset with the games identified with an ID from `1` to `100`:
 
 	php cli/prepare/beginner.php 1 100
-	Prediction: 570.13386056267
-	Decoded: c6
 
 #### `cli/train/beginner.php`
 

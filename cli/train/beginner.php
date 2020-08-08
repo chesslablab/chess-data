@@ -15,12 +15,15 @@ use Rubix\ML\NeuralNet\Optimizers\RMSProp;
 use Rubix\ML\Other\Loggers\Screen;
 use Rubix\ML\Persisters\Filesystem;
 use Rubix\ML\Regressors\MLPRegressor;
+use Rubix\ML\Transformers\NumericStringConverter;
 
 const DATASET_FOLDER = __DIR__.'/../../dataset';
 const MODEL_FOLDER = __DIR__.'/../../model';
 
 $extractor = new ColumnPicker(new CSV(DATASET_FOLDER."/{$argv[1]}", false, ';'), [1, 2, 3, 4, 5, 6]);
-$dataset = Labeled::fromIterator($extractor);
+
+$dataset = Labeled::fromIterator($extractor)
+    ->apply(new NumericStringConverter());
 
 $mlpRegressor = new MLPRegressor([
     new Dense(100),

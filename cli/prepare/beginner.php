@@ -34,7 +34,7 @@ foreach ($games as $game) {
         $label = (new PrimesLabeller($sample))->label();
         $row = $sample[Symbol::WHITE];
         $row[] = $label[Symbol::BLACK];
-        fputcsv($fp, $row);
+        fputcsv($fp, $row, ';');
     }
 }
 

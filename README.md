@@ -142,9 +142,9 @@ Create the `1_100_beginner.csv` dataset with the games identified with an ID fro
 
 #### `cli/train/beginner.php`
 
-Train the `beginner.model` with the games identified with an ID from `1` to `100`:
+Train the `beginner.model` with the `1_100_beginner.csv` dataset:
 
-	php cli/train/beginner.php 1 100
+	php cli/train/beginner.php 1_100_beginner.csv
 	[2020-08-02 15:32:14] beginner.INFO: Learner init MLP Regressor {hidden_layers: [0: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 1: Activation {activation_fn: ReLU}, 2: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 3: Activation {activation_fn: ReLU}, 4: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 5: Activation {activation_fn: ReLU}, 6: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 7: Activation {activation_fn: ReLU}], batch_size: 128, optimizer: RMS Prop {rate: 0.001, decay: 0.1}, alpha: 0.001, epochs: 100, min_change: 1.0E-5, window: 3, hold_out: 0.1, cost_fn: Least Squares, metric: R Squared}
 	[2020-08-02 15:32:14] beginner.INFO: Training started
 	[2020-08-02 15:32:25] beginner.INFO: Epoch 1 R Squared=0.94634926347514 Least Squares=94238.878402936

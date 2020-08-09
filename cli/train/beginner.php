@@ -23,7 +23,8 @@ const MODEL_FOLDER = __DIR__.'/../../model';
 $extractor = new ColumnPicker(new CSV(DATASET_FOLDER."/{$argv[1]}", false, ';'), [1, 2, 3, 4, 5, 6]);
 
 $dataset = Labeled::fromIterator($extractor)
-    ->apply(new NumericStringConverter());
+    ->apply(new NumericStringConverter())
+    ->transformLabels('floatval');
 
 $mlpRegressor = new MLPRegressor([
     new Dense(100),

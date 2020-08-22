@@ -20,7 +20,7 @@ use Rubix\ML\Transformers\NumericStringConverter;
 const DATASET_FOLDER = __DIR__.'/../../dataset';
 const MODEL_FOLDER = __DIR__.'/../../model';
 
-$extractor = new ColumnPicker(new CSV(DATASET_FOLDER."/{$argv[1]}", false, ';'), [0, 1, 2, 3, 4, 5, 6, 7]);
+$extractor = new ColumnPicker(new CSV(DATASET_FOLDER."/{$argv[1]}", false, ';'), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
 $dataset = Labeled::fromIterator($extractor)
     ->apply(new NumericStringConverter())

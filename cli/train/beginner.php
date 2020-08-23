@@ -20,24 +20,28 @@ use Rubix\ML\Transformers\NumericStringConverter;
 const DATASET_FOLDER = __DIR__.'/../../dataset';
 const MODEL_FOLDER = __DIR__.'/../../model';
 
-$extractor = new ColumnPicker(new CSV(DATASET_FOLDER."/{$argv[1]}", false, ';'), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+$extractor = new CSV(DATASET_FOLDER."/{$argv[1]}", false, ';');
 
 $dataset = Labeled::fromIterator($extractor)
     ->apply(new NumericStringConverter())
     ->transformLabels('floatval');
 
-$mlpRegressor = new MLPRegressor([
-    new Dense(100),
-    new Activation(new ReLU()),
-    new Dense(100),
-    new Activation(new ReLU()),
-    new Dense(50),
-    new Activation(new ReLU()),
-    new Dense(50),
-    new Activation(new ReLU()),
-], 128, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
+if (file_exists(MODEL_FOLDER.'/beginner.model')) {
+    $estimator = PersistentModel::load(new Filesystem(MODEL_FOLDER.'/beginner.model'));
+} else {
+    $mlpRegressor = new MLPRegressor([
+        new Dense(100),
+        new Activation(new ReLU()),
+        new Dense(100),
+        new Activation(new ReLU()),
+        new Dense(50),
+        new Activation(new ReLU()),
+        new Dense(50),
+        new Activation(new ReLU()),
+    ], 128, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
 
-$estimator = new PersistentModel($mlpRegressor, new Filesystem(MODEL_FOLDER.'/beginner.model'));
+    $estimator = new PersistentModel($mlpRegressor, new Filesystem(MODEL_FOLDER.'/beginner.model'));
+}
 
 $estimator->setLogger(new Screen('beginner'));
 $estimator->train($dataset);

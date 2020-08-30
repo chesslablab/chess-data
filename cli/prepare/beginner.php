@@ -24,30 +24,34 @@ $filename = "{$argv[1]}_{$argv[2]}_beginner.csv";
 $fp = fopen(DATA_FOLDER."/$filename", 'w');
 
 foreach ($games as $game) {
-    $heuristicPicture = (new StandardHeuristicPicture($game['movetext']))->take();
-    $eventPicture = (new StandardEventPicture($game['movetext']))->take();
-    $picture = [
-        Symbol::WHITE => [],
-        Symbol::BLACK => [],
-    ];
-    for ($i = 0; $i < count($heuristicPicture[Symbol::WHITE]); $i++) {
-        $picture[Symbol::WHITE][$i] = array_merge(
-            $heuristicPicture[Symbol::WHITE][$i],
-            $eventPicture[Symbol::WHITE][$i]
-        );
-        $picture[Symbol::BLACK][$i] = array_merge(
-            $heuristicPicture[Symbol::BLACK][$i],
-            $eventPicture[Symbol::BLACK][$i]
-        );
-        $label = (new PrimesLabeller([
-            Symbol::WHITE => $picture[Symbol::WHITE][$i],
-            Symbol::BLACK => $picture[Symbol::BLACK][$i]
-        ]))->label();
-        $row = array_merge(
-            $picture[Symbol::WHITE][$i],
-            [$label[Symbol::BLACK]]
-        );
-        fputcsv($fp, $row, ';');
+    try {
+        $heuristicPicture = (new StandardHeuristicPicture($game['movetext']))->take();
+        $eventPicture = (new StandardEventPicture($game['movetext']))->take();
+        $picture = [
+            Symbol::WHITE => [],
+            Symbol::BLACK => [],
+        ];
+        for ($i = 0; $i < count($heuristicPicture[Symbol::WHITE]); $i++) {
+            $picture[Symbol::WHITE][$i] = array_merge(
+                $heuristicPicture[Symbol::WHITE][$i],
+                $eventPicture[Symbol::WHITE][$i]
+            );
+            $picture[Symbol::BLACK][$i] = array_merge(
+                $heuristicPicture[Symbol::BLACK][$i],
+                $eventPicture[Symbol::BLACK][$i]
+            );
+            $label = (new PrimesLabeller([
+                Symbol::WHITE => $picture[Symbol::WHITE][$i],
+                Symbol::BLACK => $picture[Symbol::BLACK][$i]
+            ]))->label();
+            $row = array_merge(
+                $picture[Symbol::WHITE][$i],
+                [$label[Symbol::BLACK]]
+            );
+            fputcsv($fp, $row, ';');
+        }
+    } catch (\Exception $e) {
+        // do nothing
     }
 }
 

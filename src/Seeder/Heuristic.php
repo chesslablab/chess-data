@@ -2,14 +2,8 @@
 
 namespace PGNChessData\Seeder;
 
-use PGNChess\Heuristic\AttackSnapshot;
-use PGNChess\Heuristic\CenterSnapshot;
-use PGNChess\Heuristic\CheckSnapshot;
-use PGNChess\Heuristic\ConnectivitySnapshot;
-use PGNChess\Heuristic\KingSafetySnapshot;
-use PGNChess\Heuristic\MaterialSnapshot;
-use PGNChess\Heuristic\SpaceSnapshot;
-use PGNChess\ML\Supervised\Regression\Labeller\PrimesSnapshot as PrimesLabellerSnapshot;
+use PGNChess\Heuristic\Picture\Standard as StandardHeuristicPicture;
+use PGNChess\ML\Supervised\Regression\Labeller\Primes\Snapshot as PrimesLabellerSnapshot;
 use PGNChess\PGN\Tag;
 use PGNChessData\Pdo;
 
@@ -32,23 +26,9 @@ class Heuristic extends AbstractSeeder
         }
 
         $sql .= "`movetext`,
-                `attack`,
-                `center`,
-                `check`,
-                `connectivity`,
-                `king_safety`,
-                `material`,
-                `space`,
-                `label`) VALUES
+                `heuristic_picture`) VALUES
                 ($params:movetext,
-                :attack,
-                :center,
-                :check,
-                :connectivity,
-                :king_safety,
-                :material,
-                :space,
-                :label)";
+                :heuristic_picture)";
 
         array_push($values,
             [
@@ -57,43 +37,8 @@ class Heuristic extends AbstractSeeder
                 'type' => \PDO::PARAM_STR,
             ],
             [
-                'param' => ':attack',
-                'value' => json_encode((new AttackSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':center',
-                'value' => json_encode((new CenterSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':check',
-                'value' => json_encode((new CheckSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':connectivity',
-                'value' => json_encode((new ConnectivitySnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':king_safety',
-                'value' => json_encode((new KingSafetySnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':material',
-                'value' => json_encode((new MaterialSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':space',
-                'value' => json_encode((new SpaceSnapshot($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':label',
-                'value' => json_encode((new PrimesLabellerSnapshot($movetext))->take()),
+                'param' => ':heuristic_picture',
+                'value' => json_encode((new StandardHeuristicPicture($movetext))->take()),
                 'type' => \PDO::PARAM_STR,
             ],
         );

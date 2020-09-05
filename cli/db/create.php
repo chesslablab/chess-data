@@ -49,13 +49,6 @@ Pdo::getInstance()->query($sql);
 
 if (in_array('--heuristics', $argv)) {
     $sql = 'ALTER TABLE games
-        ADD COLUMN `attack` JSON,
-        ADD COLUMN `center` JSON,
-        ADD COLUMN `check` JSON,
-        ADD COLUMN `connectivity` JSON,
-        ADD COLUMN `king_safety` JSON,
-        ADD COLUMN `material` JSON,
-        ADD COLUMN `space` JSON,
-        ADD COLUMN `label` JSON';
+        ADD COLUMN `heuristic_picture` JSON';
     Pdo::getInstance()->query($sql);
 }

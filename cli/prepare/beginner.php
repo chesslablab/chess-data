@@ -25,20 +25,20 @@ $fp = fopen(DATA_FOLDER."/$filename", 'w');
 
 foreach ($games as $game) {
     try {
-        $heuristicPicture = (new StandardHeuristicPicture($game['movetext']))->take();
         $eventPicture = (new StandardEventPicture($game['movetext']))->take();
+        $heuristicPicture = (new StandardHeuristicPicture($game['movetext']))->take();
         $picture = [
             Symbol::WHITE => [],
             Symbol::BLACK => [],
         ];
         for ($i = 0; $i < count($heuristicPicture[Symbol::WHITE]); $i++) {
             $picture[Symbol::WHITE][$i] = array_merge(
-                $heuristicPicture[Symbol::WHITE][$i],
-                $eventPicture[Symbol::WHITE][$i]
+                $eventPicture[Symbol::WHITE][$i],
+                $heuristicPicture[Symbol::WHITE][$i]
             );
             $picture[Symbol::BLACK][$i] = array_merge(
-                $heuristicPicture[Symbol::BLACK][$i],
-                $eventPicture[Symbol::BLACK][$i]
+                $eventPicture[Symbol::BLACK][$i],
+                $heuristicPicture[Symbol::BLACK][$i]
             );
             $label = (new PrimesLabeller([
                 Symbol::WHITE => $picture[Symbol::WHITE][$i],

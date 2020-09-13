@@ -33,7 +33,7 @@ if (file_exists(MODEL_FOLDER.'/beginner.model')) {
         new Dense(100),
         new Activation(new ReLU()),
         new Dense(100),
-        new Activation(new ReLU(),
+        new Activation(new ReLU()),
         new Dense(50),
         new Activation(new ReLU()),
         new Dense(50),

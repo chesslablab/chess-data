@@ -33,12 +33,12 @@ if (file_exists(MODEL_FOLDER.'/beginner.model')) {
         new Dense(100),
         new Activation(new ReLU()),
         new Dense(100),
-        new Activation(new ReLU()),
+        new Activation(new ReLU(),
         new Dense(50),
         new Activation(new ReLU()),
         new Dense(50),
         new Activation(new ReLU()),
-    ], 128, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
+    ], 256, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
 
     $estimator = new PersistentModel($mlpRegressor, new Filesystem(MODEL_FOLDER.'/beginner.model'));
 }

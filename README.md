@@ -1,4 +1,4 @@
-## PGN Chess Data
+## Chess Data
 
 [![Build Status](https://travis-ci.org/programarivm/pgn-chess-data.svg?branch=master)](https://travis-ci.org/programarivm/pgn-chess-data)
 
@@ -6,25 +6,15 @@
 	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to manage a [PGN Chess](https://github.com/programarivm/pgn-chess) database and an API for the purpose to study chess games as well as to analyze heuristic snapshots, which is to say the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+This repo provides you with CLI tools to seed a [chess](https://github.com/programarivm/pgn-chess) database with sample games as well as to train a supervised model with Rubix ML.
 
-A so-called snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. So for example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions.
-
-For further information on how to plot the API data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+For further information on how to visually study the data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
 
 Create an `.env` file:
 
     cp .env.example .env
-
-Start the environment:
-
-    bash/start.sh
-
-Then, if you're using Docker you might want to find the IP address of your PHP container:
-
-	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_php_fpm
 
 ### Bash Scripts
 
@@ -57,6 +47,9 @@ Create a database with STR tag pairs and movetexts:
 Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
 
     php cli/db/create.php --heuristics
+
+> A so-called snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. So for example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions. For further information please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+
 
 #### `cli/db/seed.php`
 
@@ -160,32 +153,6 @@ Train the `beginner.model` with the `1_100_beginner.csv` dataset:
 	[2020-08-02 15:34:47] beginner.INFO: Epoch 13 R Squared=0.97794930923409 Least Squares=880.09646901067
 	[2020-08-02 15:34:47] beginner.INFO: Parameters restored from snapshot at epoch 10.
 	[2020-08-02 15:34:47] beginner.INFO: Training complete
-
-### API
-
-If you're using Docker find the IP address of the NGINX container:
-
-    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgn_chess_data_nginx
-
-#### `/api/query`
-
-| Method       | Description                                       |
-|--------------|---------------------------------------------------|
-| `POST`       | Queries the database                              |
-
-| Parameter    | Description                                       |
-|--------------|---------------------------------------------------|
-| `sql`        | SQL query to fetch records from the `games` table |
-
-	curl --insecure -d '{"sql": "SELECT * FROM games WHERE WhiteElo > 2800"}' -H "Content-Type: application/json" -X POST https://172.20.0.4/api/query
-
-### Development
-
-Should you want to play around with the development environment follow the steps below.
-
-Run the tests:
-
-	docker exec -it pgn_chess_data_php_fpm vendor/bin/phpunit --configuration phpunit-docker.xml
 
 ### License
 

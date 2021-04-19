@@ -12,21 +12,6 @@ services:
           - ./:/usr/share/nginx/pgn-chess-data
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
-  nginx:
-      image: nginx:1.15
-      container_name: pgn_chess_data_nginx
-      restart: always
-      working_dir: /usr/share/nginx/pgn-chess-data
-      networks:
-          - pgn_chess_data
-      ports:
-          - "443:443"
-      volumes:
-          - ./:/usr/share/nginx/pgn-chess-data
-          - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-          - ./docker/nginx/ssl/pgn-chess-data.local.crt:/etc/nginx/ssl/pgn-chess-data.local.crt
-          - ./docker/nginx/ssl/pgn-chess-data.local.key:/etc/nginx/ssl/pgn-chess-data.local.key
-
   mysql:
       image: mysql:5.7
       container_name: pgn_chess_data_mysql

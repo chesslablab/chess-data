@@ -9,24 +9,22 @@ services:
       networks:
           - chess_data
       volumes:
-          - ./:/usr/share/nginx/chess-data
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:
-      image: mysql:5.7
+      image: mysql:8.0
       container_name: chess_data_mysql
       restart: always
       networks:
           - chess_data
       volumes:
-          - ./docker/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+          - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
       ports:
           - "3306:3306"
       environment:
-          - MYSQL_DATABASE=${DB_NAME}
+          - MYSQL_ALLOW_EMPTY_PASSWORD=1
+          - MYSQL_DATABASE=${DB_DATABASE}
           - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-          - MYSQL_USER=${DB_USER}
-          - MYSQL_PASSWORD=${DB_PASSWORD}
 
 networks:
   chess_data:

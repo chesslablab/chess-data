@@ -3,36 +3,18 @@
 [![Build Status](https://travis-ci.org/programarivm/chess-data.svg?branch=master)](https://travis-ci.org/programarivm/chess-data)
 
 <p align="center">
-	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />
+	<img src="https://github.com/programarivm/php-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to seed a [chess](https://github.com/programarivm/pgn-chess) database with sample games as well as to train a supervised model with Rubix ML.
+This repo provides you with CLI tools to manage a [chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised model with Rubix ML.
 
-For further information on how to visually study the data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
 
 Create an `.env` file:
 
     cp .env.example .env
-
-### Bash Scripts
-
-#### `bash/load.sh`
-
-Load STR tag pairs and movetexts from multiple PGN files:
-
-	bash/load.sh
-	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
-
-	1002 games did not pass the validation.
-	104023 games out of a total of 105025 are OK.
-	Loading games for 593 s...
-	The loading of games is completed.
-
-Load STR tag pairs, movetexts and heuristic snapshots from multiple PGN files for visual study:
-
-	bash/load.sh --heuristics
 
 ### Command Line Interface (CLI)
 
@@ -47,9 +29,6 @@ Create a database with STR tag pairs and movetexts:
 Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
 
     php cli/db/create.php --heuristics
-
-> A so-called snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. So for example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions. For further information please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
-
 
 #### `cli/db/seed.php`
 
@@ -153,6 +132,26 @@ Train the `beginner.model` with the `1_100_beginner.csv` dataset:
 	[2020-08-02 15:34:47] beginner.INFO: Epoch 13 R Squared=0.97794930923409 Least Squares=880.09646901067
 	[2020-08-02 15:34:47] beginner.INFO: Parameters restored from snapshot at epoch 10.
 	[2020-08-02 15:34:47] beginner.INFO: Training complete
+
+### Bash Scripts
+
+#### `bash/load.sh`
+
+Load STR tag pairs and movetexts from all PGN files stored in the data folder:
+
+	bash/load.sh
+	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
+
+	1002 games did not pass the validation.
+	104023 games out of a total of 105025 are OK.
+	Loading games for 593 s...
+	The loading of games is completed.
+
+Load STR tag pairs, movetexts and heuristic snapshots too:
+
+	bash/load.sh --heuristics
+
+> A so-called heuristic snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. So for example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions. For further information please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
 
 ### License
 

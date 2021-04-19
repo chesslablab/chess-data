@@ -1,6 +1,6 @@
 {
   "name": "programarivm/chess-data",
-  "description": "CLI tools to manage a PGN Chess database and an API for the purpose to study chess games as well as to analyze programmer-defined heuristic evaluation functions.",
+  "description": "CLI tools to manage a chess database of PGN games as well as to train a supervised model with Rubix ML.",
   "type": "project",
   "license": "GPL-3.0-only",
   "keywords": [
@@ -26,7 +26,7 @@
   ],
   "require": {
     "php": ">=7.1",
-    "programarivm/pgn-chess": "^1.1",
+    "programarivm/php-chess": "^1.1",
     "vlucas/phpdotenv": "^5.0",
     "rubix/ml": "dev-master"
   },

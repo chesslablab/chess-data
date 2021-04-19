@@ -1,5 +1,3 @@
-/data/games
-/data/players
 /composer.lock
 /vendor/
 .env

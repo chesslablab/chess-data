@@ -1,10 +1,10 @@
 <?php
 
-namespace PGNChessData\Seeder;
+namespace ChessData\Seeder;
 
-use PGNChess\Exception\UnknownNotationException;
-use PGNChess\PGN\Validate;
-use PGNChessData\File\AbstractFile;
+use Chess\Exception\UnknownNotationException;
+use Chess\PGN\Validate;
+use ChessData\File\AbstractFile;
 
 abstract class AbstractSeeder extends AbstractFile
 {

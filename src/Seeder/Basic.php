@@ -1,9 +1,9 @@
 <?php
 
-namespace PGNChessData\Seeder;
+namespace ChessData\Seeder;
 
-use PGNChess\PGN\Tag;
-use PGNChessData\Pdo;
+use Chess\PGN\Tag;
+use ChessData\Pdo;
 
 class Basic extends AbstractSeeder
 {

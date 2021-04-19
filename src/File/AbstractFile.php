@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessData\File;
+namespace ChessData\File;
 
 abstract class AbstractFile
 {

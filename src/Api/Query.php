@@ -1,8 +1,8 @@
 <?php
 
-namespace PGNChessData\Api;
+namespace ChessData\Api;
 
-use PGNChessData\Pdo;
+use ChessData\Pdo;
 
 $input = file_get_contents('php://input');
 $json = json_decode($input);

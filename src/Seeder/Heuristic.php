@@ -1,11 +1,11 @@
 <?php
 
-namespace PGNChessData\Seeder;
+namespace ChessData\Seeder;
 
-use PGNChess\Heuristic\Picture\Standard as StandardHeuristicPicture;
-use PGNChess\ML\Supervised\Regression\Labeller\Primes\Snapshot as PrimesLabellerSnapshot;
-use PGNChess\PGN\Tag;
-use PGNChessData\Pdo;
+use Chess\Heuristic\Picture\Standard as StandardHeuristicPicture;
+use Chess\ML\Supervised\Regression\Labeller\Primes\Snapshot as PrimesLabellerSnapshot;
+use Chess\PGN\Tag;
+use ChessData\Pdo;
 
 class Heuristic extends AbstractSeeder
 {

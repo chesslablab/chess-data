@@ -1,9 +1,9 @@
 <?php
 
-namespace PGNChessData\Tests\Unit\Validator;
+namespace ChessData\Tests\Unit\Validator;
 
-use PGNChessData\Validator\Syntax as SyntaxValidator;
-use PGNChessData\Tests\AbstractUnitTestCase;
+use ChessData\Validator\Syntax as SyntaxValidator;
+use ChessData\Tests\AbstractUnitTestCase;
 
 class SyntaxTest extends AbstractUnitTestCase
 {

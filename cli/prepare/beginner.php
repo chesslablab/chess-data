@@ -3,11 +3,11 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use PGNChess\Event\Picture\Standard as StandardEventPicture;
-use PGNChess\Heuristic\Picture\Standard as StandardHeuristicPicture;
-use PGNChess\ML\Supervised\Regression\Labeller\Primes\Labeller as PrimesLabeller;
-use PGNChess\PGN\Symbol;
-use PGNChessData\Pdo;
+use Chess\Event\Picture\Standard as StandardEventPicture;
+use Chess\Heuristic\Picture\Standard as StandardHeuristicPicture;
+use Chess\ML\Supervised\Regression\Labeller\Primes\Labeller as PrimesLabeller;
+use Chess\PGN\Symbol;
+use ChessData\Pdo;
 
 const DATA_FOLDER = __DIR__.'/../../dataset';
 

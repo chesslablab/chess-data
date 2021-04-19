@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessData\Tests;
+namespace ChessData\Tests;
 
 class AbstractUnitTestCase extends AbstractTestCase
 {

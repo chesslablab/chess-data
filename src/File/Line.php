@@ -1,8 +1,8 @@
 <?php
 
-namespace PGNChessData\File;
+namespace ChessData\File;
 
-use PGNChess\PGN\Symbol;
+use Chess\PGN\Symbol;
 
 class Line
 {

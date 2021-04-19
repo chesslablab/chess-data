@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessData\Exception;
+namespace ChessData\Exception;
 
 /**
  * Thrown when a pgn file syntax exception occurs.

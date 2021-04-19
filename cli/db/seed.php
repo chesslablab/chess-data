@@ -1,11 +1,11 @@
 <?php
 
-namespace PGNChessData\Cli;
+namespace ChessData\Cli;
 
 use Dotenv\Dotenv;
-use PGNChessData\Exception\PgnFileCharacterEncodingException;
-use PGNChessData\Seeder\Basic as BasicSeeder;
-use PGNChessData\Seeder\Heuristic as HeuristicSeeder;
+use ChessData\Exception\PgnFileCharacterEncodingException;
+use ChessData\Seeder\Basic as BasicSeeder;
+use ChessData\Seeder\Heuristic as HeuristicSeeder;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessData\Tests;
+namespace ChessData\Tests;
 
 use PHPUnit\Framework\TestCase;
 

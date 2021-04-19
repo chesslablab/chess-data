@@ -35,12 +35,12 @@
   },
   "autoload": {
     "psr-4": {
-      "PGNChessData\\": "src/"
+      "ChessData\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PGNChessData\\Tests\\": "tests/"
+      "ChessData\\Tests\\": "tests/"
     }
   }
 }

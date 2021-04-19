@@ -1,10 +1,10 @@
 <?php
 
-namespace PGNChessData\Cli;
+namespace ChessData\Cli;
 
 use Dotenv\Dotenv;
-use PGNChessData\Exception\PgnFileCharacterEncodingException;
-use PGNChessData\Validator\Syntax as SyntaxValidator;
+use ChessData\Exception\PgnFileCharacterEncodingException;
+use ChessData\Validator\Syntax as SyntaxValidator;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 

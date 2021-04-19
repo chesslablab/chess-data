@@ -1,6 +1,6 @@
 <?php
 
-namespace PGNChessData;
+namespace ChessData;
 
 /**
  * Pdo class.

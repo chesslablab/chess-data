@@ -1,11 +1,11 @@
 <?php
 
-namespace PGNChessData\Validator;
+namespace ChessData\Validator;
 
-use PGNChess\Exception\UnknownNotationException;
-use PGNChess\PGN\Tag;
-use PGNChess\PGN\Validate as PgnValidate;
-use PGNChessData\File\AbstractFile;
+use Chess\Exception\UnknownNotationException;
+use Chess\PGN\Tag;
+use Chess\PGN\Validate as PgnValidate;
+use ChessData\File\AbstractFile;
 
 class Syntax extends AbstractFile
 {

@@ -60,7 +60,7 @@ mysql> describe games;
 mysql>
 ```
 
-Alternatively, create the `chess` database with the `games` table containing STR tag pairs, movetexts and heuristic snapshots too for further supervised training:
+Alternatively, add a heuristic picture too for further supervised training:
 
     $ php cli/db/create.php --heuristics
 
@@ -91,11 +91,11 @@ mysql> describe games;
 mysql>
 ```
 
-A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game, and can be plotted on a chart for further visual study. Heuristic pictures are mainly used for supervised training. For further information, please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. Heuristic pictures are mainly used for supervised training. For further information, please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
 
 #### `cli/db/seed.php`
 
-Seed the database with STR tag pairs and movetexts:
+Seed the `games` table with STR tag pairs and movetexts:
 
 	$ php cli/db/seed.php data/players/Adams.pgn
 	This will search for valid PGN games in the file.
@@ -116,7 +116,7 @@ mysql> SELECT * FROM games WHERE id = 1;
 1 row in set (0.00 sec)
 ```
 
-Seed the database with STR tag pairs, movetexts and heuristic snapshots too for further supervised training:
+Alternatively, seed the `games` table with STR tag pairs, movetexts and heuristic snapshots too for further supervised training:
 
 	$ php cli/db/seed.php data/players/Adams.pgn --heuristics
 

@@ -12,7 +12,7 @@ $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
 $dotenv->load();
 
 if (!in_array('--quiet', $argv)) {
-    echo 'This will remove the current PGN Chess database and the data will be lost.' . PHP_EOL;
+    echo 'This will remove the current chess database and the data will be lost.' . PHP_EOL;
     echo 'Do you want to proceed? (Y/N): ';
     $handle = fopen ('php://stdin','r');
     $line = fgets($handle);

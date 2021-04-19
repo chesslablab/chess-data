@@ -6,99 +6,70 @@
 	<img src="https://github.com/programarivm/php-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to manage a [chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised model with Rubix ML. For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+This repo provides you with CLI tools to manage a [chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised model with Rubix ML.
+
+For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
 
 Create an `.env` file:
 
-    cp .env.example .env
+    $ cp .env.example .env
+
+Start the Docker containers:
+
+	$ docker-compose up --build
+
+Find out the IP of your MySQL container and update the `DB_HOST` in your `.env` file accordingly:
+
+	$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' chess_data_mysql
 
 ### Command Line Interface (CLI)
 
 #### `cli/db/create.php`
 
-Create a database with STR tag pairs and movetexts:
+Create the `chess` database with the `games` table containing STR tag pairs and movetexts:
 
-    php cli/db/create.php
-    This will remove the current PGN Chess database and the data will be lost.
+    $ php cli/db/create.php
+    This will remove the current chess database and the data will be lost.
     Do you want to proceed? (Y/N): y
 
-Create a database with STR tag pairs, movetexts and heuristic snapshots too for visual study:
+Create the `chess` database with the `games` table containing STR tag pairs, movetexts and heuristic snapshots too for further supervised training:
 
-    php cli/db/create.php --heuristics
+    $ php cli/db/create.php --heuristics
+
+> **Note**: A so-called heuristic snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. For example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions. For further information please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
 
 #### `cli/db/seed.php`
 
 Seed the database with STR tag pairs and movetexts:
 
-	php cli/db/seed.php data/games/02.pgn
+	$ php cli/db/seed.php data/players/Adams.pgn
 	This will search for valid PGN games in the file.
 	Large files (for example 50MB) may take a few seconds to be inserted into the database.
 	Do you want to proceed? (Y/N): y
-	4 games did not pass the validation.
-	1331 games out of a total of 1335 are OK.
+	15 games did not pass the validation.
+	3234 games out of a total of 3249 are OK.
 
-Seed the database with STR tag pairs, movetexts and heuristic snapshots for visual study:
+Seed the database with STR tag pairs, movetexts and heuristic snapshots too for further supervised training:
 
-	php cli/db/seed.php data/games/02.pgn --heuristics
+	$ php cli/db/seed.php data/players/Adams.pgn --heuristics
 
 #### `cli/pgn/validate.php`
 
 Validates that the PGN syntax in a text file is correct:
 
-	php cli/pgn/validate.php data/games/02.pgn
+	$ php cli/pgn/validate.php data/players/Akobian.pgn
 	This will search for syntax errors in the PGN file.
 	Large files (for example 50MB) may take a few seconds to be parsed. Games not passing the validation will be printed.
 	Do you want to proceed? (Y/N): y
-	Event: Gibraltar Masters 2019
-	Site: Caleta ENG
-	Date: 2019.01.29
-	Round: 8.17
-	White: Ramirez,Alej
-	Black: Cheparinov,I
-	Result: 1/2-1/2
-	WhiteElo: 2567
-	BlackElo: 2691
-
-	Event: Gibraltar Masters 2019
-	Site: Caleta ENG
-	Date: 2019.01.30
-	Round: 9.34
-	White: Pigott,J
-	Black: Short,N
-	Result: 0-1
-	WhiteElo: 2387
-	BlackElo: 2648
-
-	Event: Gibraltar Masters 2019
-	Site: Caleta ENG
-	Date: 2019.01.31
-	Round: 10.30
-	White: Cramling,P
-	Black: Yuffa,D
-	Result: 0-1
-	WhiteElo: 2462
-	BlackElo: 2578
-
-	Event: Gibraltar Masters 2019
-	Site: Caleta ENG
-	Date: 2019.01.31
-	Round: 10.26
-	White: Harsha,B
-	Black: Vocaturo,D
-	Result: 1/2-1/2
-	WhiteElo: 2481
-	BlackElo: 2626
-
-	4 games did not pass the validation.
-	1331 games out of a total of 1335 are OK.
+	1353 games out of a total of 1353 are OK.
 
 #### `cli/play/beginner.php`
 
 Play with the `beginner.model`:
 
-	php cli/play/beginner.php
+	$ php cli/play/beginner.php
 	Prediction: 570.13386056267
 	Decoded: c6
 
@@ -106,13 +77,13 @@ Play with the `beginner.model`:
 
 Create the `1_100_beginner.csv` dataset with the games identified with an ID from `1` to `100`:
 
-	php cli/prepare/beginner.php 1 100
+	$ php cli/prepare/beginner.php 1 100
 
 #### `cli/train/beginner.php`
 
 Train the `beginner.model` with the `1_100_beginner.csv` dataset:
 
-	php cli/train/beginner.php 1_100_beginner.csv
+	$ php cli/train/beginner.php 1_100_beginner.csv
 	[2020-08-02 15:32:14] beginner.INFO: Learner init MLP Regressor {hidden_layers: [0: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 1: Activation {activation_fn: ReLU}, 2: Dense {neurons: 100, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 3: Activation {activation_fn: ReLU}, 4: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 5: Activation {activation_fn: ReLU}, 6: Dense {neurons: 50, alpha: 0, bias: true, weight_initializer: He, bias_initializer: Constant {value: 0}}, 7: Activation {activation_fn: ReLU}], batch_size: 128, optimizer: RMS Prop {rate: 0.001, decay: 0.1}, alpha: 0.001, epochs: 100, min_change: 1.0E-5, window: 3, hold_out: 0.1, cost_fn: Least Squares, metric: R Squared}
 	[2020-08-02 15:32:14] beginner.INFO: Training started
 	[2020-08-02 15:32:25] beginner.INFO: Epoch 1 R Squared=0.94634926347514 Least Squares=94238.878402936
@@ -137,7 +108,7 @@ Train the `beginner.model` with the `1_100_beginner.csv` dataset:
 
 Load STR tag pairs and movetexts from all PGN files stored in the data folder:
 
-	bash/load.sh
+	$ bash/load.sh
 	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
 
 	1002 games did not pass the validation.
@@ -147,9 +118,7 @@ Load STR tag pairs and movetexts from all PGN files stored in the data folder:
 
 Load STR tag pairs, movetexts and heuristic snapshots too:
 
-	bash/load.sh --heuristics
-
-> A so-called heuristic snapshot is intended to capture a particular feature of a chess game mainly for the purpose of being plotted on a chart for further visual study. So for example, heuristic snapshots such as attack, center or material, are helpful to plot charts and get insights on the efficiency of programmer-defined heuristic evaluation functions. For further information please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+	$ bash/load.sh --heuristics
 
 ### License
 

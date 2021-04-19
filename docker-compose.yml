@@ -5,11 +5,11 @@ services:
       build: .
       container_name: chess_data_php_fpm
       restart: always
-      working_dir: /usr/share/nginx/pgn-chess-data
+      working_dir: /usr/share/nginx/chess-data
       networks:
           - chess_data
       volumes:
-          - ./:/usr/share/nginx/pgn-chess-data
+          - ./:/usr/share/nginx/chess-data
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:

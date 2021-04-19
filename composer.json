@@ -1,5 +1,5 @@
 {
-  "name": "programarivm/pgn-chess-data",
+  "name": "programarivm/chess-data",
   "description": "CLI tools to manage a PGN Chess database and an API for the purpose to study chess games as well as to analyze programmer-defined heuristic evaluation functions.",
   "type": "project",
   "license": "GPL-3.0-only",

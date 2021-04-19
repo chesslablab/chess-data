@@ -1,6 +1,6 @@
 ## Chess Data
 
-[![Build Status](https://travis-ci.org/programarivm/pgn-chess-data.svg?branch=master)](https://travis-ci.org/programarivm/pgn-chess-data)
+[![Build Status](https://travis-ci.org/programarivm/chess-data.svg?branch=master)](https://travis-ci.org/programarivm/chess-data)
 
 <p align="center">
 	<img src="https://github.com/programarivm/pgn-chess/blob/master/resources/chess-board.jpg" />

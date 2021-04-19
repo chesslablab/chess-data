@@ -1,6 +1,5 @@
 /data/games
 /data/players
-/docker/nginx/ssl/chess-data.*
 /composer.lock
 /vendor/
 .env

@@ -6,9 +6,7 @@
 	<img src="https://github.com/programarivm/php-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to manage a [chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised model with Rubix ML.
-
-For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+This repo provides you with CLI tools to manage a [chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised model with Rubix ML. For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
 
@@ -26,7 +24,7 @@ Create a database with STR tag pairs and movetexts:
     This will remove the current PGN Chess database and the data will be lost.
     Do you want to proceed? (Y/N): y
 
-Create a database with STR tag pairs, movetexts and heuristic snapshots for visual study:
+Create a database with STR tag pairs, movetexts and heuristic snapshots too for visual study:
 
     php cli/db/create.php --heuristics
 

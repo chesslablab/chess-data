@@ -22,7 +22,7 @@ if (!in_array('--quiet', $argv)) {
     fclose($handle);
 }
 
-$sql = 'CREATE DATABASE IF NOT EXISTS ' . $_ENV['DB_NAME'];
+$sql = 'CREATE DATABASE IF NOT EXISTS ' . $_ENV['DB_DATABASE'];
 
 Pdo::getInstance()->query($sql);
 

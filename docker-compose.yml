@@ -1,23 +1,22 @@
-version: "3.5"
+version: "3.8"
 
 services:
   php_fpm:
       build: .
       container_name: chess_data_php_fpm
       restart: always
-      working_dir: /usr/share/nginx/chess-data
-      networks:
-          - chess_data
+      working_dir: /usr/share/chess-data
       volumes:
+          - ./:/usr/share/chess-data
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:
       image: mysql:8.0
       container_name: chess_data_mysql
       restart: always
-      networks:
-          - chess_data
+      working_dir: /usr/local/chess-data
       volumes:
+          - ./:/usr/local/chess-data
           - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
       ports:
           - "3306:3306"
@@ -25,7 +24,3 @@ services:
           - MYSQL_ALLOW_EMPTY_PASSWORD=1
           - MYSQL_DATABASE=${DB_DATABASE}
           - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-
-networks:
-  chess_data:
-    driver: bridge

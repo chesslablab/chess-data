@@ -3,21 +3,21 @@ version: "3.5"
 services:
   php_fpm:
       build: .
-      container_name: pgn_chess_data_php_fpm
+      container_name: chess_data_php_fpm
       restart: always
       working_dir: /usr/share/nginx/pgn-chess-data
       networks:
-          - pgn_chess_data
+          - chess_data
       volumes:
           - ./:/usr/share/nginx/pgn-chess-data
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:
       image: mysql:5.7
-      container_name: pgn_chess_data_mysql
+      container_name: chess_data_mysql
       restart: always
       networks:
-          - pgn_chess_data
+          - chess_data
       volumes:
           - ./docker/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
       ports:
@@ -29,5 +29,5 @@ services:
           - MYSQL_PASSWORD=${DB_PASSWORD}
 
 networks:
-  pgn_chess_data:
+  chess_data:
     driver: bridge

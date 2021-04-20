@@ -12,7 +12,7 @@ use Rubix\ML\NeuralNet\Layers\Dense;
 use Rubix\ML\NeuralNet\Layers\Activation;
 use Rubix\ML\NeuralNet\ActivationFunctions\ReLU;
 use Rubix\ML\NeuralNet\Optimizers\RMSProp;
-use Rubix\ML\Other\Loggers\Screen;
+use Rubix\ML\Loggers\Screen;
 use Rubix\ML\Persisters\Filesystem;
 use Rubix\ML\Regressors\MLPRegressor;
 use Rubix\ML\Transformers\NumericStringConverter;

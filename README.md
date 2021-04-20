@@ -6,9 +6,11 @@
 	<img src="https://github.com/programarivm/php-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised model with [Rubix ML](https://github.com/RubixML/ML).
+This repo provides you with CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 
-For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+The supervised learning process is all about using [suitable heuristics](https://github.com/programarivm/php-chess/tree/master/src/Heuristic) such as king safety, attack, material or connectivity, among others.
+
+But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue! For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
 

@@ -9,7 +9,7 @@ use ChessData\Validator\Syntax as SyntaxValidator;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class Validate extends CLI
+class Command extends CLI
 {
     protected function setup(Options $options)
     {
@@ -38,5 +38,5 @@ class Validate extends CLI
     }
 }
 
-$cli = new Validate();
+$cli = new Command();
 $cli->run();

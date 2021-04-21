@@ -140,7 +140,7 @@ mysql>
 
 Validates the syntax in a PGN text file:
 
-	$ php cli/validate.php data/players/Akobian.pgn
+	$ php cli/pgn-validate.php data/players/Akobian.pgn
 	✓ 1353 games out of a total of 1353 are OK.
 
 #### `cli/play/beginner.php`

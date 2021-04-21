@@ -34,7 +34,8 @@
     "php": ">=7.1",
     "programarivm/php-chess": "dev-master",
     "vlucas/phpdotenv": "^5.0",
-    "rubix/ml": "dev-master"
+    "rubix/ml": "dev-master",
+    "splitbrain/php-cli": "^1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"

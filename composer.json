@@ -24,9 +24,15 @@
       "homepage": "https://programarivm.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/programarivm/php-chess.git"
+    }
+  ],
   "require": {
     "php": ">=7.1",
-    "programarivm/php-chess": "^1.1",
+    "programarivm/php-chess": "dev-master",
     "vlucas/phpdotenv": "^5.0",
     "rubix/ml": "dev-master"
   },

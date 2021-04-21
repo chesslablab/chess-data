@@ -136,14 +136,6 @@ Validate the syntax in a PGN text file:
 	$ php cli/pgn-validate.php data/players/Akobian.pgn
 	✓ 1353 games out of a total of 1353 are OK.
 
-#### `cli/play/beginner.php`
-
-Play with the `beginner.model`:
-
-	$ php cli/play/beginner.php
-	Prediction: 570.13386056267
-	Decoded: c6
-
 #### Data Preparation for Further Training
 
 Create the `dataset/1_100.csv` file with the games identified with an ID ranging from `1` to `100`:
@@ -181,6 +173,13 @@ Create the `beginner.model` with the `1_100.csv` dataset:
 	[2021-04-21 15:48:13] /usr/share/chess-data/cli/../model/beginner.model.INFO: Training complete
 
 The command above will create the `model/beginner.model` file which can be used to keep training the model in batches with more prepared data.
+
+#### Play with the AI
+
+Play with the AI -- for testing purposes for the time being:
+
+	$ php cli/model-play.php
+	1.e4 d5 3.e5 Be6
 
 ### Bash Scripts
 

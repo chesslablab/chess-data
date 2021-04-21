@@ -20,7 +20,6 @@ class Command extends CLI
         $options->setHelp('Seeds the chess database with games.');
         $options->registerOption('heuristics', 'Add a heuristic picture column for further supervised training.');
         $options->registerArgument('filepath', 'PGN file.', true);
-
     }
 
     protected function main(Options $options)

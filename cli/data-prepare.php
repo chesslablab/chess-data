@@ -24,7 +24,8 @@ class Command extends CLI
 
         $options->setHelp('Creates a prepared dataset in CSV format for further training.');
         $options->registerArgument('from', 'The id range.', true);
-        $options->registerArgument('to', 'The id range.', true);    }
+        $options->registerArgument('to', 'The id range.', true);
+    }
 
     protected function main(Options $options)
     {

@@ -2,7 +2,7 @@
 
 namespace ChessData\Seeder;
 
-use Chess\Heuristic\Picture\Standard as StandardHeuristicPicture;
+use Chess\Heuristic\Picture\Weighted as WeightedHeuristicPicture;
 use Chess\ML\Supervised\Regression\Labeller\Primes\Snapshot as PrimesLabellerSnapshot;
 use Chess\PGN\Tag;
 use ChessData\Pdo;
@@ -38,7 +38,7 @@ class Heuristic extends AbstractSeeder
             ],
             [
                 'param' => ':heuristic_picture',
-                'value' => json_encode((new StandardHeuristicPicture($movetext))->take()),
+                'value' => json_encode((new WeightedHeuristicPicture($movetext))->take()),
                 'type' => \PDO::PARAM_STR,
             ],
         );

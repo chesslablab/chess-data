@@ -91,18 +91,15 @@ mysql>
 
 A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. Heuristic pictures are mainly used for supervised training. For further information, please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
 
-#### `cli/db/seed.php`
+#### Seed the Games Table
 
 Seed the `games` table with STR tag pairs and movetexts:
 
-	$ php cli/db/seed.php data/players/Adams.pgn
-	This will search for valid PGN games in the file.
-	Large files (for example 50MB) may take a few seconds to be inserted into the database.
-	Do you want to proceed? (Y/N): y
-	15 games did not pass the validation.
-	3234 games out of a total of 3249 are OK.
+	$ php cli/db-seed.php data/players/Adams.pgn
+	✗ 15 games did not pass the validation.
+	✓ 3234 games out of a total of 3249 are OK.
 
-Once the command above is successfully run, this is how the game with `id = 1` looks like:
+This is how the game with `id = 1` looks like:
 
 ```text
 mysql> SELECT * FROM games WHERE id = 1;
@@ -114,11 +111,11 @@ mysql> SELECT * FROM games WHERE id = 1;
 1 row in set (0.00 sec)
 ```
 
-Alternatively, seed the `games` table with STR tag pairs, movetexts and heuristic snapshots too for further supervised training:
+Alternatively, seed the `games` table with STR tag pairs, movetexts and heuristic pictures too for further supervised training:
 
-	$ php cli/db/seed.php data/players/Adams.pgn --heuristics
+	$ php cli/db-seed.php --heuristics data/players/Adams.pgn
 
-Once the command above is successfully run, this is how the heuristic picture of the game with `id = 1` looks like:
+Once the command above is successfully run, this is how the `heuristic_picture` of the game with `id = 1` looks like:
 
 ```text
 mysql> SELECT heuristic_picture FROM games WHERE id = 1;

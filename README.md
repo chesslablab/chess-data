@@ -91,36 +91,6 @@ mysql>
 
 A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. Heuristic pictures are mainly used for supervised training. For further information, please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
 
-Also an optional event picture can be added for further supervised training:
-
-    $ php cli/db-create.php --heuristic_picture --event_picture
-
-In which case the `games` table will look as it is described next:
-
-```text
-mysql> describe games;
-+-------------------+--------------------+------+-----+---------+----------------+
-| Field             | Type               | Null | Key | Default | Extra          |
-+-------------------+--------------------+------+-----+---------+----------------+
-| id                | mediumint unsigned | NO   | PRI | NULL    | auto_increment |
-| Event             | char(64)           | YES  |     | NULL    |                |
-| Site              | char(64)           | YES  |     | NULL    |                |
-| Date              | char(16)           | YES  |     | NULL    |                |
-| White             | char(32)           | YES  |     | NULL    |                |
-| Black             | char(32)           | YES  |     | NULL    |                |
-| Result            | char(8)            | YES  |     | NULL    |                |
-| WhiteElo          | char(8)            | YES  |     | NULL    |                |
-| BlackElo          | char(8)            | YES  |     | NULL    |                |
-| ECO               | char(8)            | YES  |     | NULL    |                |
-| movetext          | varchar(3072)      | YES  |     | NULL    |                |
-| heuristic_picture | json               | YES  |     | NULL    |                |
-| event_picture     | json               | YES  |     | NULL    |                |
-+-------------------+--------------------+------+-----+---------+----------------+
-13 rows in set (0.00 sec)
-
-mysql>
-```
-
 #### `cli/db/seed.php`
 
 Seed the `games` table with STR tag pairs and movetexts:

@@ -19,7 +19,6 @@ class Command extends CLI
 
         $options->setHelp('Creates the chess database with a games table.');
         $options->registerOption('heuristic_picture', 'Add a heuristic picture column for further supervised training.');
-        $options->registerOption('event_picture', 'Add a event picture column for further supervised training.');
     }
 
     protected function main(Options $options)
@@ -51,11 +50,6 @@ class Command extends CLI
 
         if ($options->getOpt('heuristic_picture')) {
             $sql = 'ALTER TABLE games ADD COLUMN `heuristic_picture` JSON';
-            Pdo::getInstance()->query($sql);
-        }
-
-        if ($options->getOpt('event_picture')) {
-            $sql = 'ALTER TABLE games ADD COLUMN `event_picture` JSON';
             Pdo::getInstance()->query($sql);
         }
     }

@@ -183,19 +183,20 @@ Play with the AI -- for testing purposes for the time being:
 
 ### Bash Scripts
 
-#### `bash/load.sh`
+#### Load All `data/players` Into the `games` Table
 
-Load STR tag pairs and movetexts from all PGN files stored in the data folder:
+Load STR tag pairs and movetexts only:
 
 	$ bash/load.sh
 	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
-
-	1002 games did not pass the validation.
-	104023 games out of a total of 105025 are OK.
-	Loading games for 593 s...
+	✗ 15 games did not pass the validation.
+	✓ 3234 games out of a total of 3249 are OK.
+	Loading games for 26 s...
+	✓ 1353 games out of a total of 1353 are OK.
+	Loading games for 35 s...
 	The loading of games is completed.
 
-Load STR tag pairs, movetexts and heuristic snapshots too:
+Load STR tag pairs, movetexts and heuristic pictures too:
 
 	$ bash/load.sh --heuristics
 

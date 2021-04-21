@@ -136,15 +136,12 @@ mysql> SELECT heuristic_picture FROM games WHERE id = 1;
 mysql>
 ```
 
-#### `cli/pgn/validate.php`
+#### PGN Syntax Validator
 
-Validates that the PGN syntax in a text file is correct:
+Validates the syntax in a PGN text file:
 
-	$ php cli/pgn/validate.php data/players/Akobian.pgn
-	This will search for syntax errors in the PGN file.
-	Large files (for example 50MB) may take a few seconds to be parsed. Games not passing the validation will be printed.
-	Do you want to proceed? (Y/N): y
-	1353 games out of a total of 1353 are OK.
+	$ php cli/validate.php data/players/Akobian.pgn
+	✓ 1353 games out of a total of 1353 are OK.
 
 #### `cli/play/beginner.php`
 

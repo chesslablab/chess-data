@@ -28,15 +28,13 @@ Find out the IP of your MySQL container and update the `DB_HOST` in your `.env` 
 
 ### Command Line Interface (CLI)
 
-#### `cli/db/create.php`
+#### Create the Chess Database
 
-Create the `chess` database with the `games` table containing STR tag pairs and movetexts:
+Create the `chess` database with the `games` table:
 
-    $ php cli/db/create.php
-    This will remove the current chess database and the data will be lost.
-    Do you want to proceed? (Y/N): y
+    $ php cli/db-create.php
 
-Once the command above is successfully run, the `games` table will look as described next:
+The `games` table will look as described next:
 
 ```text
 mysql> use chess;
@@ -62,15 +60,13 @@ mysql> describe games;
 mysql>
 ```
 
-Alternatively, add a heuristic picture too for further supervised training:
+Alternatively, an optional heuristic picture can be added too for further supervised training:
 
-    $ php cli/db/create.php --heuristics
+    $ php cli/db-create.php --heuristic_picture
 
-Once the command above is successfully run, the `games` table will look as described next:
+In which case the `games` table will look as it is described next:
 
 ```text
-mysql> use chess
-Database changed
 mysql> describe games;
 +-------------------+--------------------+------+-----+---------+----------------+
 | Field             | Type               | Null | Key | Default | Extra          |
@@ -88,12 +84,42 @@ mysql> describe games;
 | movetext          | varchar(3072)      | YES  |     | NULL    |                |
 | heuristic_picture | json               | YES  |     | NULL    |                |
 +-------------------+--------------------+------+-----+---------+----------------+
-12 rows in set (0.00 sec)
+12 rows in set (0.01 sec)
 
 mysql>
 ```
 
 A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. Heuristic pictures are mainly used for supervised training. For further information, please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+
+Also an optional event picture can be added for further supervised training:
+
+    $ php cli/db-create.php --heuristic_picture --event_picture
+
+In which case the `games` table will look as it is described next:
+
+```text
+mysql> describe games;
++-------------------+--------------------+------+-----+---------+----------------+
+| Field             | Type               | Null | Key | Default | Extra          |
++-------------------+--------------------+------+-----+---------+----------------+
+| id                | mediumint unsigned | NO   | PRI | NULL    | auto_increment |
+| Event             | char(64)           | YES  |     | NULL    |                |
+| Site              | char(64)           | YES  |     | NULL    |                |
+| Date              | char(16)           | YES  |     | NULL    |                |
+| White             | char(32)           | YES  |     | NULL    |                |
+| Black             | char(32)           | YES  |     | NULL    |                |
+| Result            | char(8)            | YES  |     | NULL    |                |
+| WhiteElo          | char(8)            | YES  |     | NULL    |                |
+| BlackElo          | char(8)            | YES  |     | NULL    |                |
+| ECO               | char(8)            | YES  |     | NULL    |                |
+| movetext          | varchar(3072)      | YES  |     | NULL    |                |
+| heuristic_picture | json               | YES  |     | NULL    |                |
+| event_picture     | json               | YES  |     | NULL    |                |
++-------------------+--------------------+------+-----+---------+----------------+
+13 rows in set (0.00 sec)
+
+mysql>
+```
 
 #### `cli/db/seed.php`
 
@@ -136,7 +162,7 @@ mysql> SELECT heuristic_picture FROM games WHERE id = 1;
 mysql>
 ```
 
-#### PGN Syntax Validator
+#### Validate PGN Syntax
 
 Validates the syntax in a PGN text file:
 

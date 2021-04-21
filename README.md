@@ -144,13 +144,13 @@ Play with the `beginner.model`:
 	Prediction: 570.13386056267
 	Decoded: c6
 
-#### `cli/prepare/beginner.php`
+#### Data Preparation for Further Training
 
-Create the `1_100_beginner.csv` dataset with the games identified with an ID ranging from `1` to `100`:
+Creates the `dataset/1_100.csv` file with the games identified with an ID ranging from `1` to `100`:
 
-	$ php cli/prepare/beginner.php 1 100
+	$ php cli/data-prepare.php 1 100
 
-Once the command above is successfully run, this is how the `dataset/1_100_beginner.csv` file looks like:
+This is how the `dataset/1_100.csv` file may look like:
 
 ```text
 0;0;0;0;0;0;0;0.5;1;0.08;0.87;0.06;0;110129

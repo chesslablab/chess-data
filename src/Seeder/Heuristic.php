@@ -44,9 +44,7 @@ class Heuristic extends AbstractSeeder
             );
 
             return Pdo::getInstance()->query($sql, $values);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        } catch (\Exception $e) {}
 
         return false;
     }

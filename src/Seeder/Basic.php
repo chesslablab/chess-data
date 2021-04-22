@@ -33,9 +33,7 @@ class Basic extends AbstractSeeder
 
         try {
             return Pdo::getInstance()->query($sql, $values);
-        } catch (\PDOException $e) {
-
-        }
+        } catch (\Exception $e) {}
 
         return false;
     }

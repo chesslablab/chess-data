@@ -3,7 +3,6 @@
 namespace ChessData\Seeder;
 
 use Chess\Heuristic\Picture\Weighted as WeightedHeuristicPicture;
-use Chess\ML\Supervised\Regression\Labeller\Primes\Snapshot as PrimesLabellerSnapshot;
 use Chess\PGN\Tag;
 use ChessData\Pdo;
 
@@ -30,23 +29,23 @@ class Heuristic extends AbstractSeeder
                 ($params:movetext,
                 :heuristic_picture)";
 
-        array_push($values,
-            [
-                'param' => ':movetext',
-                'value' => $movetext,
-                'type' => \PDO::PARAM_STR,
-            ],
-            [
-                'param' => ':heuristic_picture',
-                'value' => json_encode((new WeightedHeuristicPicture($movetext))->take()),
-                'type' => \PDO::PARAM_STR,
-            ],
-        );
-
         try {
-            return Pdo::getInstance()->query($sql, $values);
-        } catch (\PDOException $e) {
+            array_push($values,
+                [
+                    'param' => ':movetext',
+                    'value' => $movetext,
+                    'type' => \PDO::PARAM_STR,
+                ],
+                [
+                    'param' => ':heuristic_picture',
+                    'value' => json_encode((new WeightedHeuristicPicture($movetext))->take()),
+                    'type' => \PDO::PARAM_STR,
+                ],
+            );
 
+            return Pdo::getInstance()->query($sql, $values);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
 
         return false;

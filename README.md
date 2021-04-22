@@ -93,13 +93,13 @@ A so-called heuristic picture consists of a group of heuristic snapshots such as
 
 #### Seed the Games Table
 
-Seed the `games` table with STR tag pairs and movetexts:
+Seed the `games` table with the PGN games (STR tag pairs and movetexts) found in `data/players/Adams.pgn`:
 
 	$ php cli/db-seed.php data/players/Adams.pgn
 	✗ 15 games did not pass the validation.
 	✓ 3234 games out of a total of 3249 are OK.
 
-This is how the game with `id = 1` looks like:
+Once the command above is successfully run, this is how the game with `id = 1` will look like:
 
 ```text
 mysql> SELECT * FROM games WHERE id = 1;
@@ -111,7 +111,7 @@ mysql> SELECT * FROM games WHERE id = 1;
 1 row in set (0.00 sec)
 ```
 
-Alternatively, seed the `games` table with STR tag pairs, movetexts and heuristic pictures too for further supervised training:
+Seed the `games` table with the PGN games (STR tag pairs, movetexts and heuristic pictures too for further supervised training) found in `data/players/Adams.pgn`:
 
 	$ php cli/db-seed.php --heuristics data/players/Adams.pgn
 
@@ -129,14 +129,29 @@ mysql> SELECT heuristic_picture FROM games WHERE id = 1;
 mysql>
 ```
 
-#### Validate PGN Syntax
+Seed the `games` table with all PGN files (STR tag pairs and movetexts) found in the given folder:
 
-Validate the syntax in a PGN text file:
+	$ php cli/db-seed.php data/players
+	✗ 15 games did not pass the validation.
+	✓ 3234 games out of a total of 3249 are OK.
+	✓ 1353 games out of a total of 1353 are OK.
+
+Seed the `games` table with all PGN files (STR tag pairs, movetexts and heuristic pictures too for further supervised training) found in the given folder:
+
+	$ php cli/db-seed.php --heuristics data/players
+	✗ 20 games did not pass the validation.
+	✓ 3229 games out of a total of 3249 are OK.
+	✗ 4 games did not pass the validation.
+	✓ 1349 games out of a total of 1353 are OK.
+
+#### PGN Syntax Checker
+
+This is how to check that a text file contains valid PGN syntax:
 
 	$ php cli/pgn-validate.php data/players/Akobian.pgn
 	✓ 1353 games out of a total of 1353 are OK.
 
-#### Data Preparation for Further Training
+#### Data Preparation for Further AI Training
 
 Create the `dataset/1_100.csv` file with the games identified with an ID ranging from `1` to `100`:
 
@@ -180,25 +195,6 @@ Play with the AI -- for testing purposes for the time being:
 
 	$ php cli/model-play.php
 	1.e4 d5 3.e5 Be6
-
-### Bash Scripts
-
-#### Load All `data/players` Into the `games` Table
-
-Load STR tag pairs and movetexts only:
-
-	$ bash/load.sh
-	This will load all PGN files stored in the data folder. Are you sure to continue? (y|n) y
-	✗ 15 games did not pass the validation.
-	✓ 3234 games out of a total of 3249 are OK.
-	Loading games for 26 s...
-	✓ 1353 games out of a total of 1353 are OK.
-	Loading games for 35 s...
-	The loading of games is completed.
-
-Load STR tag pairs, movetexts and heuristic pictures too:
-
-	$ bash/load.sh --heuristics
 
 ### License
 

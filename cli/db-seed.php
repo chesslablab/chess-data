@@ -24,16 +24,38 @@ class DbSeedCli extends CLI
 
     protected function main(Options $options)
     {
-        try {
-            if ($options->getOpt('heuristics')) {
-                $result = (new HeuristicSeeder($options->getArgs()[0]))->seed();
-            } else {
-                $result = (new BasicSeeder($options->getArgs()[0]))->seed();
+        if (is_file($options->getArgs()[0])) {
+            $result = $this->seed($options->getArgs()[0], $options->getOpt('heuristics'));
+            $this->display($result);
+        } elseif (is_dir($options->getArgs()[0])) {
+            $dir = __DIR__.'/../'.$options->getArgs()[0];
+            $dirIterator = new \DirectoryIterator($dir);
+            foreach ($dirIterator as $fileinfo) {
+                if (!$fileinfo->isDot()) {
+                    $result = $this->seed("$dir/{$fileinfo->getFilename()}", $options->getOpt('heuristics'));
+                    $this->display($result);
+                }
             }
+        }
+    }
+
+    protected function seed(string $filepath, bool $heuristics)
+    {
+        $result = new \stdClass();
+
+        try {
+            $heuristics
+                ? $result = (new HeuristicSeeder($filepath))->seed()
+                : $result = (new BasicSeeder($filepath))->seed();
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
 
+        return $result;
+    }
+
+    protected function display(\stdClass $result)
+    {
         if ($result->valid === 0) {
             $this->error('Whoops! It seems as if no valid games were found in this file.');
         } else {

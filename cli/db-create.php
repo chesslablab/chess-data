@@ -10,7 +10,7 @@ use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class Command extends CLI
+class DbCreateCli extends CLI
 {
     protected function setup(Options $options)
     {
@@ -55,5 +55,5 @@ class Command extends CLI
     }
 }
 
-$cli = new Command();
+$cli = new DbCreateCli();
 $cli->run();

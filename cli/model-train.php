@@ -20,7 +20,7 @@ use Rubix\ML\Transformers\NumericStringConverter;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class Command extends CLI
+class ModelTrainCli extends CLI
 {
     const DATASET_FOLDER = __DIR__.'/../dataset';
     const MODEL_FOLDER = __DIR__.'/../model';
@@ -65,5 +65,5 @@ class Command extends CLI
     }
 }
 
-$cli = new Command();
+$cli = new ModelTrainCli();
 $cli->run();

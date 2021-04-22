@@ -13,7 +13,7 @@ use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class Command extends CLI
+class DataPrepareCli extends CLI
 {
     const DATA_FOLDER = __DIR__.'/../dataset';
 
@@ -75,5 +75,5 @@ class Command extends CLI
     }
 }
 
-$cli = new Command();
+$cli = new DataPrepareCli();
 $cli->run();

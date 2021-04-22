@@ -10,7 +10,7 @@ use ChessData\Seeder\Heuristic as HeuristicSeeder;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class Command extends CLI
+class DbSeedCli extends CLI
 {
     protected function setup(Options $options)
     {
@@ -46,5 +46,5 @@ class Command extends CLI
     }
 }
 
-$cli = new Command();
+$cli = new DbSeedCli();
 $cli->run();

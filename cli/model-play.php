@@ -8,7 +8,7 @@ use Chess\Game;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class Command extends CLI
+class ModelPlayCli extends CLI
 {
     protected function setup(Options $options)
     {
@@ -28,5 +28,5 @@ class Command extends CLI
     }
 }
 
-$cli = new Command();
+$cli = new ModelPlayCli();
 $cli->run();

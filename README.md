@@ -18,13 +18,28 @@ Create an `.env` file:
 
     $ cp .env.example .env
 
+Generate an SSL certificate:
+
+	$ $ bash/dev/genssl.sh
+
 Start the Docker containers:
 
 	$ docker-compose up --build
 
-Find out the IP of your MySQL container and update the `DB_HOST` in your `.env` file accordingly:
+Then find out the IP of your MySQL container:
 
 	$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' chess_data_mysql
+
+And update the `DB_HOST` in your `.env` file accordingly:
+
+```text
+DB_DRIVER=mysql
+DB_HOST=172.18.0.1
+DB_PORT=3306
+DB_DATABASE=chess
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
 ### Command Line Interface (CLI)
 
@@ -216,6 +231,10 @@ Play with the AI -- for testing purposes for the time being:
 
 	$ php cli/model-play.php
 	1.e4 d5 3.e5 Be6
+
+### Chess API
+
+> TODO
 
 ### License
 

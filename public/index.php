@@ -2,6 +2,8 @@
 
 require realpath(dirname(__FILE__)) .'/../src/bootstrap.php';
 
+use ChessData\Pdo;
+
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, POST');
 header("Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range");

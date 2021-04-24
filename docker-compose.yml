@@ -5,25 +5,10 @@ services:
       build: .
       container_name: chess_data_php_fpm
       restart: always
-      working_dir: /usr/share/nginx/chess-data
+      working_dir: /usr/share/chess-data
       volumes:
-          - ./:/usr/share/nginx/chess-data
+          - ./:/usr/share/chess-data
           - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-      networks:
-          - chess_data
-
-  nginx:
-      image: nginx:1.17
-      container_name: chess_data_nginx
-      restart: always
-      working_dir: /usr/share/nginx/chess-data
-      ports:
-          - "443:443"
-      volumes:
-          - ./:/usr/share/nginx/chess-data
-          - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-          - ./docker/nginx/ssl/chess-data.local.crt:/etc/nginx/ssl/chess-data.local.crt
-          - ./docker/nginx/ssl/chess-data.local.key:/etc/nginx/ssl/chess-data.local.key
       networks:
           - chess_data
 

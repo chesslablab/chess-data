@@ -166,11 +166,13 @@ This is how to check that a text file contains valid PGN syntax:
 	$ php cli/pgn-validate.php data/players/Akobian.pgn
 	✓ 1353 games out of a total of 1353 are OK.
 
-#### Data Preparation for Further Data Visualization
+#### Data Preparation for Further Visualization
 
 Create the `dataset/visualization/1_100.json` file of heuristics with ID games ranging from `1` to `100`:
 
 	$ php cli/data-prepare/visualization/heuristics.php 1 100
+
+For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 #### Data Preparation for Further AI Training
 

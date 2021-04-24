@@ -166,13 +166,19 @@ This is how to check that a text file contains valid PGN syntax:
 	$ php cli/pgn-validate.php data/players/Akobian.pgn
 	✓ 1353 games out of a total of 1353 are OK.
 
+#### Data Preparation for Further Data Visualization
+
+Create the `dataset/visualization/1_100.json` file of heuristics with ID games ranging from `1` to `100`:
+
+	$ php cli/data-prepare/visualization/heuristics.php 1 100
+
 #### Data Preparation for Further AI Training
 
-Create the `dataset/1_100.csv` of heuristics with ID games ranging from `1` to `100`:
+Create the `dataset/training/1_100.csv` file of heuristics with ID games ranging from `1` to `100`:
 
 	$ php cli/data-prepare/training/heuristics.php 1 100
 
-This is how the `dataset/1_100.csv` file may look like:
+This is how it may look like:
 
 ```text
 0.5;1;0.17;0.92;0.32;0;0
@@ -189,11 +195,11 @@ This is how the `dataset/1_100.csv` file may look like:
 ...
 ```
 
-Create the `dataset/1_100.csv` of events and heuristics with ID games ranging from `1` to `100`:
+Create the `dataset/training/1_100.csv` file of events and heuristics with ID games ranging from `1` to `100`:
 
 	$ php cli/data-prepare/training/events.php 1 100
 
-This is how the `dataset/1_100.csv` file may look like:
+This is how it may look like:
 
 ```text
 0;0;0;0;0;0;0;0.5;1;0.17;0.92;0.32;0;119955
@@ -231,10 +237,6 @@ Play with the AI -- for testing purposes for the time being:
 
 	$ php cli/model-play.php
 	1.e4 d5 3.e5 Be6
-
-### Chess API
-
-> TODO
 
 ### License
 

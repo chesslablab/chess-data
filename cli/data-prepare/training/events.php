@@ -15,7 +15,7 @@ use splitbrain\phpcli\Options;
 
 class DataPrepareCli extends CLI
 {
-    const DATA_FOLDER = __DIR__.'/../../../dataset';
+    const DATA_FOLDER = __DIR__.'/../../../dataset/training';
 
     protected function setup(Options $options)
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace ChessData\Cli;
+namespace ChessData\Cli\DataPrepare\Training;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use Chess\Heuristic\Picture\Weighted as WeightedHeuristicPicture;
@@ -14,11 +14,11 @@ use splitbrain\phpcli\Options;
 
 class DataPrepareCli extends CLI
 {
-    const DATA_FOLDER = __DIR__.'/../../dataset';
+    const DATA_FOLDER = __DIR__.'/../../../dataset';
 
     protected function setup(Options $options)
     {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__.'/../../../');
         $dotenv->load();
 
         $options->setHelp('Creates a prepared dataset of heuristics in CSV format for further training.');

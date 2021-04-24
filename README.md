@@ -170,7 +170,7 @@ This is how to check that a text file contains valid PGN syntax:
 
 Create the `dataset/1_100.csv` of heuristics with ID games ranging from `1` to `100`:
 
-	$ php cli/data-prepare/heuristics.php 1 100
+	$ php cli/data-prepare/training/heuristics.php 1 100
 
 This is how the `dataset/1_100.csv` file may look like:
 
@@ -191,7 +191,7 @@ This is how the `dataset/1_100.csv` file may look like:
 
 Create the `dataset/1_100.csv` of events and heuristics with ID games ranging from `1` to `100`:
 
-	$ php cli/data-prepare/events.php 1 100
+	$ php cli/data-prepare/training/events.php 1 100
 
 This is how the `dataset/1_100.csv` file may look like:
 

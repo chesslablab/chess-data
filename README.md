@@ -168,9 +168,17 @@ This is how to check that a text file contains valid PGN syntax:
 
 #### Data Preparation for Further Visualization
 
-Create the `dataset/visualization/1_100.json` file of heuristics with ID games ranging from `1` to `100`:
+Create the `dataset/visualization/01_win.json` file of heuristics with 25 random games where white win:
 
-	$ php cli/data-prepare/visualization/heuristics.php 1 100
+	$ php cli/data-prepare/visualization/heuristics.php --win 25 01_win.json
+
+Create the `dataset/visualization/01_lose.json` file of heuristics with 25 random games where white lose:
+
+	$ php cli/data-prepare/visualization/heuristics.php --lose 25 01_lose.json
+
+Create the `dataset/visualization/01_draw.json` file of heuristics with 25 random draw games:
+
+	$ php cli/data-prepare/visualization/heuristics.php --lose 25 01_draw.json
 
 For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 

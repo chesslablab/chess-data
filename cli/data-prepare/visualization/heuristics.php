@@ -20,26 +20,32 @@ class DataPrepareCli extends CLI
         $dotenv->load();
 
         $options->setHelp('Creates a prepared dataset of heuristics in JSON format for further visualization.');
-        $options->registerArgument('from', 'The id range.', true);
-        $options->registerArgument('to', 'The id range.', true);
+        $options->registerArgument('n', 'The number of games.', true);
+        $options->registerArgument('filename', 'The filename.', true);
+        $options->registerOption('win', 'White win.');
+        $options->registerOption('lose', 'White lose.');
+        $options->registerOption('draw', 'Draw.');
     }
 
     protected function main(Options $options)
     {
-        $sql = "SELECT * FROM games WHERE id BETWEEN {$options->getArgs()[0]} AND {$options->getArgs()[1]}";
+        if ($options->getOpt('win')) {
+            $result = '1-0';
+        } elseif ($options->getOpt('lose')) {
+            $result = '0-1';
+        } else {
+            $result = '1/2-1/2';
+        }
+
+        $sql = "SELECT * FROM games WHERE result='$result' ORDER BY RAND() LIMIT {$options->getArgs()[0]}";
 
         $games = Pdo::getInstance()
                     ->query($sql)
                     ->fetchAll(\PDO::FETCH_ASSOC);
 
-        $result = [];
-        foreach ($games as $game) {
-            $result[] = $game;
-        }
-
-        $filename = "{$options->getArgs()[0]}_{$options->getArgs()[1]}.json";
+        $filename = $options->getArgs()[1];
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
-        fwrite($fp, json_encode($result));
+        fwrite($fp, json_encode($games));
         fclose($fp);
     }
 }

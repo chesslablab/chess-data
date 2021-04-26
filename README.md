@@ -132,15 +132,45 @@ This is how to check that a text file contains valid PGN syntax:
 
 #### Data Preparation for Further Visualization
 
-Create the `dataset/visualization/capablanca_jose_raul_win.json` file of heuristics with 25 random games where Jose Raul Capablanca wins:
+```text
+$ php cli/data-prepare/visualization/heuristics.php -h
+USAGE:
+   heuristics.php <OPTIONS> <n> <player>
+
+   Creates a prepared dataset of heuristics in JSON format for further visualization. The file is created in the dataset/visualization folder.                                                  
+
+
+OPTIONS:
+   --win                                                    White wins.                                                                                                                         
+
+   --lose                                                   White loses.                                                                                                                        
+
+   --draw                                                   Draw.                                                                                                                               
+
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.                                                                                                                   
+
+
+ARGUMENTS:
+   <n>                                                      A random number of games to be queried.                                                                                             
+   <player>                                                 The chess player's full name.
+```
+
+##### Examples:
+
+Creates the `dataset/visualization/capablanca_jose_raul_win.json` file:
 
 	$ php cli/data-prepare/visualization/heuristics.php --win 25 "Capablanca Jose Raul"
 
-Create the `dataset/visualization/capablanca_jose_raul_lose.json` file of heuristics with 25 random games where Jose Raul Capablanca loses:
+Creates the `dataset/visualization/capablanca_jose_raul_lose.json` file:
 
 	$ php cli/data-prepare/visualization/heuristics.php --lose 25 "Capablanca Jose Raul"
 
-Create the `dataset/visualization/capablanca_jose_raul_draw.json` file of heuristics with 25 random draw games of Jose Raul Capablanca:
+Creates the `dataset/visualization/capablanca_jose_raul_draw.json` file:
 
 	$ php cli/data-prepare/visualization/heuristics.php --draw 25 "Capablanca Jose Raul"
 

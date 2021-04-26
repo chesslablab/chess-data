@@ -41,6 +41,7 @@ class DataPrepareCli extends CLI
         $filename = "{$this->snakeCase($options->getArgs()[1])}_{$opt}.json";
 
         $sql = "SELECT * FROM games WHERE White SOUNDS LIKE '{$options->getArgs()[1]}'
+            AND result = '$result'
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 

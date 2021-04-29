@@ -6,9 +6,13 @@
 	<img src="https://github.com/programarivm/php-chess/blob/master/resources/chess-board.jpg" />
 </p>
 
-This repo provides you with CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
+CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 
 The supervised learning process is all about using [suitable heuristics](https://github.com/programarivm/php-chess/tree/master/src/Heuristic) such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue!
+
+### Live Demo
+
+A live demo is available at [https://programarivm.github.io/heuristics-quest/](https://programarivm.github.io/heuristics-quest/).
 
 For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
@@ -17,10 +21,6 @@ For further information on how to visually study the supervised data please visi
 Create an `.env` file:
 
     $ cp .env.example .env
-
-Generate an SSL certificate:
-
-	$ $ bash/dev/genssl.sh
 
 Start the Docker containers:
 
@@ -77,29 +77,30 @@ mysql>
 
 Alternatively, an optional heuristic picture can be added too for further supervised training:
 
-    $ php cli/db-create.php --heuristic_picture
+    $ php cli/db-create.php --heuristics
 
 In which case the `games` table will look as it is described next:
 
 ```text
 mysql> describe games;
-+-------------------+--------------------+------+-----+---------+----------------+
-| Field             | Type               | Null | Key | Default | Extra          |
-+-------------------+--------------------+------+-----+---------+----------------+
-| id                | mediumint unsigned | NO   | PRI | NULL    | auto_increment |
-| Event             | char(64)           | YES  |     | NULL    |                |
-| Site              | char(64)           | YES  |     | NULL    |                |
-| Date              | char(16)           | YES  |     | NULL    |                |
-| White             | char(32)           | YES  |     | NULL    |                |
-| Black             | char(32)           | YES  |     | NULL    |                |
-| Result            | char(8)            | YES  |     | NULL    |                |
-| WhiteElo          | char(8)            | YES  |     | NULL    |                |
-| BlackElo          | char(8)            | YES  |     | NULL    |                |
-| ECO               | char(8)            | YES  |     | NULL    |                |
-| movetext          | varchar(3072)      | YES  |     | NULL    |                |
-| heuristic_picture | json               | YES  |     | NULL    |                |
-+-------------------+--------------------+------+-----+---------+----------------+
-12 rows in set (0.01 sec)
++----------------------+--------------------+------+-----+---------+----------------+
+| Field                | Type               | Null | Key | Default | Extra          |
++----------------------+--------------------+------+-----+---------+----------------+
+| id                   | mediumint unsigned | NO   | PRI | NULL    | auto_increment |
+| Event                | char(64)           | YES  |     | NULL    |                |
+| Site                 | char(64)           | YES  |     | NULL    |                |
+| Date                 | char(16)           | YES  |     | NULL    |                |
+| White                | char(32)           | YES  |     | NULL    |                |
+| Black                | char(32)           | YES  |     | NULL    |                |
+| Result               | char(8)            | YES  |     | NULL    |                |
+| WhiteElo             | char(8)            | YES  |     | NULL    |                |
+| BlackElo             | char(8)            | YES  |     | NULL    |                |
+| ECO                  | char(8)            | YES  |     | NULL    |                |
+| movetext             | varchar(3072)      | YES  |     | NULL    |                |
+| heuristic_picture    | json               | YES  |     | NULL    |                |
+| heuristic_evaluation | json               | YES  |     | NULL    |                |
++----------------------+--------------------+------+-----+---------+----------------+
+13 rows in set (0.01 sec)
 
 mysql>
 ```

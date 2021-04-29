@@ -18,7 +18,7 @@ class DbCreateCli extends CLI
         $dotenv->load();
 
         $options->setHelp('Creates the chess database with a games table.');
-        $options->registerOption('heuristic_picture', 'Add a heuristic picture column for further supervised training.');
+        $options->registerOption('heuristics', 'Add heuristics for further supervised training.');
     }
 
     protected function main(Options $options)
@@ -48,8 +48,10 @@ class DbCreateCli extends CLI
 
         Pdo::getInstance()->query($sql);
 
-        if ($options->getOpt('heuristic_picture')) {
+        if ($options->getOpt('heuristics')) {
             $sql = 'ALTER TABLE games ADD COLUMN `heuristic_picture` JSON';
+            Pdo::getInstance()->query($sql);
+            $sql = 'ALTER TABLE games ADD COLUMN `heuristic_evaluation` JSON';
             Pdo::getInstance()->query($sql);
         }
     }

@@ -8,6 +8,23 @@ use ChessData\Pdo;
 
 class Heuristic extends AbstractSeeder
 {
+    protected $weightedHeuristicPicture;
+
+    protected $dimensions;
+
+    public function __construct(string $filepath)
+    {
+        parent::__construct($filepath);
+
+        $this->heuristicPicture = WeightedHeuristicPicture::class;
+
+        $this->dimensions = json_encode(
+            array_map(function($item) {
+                return (new \ReflectionClass($item))->getShortName();
+            }, $this->heuristicPicture::DIMENSIONS)
+        );
+    }
+
     protected function insert(array $tags, string $movetext)
     {
         $values = [];
@@ -25,9 +42,13 @@ class Heuristic extends AbstractSeeder
         }
 
         $sql .= "`movetext`,
-                `heuristic_picture`) VALUES
-                ($params:movetext,
-                :heuristic_picture)";
+                `heuristic_picture`,
+                `heuristic_evaluation`)
+                VALUES (
+                    $params:movetext,
+                    :heuristic_picture,
+                    :heuristic_evaluation
+                )";
 
         try {
             array_push($values,
@@ -38,7 +59,12 @@ class Heuristic extends AbstractSeeder
                 ],
                 [
                     'param' => ':heuristic_picture',
-                    'value' => json_encode((new WeightedHeuristicPicture($movetext))->take()),
+                    'value' => json_encode((new $this->heuristicPicture($movetext))->take()),
+                    'type' => \PDO::PARAM_STR,
+                ],
+                [
+                    'param' => ':heuristic_evaluation',
+                    'value' => $this->dimensions,
                     'type' => \PDO::PARAM_STR,
                 ],
             );

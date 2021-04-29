@@ -18,7 +18,7 @@ class DbSeedCli extends CLI
         $dotenv->load();
 
         $options->setHelp('Seeds the chess database with games.');
-        $options->registerOption('heuristics', 'Add a heuristic picture column for further supervised training.');
+        $options->registerOption('heuristics', 'Add heuristics for further supervised training.');
         $options->registerArgument('filepath', 'PGN file.', true);
     }
 

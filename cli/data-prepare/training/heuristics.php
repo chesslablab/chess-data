@@ -55,7 +55,7 @@ class DataPrepareCli extends CLI
                     ]))->label();
 
                     $row = array_merge(
-                        $picture[Symbol::WHITE][$i],
+                        $picture[Symbol::BLACK][$i],
                         [$label[Symbol::BLACK]]
                     );
 

@@ -18,10 +18,13 @@ class ModelPlayCli extends CLI
     protected function main(Options $options)
     {
         $game = new Game(Game::MODE_PVA);
-        $game->play('w', 'e4');
+        $game->play('w', 'd4');
         $game->play('b', $game->response());
-        $game->play('w', 'e5');
+        $game->play('w', 'Nc3');
         $game->play('b', $game->response());
+        $game->play('w', 'Nxd5');
+        $game->play('b', $game->response());
+
 
         // TODO
         echo $game->movetext() . PHP_EOL;

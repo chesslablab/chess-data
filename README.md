@@ -238,10 +238,16 @@ This will create the `model/a1.model` file which then can be trained in batches 
 
 #### Play with the AI
 
-Play with the AI -- for testing purposes for the time being:
+Play with the AI -- for testing purposes for the time being -- by hardcoding your chess game into the command.
 
 	$ php cli/model-play.php
-	1.e4 d5 3.e5 Be6
+	1.d4 d5 3.Nc3 Nc6 5.Nxd5 Qd5
+
+### Models
+
+Name | Description | Datasets | Heuristics
+---- | ----------- | -------- | --------------------
+`model/a1.model` | 3418 games by Magnus Carlsen | `dataset/training/a1_1_3418.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
 
 ### License
 

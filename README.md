@@ -179,11 +179,34 @@ For further information on how to visually study the supervised data please visi
 
 #### Data Preparation for Further AI Training
 
-Create the `dataset/training/1_100.csv` file of heuristics with ID games ranging from `1` to `100`:
+```text
+$ php cli/data-prepare/training/heuristics.php -h
+USAGE:
+   heuristics.php <OPTIONS> <name> <from> <to>
 
-	$ php cli/data-prepare/training/heuristics.php 1 100
+   Creates a prepared dataset of heuristics in CSV format for further training.                                                                                                                 
 
-This is how it may look like:
+
+OPTIONS:
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.                                                                                                                   
+
+
+ARGUMENTS:
+   <name>                                                   The model name to be trained.                                                                                                       
+   <from>                                                   The id range.                                                                                                                       
+   <to>                                                     The id range.
+```
+
+Assuming we want to train a model named `a1`, this is how to create a `dataset/training/a1_1_100.csv` file of heuristics with ID games ranging from `1` to `100`:
+
+	$ php cli/data-prepare/training/heuristics.php a1 1 100
+
+The resulting file may look like this:
 
 ```text
 1;1;0.23;0.83;0.17;0;3027
@@ -200,9 +223,9 @@ This is how it may look like:
 
 #### MLP Regressor Training
 
-Create the `beginner.model` with the `1_100.csv` dataset:
+Create and train the `a1.model` with the `a1_1_100.csv` dataset previously created:
 
-	$ php cli/model-train.php beginner 1_100.csv
+	$ php cli/model-train.php a1 a1_1_100.csv
 	[2021-04-21 15:41:00] /usr/share/chess-data/cli/../model/beginner.model.INFO: MLP Regressor (hidden layers: [0: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 1: Activation (activation fn: ReLU), 2: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 3: Activation (activation fn: ReLU), 4: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 5: Activation (activation fn: ReLU), 6: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 7: Activation (activation fn: ReLU)], batch size: 128, optimizer: RMS Prop (rate: 0.001, decay: 0.1), alpha: 0.001, epochs: 100, min change: 1.0E-5, window: 3, hold out: 0.1, cost fn: Least Squares, metric: R Squared) initialized
 	[2021-04-21 15:41:07] /usr/share/chess-data/cli/../model/beginner.model.INFO: Epoch 1 - R Squared: -23.73636944188, Least Squares: 12830049411.344
 	[2021-04-21 15:41:14] /usr/share/chess-data/cli/../model/beginner.model.INFO: Epoch 2 - R Squared: -23.441372496336, Least Squares: 12758274787.884
@@ -211,7 +234,7 @@ Create the `beginner.model` with the `1_100.csv` dataset:
 	[2021-04-21 15:48:13] /usr/share/chess-data/cli/../model/beginner.model.INFO: Network restored from snapshot at epoch 57
 	[2021-04-21 15:48:13] /usr/share/chess-data/cli/../model/beginner.model.INFO: Training complete
 
-The command above will create the `model/beginner.model` file which can be used to keep training the model in batches with more prepared data.
+This will create the `model/a1.model` file which then can be trained in batches again with more prepared data.
 
 #### Play with the AI
 

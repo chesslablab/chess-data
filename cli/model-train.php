@@ -22,7 +22,7 @@ use splitbrain\phpcli\Options;
 
 class ModelTrainCli extends CLI
 {
-    const DATASET_FOLDER = __DIR__.'/../dataset';
+    const DATASET_FOLDER = __DIR__.'/../dataset/training';
     const MODEL_FOLDER = __DIR__.'/../model';
 
     protected function setup(Options $options)

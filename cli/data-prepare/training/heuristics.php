@@ -22,19 +22,20 @@ class DataPrepareCli extends CLI
         $dotenv->load();
 
         $options->setHelp('Creates a prepared dataset of heuristics in CSV format for further training.');
+        $options->registerArgument('name', 'The model name to be trained.', true);
         $options->registerArgument('from', 'The id range.', true);
         $options->registerArgument('to', 'The id range.', true);
     }
 
     protected function main(Options $options)
     {
-        $sql = "SELECT * FROM games WHERE id BETWEEN {$options->getArgs()[0]} AND {$options->getArgs()[1]}";
+        $sql = "SELECT * FROM games WHERE id BETWEEN {$options->getArgs()[1]} AND {$options->getArgs()[2]}";
 
         $games = Pdo::getInstance()
                     ->query($sql)
                     ->fetchAll(\PDO::FETCH_ASSOC);
 
-        $filename = "{$options->getArgs()[0]}_{$options->getArgs()[1]}.csv";
+        $filename = "{$options->getArgs()[0]}_{$options->getArgs()[1]}_{$options->getArgs()[2]}.csv";
 
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 

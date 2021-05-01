@@ -238,10 +238,18 @@ This will create the `model/a1.model` file which then can be trained in batches 
 
 #### Play with the AI
 
-Play with the AI -- for testing purposes for the time being -- by hardcoding your chess game into the command.
+Play with the AI.
 
-	$ php cli/model-play.php
-	1.d4 d5 3.Nc3 Nc6 5.Nxd5 Qd5
+```text
+$ php cli/model-play.php a2.model
+chess > d4
+chess > 1.d4 d5
+chess > Nc3
+chess > 1.d4 d5 2.Nc3 Nc6
+chess > Nxd5
+chess > 1.d4 d5 2.Nc3 Nc6 3.Nxd5 Qd5
+chess > quit
+```
 
 ### Models
 

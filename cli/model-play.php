@@ -10,24 +10,29 @@ use splitbrain\phpcli\Options;
 
 class ModelPlayCli extends CLI
 {
+    const PROMPT = 'chess > ';
+
     protected function setup(Options $options)
     {
         $options->setHelp('Play with the AI.');
+        $options->registerArgument('model', 'AI model name.', true);
     }
 
     protected function main(Options $options)
     {
-        $game = new Game(Game::MODE_PVA);
-        $game->play('w', 'd4');
-        $game->play('b', $game->response());
-        $game->play('w', 'Nc3');
-        $game->play('b', $game->response());
-        $game->play('w', 'Nxd5');
-        $game->play('b', $game->response());
+        $game = new Game(Game::MODE_PVA, $options->getArgs()[0]);
 
-
-        // TODO
-        echo $game->movetext() . PHP_EOL;
+        do {
+            $move = readline(self::PROMPT);
+            if ($move !== 'quit') {
+                $game->play('w', $move);
+                $response = $game->response();
+                $game->play('b', $response);
+                echo self::PROMPT . $game->movetext() . PHP_EOL;
+            } else {
+                break;
+            }
+        } while (!$game->isMate());
     }
 }
 

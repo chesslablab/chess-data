@@ -75,7 +75,7 @@ mysql> describe games;
 mysql>
 ```
 
-Alternatively, an optional heuristic picture can be added too for further supervised training:
+Alternatively, an optional heuristic picture can be added too for further data visualization:
 
     $ php cli/db-create.php --heuristics
 
@@ -113,7 +113,7 @@ With the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.
 
 	$ php cli/db-seed.php data/players/Carlsen.pgn
 
-With the PGN games (STR tag pairs, movetexts and heuristic pictures too for further supervised training) found in `data/players/Carlsen.pgn`:
+With the PGN games (STR tag pairs, movetexts and heuristic pictures too for further data visualization) found in `data/players/Carlsen.pgn`:
 
 	$ php cli/db-seed.php --heuristics data/players/Carlsen.pgn
 
@@ -121,7 +121,7 @@ With all PGN files (STR tag pairs and movetexts) found in the given folder:
 
 	$ php cli/db-seed.php data/players
 
-With all PGN files (STR tag pairs, movetexts and heuristic pictures too for further supervised training) found in the given folder:
+With all PGN files (STR tag pairs, movetexts and heuristic pictures too for further data visualization) found in the given folder:
 
 	$ php cli/db-seed.php --heuristics data/players
 
@@ -251,12 +251,13 @@ chess > 1.d4 d5 2.Nc3 Nc6 3.Nxd5 Qd5
 chess > quit
 ```
 
-### Models
+### Models Available
 
 Name | Description | Datasets | Heuristics
 ---- | ----------- | -------- | --------------------
-`model/a1.model` | 3418 games by Magnus Carlsen | `dataset/training/a1_1_3418.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
-`model/a2.model` | 5239 games by Carlsen and Polgar | `dataset/training/a2_1_5239.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
+`model/a1.model` | 3,418 games by Magnus Carlsen | `dataset/training/a1_1_3418.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
+`model/a2.model` | 5,239 games by Carlsen and Polgar | `dataset/training/a2_1_5239.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
+`model/a3.model` | 10,000 games by chess grandmasters | `dataset/training/a2_1_5239.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
 
 ### License
 

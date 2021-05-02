@@ -259,7 +259,7 @@ Name | Description | Datasets | Heuristics
 ---- | ----------- | -------- | --------------------
 `model/a1.model` | 3,418 games by Magnus Carlsen | `dataset/training/a1_1_3418.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
 `model/a2.model` | 5,239 games by Carlsen and Polgar | `dataset/training/a2_1_5239.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
-`model/a3.model` | 10,000 games by chess grandmasters | `dataset/training/a2_1_5239.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
+`model/a3.model` | 10,000 games by chess grandmasters | `dataset/training/a3_1_10000.csv` | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
 
 ### License
 

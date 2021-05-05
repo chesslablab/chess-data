@@ -2,26 +2,22 @@
 
 namespace ChessData\Seeder;
 
-use Chess\Heuristic\Picture\Weighted as WeightedHeuristicPicture;
+use Chess\Heuristic\Picture\Standard as StandardHeuristicPicture;
 use Chess\PGN\Tag;
 use ChessData\Pdo;
 
 class Heuristic extends AbstractSeeder
 {
-    protected $weightedHeuristicPicture;
-
     protected $dimensions;
 
     public function __construct(string $filepath)
     {
         parent::__construct($filepath);
 
-        $this->heuristicPicture = WeightedHeuristicPicture::class;
-
         $this->dimensions = json_encode(
             array_map(function($item) {
                 return (new \ReflectionClass($item))->getShortName();
-            }, $this->heuristicPicture::DIMENSIONS)
+            }, (new StandardHeuristicPicture(''))->getDimensions())
         );
     }
 
@@ -59,7 +55,7 @@ class Heuristic extends AbstractSeeder
                 ],
                 [
                     'param' => ':heuristic_picture',
-                    'value' => json_encode((new $this->heuristicPicture($movetext))->take()),
+                    'value' => json_encode((new StandardHeuristicPicture($movetext))->take()),
                     'type' => \PDO::PARAM_STR,
                 ],
                 [

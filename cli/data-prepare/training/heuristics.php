@@ -5,8 +5,8 @@ namespace ChessData\Cli\DataPrepare\Training;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use Chess\Heuristic\Picture\Weighted as WeightedHeuristicPicture;
-use Chess\ML\Supervised\Regression\Labeller\PrimesLabeller;
+use Chess\Heuristic\Picture\Standard as StandardHeuristicPicture;
+use Chess\ML\Supervised\Regression\Labeller\LinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
@@ -41,25 +41,18 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
-                $heuristicPicture = (new WeightedHeuristicPicture($game['movetext']))->take();
-                $picture = [
-                    Symbol::WHITE => [],
-                    Symbol::BLACK => [],
-                ];
-                for ($i = 0; $i < count($heuristicPicture[Symbol::WHITE]); $i++) {
-                    $picture[Symbol::WHITE][$i] = $heuristicPicture[Symbol::WHITE][$i];
-                    $picture[Symbol::BLACK][$i] = $heuristicPicture[Symbol::BLACK][$i];
-
-                    $label = (new PrimesLabeller([
-                        Symbol::WHITE => $picture[Symbol::WHITE][$i],
-                        Symbol::BLACK => $picture[Symbol::BLACK][$i]
-                    ]))->label();
-
+                $heuristicPicture = new StandardHeuristicPicture($game['movetext']);
+                $taken = $heuristicPicture->take();
+                foreach ($taken[Symbol::WHITE] as $key => $item) {
+                    $sample = [
+                        Symbol::WHITE => $taken[Symbol::WHITE][$key],
+                        Symbol::BLACK => $taken[Symbol::BLACK][$key],
+                    ];
+                    $label = (new LinearCombinationLabeller($heuristicPicture, $sample))->label();
                     $row = array_merge(
-                        $picture[Symbol::BLACK][$i],
+                        $taken[Symbol::BLACK][$key],
                         [$label[Symbol::BLACK]]
                     );
-
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

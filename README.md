@@ -255,13 +255,14 @@ chess > quit
 
 ### Models Available
 
-Name | Description | Heuristics
----- | ----------- | ----------
-`model/a1.model` | 3,418 games by Magnus Carlsen | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
-`model/a2.model` | 5,239 games by Carlsen and Polgar | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
-`model/a3.model` | 10,000 games by chess grandmasters | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
-`model/a4.model` | 3,500 games by chess grandmasters | <ul><li>Material</li><li>King safety</li><li>Attacked</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul>
-`model/a5.model` | 3,500 games by chess grandmasters | <ul><li>Material</li><li>Space</li><li>Center</li><li>King safety</li><li>Connectivity</li><li>Attack</li><li>Pressure</li><li>Pressured</li><li>Attacked</li></ul>
+Name | Description | Evaluation | Heuristic |
+---- | ----------- | ---------- | --------- |
+`model/a1.model` | 3,418 games by Magnus Carlsen | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul> | `Chess\Heuristic\LinearCombinationEvaluation`
+`model/a2.model` | 5,239 games by Carlsen and Polgar | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul> | `Chess\Heuristic\LinearCombinationEvaluation`
+`model/a3.model` | 10,000 games by chess grandmasters | <ul><li>Material</li><li>King safety</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul> | `Chess\Heuristic\LinearCombinationEvaluation`
+`model/a4.model` | 3,500 games by chess grandmasters | <ul><li>Material</li><li>King safety</li><li>Attacked</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul> | `Chess\Heuristic\LinearCombinationEvaluation`
+`model/a5.model` | 3,500 games by chess grandmasters | <ul><li>Material</li><li>Space</li><li>Center</li><li>King safety</li><li>Connectivity</li><li>Attack</li><li>Pressure</li><li>Pressured</li><li>Attacked</li></ul> | `Chess\Heuristic\LinearCombinationEvaluation`
+`model/a6.model` | 3,500 games by chess grandmasters | <ul><li>Material</li><li>King safety</li><li>Attacked</li><li>Center</li><li>Connectivity</li><li>Space</li><li>Attack</li></ul> | `Chess\Heuristic\LinearCombinationEvaluation`
 
 ### License
 

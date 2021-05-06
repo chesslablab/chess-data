@@ -5,8 +5,8 @@ namespace ChessData\Cli\DataPrepare\Training;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use Chess\Heuristic\Picture\Standard as StandardHeuristicPicture;
-use Chess\ML\Supervised\Regression\Labeller\LinearCombinationLabeller;
+use Chess\Heuristic\Picture\Positional as PositionalHeuristicPicture;
+use Chess\ML\Supervised\Regression\LinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
@@ -41,7 +41,7 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
-                $heuristicPicture = new StandardHeuristicPicture($game['movetext']);
+                $heuristicPicture = new PositionalHeuristicPicture($game['movetext']);
                 $taken = $heuristicPicture->take();
                 foreach ($taken[Symbol::WHITE] as $key => $item) {
                     $sample = [

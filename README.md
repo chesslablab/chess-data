@@ -2,10 +2,6 @@
 
 [![Build Status](https://travis-ci.org/programarivm/chess-data.svg?branch=master)](https://travis-ci.org/programarivm/chess-data)
 
-<p align="center">
-	<img src="https://github.com/programarivm/php-chess/blob/master/resources/chess-board.jpg" />
-</p>
-
 CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 
 ### Live Demo

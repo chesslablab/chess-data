@@ -22,17 +22,17 @@ class DataPrepareCli extends CLI
         $options->setHelp('Creates a prepared dataset of heuristics in JSON format for further visualization. The file is created in the dataset/visualization folder.');
         $options->registerArgument('n', 'A random number of games to be queried.', true);
         $options->registerArgument('player', "The chess player's full name.", true);
-        $options->registerOption('win', 'White wins.');
-        $options->registerOption('lose', 'White loses.');
+        $options->registerOption('win', 'The player wins.');
+        $options->registerOption('lose', 'The player loses.');
         $options->registerOption('draw', 'Draw.');
     }
 
     protected function main(Options $options)
     {
         if ($options->getOpt('win')) {
-            $result = '1-0';
-        } elseif ($options->getOpt('lose')) {
             $result = '0-1';
+        } elseif ($options->getOpt('lose')) {
+            $result = '1-0';
         } else {
             $result = '1/2-1/2';
         }
@@ -40,7 +40,7 @@ class DataPrepareCli extends CLI
         $opt = key($options->getOpt());
         $filename = "{$this->snakeCase($options->getArgs()[1])}_{$opt}.json";
 
-        $sql = "SELECT * FROM games WHERE White SOUNDS LIKE '{$options->getArgs()[1]}'
+        $sql = "SELECT * FROM games WHERE Black SOUNDS LIKE '{$options->getArgs()[1]}'
             AND result = '$result'
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";

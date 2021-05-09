@@ -14,11 +14,13 @@ class Heuristic extends AbstractSeeder
     {
         parent::__construct($filepath);
 
-        $this->dimensions = json_encode(
-            array_map(function($item) {
+        $this->dimensions = array_map(
+            function($item) {
                 return (new \ReflectionClass($item))->getShortName();
-            }, (new PositionalHeuristicPicture(''))->getDimensions())
+            }, array_keys((new PositionalHeuristicPicture(''))->getDimensions())
         );
+
+        $this->dimensions = json_encode($this->dimensions);
     }
 
     protected function insert(array $tags, string $movetext)

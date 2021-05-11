@@ -58,6 +58,13 @@ OPTIONS:
                                                             alert, emergency.
 ```
 
+##### Example:
+
+Creates the `chess` database:
+
+    $ php cli/db-create.php
+
+
 Once the command is successfully, the `games` table will look as described next:
 
 ```text
@@ -83,6 +90,8 @@ mysql> describe games;
 
 mysql>
 ```
+
+##### Example:
 
 Alternatively, an optional heuristic picture can be added too for further data visualization with [Heuristics Quest](https://github.com/programarivm/heuristics-quest):
 
@@ -254,7 +263,7 @@ ARGUMENTS:
 
 Creates the `dataset/training/capablanca_jose_raul_win.csv` file:
 
-	$ php cli/data-prepare/visualization/heuristics.php --win 25 "Capablanca Jose Raul"
+	$ php cli/data-prepare/training/heuristics.php --win 25 "Capablanca Jose Raul"
 
 #### MLP Regressor Training
 

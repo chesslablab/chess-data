@@ -27,7 +27,7 @@ class ModelTrainCli extends CLI
 
     protected function setup(Options $options)
     {
-        $options->setHelp('Trains an MLP regressor.');
+        $options->setHelp('Trains an AI model.');
         $options->registerArgument('name', 'The AI model name.', true);
         $options->registerArgument('dataset', 'A prepared dataset in CSV format.', true);
     }

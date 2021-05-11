@@ -65,7 +65,7 @@ Creates the `chess` database:
     $ php cli/db-create.php
 
 
-Once the command is successfully, the `games` table will look as described next:
+The `games` table will look as described next:
 
 ```text
 mysql> use chess;
@@ -191,6 +191,56 @@ ARGUMENTS:
    <filepath>                                               PGN file to be validated.
 ```
 
+##### Example:
+
+Check the PGN syntax in the `data/players/Carlsen.pgn` file:
+
+```text
+$ php cli/pgn-validate.php data/players/Carlsen.pgn
+Event: 5th YM
+Site: Lausanne SUI
+Date: 2004.09.20
+Round: 3.4
+White: Lahno,Kateri
+Black: Carlsen,M
+Result: 1/2-1/2
+WhiteElo: 2472
+BlackElo: 2567
+
+Event: 5th YM
+Site: Lausanne SUI
+Date: 2004.09.20
+Round: 3.6
+White: Lahno,Kateri
+Black: Carlsen,M
+Result: 0-1
+WhiteElo: 2472
+BlackElo: 2567
+
+Event: 5th YM
+Site: Lausanne SUI
+Date: 2004.09.20
+Round: 3.5
+White: Carlsen,M
+Black: Lahno,Kateri
+Result: 1-0
+WhiteElo: 2567
+BlackElo: 2472
+
+Event: 5th YM
+Site: Lausanne SUI
+Date: 2004.09.20
+Round: 3.3
+White: Carlsen,M
+Black: Lahno,Kateri
+Result: 1/2-1/2
+WhiteElo: 2567
+BlackElo: 2472
+
+✗ 4 games did not pass the validation.
+✓ 3426 games out of a total of 3430 are OK.
+```
+
 #### Data Preparation for Further Visualization
 
 ```text
@@ -266,6 +316,30 @@ Creates the `dataset/training/capablanca_jose_raul_win.csv` file:
 	$ php cli/data-prepare/training/heuristics.php --win 25 "Capablanca Jose Raul"
 
 #### MLP Regressor Training
+
+```text
+$ php cli/model-train.php -h
+USAGE:
+   model-train.php <OPTIONS> <name> <dataset>
+
+   Trains an AI model.                                                                                                                                                                          
+
+
+OPTIONS:
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.                                                                                                                   
+
+
+ARGUMENTS:
+   <name>                                                   The AI model name.                                                                                                                  
+   <dataset>                                                A prepared dataset in CSV format.
+```
+
+##### Example:
 
 Train the `a1.model` with the `capablanca_jose_raul_win.csv` dataset previously created:
 

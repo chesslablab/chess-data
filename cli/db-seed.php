@@ -17,9 +17,9 @@ class DbSeedCli extends CLI
         $dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $dotenv->load();
 
-        $options->setHelp('Seeds the chess database with games.');
-        $options->registerOption('heuristics', 'Add heuristics for further supervised training.');
-        $options->registerArgument('filepath', 'PGN file.', true);
+        $options->setHelp('Seeds the chess database with the specified PGN games.');
+        $options->registerOption('heuristics', 'Add heuristics for further data visualization.');
+        $options->registerArgument('filepath', 'PGN file, or folder containing the PGN files.', true);
     }
 
     protected function main(Options $options)

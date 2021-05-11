@@ -39,11 +39,26 @@ DB_PASSWORD=
 
 #### Create the Chess Database
 
-Create the `chess` database with the `games` table:
+```text
+$ php cli/db-create.php -h
+USAGE:
+   db-create.php <OPTIONS>
 
-    $ php cli/db-create.php
+   Creates the chess database with the games table.                                                                                                                                             
 
-The `games` table will look as described next:
+
+OPTIONS:
+   --heuristics                                             Add heuristics for further data visualization.                                                                                      
+
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.
+```
+
+Once the command is successfully, the `games` table will look as described next:
 
 ```text
 mysql> use chess;
@@ -103,7 +118,32 @@ A so-called heuristic picture consists of a group of heuristic snapshots such as
 
 #### Seed the `games` Table
 
-With the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
+```text
+$ php cli/db-seed.php -h
+USAGE:
+   db-seed.php <OPTIONS> <filepath>
+
+   Seeds the chess database with the specified PGN games.                                                                                                                                       
+
+
+OPTIONS:
+   --heuristics                                             Add heuristics for further data visualization.                                                                                      
+
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.                                                                                                                   
+
+
+ARGUMENTS:
+   <filepath>                                               PGN file, or folder containing the PGN files.
+```
+
+##### Examples:
+
+Seed the database with the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
 
 	$ php cli/db-seed.php data/players/Carlsen.pgn
 
@@ -121,9 +161,26 @@ With all PGN files (STR tag pairs, movetexts and heuristic pictures too for furt
 
 #### PGN Syntax Checker
 
-This is how to check that a text file contains valid PGN syntax:
+```text
+$ php cli/pgn-validate.php -h
+USAGE:
+   pgn-validate.php <OPTIONS> <filepath>
 
-	$ php cli/pgn-validate.php data/players/Carlsen.pgn
+   PGN syntax validator.                                                                                                                                                                        
+
+
+OPTIONS:
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.                                                                                                                   
+
+
+ARGUMENTS:
+   <filepath>                                               PGN file to be validated.
+```
 
 #### Data Preparation for Further Visualization
 

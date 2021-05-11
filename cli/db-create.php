@@ -17,8 +17,8 @@ class DbCreateCli extends CLI
         $dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $dotenv->load();
 
-        $options->setHelp('Creates the chess database with a games table.');
-        $options->registerOption('heuristics', 'Add heuristics for further supervised training.');
+        $options->setHelp('Creates the chess database with the games table.');
+        $options->registerOption('heuristics', 'Add heuristics for further data visualization.');
     }
 
     protected function main(Options $options)

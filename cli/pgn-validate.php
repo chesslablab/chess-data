@@ -14,7 +14,7 @@ class PgnValidateCli extends CLI
     protected function setup(Options $options)
     {
         $options->setHelp('PGN syntax validator.');
-        $options->registerArgument('filepath', 'Large files (for example 50MB) may take a few seconds to be parsed.', true);
+        $options->registerArgument('filepath', 'PGN file to be validated.', true);
     }
 
     protected function main(Options $options)

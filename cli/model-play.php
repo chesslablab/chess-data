@@ -20,7 +20,7 @@ class ModelPlayCli extends CLI
 
     protected function main(Options $options)
     {
-        $game = new Game(Game::MODE_PVA, $options->getArgs()[0]);
+        $game = new Game(Game::MODE_AI, $options->getArgs()[0]);
 
         do {
             $move = readline(self::PROMPT);

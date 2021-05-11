@@ -21,21 +21,35 @@ class DataPrepareCli extends CLI
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../../');
         $dotenv->load();
 
-        $options->setHelp('Creates a prepared dataset of heuristics in CSV format for further training.');
-        $options->registerArgument('name', 'The model name to be trained.', true);
-        $options->registerArgument('from', 'The id range.', true);
-        $options->registerArgument('to', 'The id range.', true);
+        $options->setHelp('Creates a prepared CSV dataset of heuristics in the dataset/training folder.');
+        $options->registerArgument('n', 'A random number of games to be queried.', true);
+        $options->registerArgument('player', "The chess player's full name.", true);
+        $options->registerOption('win', 'The player wins.');
+        $options->registerOption('lose', 'The player loses.');
+        $options->registerOption('draw', 'Draw.');
     }
 
     protected function main(Options $options)
     {
-        $sql = "SELECT * FROM games WHERE id BETWEEN {$options->getArgs()[1]} AND {$options->getArgs()[2]}";
+        if ($options->getOpt('win')) {
+            $result = '0-1';
+        } elseif ($options->getOpt('lose')) {
+            $result = '1-0';
+        } else {
+            $result = '1/2-1/2';
+        }
+
+        $opt = key($options->getOpt());
+        $filename = "{$this->snakeCase($options->getArgs()[1])}_{$opt}.csv";
+
+        $sql = "SELECT * FROM games WHERE Black SOUNDS LIKE '{$options->getArgs()[1]}'
+            AND result = '$result'
+            ORDER BY RAND()
+            LIMIT {$options->getArgs()[0]}";
 
         $games = Pdo::getInstance()
                     ->query($sql)
                     ->fetchAll(\PDO::FETCH_ASSOC);
-
-        $filename = "{$options->getArgs()[0]}_{$options->getArgs()[1]}_{$options->getArgs()[2]}.csv";
 
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 
@@ -59,6 +73,11 @@ class DataPrepareCli extends CLI
         }
 
         fclose($fp);
+    }
+
+    protected function snakeCase(string $string)
+    {
+        return str_replace(' ', '_', strtolower(trim($string)));
     }
 }
 

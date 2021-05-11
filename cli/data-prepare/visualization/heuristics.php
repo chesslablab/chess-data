@@ -19,7 +19,7 @@ class DataPrepareCli extends CLI
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../../');
         $dotenv->load();
 
-        $options->setHelp('Creates a prepared dataset of heuristics in JSON format for further visualization. The file is created in the dataset/visualization folder.');
+        $options->setHelp('Creates a prepared JSON dataset of heuristics in the dataset/visualization folder.');
         $options->registerArgument('n', 'A random number of games to be queried.', true);
         $options->registerArgument('player', "The chess player's full name.", true);
         $options->registerOption('win', 'The player wins.');

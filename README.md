@@ -8,8 +8,6 @@ CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) dat
 
 The supervised learning process is all about using suitable heuristics such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue!
 
-A live demo is available at [https://programarivm.github.io/heuristics-quest/](https://programarivm.github.io/heuristics-quest/).
-
 For further information please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### Set Up
@@ -101,9 +99,7 @@ mysql> describe games;
 mysql>
 ```
 
-A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. Heuristic pictures are mainly used for supervised training.
-
-For further information, please look at the programmer-defined heuristic evaluation functions available at [programarivm/pgn-chess/src/Heuristic/](https://github.com/programarivm/pgn-chess/tree/master/src/Heuristic).
+A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. [Heuristic pictures](https://github.com/programarivm/php-chess/tree/master/src/Heuristic/Picture) are mainly used for supervised training.
 
 #### Seed the `games` Table
 
@@ -136,13 +132,13 @@ $ php cli/data-prepare/visualization/heuristics.php -h
 USAGE:
    heuristics.php <OPTIONS> <n> <player>
 
-   Creates a prepared dataset of heuristics in JSON format for further visualization. The file is created in the dataset/visualization folder.                                                  
+   Creates a prepared JSON dataset of heuristics in the dataset/visualization folder.                                                                                                           
 
 
 OPTIONS:
-   --win                                                    White wins.                                                                                                                         
+   --win                                                    The player wins.                                                                                                                    
 
-   --lose                                                   White loses.                                                                                                                        
+   --lose                                                   The player loses.                                                                                                                   
 
    --draw                                                   Draw.                                                                                                                               
 
@@ -159,19 +155,11 @@ ARGUMENTS:
    <player>                                                 The chess player's full name.
 ```
 
-##### Examples:
+##### Example:
 
 Creates the `dataset/visualization/capablanca_jose_raul_win.json` file:
 
 	$ php cli/data-prepare/visualization/heuristics.php --win 25 "Capablanca Jose Raul"
-
-Creates the `dataset/visualization/capablanca_jose_raul_lose.json` file:
-
-	$ php cli/data-prepare/visualization/heuristics.php --lose 25 "Capablanca Jose Raul"
-
-Creates the `dataset/visualization/capablanca_jose_raul_draw.json` file:
-
-	$ php cli/data-prepare/visualization/heuristics.php --draw 25 "Capablanca Jose Raul"
 
 For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
@@ -180,12 +168,18 @@ For further information on how to visually study the supervised data please visi
 ```text
 $ php cli/data-prepare/training/heuristics.php -h
 USAGE:
-   heuristics.php <OPTIONS> <name> <from> <to>
+   heuristics.php <OPTIONS> <n> <player>
 
-   Creates a prepared dataset of heuristics in CSV format for further training.                                                                                                                 
+   Creates a prepared CSV dataset of heuristics in the dataset/training folder.                                                                                                                 
 
 
 OPTIONS:
+   --win                                                    The player wins.                                                                                                                    
+
+   --lose                                                   The player loses.                                                                                                                   
+
+   --draw                                                   Draw.                                                                                                                               
+
    -h, --help                                               Display this help screen and exit immediately.                                                                                      
 
    --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
@@ -195,51 +189,57 @@ OPTIONS:
 
 
 ARGUMENTS:
-   <name>                                                   The model name to be trained.                                                                                                       
-   <from>                                                   The id range.                                                                                                                       
-   <to>                                                     The id range.
+   <n>                                                      A random number of games to be queried.                                                                                             
+   <player>                                                 The chess player's full name.
 ```
 
-Assuming we want to train a model named `a1`, this is how to create a `dataset/training/a1_1_100.csv` file of heuristics with ID games ranging from `1` to `100`:
+##### Example:
 
-	$ php cli/data-prepare/training/heuristics.php a1 1 100
+Creates the `dataset/training/capablanca_jose_raul_win.csv` file:
 
-The resulting file may look like this:
-
-```text
-1;1;0.23;0.83;0.17;0;3027
-1;1;0.23;0.71;0.3;0;3006
-1;1;0.23;0.71;0.35;0.33;3087
-1;1;0.23;0.79;0.43;0.67;3219
-1;1;0.23;0.83;0.61;0.33;3225
-1;1;0.23;0.75;0.65;0.33;3197
-0.89;1;0.46;0.83;0.52;0.33;3216
-0.89;1;0.46;0.71;0.61;0.67;3251
-0.89;0.5;0.46;0.88;0.61;0.67;2786
-...
-```
+	$ php cli/data-prepare/visualization/heuristics.php --win 25 "Capablanca Jose Raul"
 
 #### MLP Regressor Training
 
-Create and train the `a1.model` with the `a1_1_100.csv` dataset previously created:
+Train the `a1.model` with the `capablanca_jose_raul_win.csv` dataset previously created:
 
-	$ php cli/model-train.php a1 a1_1_100.csv
-	[2021-04-21 15:41:00] /usr/share/chess-data/cli/../model/beginner.model.INFO: MLP Regressor (hidden layers: [0: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 1: Activation (activation fn: ReLU), 2: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 3: Activation (activation fn: ReLU), 4: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 5: Activation (activation fn: ReLU), 6: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 7: Activation (activation fn: ReLU)], batch size: 128, optimizer: RMS Prop (rate: 0.001, decay: 0.1), alpha: 0.001, epochs: 100, min change: 1.0E-5, window: 3, hold out: 0.1, cost fn: Least Squares, metric: R Squared) initialized
-	[2021-04-21 15:41:07] /usr/share/chess-data/cli/../model/beginner.model.INFO: Epoch 1 - R Squared: -23.73636944188, Least Squares: 12830049411.344
-	[2021-04-21 15:41:14] /usr/share/chess-data/cli/../model/beginner.model.INFO: Epoch 2 - R Squared: -23.441372496336, Least Squares: 12758274787.884
-	[2021-04-21 15:41:21] /usr/share/chess-data/cli/../model/beginner.model.INFO: Epoch 3 - R Squared: -22.537729961097, Least Squares: 12468383042.14
-	...
-	[2021-04-21 15:48:13] /usr/share/chess-data/cli/../model/beginner.model.INFO: Network restored from snapshot at epoch 57
-	[2021-04-21 15:48:13] /usr/share/chess-data/cli/../model/beginner.model.INFO: Training complete
+```text
+$ php cli/model-train.php a1 capablanca_jose_raul_win.csv
+[2021-05-11 10:06:23] /usr/share/chess-data/cli/../model/a1.model.INFO: MLP Regressor (hidden layers: [0: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 1: Activation (activation fn: ReLU), 2: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 3: Activation (activation fn: ReLU), 4: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 5: Activation (activation fn: ReLU), 6: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 7: Activation (activation fn: ReLU)], batch size: 128, optimizer: RMS Prop (rate: 0.001, decay: 0.1), alpha: 0.001, epochs: 100, min change: 1.0E-5, window: 3, hold out: 0.1, cost fn: Least Squares, metric: R Squared) initialized
+[2021-05-11 10:06:25] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 1 - R Squared: -21.977075242487, Least Squares: 3048.0327192976
+[2021-05-11 10:06:27] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 2 - R Squared: -16.119157901837, Least Squares: 2677.4103144119
+[2021-05-11 10:06:28] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 3 - R Squared: -5.5604829505942, Least Squares: 1611.2312651338
+[2021-05-11 10:06:30] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 4 - R Squared: 0.40066067524523, Least Squares: 409.41878766798
+[2021-05-11 10:06:32] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 5 - R Squared: 0.76720906407256, Least Squares: 38.288661774423
+[2021-05-11 10:06:34] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 6 - R Squared: 0.77918417305545, Least Squares: 24.497300525509
+[2021-05-11 10:06:35] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 7 - R Squared: 0.79450482628664, Least Squares: 23.065597920467
+[2021-05-11 10:06:37] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 8 - R Squared: 0.81658117481614, Least Squares: 21.06679045279
+[2021-05-11 10:06:39] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 9 - R Squared: 0.82433009302746, Least Squares: 18.652937147032
+[2021-05-11 10:06:40] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 10 - R Squared: 0.86071592769812, Least Squares: 20.763986335691
+[2021-05-11 10:06:42] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 11 - R Squared: 0.8614145286486, Least Squares: 17.474112631318
+[2021-05-11 10:06:44] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 12 - R Squared: 0.87268987066944, Least Squares: 16.194675045903
+[2021-05-11 10:06:46] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 13 - R Squared: 0.88274658820633, Least Squares: 13.848522329275
+[2021-05-11 10:06:47] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 14 - R Squared: 0.87703058693158, Least Squares: 10.737224306881
+[2021-05-11 10:06:49] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 15 - R Squared: 0.92573315528165, Least Squares: 12.846237860686
+[2021-05-11 10:06:51] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 16 - R Squared: 0.90040774456324, Least Squares: 7.8936047979492
+[2021-05-11 10:06:53] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 17 - R Squared: 0.94172413423487, Least Squares: 9.4060766448951
+[2021-05-11 10:06:54] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 18 - R Squared: 0.95672478313976, Least Squares: 5.0895210838141
+[2021-05-11 10:06:56] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 19 - R Squared: 0.96057051126074, Least Squares: 11.277841548068
+[2021-05-11 10:06:58] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 20 - R Squared: 0.95876244220792, Least Squares: 4.1673627104464
+[2021-05-11 10:06:59] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 21 - R Squared: 0.94029693117993, Least Squares: 8.9490641617517
+[2021-05-11 10:07:01] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 22 - R Squared: 0.95416716971312, Least Squares: 4.6506877546537
+[2021-05-11 10:07:01] /usr/share/chess-data/cli/../model/a1.model.INFO: Network restored from snapshot at epoch 19
+[2021-05-11 10:07:01] /usr/share/chess-data/cli/../model/a1.model.INFO: Training complete
+```
 
-This will create the `model/a1.model` file which then can be trained in batches again with more prepared data.
+This will create the `model/a1.model` file, which then can be trained in batches again with more prepared data.
 
 #### Play with the AI
 
 Play with the AI.
 
 ```text
-$ php cli/model-play.php a2.model
+$ php cli/model-play.php a1.model
 chess > d4
 chess > 1.d4 d5
 chess > Nc3

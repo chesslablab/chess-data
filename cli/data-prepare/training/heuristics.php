@@ -5,7 +5,8 @@ namespace ChessData\Cli\DataPrepare\Training;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use Chess\Heuristic\Picture\Positional as PositionalHeuristicPicture;
+use Chess\Combinatorics\RestrictedPermutationWithRepetition;
+use Chess\Heuristic\HeuristicPicture;
 use Chess\ML\Supervised\Regression\OptimalLinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
@@ -51,18 +52,27 @@ class DataPrepareCli extends CLI
                     ->query($sql)
                     ->fetchAll(\PDO::FETCH_ASSOC);
 
+        $dimensions = (new HeuristicPicture(''))->getDimensions();
+
+        $permutations = (new RestrictedPermutationWithRepetition())
+            ->get(
+                [3, 5, 8, 13, 21],
+                count($dimensions),
+                100
+            );
+
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 
         foreach ($games as $game) {
             try {
-                $heuristicPicture = new PositionalHeuristicPicture($game['movetext']);
+                $heuristicPicture = new HeuristicPicture($game['movetext']);
                 $taken = $heuristicPicture->take();
                 foreach ($taken[Symbol::WHITE] as $key => $item) {
                     $sample = [
                         Symbol::WHITE => $taken[Symbol::WHITE][$key],
                         Symbol::BLACK => $taken[Symbol::BLACK][$key],
                     ];
-                    $label = (new OptimalLinearCombinationLabeller($heuristicPicture, $sample))->label();
+                    $label = (new OptimalLinearCombinationLabeller($sample, $permutations))->label();
                     $row = array_merge(
                         $taken[Symbol::BLACK][$key],
                         [$label[Symbol::BLACK]]

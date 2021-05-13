@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use Chess\Heuristic\Picture\Positional as PositionalHeuristicPicture;
-use Chess\ML\Supervised\Regression\LinearCombinationLabeller;
+use Chess\ML\Supervised\Regression\OptimalLinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
@@ -62,7 +62,7 @@ class DataPrepareCli extends CLI
                         Symbol::WHITE => $taken[Symbol::WHITE][$key],
                         Symbol::BLACK => $taken[Symbol::BLACK][$key],
                     ];
-                    $label = (new LinearCombinationLabeller($heuristicPicture, $sample))->label();
+                    $label = (new OptimalLinearCombinationLabeller($heuristicPicture, $sample))->label();
                     $row = array_merge(
                         $taken[Symbol::BLACK][$key],
                         [$label[Symbol::BLACK]]

@@ -29,7 +29,7 @@ class DataPrepareCli extends CLI
     protected function main(Options $options)
     {
         $opt = key($options->getOpt());
-        $filename = 'all_'.time().'.csv';
+        $filename = "black_{$options->getArgs()[0]}_".time().'.csv';
 
         $sql = "SELECT * FROM games WHERE result = '0-1'
             ORDER BY RAND()

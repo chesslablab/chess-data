@@ -52,8 +52,8 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
-                $heuristicPicture = new HeuristicPicture($game['movetext']);
-                $taken = $heuristicPicture->take();
+                $taken = (new HeuristicPicture($game['movetext']))->take();
+                $balanced = (new HeuristicPicture($game['movetext']))->balance();
                 foreach ($taken[Symbol::WHITE] as $key => $item) {
                     $sample = [
                         Symbol::WHITE => $taken[Symbol::WHITE][$key],
@@ -61,7 +61,7 @@ class DataPrepareCli extends CLI
                     ];
                     $label = (new OptimalLinearCombinationLabeller($sample, $permutations))->label();
                     $row = array_merge(
-                        $taken[Symbol::BLACK][$key],
+                        $balanced[$key],
                         [$label[Symbol::BLACK]]
                     );
                     fputcsv($fp, $row, ';');

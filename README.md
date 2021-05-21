@@ -244,9 +244,9 @@ BlackElo: 2472
 #### Data Preparation for Further Visualization
 
 ```text
-$ php cli/data-prepare/visualization/heuristics.php -h
+$ php cli/data-prepare/visualization/player.php -h
 USAGE:
-   heuristics.php <OPTIONS> <n> <player>
+   player.php <OPTIONS> <n> <player>
 
    Creates a prepared JSON dataset of heuristics in the dataset/visualization folder.                                                                                                           
 
@@ -275,16 +275,16 @@ ARGUMENTS:
 
 Creates the `dataset/visualization/capablanca_jose_raul_win.json` file:
 
-	$ php cli/data-prepare/visualization/heuristics.php --win 25 "Capablanca Jose Raul"
+	$ php cli/data-prepare/visualization/player.php --win 25 "Capablanca Jose Raul"
 
 For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 #### Data Preparation for Further AI Training
 
 ```text
-$ php cli/data-prepare/training/heuristics.php -h
+$ php cli/data-prepare/training/player.php -h
 USAGE:
-   heuristics.php <OPTIONS> <n> <player>
+   player.php <OPTIONS> <n> <player>
 
    Creates a prepared CSV dataset of heuristics in the dataset/training folder.                                                                                                                 
 
@@ -313,7 +313,7 @@ ARGUMENTS:
 
 Creates the `dataset/training/capablanca_jose_raul_win.csv` file:
 
-	$ php cli/data-prepare/training/heuristics.php --win 25 "Capablanca Jose Raul"
+	$ php cli/data-prepare/training/player.php --win 25 "Capablanca Jose Raul"
 
 #### MLP Regressor Training
 

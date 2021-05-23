@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 use Dotenv\Dotenv;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
 use Chess\Heuristic\HeuristicPicture;
-use Chess\ML\Supervised\Regression\OptimalLinearCombinationLabeller;
+use Chess\ML\Supervised\Regression\LinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
@@ -54,7 +54,7 @@ class DataPrepareCli extends CLI
             try {
                 $pic = (new HeuristicPicture($game['movetext']))->takeBalanced()->getPicture();
                 foreach ($pic as $key => $val) {
-                    $balance = (new OptimalLinearCombinationLabeller($permutations))->balance($val);
+                    $balance = (new LinearCombinationLabeller($permutations))->balance($val);
                     $row = array_merge($val, [$balance[Symbol::BLACK]]);
                     fputcsv($fp, $row, ';');
                 }

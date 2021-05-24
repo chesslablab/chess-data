@@ -282,11 +282,11 @@ For further information on how to visually study the supervised data please visi
 #### Data Preparation for Further AI Training
 
 ```text
-$ php cli/data-prepare/training/player.php -h
+$ php cli/data-prepare/training/regression/player.php -h
 USAGE:
    player.php <OPTIONS> <n> <player>
 
-   Creates a prepared CSV dataset of heuristics in the dataset/training folder.                                                                                                                 
+   Creates a prepared CSV dataset of heuristics in the dataset/training/regression folder.                                                                                                      
 
 
 OPTIONS:
@@ -311,9 +311,9 @@ ARGUMENTS:
 
 ##### Example:
 
-Creates the `dataset/training/capablanca_jose_raul_win.csv` file:
+Creates the `dataset/training/regression/capablanca_jose_raul_win.csv` file:
 
-	$ php cli/data-prepare/training/player.php --win 25 "Capablanca Jose Raul"
+	$ php cli/data-prepare/training/regression/player.php --win 25 "Capablanca Jose Raul"
 
 #### MLP Regressor Training
 

@@ -2,11 +2,11 @@
 
 namespace ChessData\Cli\DataPrepare\Training;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
-use Chess\Heuristic\HeuristicPicture;
+use Chess\HeuristicPicture;
 use Chess\ML\Supervised\Regression\LinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
@@ -15,14 +15,14 @@ use splitbrain\phpcli\Options;
 
 class DataPrepareCli extends CLI
 {
-    const DATA_FOLDER = __DIR__.'/../../../dataset/training';
+    const DATA_FOLDER = __DIR__.'/../../../../dataset/training/regression';
 
     protected function setup(Options $options)
     {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../../');
+        $dotenv = Dotenv::createImmutable(__DIR__.'/../../../../');
         $dotenv->load();
 
-        $options->setHelp('Creates a prepared CSV dataset of heuristics in the dataset/training folder.');
+        $options->setHelp('Creates a prepared CSV dataset of heuristics in the dataset/training/regression folder.');
         $options->registerArgument('n', 'A random number of games to be queried.', true);
         $options->registerArgument('player', "The chess player's full name.", true);
         $options->registerOption('win', 'The player wins.');
@@ -65,10 +65,10 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
-                $pic = (new HeuristicPicture($game['movetext']))->takeBalanced()->getPicture();
-                foreach ($pic as $key => $val) {
-                    $balance = (new LinearCombinationLabeller($permutations))->balance($val);
-                    $row = array_merge($val, [$balance[Symbol::BLACK]]);
+                $balance = (new HeuristicPicture($game['movetext']))->take()->getBalance();
+                foreach ($balance as $val) {
+                    $label = (new LinearCombinationLabeller($permutations))->balance($val);
+                    $row = array_merge($val, [$label[Symbol::BLACK]]);
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

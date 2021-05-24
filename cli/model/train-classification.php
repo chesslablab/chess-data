@@ -2,28 +2,30 @@
 
 namespace ChessData\Cli;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Rubix\ML\PersistentModel;
-use Rubix\ML\CrossValidation\Metrics\RSquared;
+use Rubix\ML\Classifiers\MultilayerPerceptron;
 use Rubix\ML\Datasets\Labeled;
 use Rubix\ML\Extractors\CSV;
-use Rubix\ML\NeuralNet\CostFunctions\LeastSquares;
-use Rubix\ML\NeuralNet\Layers\Dense;
-use Rubix\ML\NeuralNet\Layers\Activation;
-use Rubix\ML\NeuralNet\ActivationFunctions\ReLU;
-use Rubix\ML\NeuralNet\Optimizers\RMSProp;
 use Rubix\ML\Loggers\Screen;
+use Rubix\ML\NeuralNet\Layers\Dense;
+use Rubix\ML\NeuralNet\Layers\Dropout;
+use Rubix\ML\NeuralNet\Layers\Activation;
+use Rubix\ML\NeuralNet\Layers\PReLU;
+use Rubix\ML\NeuralNet\ActivationFunctions\LeakyReLU;
+use Rubix\ML\NeuralNet\Optimizers\Adam;
+use Rubix\ML\NeuralNet\CostFunctions\CrossEntropy;
+use Rubix\ML\CrossValidation\Metrics\MCC;
 use Rubix\ML\Persisters\Filesystem;
-use Rubix\ML\Regressors\MLPRegressor;
 use Rubix\ML\Transformers\NumericStringConverter;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
 class ModelTrainCli extends CLI
 {
-    const DATASET_FOLDER = __DIR__.'/../dataset/training';
-    const MODEL_FOLDER = __DIR__.'/../model';
+    const DATASET_FOLDER = __DIR__.'/../../dataset/training/classification';
+    const MODEL_FOLDER = __DIR__.'/../../model';
 
     protected function setup(Options $options)
     {
@@ -37,26 +39,25 @@ class ModelTrainCli extends CLI
         $extractor = new CSV(self::DATASET_FOLDER."/{$options->getArgs()[1]}", false, ';');
 
         $dataset = Labeled::fromIterator($extractor)
-            ->apply(new NumericStringConverter())
-            ->transformLabels('floatval');
+            ->apply(new NumericStringConverter());
 
         $filepath = self::MODEL_FOLDER."/{$options->getArgs()[0]}.model";
 
         if (file_exists(self::MODEL_FOLDER."/{$options->getArgs()[0]}.model")) {
             $estimator = PersistentModel::load(new Filesystem($filepath));
         } else {
-            $mlpRegressor = new MLPRegressor([
+            $mlpClassifier = new MultilayerPerceptron([
+                new Dense(200),
+                new Activation(new LeakyReLU()),
+                new Dropout(0.3),
                 new Dense(100),
-                new Activation(new ReLU()),
-                new Dense(100),
-                new Activation(new ReLU()),
+                new Activation(new LeakyReLU()),
+                new Dropout(0.3),
                 new Dense(50),
-                new Activation(new ReLU()),
-                new Dense(50),
-                new Activation(new ReLU()),
-            ], 128, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
+                new PReLU(),
+            ], 128, new Adam(0.001), 1e-4, 1000, 1e-3, 3, 0.1, new CrossEntropy(), new MCC());
 
-            $estimator = new PersistentModel($mlpRegressor, new Filesystem($filepath));
+            $estimator = new PersistentModel($mlpClassifier, new Filesystem($filepath));
         }
 
         $estimator->setLogger(new Screen($filepath));

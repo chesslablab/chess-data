@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
 use Dotenv\Dotenv;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
 use Chess\HeuristicPicture;
-use Chess\ML\Supervised\Regression\LinearCombinationLabeller;
+use Chess\ML\Supervised\Classification\LinearCombinationLabeller;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
@@ -15,14 +15,14 @@ use splitbrain\phpcli\Options;
 
 class DataPrepareCli extends CLI
 {
-    const DATA_FOLDER = __DIR__.'/../../../../dataset/training/regression';
+    const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
 
     protected function setup(Options $options)
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../../../');
         $dotenv->load();
 
-        $options->setHelp('Creates a prepared CSV dataset in the dataset/training/regression folder.');
+        $options->setHelp('Creates a prepared CSV dataset in the dataset/training/classification folder.');
         $options->registerArgument('n', 'A random number of games to be queried.', true);
     }
 
@@ -52,10 +52,14 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
+                $pic = (new HeuristicPicture($game['movetext']))->take()->getPicture();
                 $balance = (new HeuristicPicture($game['movetext']))->take()->getBalance();
-                foreach ($balance as $val) {
-                    $label = (new LinearCombinationLabeller($permutations))->balance($val);
-                    $row = array_merge($val, [$label[Symbol::BLACK]]);
+                foreach ($balance as $key => $val) {
+                    $label = (new LinearCombinationLabeller($permutations))->label([
+                        Symbol::WHITE => $pic[Symbol::WHITE][$key],
+                        Symbol::BLACK => $pic[Symbol::BLACK][$key],
+                    ]);
+                    $row = array_merge($balance[$key], [$label[Symbol::BLACK]]);
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

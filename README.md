@@ -282,11 +282,38 @@ For further information on how to visually study the supervised data please visi
 #### Data Preparation for Further AI Training
 
 ```text
+$ docker exec -it chess_data_php_fpm php cli/data-prepare/training/classification/black.php -h
+USAGE:
+   black.php <OPTIONS> <n>
+
+   Creates a prepared CSV dataset in the dataset/training/classification folder.                                                                                         
+
+
+OPTIONS:
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.                                                                                                                   
+
+
+ARGUMENTS:
+   <n>                                                      A random number of games to be queried.
+```
+
+##### Example:
+
+Creates the `dataset/training/classification/black_100_1621867531.csv` file:
+
+	$ php cli/data-prepare/training/classification/black.php 1000
+
+```text
 $ php cli/data-prepare/training/regression/player.php -h
 USAGE:
    player.php <OPTIONS> <n> <player>
 
-   Creates a prepared CSV dataset of heuristics in the dataset/training/regression folder.                                                                                                      
+   Creates a prepared CSV dataset in the dataset/training/regression folder.                                                                                                     
 
 
 OPTIONS:

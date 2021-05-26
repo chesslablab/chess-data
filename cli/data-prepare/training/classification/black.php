@@ -52,13 +52,9 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
-                $pic = (new HeuristicPicture($game['movetext']))->take()->getPicture();
                 $balance = (new HeuristicPicture($game['movetext']))->take()->getBalance();
                 foreach ($balance as $key => $val) {
-                    $label = (new LinearCombinationLabeller($permutations))->label([
-                        Symbol::WHITE => $pic[Symbol::WHITE][$key],
-                        Symbol::BLACK => $pic[Symbol::BLACK][$key],
-                    ]);
+                    $label = (new LinearCombinationLabeller($permutations))->label($val);
                     $row = array_merge($balance[$key], [$label[Symbol::BLACK]]);
                     fputcsv($fp, $row, ';');
                 }

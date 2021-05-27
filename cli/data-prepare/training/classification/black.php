@@ -8,6 +8,7 @@ use Dotenv\Dotenv;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
 use Chess\HeuristicPicture;
 use Chess\ML\Supervised\Classification\LinearCombinationLabeller;
+use Chess\PGN\Movetext;
 use Chess\PGN\Symbol;
 use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
@@ -52,11 +53,14 @@ class DataPrepareCli extends CLI
 
         foreach ($games as $game) {
             try {
-                $balance = (new HeuristicPicture($game['movetext']))->take()->getBalance();
-                foreach ($balance as $key => $val) {
-                    $label = (new LinearCombinationLabeller($permutations))->label($val);
-                    $row = array_merge($balance[$key], [$label[Symbol::BLACK]]);
-                    fputcsv($fp, $row, ';');
+                $sequence = (new Movetext($game['movetext']))->sequence();
+                foreach ($sequence as $movetext) {
+                    $balance = (new HeuristicPicture($movetext))->take()->getBalance();
+                    foreach ($balance as $key => $val) {
+                        $label = (new LinearCombinationLabeller($permutations))->label($val);
+                        $row = array_merge($balance[$key], [$label[Symbol::BLACK]]);
+                        fputcsv($fp, $row, ';');
+                    }
                 }
             } catch (\Exception $e) {}
         }

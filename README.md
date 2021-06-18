@@ -123,7 +123,7 @@ mysql> describe games;
 mysql>
 ```
 
-A so-called heuristic picture consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study. [Heuristic pictures](https://github.com/programarivm/php-chess/tree/master/src/Heuristic/Picture) are mainly used for supervised training.
+A so-called [heuristic picture](https://medium.com/geekculture/how-to-take-normalized-heuristic-pictures-79ca0df4cdec) consists of a group of heuristic snapshots such as attack, center or material, among others. It is intended to capture the current state of a chess game at any given time, and can be plotted on a chart for further visual study.
 
 #### Seed the `games` Table
 

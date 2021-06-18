@@ -63,11 +63,6 @@ class DataPrepareCli extends CLI
 
         fclose($fp);
     }
-
-    protected function snakeCase(string $string)
-    {
-        return str_replace(' ', '_', strtolower(trim($string)));
-    }
 }
 
 $cli = new DataPrepareCli();

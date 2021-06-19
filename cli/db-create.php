@@ -5,7 +5,6 @@ namespace ChessData\Cli;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Chess\PGN\Tag;
-use ChessData\Pdo;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
@@ -23,13 +22,19 @@ class DbCreateCli extends CLI
 
     protected function main(Options $options)
     {
-        $sql = 'CREATE DATABASE IF NOT EXISTS ' . $_ENV['DB_DATABASE'];
+        $pdo = new \PDO(
+            $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'],
+            $_ENV['DB_USERNAME'],
+            $_ENV['DB_PASSWORD']
+        );
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        Pdo::getInstance()->query($sql);
-
-        $sql = 'DROP TABLE IF EXISTS games';
-
-        Pdo::getInstance()->query($sql);
+        $sql = 'DROP DATABASE IF EXISTS ' . $_ENV['DB_DATABASE'];
+        $pdo->exec($sql);
+        $sql = 'CREATE DATABASE ' . $_ENV['DB_DATABASE'];
+        $pdo->exec($sql);
+        $sql = 'use ' . $_ENV['DB_DATABASE'];
+        $pdo->exec($sql);
 
         $sql = 'CREATE TABLE games (' .
             ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
@@ -46,14 +51,16 @@ class DbCreateCli extends CLI
             'PRIMARY KEY (id) ' .
         ') ENGINE = InnoDB';
 
-        Pdo::getInstance()->query($sql);
+        $pdo->query($sql);
 
         if ($options->getOpt('heuristics')) {
             $sql = 'ALTER TABLE games ADD COLUMN `heuristic_picture` JSON';
-            Pdo::getInstance()->query($sql);
+            $pdo->query($sql);
             $sql = 'ALTER TABLE games ADD COLUMN `heuristic_evaluation` JSON';
-            Pdo::getInstance()->query($sql);
+            $pdo->query($sql);
         }
+
+        unset($pdo);
     }
 }
 

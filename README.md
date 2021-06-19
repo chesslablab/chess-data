@@ -4,27 +4,13 @@
 
 CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 
-### Live Demo
-
-The supervised learning process is all about using suitable heuristics such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue!
-
-For further information please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
-
 ### Set Up
 
 Create an `.env` file:
 
     $ cp .env.example .env
 
-Start the Docker containers:
-
-	$ docker-compose up --build
-
-Then find out the IP of your MySQL container:
-
-	$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' chess_data_mysql
-
-And update the `DB_HOST` in your `.env` file accordingly:
+Update the environment variables in your `.env` file if required:
 
 ```text
 DB_DRIVER=mysql
@@ -415,6 +401,12 @@ chess > Nxd5
 chess > 1.d4 d5 2.Nc3 Nc6 3.Nxd5 Qd5
 chess > quit
 ```
+
+### A Live Demo
+
+The supervised learning process is all about using suitable heuristics such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue!
+
+For further information please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
 ### License
 

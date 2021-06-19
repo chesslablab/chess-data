@@ -1,4 +1,3 @@
 /composer.lock
 /vendor/
 .env
-/docker/nginx/ssl/chess-data.*

@@ -14,7 +14,7 @@ Update the environment variables in your `.env` file if required:
 
 ```text
 DB_DRIVER=mysql
-DB_HOST=172.18.0.1
+DB_HOST=localhost
 DB_PORT=3306
 DB_DATABASE=chess
 DB_USERNAME=root

@@ -267,8 +267,10 @@ For further information on how to visually study the supervised data please visi
 
 #### Data Preparation for Further AI Training
 
+##### Classification
+
 ```text
-$ docker exec -it chess_data_php_fpm php cli/data-prepare/training/classification/black.php -h
+$ php cli/data-prepare/training/classification/black.php -h
 USAGE:
    black.php <OPTIONS> <n>
 
@@ -288,11 +290,13 @@ ARGUMENTS:
    <n>                                                      A random number of games to be queried.
 ```
 
-##### Example:
+Example:
 
 Creates the `dataset/training/classification/black_100_1621867531.csv` file:
 
 	$ php cli/data-prepare/training/classification/black.php 1000
+
+##### Regression
 
 ```text
 $ php cli/data-prepare/training/regression/player.php -h
@@ -322,7 +326,7 @@ ARGUMENTS:
    <player>                                                 The chess player's full name.
 ```
 
-##### Example:
+Example:
 
 Creates the `dataset/training/regression/capablanca_jose_raul_win.csv` file:
 

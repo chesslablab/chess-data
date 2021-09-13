@@ -1,8 +1,8 @@
 ## Chess Data
 
-[![Build Status](https://travis-ci.org/programarivm/chess-data.svg?branch=master)](https://travis-ci.org/programarivm/chess-data)
+[![Build Status](https://travis-ci.org/chesslab/chess-data.svg?branch=master)](https://travis-ci.org/chesslab/chess-data)
 
-CLI tools to manage a [PHP Chess](https://github.com/programarivm/pgn-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
+CLI tools to manage a [PHP Chess](https://github.com/chesslab/php-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 
 ### Set Up
 
@@ -79,7 +79,7 @@ mysql>
 
 ##### Example:
 
-Alternatively, an optional heuristic picture can be added too for further data visualization with [Heuristics Quest](https://github.com/programarivm/heuristics-quest):
+Alternatively, an optional heuristic picture can be added too for further data visualization with [Heuristics Quest](https://github.com/chesslab/heuristics-quest):
 
     $ php cli/db-create.php --heuristics
 
@@ -263,7 +263,7 @@ Creates the `dataset/visualization/capablanca_jose_raul_win.json` file:
 
 	$ php cli/data-prepare/visualization/player.php --win 25 "Capablanca Jose Raul"
 
-For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/chesslab/heuristics-quest).
 
 #### Data Preparation for Further AI Training
 
@@ -408,11 +408,11 @@ chess > quit
 
 ### A Live Demo
 
-The supervised learning process is all about using suitable heuristics such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue! For further information please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
+The supervised learning process is all about using suitable heuristics such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue! For further information please visit [Heuristics Quest](https://github.com/chesslab/heuristics-quest).
 
 ### Documentation
 
-For further information you're all invited to read my learning journey, please read the docs available on [PHP Chess](https://github.com/programarivm/php-chess).
+For further information you're all invited to read my learning journey, please read the docs available on [PHP Chess](https://github.com/chesslab/php-chess).
 
 ### License
 

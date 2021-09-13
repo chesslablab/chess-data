@@ -6,7 +6,6 @@ namespace ChessData\Exception;
  * Thrown when a pgn file syntax exception occurs.
  *
  * @author Jordi Bassagañas <info@programarivm.com>
- * @link https://programarivm.com
  * @license GPL
  */
 final class PgnFileSyntaxException extends \InvalidArgumentException

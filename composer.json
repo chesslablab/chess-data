@@ -1,5 +1,5 @@
 {
-  "name": "programarivm/chess-data",
+  "name": "chesslab/chess-data",
   "description": "CLI tools to manage a chess database of PGN games as well as to train a supervised model with Rubix ML.",
   "type": "project",
   "license": "GPL-3.0-only",
@@ -21,18 +21,18 @@
     {
       "name": "Jordi Bassagañas",
       "email": "info@programarivm.com",
-      "homepage": "https://programarivm.com"
+      "homepage": "https://github.com/chesslab"
     }
   ],
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/programarivm/php-chess.git"
+      "url": "https://github.com/chesslab/php-chess.git"
     }
   ],
   "require": {
     "php": ">=7.1",
-    "programarivm/php-chess": "dev-master",
+    "chesslab/php-chess": "dev-master",
     "vlucas/phpdotenv": "^5.0",
     "rubix/ml": "^1.1",
     "splitbrain/php-cli": "^1.1"

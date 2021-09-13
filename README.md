@@ -1,6 +1,6 @@
 ## Chess Data
 
-[![Build Status](https://travis-ci.org/chesslab/chess-data.svg?branch=master)](https://travis-ci.org/chesslab/chess-data)
+[![Build Status](https://app.travis-ci.com/chesslab/chess-data.svg?branch=master)](https://app.travis-ci.com/github/chesslab/chess-data)
 
 CLI tools to manage a [PHP Chess](https://github.com/chesslab/php-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 

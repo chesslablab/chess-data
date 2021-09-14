@@ -417,13 +417,3 @@ For further information you're all invited to read my learning journey, please r
 ### License
 
 The GNU General Public License.
-
-### Contributions
-
-Would you help make this library better? Contributions are welcome.
-
-- Feel free to send a pull request
-- Drop an email at info@programarivm.com with the subject "Chess Data Contributions"
-- Leave me a comment on [Twitter](https://twitter.com/programarivm)
-
-Many thanks.

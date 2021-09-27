@@ -2,15 +2,23 @@
 
 [![Build Status](https://app.travis-ci.com/chesslablab/chess-data.svg?branch=master)](https://app.travis-ci.com/github/chesslablab/chess-data)
 
-CLI tools to manage a [PHP Chess](https://github.com/chesslablab/php-chess) database of PGN games as well as to prepare data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
+CLI tools to manage a [PHP Chess](https://github.com/chesslablab/php-chess) database of PGN games as well as to prepare the data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
 
-### Set Up
+### Setup
+
+Clone the `chesslablab/chess-data` repo into your projects folder as it is described in the following example:
+
+    $ git clone git@github.com:chesslablab/chess-data.git
+
+Then `cd` the `chess-data` directory and install the Composer dependencies:
+
+    $ composer install
 
 Create an `.env` file:
 
     $ cp .env.example .env
 
-Update the environment variables in your `.env` file if required:
+If necessary, update the environment variables in your `.env` file:
 
 ```text
 DB_DRIVER=mysql
@@ -406,14 +414,12 @@ chess > 1.d4 d5 2.Nc3 Nc6 3.Nxd5 Qd5
 chess > quit
 ```
 
-### A Live Demo
-
-The supervised learning process is all about using suitable heuristics such as king safety, attack, material or connectivity, among others. But how can we measure the efficiency of a given chess heuristic? This is where plotting data on nice charts comes to the rescue! For further information please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
-
-### Documentation
-
-For further information you're all invited to read my learning journey, please read the docs available on [PHP Chess](https://github.com/chesslablab/php-chess).
-
 ### License
 
 The GNU General Public License.
+
+### Contributions
+
+See the [contributing guidelines](https://github.com/chesslablab/chess-server/blob/master/CONTRIBUTING.md).
+
+Happy learning and coding! Thank you, and keep it up.

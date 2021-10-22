@@ -56,11 +56,10 @@ class DataPrepareCli extends CLI
                 $sequence = (new Movetext($game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
                     $balance = (new HeuristicPicture($movetext))->take()->getBalance();
-                    foreach ($balance as $key => $val) {
-                        $label = (new LinearCombinationLabeller($permutations))->label($val);
-                        $row = array_merge($balance[$key], [$label[Symbol::BLACK]]);
-                        fputcsv($fp, $row, ';');
-                    }
+                    $end = end($balance);
+                    $label = (new LinearCombinationLabeller($permutations))->label($end);
+                    $row = array_merge($end, [$label[Symbol::BLACK]]);
+                    fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}
         }

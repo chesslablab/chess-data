@@ -44,7 +44,7 @@ class DataPrepareCli extends CLI
 
         $permutations = (new RestrictedPermutationWithRepetition())
             ->get(
-                [ 8, 13, 21, 34],
+                [ 5, 8, 13, 21 ],
                 count($dimensions),
                 100
             );

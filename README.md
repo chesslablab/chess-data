@@ -300,52 +300,19 @@ ARGUMENTS:
 
 Example:
 
-Creates the `dataset/training/classification/black_100_1621867531.csv` file:
+Creates the `dataset/training/classification/black_100_1635947115.csv` file:
 
-	$ php cli/data-prepare/training/classification/black.php 1000
-
-##### Regression
-
-```text
-$ php cli/data-prepare/training/regression/player.php -h
-USAGE:
-   player.php <OPTIONS> <n> <player>
-
-   Creates a prepared CSV dataset in the dataset/training/regression folder.                                                                                                     
+	$ php cli/data-prepare/training/classification/black.php 100
 
 
-OPTIONS:
-   --win                                                    The player wins.                                                                                                                    
+#### MLP Training
 
-   --lose                                                   The player loses.                                                                                                                   
-
-   --draw                                                   Draw.                                                                                                                               
-
-   -h, --help                                               Display this help screen and exit immediately.                                                                                      
-
-   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
-
-   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
-                                                            alert, emergency.                                                                                                                   
-
-
-ARGUMENTS:
-   <n>                                                      A random number of games to be queried.                                                                                             
-   <player>                                                 The chess player's full name.
-```
-
-Example:
-
-Creates the `dataset/training/regression/capablanca_jose_raul_win.csv` file:
-
-	$ php cli/data-prepare/training/regression/player.php --win 25 "Capablanca Jose Raul"
-
-#### MLP Regressor Training
+##### Classification
 
 ```text
-$ php cli/model-train.php -h
+$ php cli/model/train-classification.php -h
 USAGE:
-   model-train.php <OPTIONS> <name> <dataset>
+   train-classification.php <OPTIONS> <name> <dataset>
 
    Trains an AI model.                                                                                                                                                                          
 
@@ -364,40 +331,22 @@ ARGUMENTS:
    <dataset>                                                A prepared dataset in CSV format.
 ```
 
-##### Example:
+Example:
 
-Train the `a1.model` with the `capablanca_jose_raul_win.csv` dataset previously created:
+Train the `a1.model` with the `black_100_1635947115.csv` dataset previously created:
 
 ```text
-$ php cli/model-train.php a1 capablanca_jose_raul_win.csv
-[2021-05-11 10:06:23] /usr/share/chess-data/cli/../model/a1.model.INFO: MLP Regressor (hidden layers: [0: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 1: Activation (activation fn: ReLU), 2: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 3: Activation (activation fn: ReLU), 4: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 5: Activation (activation fn: ReLU), 6: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 7: Activation (activation fn: ReLU)], batch size: 128, optimizer: RMS Prop (rate: 0.001, decay: 0.1), alpha: 0.001, epochs: 100, min change: 1.0E-5, window: 3, hold out: 0.1, cost fn: Least Squares, metric: R Squared) initialized
-[2021-05-11 10:06:25] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 1 - R Squared: -21.977075242487, Least Squares: 3048.0327192976
-[2021-05-11 10:06:27] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 2 - R Squared: -16.119157901837, Least Squares: 2677.4103144119
-[2021-05-11 10:06:28] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 3 - R Squared: -5.5604829505942, Least Squares: 1611.2312651338
-[2021-05-11 10:06:30] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 4 - R Squared: 0.40066067524523, Least Squares: 409.41878766798
-[2021-05-11 10:06:32] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 5 - R Squared: 0.76720906407256, Least Squares: 38.288661774423
-[2021-05-11 10:06:34] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 6 - R Squared: 0.77918417305545, Least Squares: 24.497300525509
-[2021-05-11 10:06:35] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 7 - R Squared: 0.79450482628664, Least Squares: 23.065597920467
-[2021-05-11 10:06:37] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 8 - R Squared: 0.81658117481614, Least Squares: 21.06679045279
-[2021-05-11 10:06:39] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 9 - R Squared: 0.82433009302746, Least Squares: 18.652937147032
-[2021-05-11 10:06:40] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 10 - R Squared: 0.86071592769812, Least Squares: 20.763986335691
-[2021-05-11 10:06:42] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 11 - R Squared: 0.8614145286486, Least Squares: 17.474112631318
-[2021-05-11 10:06:44] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 12 - R Squared: 0.87268987066944, Least Squares: 16.194675045903
-[2021-05-11 10:06:46] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 13 - R Squared: 0.88274658820633, Least Squares: 13.848522329275
-[2021-05-11 10:06:47] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 14 - R Squared: 0.87703058693158, Least Squares: 10.737224306881
-[2021-05-11 10:06:49] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 15 - R Squared: 0.92573315528165, Least Squares: 12.846237860686
-[2021-05-11 10:06:51] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 16 - R Squared: 0.90040774456324, Least Squares: 7.8936047979492
-[2021-05-11 10:06:53] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 17 - R Squared: 0.94172413423487, Least Squares: 9.4060766448951
-[2021-05-11 10:06:54] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 18 - R Squared: 0.95672478313976, Least Squares: 5.0895210838141
-[2021-05-11 10:06:56] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 19 - R Squared: 0.96057051126074, Least Squares: 11.277841548068
-[2021-05-11 10:06:58] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 20 - R Squared: 0.95876244220792, Least Squares: 4.1673627104464
-[2021-05-11 10:06:59] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 21 - R Squared: 0.94029693117993, Least Squares: 8.9490641617517
-[2021-05-11 10:07:01] /usr/share/chess-data/cli/../model/a1.model.INFO: Epoch 22 - R Squared: 0.95416716971312, Least Squares: 4.6506877546537
-[2021-05-11 10:07:01] /usr/share/chess-data/cli/../model/a1.model.INFO: Network restored from snapshot at epoch 19
-[2021-05-11 10:07:01] /usr/share/chess-data/cli/../model/a1.model.INFO: Training complete
+$ php cli/model/train-classification.php a1 black_100_1635947115.csv
+[2021-11-03 14:54:45] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Multilayer Perceptron (hidden layers: [0: Dense (neurons: 200, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 1: Activation (activation fn: Leaky ReLU (leakage: 0.1)), 2: Dropout (ratio: 0.3), 3: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 4: Activation (activation fn: Leaky ReLU (leakage: 0.1)), 5: Dropout (ratio: 0.3), 6: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 7: PReLU (alpha initializer: Constant (value: 0.25))], batch size: 128, optimizer: Adam (rate: 0.001, momentum decay: 0.1, norm decay: 0.001), alpha: 0.0001, epochs: 1000, min change: 0.001, window: 3, hold out: 0.1, cost fn: Cross Entropy, metric: MCC) initialized
+[2021-11-03 14:55:10] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 1 - MCC: 0.021316814851544, Cross Entropy: 0.011637643059115
+[2021-11-03 14:55:35] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 2 - MCC: 0.1441569667138, Cross Entropy: 0.0090628767718673
+[2021-11-03 14:56:00] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 3 - MCC: 0.18620599479873, Cross Entropy: 0.0071159420224029
+[2021-11-03 14:56:25] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 4 - MCC: 0.24875347460879, Cross Entropy: 0.0060323621254431
+[2021-11-03 14:56:52] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 5 - MCC: 0.2939912191158, Cross Entropy: 0.0053859162470983
+[2021-11-03 14:56:52] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Training complete
 ```
 
-This will create the `model/a1.model` file, which then can be trained in batches again with more prepared data.
+This will create the `model/a1.model` file, which can be trained in batches again with more prepared data.
 
 #### Play with the AI
 

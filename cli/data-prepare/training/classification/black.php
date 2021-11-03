@@ -32,7 +32,7 @@ class DataPrepareCli extends CLI
         $opt = key($options->getOpt());
         $filename = "black_{$options->getArgs()[0]}_".time().'.csv';
 
-        $sql = "SELECT * FROM games WHERE result = '0-1'
+        $sql = "SELECT * FROM games
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
@@ -55,15 +55,10 @@ class DataPrepareCli extends CLI
             try {
                 $sequence = (new Movetext($game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
-                    $exploded = explode(' ', $movetext);
-                    array_splice($exploded, -1);
-                    $wMovetext = implode(' ', $exploded);
-                    $wBalance = (new HeuristicPicture($wMovetext))->take()->getBalance();
-                    $bBalance = (new HeuristicPicture($movetext))->take()->getBalance();
-                    $wEnd = end($wBalance);
-                    $bEnd = end($bBalance);
-                    $label = (new LinearCombinationLabeller($permutations))->label($bEnd);
-                    $row = array_merge($wEnd, [$label[Symbol::BLACK]]);
+                    $balance = (new HeuristicPicture($movetext))->take()->getBalance();
+                    $end = end($balance);
+                    $label = (new LinearCombinationLabeller($permutations))->label($end);
+                    $row = array_merge($end, [$label[Symbol::BLACK]]);
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

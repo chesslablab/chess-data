@@ -278,9 +278,9 @@ For further information on how to visually study the supervised data please visi
 ##### Classification
 
 ```text
-$ php cli/data-prepare/training/classification/black.php -h
+$ php cli/data-prepare/training/classification/start.php -h
 USAGE:
-   black.php <OPTIONS> <n>
+   start.php <OPTIONS> <n>
 
    Creates a prepared CSV dataset in the dataset/training/classification folder.                                                                                         
 
@@ -300,9 +300,9 @@ ARGUMENTS:
 
 Example:
 
-Creates the `dataset/training/classification/black_100_1635947115.csv` file:
+Creates the `dataset/training/classification/start_100_1635947115.csv` file:
 
-	$ php cli/data-prepare/training/classification/black.php 100
+	$ php cli/data-prepare/training/classification/start.php 100
 
 
 #### MLP Training
@@ -333,10 +333,10 @@ ARGUMENTS:
 
 Example:
 
-Train the `a1.model` with the `black_100_1635947115.csv` dataset previously created:
+Train the `a1.model` with the `start_100_1635947115.csv` dataset previously created:
 
 ```text
-$ php cli/model/train-classification.php a1 black_100_1635947115.csv
+$ php cli/model/train-classification.php a1 start_100_1635947115.csv
 [2021-11-03 14:54:45] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Multilayer Perceptron (hidden layers: [0: Dense (neurons: 200, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 1: Activation (activation fn: Leaky ReLU (leakage: 0.1)), 2: Dropout (ratio: 0.3), 3: Dense (neurons: 100, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 4: Activation (activation fn: Leaky ReLU (leakage: 0.1)), 5: Dropout (ratio: 0.3), 6: Dense (neurons: 50, alpha: 0, bias: true, weight initializer: He, bias initializer: Constant (value: 0)), 7: PReLU (alpha initializer: Constant (value: 0.25))], batch size: 128, optimizer: Adam (rate: 0.001, momentum decay: 0.1, norm decay: 0.001), alpha: 0.0001, epochs: 1000, min change: 0.001, window: 3, hold out: 0.1, cost fn: Cross Entropy, metric: MCC) initialized
 [2021-11-03 14:55:10] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 1 - MCC: 0.021316814851544, Cross Entropy: 0.011637643059115
 [2021-11-03 14:55:35] /home/standard/projects/chess-data/cli/model/../../model/a1.model.INFO: Epoch 2 - MCC: 0.1441569667138, Cross Entropy: 0.0090628767718673

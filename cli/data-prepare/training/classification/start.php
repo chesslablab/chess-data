@@ -14,6 +14,11 @@ use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
+/**
+ * DataPrepareCli
+ *
+ * Prepares the data. It loads games from the database and plays them from the start position.
+ */
 class DataPrepareCli extends CLI
 {
     const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
@@ -30,7 +35,7 @@ class DataPrepareCli extends CLI
     protected function main(Options $options)
     {
         $opt = key($options->getOpt());
-        $filename = "black_{$options->getArgs()[0]}_".time().'.csv';
+        $filename = "start_{$options->getArgs()[0]}_".time().'.csv';
 
         $sql = "SELECT * FROM games
             ORDER BY RAND()

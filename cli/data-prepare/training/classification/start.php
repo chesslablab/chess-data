@@ -15,11 +15,11 @@ use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
 /**
- * DataPrepareCli
+ * Prepares the data.
  *
- * Prepares the data. It loads games from the database and plays them from the start position.
+ * It loads games from the database and plays them from the start position.
  */
-class DataPrepareCli extends CLI
+class Start extends CLI
 {
     const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
 
@@ -73,5 +73,5 @@ class DataPrepareCli extends CLI
     }
 }
 
-$cli = new DataPrepareCli();
+$cli = new Start();
 $cli->run();

@@ -49,7 +49,7 @@ class DbCreateCli extends CLI
             Tag::WHITE_ELO                  . ' CHAR(8) NULL, ' .
             Tag::BLACK_ELO                  . ' CHAR(8) NULL, ' .
             Tag::ECO                        . ' CHAR(8) NULL, ' .
-            Tag::FEN                        . ' CHAR(8) NULL, ' .
+            Tag::FEN                        . ' CHAR(64) NULL, ' .
             ' movetext  VARCHAR(3072), ' .
             'PRIMARY KEY (id) ' .
         ') ENGINE = InnoDB';

@@ -13,14 +13,16 @@ class Basic extends AbstractSeeder
         $params = '';
         $sql = 'INSERT INTO games (';
 
-        foreach (Tag::mandatory() as $name) {
-            $values[] = [
-                'param' => ":$name",
-                'value' => $tags[$name],
-                'type' => \PDO::PARAM_STR
-            ];
-            $params .= ":$name, ";
-            $sql .= "$name, ";
+        foreach (Tag::loadable() as $name) {
+            if (isset($tags[$name])) {
+                $values[] = [
+                    'param' => ":$name",
+                    'value' => $tags[$name],
+                    'type' => \PDO::PARAM_STR
+                ];
+                $params .= ":$name, ";
+                $sql .= "$name, ";
+            }
         }
 
         $sql .= "movetext) VALUES ($params:movetext)";

@@ -78,16 +78,17 @@ mysql> describe games;
 | WhiteElo | char(8)            | YES  |     | NULL    |                |
 | BlackElo | char(8)            | YES  |     | NULL    |                |
 | ECO      | char(8)            | YES  |     | NULL    |                |
+| FEN      | char(8)            | YES  |     | NULL    |                |
 | movetext | varchar(3072)      | YES  |     | NULL    |                |
 +----------+--------------------+------+-----+---------+----------------+
-11 rows in set (0.01 sec)
+12 rows in set (0,00 sec)
 
 mysql>
 ```
 
 ##### Example:
 
-Alternatively, an optional heuristic picture can be added too for further data visualization with [Heuristics Quest](https://github.com/programarivm/heuristics-quest):
+Alternatively, optional heuristics information can be added too for further data visualization with [Heuristics Quest](https://github.com/programarivm/heuristics-quest):
 
     $ php cli/db-create.php --heuristics
 
@@ -108,11 +109,12 @@ mysql> describe games;
 | WhiteElo             | char(8)            | YES  |     | NULL    |                |
 | BlackElo             | char(8)            | YES  |     | NULL    |                |
 | ECO                  | char(8)            | YES  |     | NULL    |                |
+| FEN                  | char(8)            | YES  |     | NULL    |                |
 | movetext             | varchar(3072)      | YES  |     | NULL    |                |
 | heuristic_picture    | json               | YES  |     | NULL    |                |
 | heuristic_evaluation | json               | YES  |     | NULL    |                |
 +----------------------+--------------------+------+-----+---------+----------------+
-13 rows in set (0.01 sec)
+14 rows in set (0,00 sec)
 
 mysql>
 ```
@@ -276,6 +278,8 @@ For further information on how to visually study the supervised data please visi
 #### Data Preparation for Further AI Training
 
 ##### Classification
+
+Prepares data by playing and studying games played from the start position rather than from a FEN position.
 
 ```text
 $ php cli/data-prepare/training/classification/start.php -h

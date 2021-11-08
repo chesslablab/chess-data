@@ -10,7 +10,7 @@ use ChessData\Pdo;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class DataPrepareCli extends CLI
+class Grandmasters extends CLI
 {
     const DATA_FOLDER = __DIR__.'/../../model';
 
@@ -43,5 +43,5 @@ class DataPrepareCli extends CLI
     }
 }
 
-$cli = new DataPrepareCli();
+$cli = new Grandmasters();
 $cli->run();

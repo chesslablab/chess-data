@@ -36,9 +36,11 @@ class DbCreateCli extends CLI
         $sql = 'use ' . $_ENV['DB_DATABASE'];
         $pdo->exec($sql);
 
+        // STR (Seven Tag Roster)
+
         $sql = 'CREATE TABLE games (' .
             ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
-            Tag::EVENT                      . ' CHAR(64) NULL, ' . // STR (Seven Tag Roster)
+            Tag::EVENT                      . ' CHAR(64) NULL, ' .
             Tag::SITE                       . ' CHAR(64) NULL, ' .
             Tag::DATE                       . ' CHAR(16) NULL, ' .
             Tag::WHITE                      . ' CHAR(32) NULL, ' .
@@ -47,6 +49,7 @@ class DbCreateCli extends CLI
             Tag::WHITE_ELO                  . ' CHAR(8) NULL, ' .
             Tag::BLACK_ELO                  . ' CHAR(8) NULL, ' .
             Tag::ECO                        . ' CHAR(8) NULL, ' .
+            Tag::FEN                        . ' CHAR(64) NULL, ' .
             ' movetext  VARCHAR(3072), ' .
             'PRIMARY KEY (id) ' .
         ') ENGINE = InnoDB';

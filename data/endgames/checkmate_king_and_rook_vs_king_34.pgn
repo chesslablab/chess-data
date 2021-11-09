@@ -1,0 +1,13 @@
+[Event "?"]
+[Site "365chess.com"]
+[Date "2021.11.09"]
+[Round "?"]
+[White "Guest"]
+[Black "Stockfish (Level 10)"]
+[Result "0-1"]
+[SetUp "1"]
+[FEN "8/8/3k2K1/8/8/8/3r4/8 w - - 0 1"]
+
+
+
+1. Kf6 Rd5 2. Kg6 Ke6 3. Kh6 Kf7 4. Kh7 Rh5# 0-1

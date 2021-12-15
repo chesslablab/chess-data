@@ -15,7 +15,7 @@ class SyntaxTest extends AbstractUnitTestCase
     {
         $result = (new SyntaxValidator(self::DATA_FOLDER."/non-str/$filename"))->syntax();
 
-        $this->assertEquals($invalid, $result->total - $result->valid);
+        $this->assertSame($invalid, $result->total - $result->valid);
     }
 
     public function nonStrData()
@@ -55,7 +55,7 @@ class SyntaxTest extends AbstractUnitTestCase
     {
         $result = (new SyntaxValidator(self::DATA_FOLDER."/text/$filename"))->syntax();
 
-        $this->assertEquals(0, $result->valid);
+        $this->assertSame(0, $result->valid);
     }
 
     public function textData()
@@ -75,8 +75,8 @@ class SyntaxTest extends AbstractUnitTestCase
     {
         $result = (new SyntaxValidator(self::DATA_FOLDER."/text-with-non-str/$filename"))->syntax();
 
-        $this->assertEquals(0, $result->valid);
-        $this->assertEquals($nErrors, $result->total - $result->valid);
+        $this->assertSame(0, $result->valid);
+        $this->assertSame($nErrors, $result->total - $result->valid);
     }
 
     public function textWithNonStrData()
@@ -97,7 +97,7 @@ class SyntaxTest extends AbstractUnitTestCase
         $result = (new SyntaxValidator(self::DATA_FOLDER."/with-three-invalid/$filename"))->syntax();
 
         $this->assertTrue($result->valid > 0);
-        $this->assertEquals(3, $result->total - $result->valid);
+        $this->assertSame(3, $result->total - $result->valid);
     }
 
     public function withThreeInvalidData()

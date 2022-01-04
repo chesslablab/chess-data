@@ -1,20 +1,40 @@
-## Welcome to ChesslabLab
+## ChesslabLab
+### Contributing guidelines
 
-Thank you for your interest in this welcoming and inclusive open-source community to learn about web development and chess.
+Thank you for your interest in this Open Source community to learn web development and chess.
 
-Let's build something awesome!
+Let's create something awesome!
 
-Please make sure to read the following:
+- Find a ChesslabLab repo and make sure to read its `CONTRIBUTING.md` file.
+- Look at the open issues.
+- Leave the following comment on the issue you want to be assigned to: "Hi there, happy learning and coding!"
+- Be prepared to create a friendly PR once the issue has been assigned to you.
 
-- [How to Contribute to ChesslabLab](https://medium.com/geekculture/how-to-contribute-to-chesslab-cca73fefaf70)
-- [PHP Chess Docs](https://php-chess.readthedocs.io/en/latest/)
+Once you're ready, fork the repo and create a new branch from `master` as per the following convention.
+
+```text
+$ git checkout -b issue/n-the-title-of-the-issue
+```
+
+For example, if the title of the issue is [Rearrange the main buttons #171](https://github.com/chesslablab/redux-chess/issues/171) then its corresponding Git branch should be checked out from `master` like this.
+
+```text
+$ git checkout -b issue/171-rearrange-the-main-buttons
+```
+
+That's it.
 
 For further information please visit:
 
-- [Demystifying AI Through a Human-Like Chess Engine](https://medium.com/geekculture/demystifying-ai-through-a-human-like-chess-engine-5f71e3896cc9)
-- [Two Things That My AI Project Required](https://medium.com/geekculture/two-things-that-my-ai-project-required-50000297053b)
-- [What Are Some Healthy Tips to Reduce Cognitive Load?](https://medium.com/geekculture/what-are-some-healthy-tips-to-reduce-cognitive-load-4f91b695a3cb)
-- [How to Take Normalized Heuristic Pictures](https://medium.com/geekculture/how-to-take-normalized-heuristic-pictures-79ca0df4cdec)
-- [Equilibrium, Yin-Yang Chess](https://medium.com/geekculture/equilibrium-yin-yang-chess-292e044be46b)
-- [Preparing a Dataset for Machine Learning With PHP](https://ai.plainenglish.io/preparing-a-dataset-for-machine-learning-with-php-fd68dd85187e)
-- [Visualizing Chess Openings Before MLP Classification](https://medium.com/geekculture/visualizing-chess-openings-before-mlp-classification-fd2a3e8c266)
+- [PHP Chess Docs](https://php-chess.readthedocs.io/en/latest/)
+- [PHP Chess Server](https://github.com/chesslablab/chess-server)
+- [Redux Chess](https://github.com/chesslablab/redux-chess)
+- [Redux Chess Testing Application](https://github.com/chesslablab/testing-redux-chess)
+
+### Sponsored issues
+
+But hang on a minute, it's not always peaches and cream, especially at the beginning of your career path to becoming a full-stack developer.
+
+If you're looking forward to working on a startupish product — or want to transfer your skills to a different stack — but it still feels a little over your head, you may want to work together with a mentor solving ChesslabLab issues on GitHub.
+
+[Become a sponsor to Jordi](https://github.com/sponsors/programarivm?frequency=one-time) today and let's create something awesome!

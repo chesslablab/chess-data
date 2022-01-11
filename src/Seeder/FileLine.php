@@ -1,10 +1,10 @@
 <?php
 
-namespace ChessData\File;
+namespace ChessData\Seeder;
 
 use Chess\PGN\Symbol;
 
-class Line
+class FileLine
 {
     public function isOneLinerMovetext(string $line): bool
     {

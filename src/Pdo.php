@@ -4,9 +4,6 @@ namespace ChessData;
 
 /**
  * Pdo class.
- *
- * @author Jordi Bassagañas <info@programarivm.com>
- * @license GPL
  */
 class Pdo
 {
@@ -34,12 +31,13 @@ class Pdo
     /**
      * Returns the current instance.
      *
+     * @param array $conf
      * @return \ChessData\Pdo
      */
-    public static function getInstance()
+    public static function getInstance(array $conf)
     {
         if (null === static::$instance) {
-            static::$instance = new static();
+            static::$instance = new static($conf);
         }
 
         return static::$instance;
@@ -47,15 +45,19 @@ class Pdo
 
     /**
      * Constructor.
+     *
+     * @param array $conf
      */
-    protected function __construct()
+    protected function __construct(array $conf)
     {
-        $this->dsn = $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'];
+        $this->dsn = $conf['driver'] . ':host=' . $conf['host'] . ';dbname=' . $conf['database'];
+
         $this->pdo = new \PDO(
             $this->dsn,
-            $_ENV['DB_USERNAME'],
-            $_ENV['DB_PASSWORD']
+            $conf['username'],
+            $conf['password']
         );
+
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 

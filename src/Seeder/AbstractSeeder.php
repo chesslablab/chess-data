@@ -4,10 +4,31 @@ namespace ChessData\Seeder;
 
 use Chess\Exception\UnknownNotationException;
 use Chess\PGN\Validate;
-use ChessData\File\AbstractFile;
 
-abstract class AbstractSeeder extends AbstractFile
+abstract class AbstractSeeder
 {
+    protected $conf;
+
+    protected $filepath;
+
+    protected $line;
+
+    protected $result;
+
+    public function __construct(array $conf, string $filepath)
+    {
+        $this->conf = $conf;
+
+        $this->filepath = $filepath;
+
+        $this->line = new FileLine;
+
+        $this->result = (object) [
+            'total' => 0,
+            'valid' => 0,
+        ];
+    }
+
     public function seed(): \stdClass
     {
         $tags = [];

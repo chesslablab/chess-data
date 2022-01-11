@@ -11,9 +11,9 @@ namespace ChessData;
 class Pdo
 {
     /**
-     * Reference to the Pdo instance.
+     * Pdo instance.
      *
-     * @var \Telecoming\Db\Pdo
+     * @var \ChessData\Pdo
      */
     private static $instance;
 
@@ -27,14 +27,14 @@ class Pdo
     /**
      * PDO handler.
      *
-     * @var PDO
+     * @var \PDO
      */
     private $pdo;
 
     /**
      * Returns the current instance.
      *
-     * @return Singleton
+     * @return \ChessData\Pdo
      */
     public static function getInstance()
     {

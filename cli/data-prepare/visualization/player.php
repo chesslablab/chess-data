@@ -14,6 +14,8 @@ class Player extends CLI
 {
     const DATA_FOLDER = __DIR__.'/../../../dataset/visualization';
 
+    protected $conf;
+
     protected function setup(Options $options)
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../../');
@@ -25,6 +27,8 @@ class Player extends CLI
         $options->registerOption('win', 'The player wins.');
         $options->registerOption('lose', 'The player loses.');
         $options->registerOption('draw', 'Draw.');
+
+        $this->conf = include(__DIR__.'/../../../config/database.php');
     }
 
     protected function main(Options $options)
@@ -45,9 +49,7 @@ class Player extends CLI
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
-        $games = Pdo::getInstance()
-                    ->query($sql)
-                    ->fetchAll(\PDO::FETCH_ASSOC);
+        $games = Pdo::getInstance($this->conf)->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
         fwrite($fp, json_encode($games));

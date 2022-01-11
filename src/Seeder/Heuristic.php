@@ -2,7 +2,7 @@
 
 namespace ChessData\Seeder;
 
-use Chess\Heuristic\HeuristicPicture;
+use Chess\HeuristicPicture;
 use Chess\PGN\Tag;
 use ChessData\Pdo;
 
@@ -10,9 +10,9 @@ class Heuristic extends AbstractSeeder
 {
     protected $dimensions;
 
-    public function __construct(string $filepath)
+    public function __construct(array $conf, string $filepath)
     {
-        parent::__construct($filepath);
+        parent::__construct($conf, $filepath);
 
         $this->dimensions = array_map(
             function($item) {

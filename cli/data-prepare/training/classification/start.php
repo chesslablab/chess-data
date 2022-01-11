@@ -23,6 +23,8 @@ class Start extends CLI
 {
     const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
 
+    protected $conf;
+
     protected function setup(Options $options)
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../../../');
@@ -30,6 +32,8 @@ class Start extends CLI
 
         $options->setHelp('Creates a prepared CSV dataset in the dataset/training/classification folder.');
         $options->registerArgument('n', 'A random number of games to be queried.', true);
+
+        $this->conf = include(__DIR__.'/../../../../config/database.php');
     }
 
     protected function main(Options $options)
@@ -41,9 +45,7 @@ class Start extends CLI
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
-        $games = Pdo::getInstance()
-                    ->query($sql)
-                    ->fetchAll(\PDO::FETCH_ASSOC);
+        $games = Pdo::getInstance($this->conf)->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
         $dimensions = (new HeuristicPicture(''))->getDimensions();
 

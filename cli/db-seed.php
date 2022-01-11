@@ -12,14 +12,18 @@ use splitbrain\phpcli\Options;
 
 class DbSeedCli extends CLI
 {
+    protected $conf;
+
     protected function setup(Options $options)
     {
         $dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $dotenv->load();
-        
+
         $options->setHelp('Seeds the chess database with the specified PGN games.');
         $options->registerOption('heuristics', 'Add heuristics for further data visualization.');
         $options->registerArgument('filepath', 'PGN file, or folder containing the PGN files.', true);
+
+        $this->conf = include(__DIR__.'/../config/database.php');
     }
 
     protected function main(Options $options)
@@ -41,20 +45,12 @@ class DbSeedCli extends CLI
 
     protected function seed(string $filepath, bool $heuristics)
     {
-        $conf = [
-            'driver' => $_ENV['DB_DRIVER'],
-            'host' => $_ENV['DB_HOST'],
-            'database' => $_ENV['DB_DATABASE'],
-            'username' => $_ENV['DB_USERNAME'],
-            'password' => $_ENV['DB_PASSWORD'],
-        ];
-
         $result = new \stdClass();
-
+        
         try {
             $heuristics
-                ? $result = (new HeuristicSeeder($conf, $filepath))->seed()
-                : $result = (new BasicSeeder($conf, $filepath))->seed();
+                ? $result = (new HeuristicSeeder($this->conf, $filepath))->seed()
+                : $result = (new BasicSeeder($this->conf, $filepath))->seed();
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }

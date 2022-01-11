@@ -10,9 +10,9 @@ class Heuristic extends AbstractSeeder
 {
     protected $dimensions;
 
-    public function __construct(array $conf, string $filepath)
+    public function __construct(Pdo $pdo, string $filepath)
     {
-        parent::__construct($conf, $filepath);
+        parent::__construct($pdo, $filepath);
 
         $this->dimensions = array_map(
             function($item) {
@@ -67,7 +67,7 @@ class Heuristic extends AbstractSeeder
                 ],
             );
 
-            return Pdo::getInstance($this->conf)->query($sql, $values);
+            return $this->pdo->query($sql, $values);
         } catch (\Exception $e) {}
 
         return false;

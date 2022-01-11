@@ -4,10 +4,11 @@ namespace ChessData\Seeder;
 
 use Chess\Exception\UnknownNotationException;
 use Chess\PGN\Validate;
+use ChessData\Pdo;
 
 abstract class AbstractSeeder
 {
-    protected $conf;
+    protected $pdo;
 
     protected $filepath;
 
@@ -15,9 +16,9 @@ abstract class AbstractSeeder
 
     protected $result;
 
-    public function __construct(array $conf, string $filepath)
+    public function __construct(Pdo $pdo, string $filepath)
     {
-        $this->conf = $conf;
+        $this->pdo = $pdo;
 
         $this->filepath = $filepath;
 

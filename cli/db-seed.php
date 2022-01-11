@@ -4,26 +4,18 @@ namespace ChessData\Cli;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use ChessData\PdoCli;
 use ChessData\Seeder\Basic as BasicSeeder;
 use ChessData\Seeder\Heuristic as HeuristicSeeder;
-use Dotenv\Dotenv;
-use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-class DbSeedCli extends CLI
+class DbSeedCli extends PdoCli
 {
-    protected $conf;
-
     protected function setup(Options $options)
     {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../');
-        $dotenv->load();
-
         $options->setHelp('Seeds the chess database with the specified PGN games.');
         $options->registerOption('heuristics', 'Add heuristics for further data visualization.');
         $options->registerArgument('filepath', 'PGN file, or folder containing the PGN files.', true);
-
-        $this->conf = include(__DIR__.'/../config/database.php');
     }
 
     protected function main(Options $options)
@@ -46,11 +38,11 @@ class DbSeedCli extends CLI
     protected function seed(string $filepath, bool $heuristics)
     {
         $result = new \stdClass();
-        
+
         try {
             $heuristics
-                ? $result = (new HeuristicSeeder($this->conf, $filepath))->seed()
-                : $result = (new BasicSeeder($this->conf, $filepath))->seed();
+                ? $result = (new HeuristicSeeder($this->pdo, $filepath))->seed()
+                : $result = (new BasicSeeder($this->pdo, $filepath))->seed();
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }

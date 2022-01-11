@@ -1,18 +1,16 @@
 <?php
 
-namespace ChessData\Cli\DataPrepare\Training;
+namespace ChessData\Cli\DataPrepare\Training\Classification;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Dotenv\Dotenv;
 use Chess\HeuristicPicture;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
 use Chess\FEN\StringToBoard;
 use Chess\ML\Supervised\Classification\LinearCombinationLabeller;
 use Chess\PGN\Movetext;
 use Chess\PGN\Symbol;
-use ChessData\Pdo;
-use splitbrain\phpcli\CLI;
+use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
 
 /**
@@ -20,21 +18,14 @@ use splitbrain\phpcli\Options;
  *
  * It loads games from the database and plays them from a FEN position.
  */
-class Fen extends CLI
+class Fen extends PdoCli
 {
     const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
 
-    protected $conf;
-
     protected function setup(Options $options)
     {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../../../');
-        $dotenv->load();
-
         $options->setHelp('Creates a prepared CSV dataset in the dataset/training/classification folder.');
         $options->registerArgument('n', 'A random number of games to be queried.', true);
-
-        $this->conf = include(__DIR__.'/../../../../config/database.php');
     }
 
     protected function main(Options $options)
@@ -47,7 +38,7 @@ class Fen extends CLI
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
-        $games = Pdo::getInstance($this->conf)->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $games = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
         $dimensions = (new HeuristicPicture(''))->getDimensions();
 

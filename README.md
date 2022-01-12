@@ -2,7 +2,7 @@
 
 [![Build Status](https://app.travis-ci.com/chesslablab/chess-data.svg?branch=master)](https://app.travis-ci.com/github/chesslablab/chess-data)
 
-CLI tools to manage a [PHP Chess](https://github.com/chesslablab/php-chess) database of PGN games as well as to prepare the data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
+A chess database, data science and machine learning with [Rubix ML](https://github.com/RubixML/ML).
 
 ### Setup
 
@@ -38,18 +38,18 @@ $ php cli/db-create.php -h
 USAGE:
    db-create.php <OPTIONS>
 
-   Creates the chess database with the games table.                                                                                                                                             
+   Creates the chess database.                                                                                                                                                                  
 
 
 OPTIONS:
-   --heuristics                                             Add heuristics for further data visualization.                                                                                      
+   --heuristics                                             Add heuristics to the games table for further data visualization.                                                                   
 
    -h, --help                                               Display this help screen and exit immediately.                                                                                      
 
    --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
 
    --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
-                                                            alert, emergency.
+                                                            alert, emergency.                                                                                                                   
 ```
 
 ##### Example:
@@ -148,7 +148,7 @@ ARGUMENTS:
 
 ##### Examples:
 
-Seed the database with the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
+Seed the games table with the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
 
 	$ php cli/seed/games.php data/players/Carlsen.pgn
 

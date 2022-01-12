@@ -1,6 +1,6 @@
 <?php
 
-namespace ChessData\Cli\DataPrepare\Training\Classification;
+namespace ChessData\Cli\Prepare\Training\Classification;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 

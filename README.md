@@ -124,11 +124,11 @@ A so-called [heuristic picture](https://medium.com/geekculture/how-to-take-norma
 #### Seed the `games` Table
 
 ```text
-$ php cli/db-seed.php -h
+$ php cli/seed/games.php -h
 USAGE:
-   db-seed.php <OPTIONS> <filepath>
+   games.php <OPTIONS> <filepath>
 
-   Seeds the chess database with the specified PGN games.                                                                                                                                       
+   Seeds the games table with the specified PGN games.                                                                                                                                          
 
 
 OPTIONS:
@@ -150,19 +150,19 @@ ARGUMENTS:
 
 Seed the database with the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
 
-	$ php cli/db-seed.php data/players/Carlsen.pgn
+	$ php cli/seed/games.php data/players/Carlsen.pgn
 
 With the PGN games (STR tag pairs, movetexts and heuristic pictures too for further data visualization) found in `data/players/Carlsen.pgn`:
 
-	$ php cli/db-seed.php --heuristics data/players/Carlsen.pgn
+	$ php cli/seed/games.php --heuristics data/players/Carlsen.pgn
 
 With all PGN files (STR tag pairs and movetexts) found in the given folder:
 
-	$ php cli/db-seed.php data/players
+	$ php cli/seed/games.php data/players
 
 With all PGN files (STR tag pairs, movetexts and heuristic pictures too for further data visualization) found in the given folder:
 
-	$ php cli/db-seed.php --heuristics data/players
+	$ php cli/seed/games.php --heuristics data/players
 
 #### PGN Syntax Checker
 

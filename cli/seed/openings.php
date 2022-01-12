@@ -19,17 +19,12 @@ class Openings extends PdoCli
 
     protected function main(Options $options)
     {
-        $result = $this->seed();
-    }
-
-    protected function seed()
-    {
         foreach (scandir(self::DATA_FOLDER) as $item) {
-            $this->file(self::DATA_FOLDER . "/$item");
+            $this->seed(self::DATA_FOLDER . "/$item");
         }
     }
 
-    protected function file(string $filepath)
+    protected function seed(string $filepath)
     {
         if (is_file($filepath)) {
             $file = fopen($filepath, 'r');

@@ -164,6 +164,31 @@ With all PGN files (STR tag pairs, movetexts and heuristic pictures too for furt
 
 	$ php cli/seed/games.php --heuristics data/players
 
+#### Seed the `openings` Table
+
+```text
+$ php cli/seed/openings.php -h
+USAGE:
+   openings.php <OPTIONS>
+
+   Seeds the openings table.                                                                                                                                                                    
+
+
+OPTIONS:
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.
+```
+
+##### Example:
+
+Seed the openings table with the data found in `data/openings`:
+
+	$ php cli/seed/openings.php
+
 #### PGN Syntax Checker
 
 ```text

@@ -9,6 +9,8 @@ use splitbrain\phpcli\Options;
 
 class Openings extends PdoCli
 {
+    const DATA_FOLDER = __DIR__.'/../../data/chess-openings';
+
     protected function setup(Options $options)
     {
         $options->setHelp('Seeds the openings table.');
@@ -16,18 +18,46 @@ class Openings extends PdoCli
 
     protected function main(Options $options)
     {
-        // TODO
-
         $result = $this->seed();
     }
 
     protected function seed()
     {
-        $result = new \stdClass();
+        foreach (scandir(self::DATA_FOLDER) as $item) {
+            $this->file(self::DATA_FOLDER . "/$item");
+        }
+    }
 
-        // TODO
+    protected function file(string $filepath)
+    {
+        if (is_file($filepath)) {
+            $file = fopen($filepath, 'r');
+            while (($line = fgetcsv($file)) !== FALSE) {
+                $sql = 'INSERT INTO openings (eco, name, movetext) VALUES (:eco, :name, :movetext)';
+                $values = [
+                    [
+                        'param' => ':eco',
+                        'value' => $line[0],
+                        'type' => \PDO::PARAM_STR,
+                    ],
+                    [
+                        'param' => ':name',
+                        'value' => $line[1],
+                        'type' => \PDO::PARAM_STR,
+                    ],
+                    [
+                        'param' => ':movetext',
+                        'value' => $line[2],
+                        'type' => \PDO::PARAM_STR,
+                    ],
+                ];
 
-        return $result;
+                try {
+                    $this->pdo->query($sql, $values);
+                } catch (\Exception $e) {}
+            }
+            fclose($file);
+        }
     }
 }
 

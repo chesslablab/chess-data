@@ -36,7 +36,15 @@ class DbCreateCli extends CLI
         $sql = 'use ' . $_ENV['DB_DATABASE'];
         $pdo->exec($sql);
 
-        // STR (Seven Tag Roster)
+        $sql = 'CREATE TABLE openings (' .
+            ' id smallint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
+            'eco CHAR(3) NULL, ' .
+            'name VARCHAR(512) NULL, ' .
+            'movetext VARCHAR(1024) NULL, ' .
+            'PRIMARY KEY (id) ' .
+        ') ENGINE = InnoDB';
+
+        $pdo->query($sql);
 
         $sql = 'CREATE TABLE games (' .
             ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .

@@ -1,12 +1,11 @@
 <?php
 
-namespace ChessData\Cli\DataPrepare\Training\Classification;
+namespace ChessData\Cli\Prepare\Training\Classification;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use Chess\HeuristicPicture;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
-use Chess\FEN\StringToBoard;
 use Chess\ML\Supervised\Classification\LinearCombinationLabeller;
 use Chess\PGN\Movetext;
 use Chess\PGN\Symbol;
@@ -16,9 +15,9 @@ use splitbrain\phpcli\Options;
 /**
  * Prepares the data.
  *
- * It loads games from the database and plays them from a FEN position.
+ * It loads games from the database and plays them from the start position.
  */
-class Fen extends PdoCli
+class Start extends PdoCli
 {
     const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
 
@@ -31,10 +30,9 @@ class Fen extends PdoCli
     protected function main(Options $options)
     {
         $opt = key($options->getOpt());
-        $filename = "fen_{$options->getArgs()[0]}_".time().'.csv';
+        $filename = "start_{$options->getArgs()[0]}_".time().'.csv';
 
         $sql = "SELECT * FROM games
-            WHERE FEN IS NOT NULL
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
@@ -55,9 +53,7 @@ class Fen extends PdoCli
             try {
                 $sequence = (new Movetext($game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
-                    $board = (new StringToBoard($game['FEN']))->create();
-                    $heuristicPicture = new HeuristicPicture($movetext, $board);
-                    $balance = $heuristicPicture->take()->getBalance();
+                    $balance = (new HeuristicPicture($movetext))->take()->getBalance();
                     $end = end($balance);
                     $label = (new LinearCombinationLabeller($permutations))->label($end);
                     $row = array_merge($end, [$label[Symbol::BLACK]]);
@@ -70,5 +66,5 @@ class Fen extends PdoCli
     }
 }
 
-$cli = new Fen();
+$cli = new Start();
 $cli->run();

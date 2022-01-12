@@ -1,11 +1,12 @@
 <?php
 
-namespace ChessData\Cli\DataPrepare\Training\Classification;
+namespace ChessData\Cli\Prepare\Training\Classification;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use Chess\HeuristicPicture;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
+use Chess\FEN\StringToBoard;
 use Chess\ML\Supervised\Classification\LinearCombinationLabeller;
 use Chess\PGN\Movetext;
 use Chess\PGN\Symbol;
@@ -15,9 +16,9 @@ use splitbrain\phpcli\Options;
 /**
  * Prepares the data.
  *
- * It loads games from the database and plays them from the start position.
+ * It loads games from the database and plays them from a FEN position.
  */
-class Start extends PdoCli
+class Fen extends PdoCli
 {
     const DATA_FOLDER = __DIR__.'/../../../../dataset/training/classification';
 
@@ -30,9 +31,10 @@ class Start extends PdoCli
     protected function main(Options $options)
     {
         $opt = key($options->getOpt());
-        $filename = "start_{$options->getArgs()[0]}_".time().'.csv';
+        $filename = "fen_{$options->getArgs()[0]}_".time().'.csv';
 
         $sql = "SELECT * FROM games
+            WHERE FEN IS NOT NULL
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
@@ -53,7 +55,9 @@ class Start extends PdoCli
             try {
                 $sequence = (new Movetext($game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
-                    $balance = (new HeuristicPicture($movetext))->take()->getBalance();
+                    $board = (new StringToBoard($game['FEN']))->create();
+                    $heuristicPicture = new HeuristicPicture($movetext, $board);
+                    $balance = $heuristicPicture->take()->getBalance();
                     $end = end($balance);
                     $label = (new LinearCombinationLabeller($permutations))->label($end);
                     $row = array_merge($end, [$label[Symbol::BLACK]]);
@@ -66,5 +70,5 @@ class Start extends PdoCli
     }
 }
 
-$cli = new Start();
+$cli = new Fen();
 $cli->run();

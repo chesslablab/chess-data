@@ -1,19 +1,19 @@
 <?php
 
-namespace ChessData\Cli;
+namespace ChessData\Cli\Seed;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use ChessData\PdoCli;
 use ChessData\Seeder\Basic as BasicSeeder;
 use ChessData\Seeder\Heuristic as HeuristicSeeder;
 use splitbrain\phpcli\Options;
 
-class DbSeedCli extends PdoCli
+class Games extends PdoCli
 {
     protected function setup(Options $options)
     {
-        $options->setHelp('Seeds the chess database with the specified PGN games.');
+        $options->setHelp('Seeds the games table with the specified PGN games.');
         $options->registerOption('heuristics', 'Add heuristics for further data visualization.');
         $options->registerArgument('filepath', 'PGN file, or folder containing the PGN files.', true);
     }
@@ -24,7 +24,7 @@ class DbSeedCli extends PdoCli
             $result = $this->seed($options->getArgs()[0], $options->getOpt('heuristics'));
             $this->display($result);
         } elseif (is_dir($options->getArgs()[0])) {
-            $dir = __DIR__.'/../'.$options->getArgs()[0];
+            $dir = __DIR__.'/../../'.$options->getArgs()[0];
             $dirIterator = new \DirectoryIterator($dir);
             foreach ($dirIterator as $fileinfo) {
                 if (!$fileinfo->isDot()) {
@@ -64,5 +64,5 @@ class DbSeedCli extends PdoCli
     }
 }
 
-$cli = new DbSeedCli();
+$cli = new Games();
 $cli->run();

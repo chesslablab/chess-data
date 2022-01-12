@@ -2,7 +2,7 @@
 
 [![Build Status](https://app.travis-ci.com/chesslablab/chess-data.svg?branch=master)](https://app.travis-ci.com/github/chesslablab/chess-data)
 
-CLI tools to manage a [PHP Chess](https://github.com/chesslablab/php-chess) database of PGN games as well as to prepare the data and train a supervised learning model with [Rubix ML](https://github.com/RubixML/ML).
+A chess database, data science and machine learning with [Rubix ML](https://github.com/RubixML/ML).
 
 ### Setup
 
@@ -38,18 +38,18 @@ $ php cli/db-create.php -h
 USAGE:
    db-create.php <OPTIONS>
 
-   Creates the chess database with the games table.                                                                                                                                             
+   Creates the chess database.                                                                                                                                                                  
 
 
 OPTIONS:
-   --heuristics                                             Add heuristics for further data visualization.                                                                                      
+   --heuristics                                             Add heuristics to the games table for further data visualization.                                                                   
 
    -h, --help                                               Display this help screen and exit immediately.                                                                                      
 
    --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
 
    --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
-                                                            alert, emergency.
+                                                            alert, emergency.                                                                                                                   
 ```
 
 ##### Example:
@@ -124,11 +124,11 @@ A so-called [heuristic picture](https://medium.com/geekculture/how-to-take-norma
 #### Seed the `games` Table
 
 ```text
-$ php cli/db-seed.php -h
+$ php cli/seed/games.php -h
 USAGE:
-   db-seed.php <OPTIONS> <filepath>
+   games.php <OPTIONS> <filepath>
 
-   Seeds the chess database with the specified PGN games.                                                                                                                                       
+   Seeds the games table with the specified PGN games.                                                                                                                                          
 
 
 OPTIONS:
@@ -148,21 +148,46 @@ ARGUMENTS:
 
 ##### Examples:
 
-Seed the database with the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
+Seed the games table with the PGN games (STR tag pairs and movetexts) found in `data/players/Carlsen.pgn`:
 
-	$ php cli/db-seed.php data/players/Carlsen.pgn
+	$ php cli/seed/games.php data/players/Carlsen.pgn
 
 With the PGN games (STR tag pairs, movetexts and heuristic pictures too for further data visualization) found in `data/players/Carlsen.pgn`:
 
-	$ php cli/db-seed.php --heuristics data/players/Carlsen.pgn
+	$ php cli/seed/games.php --heuristics data/players/Carlsen.pgn
 
 With all PGN files (STR tag pairs and movetexts) found in the given folder:
 
-	$ php cli/db-seed.php data/players
+	$ php cli/seed/games.php data/players
 
 With all PGN files (STR tag pairs, movetexts and heuristic pictures too for further data visualization) found in the given folder:
 
-	$ php cli/db-seed.php --heuristics data/players
+	$ php cli/seed/games.php --heuristics data/players
+
+#### Seed the `openings` Table
+
+```text
+$ php cli/seed/openings.php -h
+USAGE:
+   openings.php <OPTIONS>
+
+   Seeds the openings table.                                                                                                                                                                    
+
+
+OPTIONS:
+   -h, --help                                               Display this help screen and exit immediately.                                                                                      
+
+   --no-colors                                              Do not use any colors in output. Useful when piping output to other tools or files.                                                 
+
+   --loglevel <level>                                       Minimum level of messages to display. Default is info. Valid levels are: debug, info, notice, success, warning, error, critical,    
+                                                            alert, emergency.
+```
+
+##### Example:
+
+Seed the openings table with the data found in `data/openings`:
+
+	$ php cli/seed/openings.php
 
 #### PGN Syntax Checker
 
@@ -240,7 +265,7 @@ BlackElo: 2472
 #### Data Preparation for Further Visualization
 
 ```text
-$ php cli/data-prepare/visualization/player.php -h
+$ php cli/prepare/visualization/player.php -h
 USAGE:
    player.php <OPTIONS> <n> <player>
 
@@ -271,7 +296,7 @@ ARGUMENTS:
 
 Creates the `dataset/visualization/capablanca_jose_raul_win.json` file:
 
-	$ php cli/data-prepare/visualization/player.php --win 25 "Capablanca Jose Raul"
+	$ php cli/prepare/visualization/player.php --win 25 "Capablanca Jose Raul"
 
 For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
@@ -282,7 +307,7 @@ For further information on how to visually study the supervised data please visi
 Prepares data by playing and studying games played from the start position rather than from a FEN position.
 
 ```text
-$ php cli/data-prepare/training/classification/start.php -h
+$ php cli/prepare/training/classification/start.php -h
 USAGE:
    start.php <OPTIONS> <n>
 
@@ -306,7 +331,7 @@ Example:
 
 Creates the `dataset/training/classification/start_100_1635947115.csv` file:
 
-	$ php cli/data-prepare/training/classification/start.php 100
+	$ php cli/prepare/training/classification/start.php 100
 
 
 #### MLP Training

@@ -16,8 +16,8 @@ class DbCreateCli extends CLI
         $dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $dotenv->load();
 
-        $options->setHelp('Creates the chess database with the games table.');
-        $options->registerOption('heuristics', 'Add heuristics for further data visualization.');
+        $options->setHelp('Creates the chess database.');
+        $options->registerOption('heuristics', 'Add heuristics to the games table for further data visualization.');
     }
 
     protected function main(Options $options)
@@ -36,7 +36,15 @@ class DbCreateCli extends CLI
         $sql = 'use ' . $_ENV['DB_DATABASE'];
         $pdo->exec($sql);
 
-        // STR (Seven Tag Roster)
+        $sql = 'CREATE TABLE openings (' .
+            ' id smallint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
+            'eco CHAR(3) NULL, ' .
+            'name VARCHAR(512) NULL, ' .
+            'movetext VARCHAR(1024) NULL, ' .
+            'PRIMARY KEY (id) ' .
+        ') ENGINE = InnoDB';
+
+        $pdo->query($sql);
 
         $sql = 'CREATE TABLE games (' .
             ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .

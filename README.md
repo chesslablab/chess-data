@@ -240,7 +240,7 @@ BlackElo: 2472
 #### Data Preparation for Further Visualization
 
 ```text
-$ php cli/data-prepare/visualization/player.php -h
+$ php cli/prepare/visualization/player.php -h
 USAGE:
    player.php <OPTIONS> <n> <player>
 
@@ -271,7 +271,7 @@ ARGUMENTS:
 
 Creates the `dataset/visualization/capablanca_jose_raul_win.json` file:
 
-	$ php cli/data-prepare/visualization/player.php --win 25 "Capablanca Jose Raul"
+	$ php cli/prepare/visualization/player.php --win 25 "Capablanca Jose Raul"
 
 For further information on how to visually study the supervised data please visit [Heuristics Quest](https://github.com/programarivm/heuristics-quest).
 
@@ -282,7 +282,7 @@ For further information on how to visually study the supervised data please visi
 Prepares data by playing and studying games played from the start position rather than from a FEN position.
 
 ```text
-$ php cli/data-prepare/training/classification/start.php -h
+$ php cli/prepare/training/classification/start.php -h
 USAGE:
    start.php <OPTIONS> <n>
 
@@ -306,7 +306,7 @@ Example:
 
 Creates the `dataset/training/classification/start_100_1635947115.csv` file:
 
-	$ php cli/data-prepare/training/classification/start.php 100
+	$ php cli/prepare/training/classification/start.php 100
 
 
 #### MLP Training

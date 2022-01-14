@@ -15,3 +15,7 @@ cd $APP_PATH
 # build the docker containers
 cd $APP_PATH
 docker-compose up -d
+
+# update the .env file with the container's ip
+GATEWAY="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' chess_data_mysql)"
+sed -i "s/DB_HOST=.*/DB_HOST=${GATEWAY}/g" .env

@@ -1,0 +1,13 @@
+[Event "?"]
+[Site "365chess.com"]
+[Date "2022.03.14"]
+[Round "?"]
+[White "Guest"]
+[Black "Stockfish (Level 10)"]
+[Result "0-1"]
+[SetUp "1"]
+[FEN "2k5/8/8/5K2/8/r7/8/8 w - - 0 1"]
+
+
+
+1. Ke5 Kd7 2. Kd5 Ra5+ 3. Kd4 Ke6 4. Kc4 Ke5 5. Kd3 Rc5 6. Ke3 Rc3+ 7. Kd2 Kd4 8. Ke2 Ra3 9. Kf2 Ke4 10. Kg2 Rf3 11. Kh2 Kf4 12. Kg2 Ke3 13. Kh2 Kf2 14. Kh1 Rh3# 0-1

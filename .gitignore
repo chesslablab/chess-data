@@ -1,0 +1,6 @@
+/composer.lock
+/output/*.csv
+/output/*.json
+/vendor/
+
+.env

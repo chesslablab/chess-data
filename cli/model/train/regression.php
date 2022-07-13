@@ -47,15 +47,14 @@ class RegressionCli extends CLI
             $estimator = PersistentModel::load(new Filesystem($filepath), new RBX());
         } else {
             $mlpRegressor = new MLPRegressor([
-                new Dense(10),
+                new Dense(100),
                 new Activation(new ReLU()),
-                new Dense(10),
+                new Dense(100),
                 new Activation(new ReLU()),
-                new Dense(5),
+                new Dense(50),
                 new Activation(new ReLU()),
-                new Dense(5),
-                new Activation(new ReLU()),
-            ], 128, new RMSProp(0.001), 1e-3, 1000, 1e-4, 3, 0.1, new LeastSquares(), new RSquared());
+                new Dense(50),
+            ], 128, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
 
             $estimator = new PersistentModel($mlpRegressor, new Filesystem($filepath), new RBX());
         }

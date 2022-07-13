@@ -55,11 +55,11 @@ Seed the tables:
 
 `endgames` with the files found in `data/endgames`:
 
-	$ php cli/seed/endgames.php
+	$ php cli/seed/endgames.php data/endgames
 
 `openings` with the files found in `data/openings`:
 
-	$ php cli/seed/openings.php
+	$ php cli/seed/openings.php data/openings
 
 `players` with the files found in `data/players`:
 

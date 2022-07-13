@@ -4,10 +4,8 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\Heuristics;
-use Chess\FEN\StrToBoard;
-use Chess\PGN\Movetext;
-use Chess\PGN\Symbol;
+use Chess\HeuristicsByFenString;
+use Chess\ML\Supervised\Regression\GeometricSumLabeller;
 use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
 
@@ -30,26 +28,21 @@ class FenCli extends PdoCli
     {
         $filename = "fen_{$options->getArgs()[0]}_".time().'.csv';
 
-        $sql = "SELECT * FROM games
+        $sql = "SELECT * FROM endgames
             WHERE FEN IS NOT NULL
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
-        $games = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $endgames = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 
-        foreach ($games as $game) {
+        foreach ($endgames as $endgame) {
             try {
-                $sequence = (new Movetext($game['movetext']))->sequence();
-                $board = (new StrToBoard($game['FEN']))->create();
-                foreach ($sequence as $movetext) {
-                    $balance = (new Heuristics($movetext, $board))->getBalance();
-                    $end = end($balance);
-                    $label = array_sum($end);
-                    $row = array_merge($end, [$label]);
-                    fputcsv($fp, $row, ';');
-                }
+                $balance = (new HeuristicsByFenString($endgame['FEN']))->getResizedBalance(0, 1);
+                $label = (new GeometricSumLabeller())->label($balance);
+                $row = array_merge($balance, [$label]);
+                fputcsv($fp, $row, ';');
             } catch (\Exception $e) {}
         }
 

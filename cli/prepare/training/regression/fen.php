@@ -4,7 +4,9 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\HeuristicsByFenString;
+use Chess\Heuristics;
+use Chess\Movetext;
+use Chess\FEN\StrToBoard;
 use Chess\ML\Supervised\Regression\GeometricSumLabeller;
 use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
@@ -39,10 +41,14 @@ class FenCli extends PdoCli
 
         foreach ($endgames as $endgame) {
             try {
-                $balance = (new HeuristicsByFenString($endgame['FEN']))->getResizedBalance(0, 1);
-                $label = (new GeometricSumLabeller())->label($balance);
-                $row = array_merge($balance, [$label]);
-                fputcsv($fp, $row, ';');
+                $sequence = (new Movetext($endgame['movetext']))->sequence();
+                $board = (new StrToBoard($endgame['FEN']))->create();
+                foreach ($sequence as $movetext) {
+                    $balance = (new Heuristics($movetext, $board))->getResizedBalance(0, 1)[0];
+                    $label =  (new GeometricSumLabeller())->label($balance);
+                    $row = array_merge($balance, [$label]);
+                    fputcsv($fp, $row, ';');
+                }
             } catch (\Exception $e) {}
         }
 

@@ -54,6 +54,7 @@ class RegressionCli extends CLI
                 new Dense(50),
                 new Activation(new ReLU()),
                 new Dense(50),
+                new Activation(new ReLU()),
             ], 128, new RMSProp(0.001), 1e-3, 100, 1e-5, 3, 0.1, new LeastSquares(), new RSquared());
 
             $estimator = new PersistentModel($mlpRegressor, new Filesystem($filepath), new RBX());

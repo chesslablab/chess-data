@@ -4,8 +4,9 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\Heuristics;
+use Chess\HeuristicsByFenString;
 use Chess\Movetext;
+use Chess\Player;
 use Chess\FEN\StrToBoard;
 use Chess\ML\Supervised\Regression\GeometricSumLabeller;
 use ChessData\PdoCli;
@@ -41,12 +42,24 @@ class FenCli extends PdoCli
 
         foreach ($endgames as $endgame) {
             try {
-                $sequence = (new Movetext($endgame['movetext']))->sequence();
                 $board = (new StrToBoard($endgame['FEN']))->create();
+                $sequence = (new Movetext($endgame['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
-                    $balance = (new Heuristics($movetext, $board))->getResizedBalance(0, 1)[0];
-                    $label =  (new GeometricSumLabeller())->label($balance);
-                    $row = array_merge($balance, [$label]);
+                    $wClone = unserialize(serialize($board));
+                    $bClone = unserialize(serialize($board));
+                    // Black's balance and label
+                    $bBoard = (new Player($movetext, $bClone))->play()->getBoard();
+                    $bBalance = (new HeuristicsByFenString($bBoard->toFen()))->getResizedBalance(0, 1);
+                    $bLabel =  (new GeometricSumLabeller())->label($bBalance);
+                    // White's movetext
+                    $wMovetext = explode(' ', $movetext);
+                    array_splice($wMovetext, -1);
+                    $wMovetext = implode(' ', $wMovetext);
+                    // White's balance
+                    $wBoard = (new Player($wMovetext, $wClone))->play()->getBoard();
+                    $wBalance = (new HeuristicsByFenString($wBoard->toFen()))->getResizedBalance(0, 1);
+                    // White's balance is labelled with Black's label
+                    $row = array_merge($wBalance, [$bLabel]);
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

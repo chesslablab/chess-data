@@ -35,7 +35,12 @@ class Seeder
         ];
     }
 
-    public function seed(): \stdClass
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    public function seed(): Seeder
     {
         $tags = [];
         $movetext = '';
@@ -77,7 +82,7 @@ class Seeder
             }
         }
 
-        return $this->result;
+        return $this;
     }
 
     protected function insert(array $tags, string $movetext)
@@ -108,7 +113,9 @@ class Seeder
 
         try {
             return $this->pdo->query($sql, $values);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            
+        }
 
         return false;
     }

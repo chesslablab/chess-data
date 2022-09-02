@@ -44,16 +44,16 @@ abstract class AbstractPdoCli extends CLI
         }
     }
 
-    protected function seed(string $filepath)
+    protected function seed(string $filepath): \stdClass
     {
-        $result = new \stdClass();
+        $seeder = new Seeder($this->pdo, $this->table, $filepath);
 
         try {
-            $result = (new Seeder($this->pdo, $this->table, $filepath))->seed();
+            $seeder->seed();
         } catch (\Exception $e) {
-            $this->error($e->getMessage());
+
         }
 
-        return $result;
+        return $seeder->getResult();
     }
 }

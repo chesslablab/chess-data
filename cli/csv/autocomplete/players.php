@@ -18,6 +18,9 @@ class Players extends PdoCli
         $options->setHelp('Creates the output/autocomplete-players.csv file.');
     }
 
+    /**
+     * Run sql/cleanup-autocomplete-players.sql after the command is run.
+     */
     protected function main(Options $options)
     {
         $sql = "SELECT DISTINCT White AS name FROM players

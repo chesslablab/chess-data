@@ -29,7 +29,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-If restarting the computer, the `DB_HOST` variable may need to be updated with the new IP of the `chess_data_mysql` container. Here's how to assign the new value to the `IP_ADDRESS` variable on the command line.
+If using Docker the `DB_HOST` variable may need to be updated with the new IP of the `chess_data_mysql` container when restarting the computer. Here's how to assign the new value to the `IP_ADDRESS` variable on the command line.
 
 ```
 $ IP_ADDRESS="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' chess_data_mysql)"
@@ -48,6 +48,11 @@ Finally, create the `chess` database:
     $ php cli/db-create.php
 
 ### Command Line Interface (CLI)
+
+- [Seed the Tables with Data](https://github.com/chesslablab/chess-data/tree/master/cli#seed-the-tables-with-data)
+- [Prepare the Data](https://github.com/chesslablab/chess-data/tree/master/cli#prepare-the-data)
+- [AI Training](https://github.com/chesslablab/chess-data/tree/master/cli#ai-training)
+- [Create JSON Files for the Frontend](https://github.com/chesslablab/chess-data/tree/master/cli#create-json-files-for-the-frontend)
 
 ### License
 

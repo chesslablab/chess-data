@@ -9,13 +9,12 @@ fi
 
 # cd the app's root directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-APP_PATH="$(dirname $(dirname $DIR))"
+APP_PATH="$(dirname $DIR)"
 cd $APP_PATH
 
 # build the docker containers
-cd $APP_PATH
 docker-compose up -d
 
-# update the .env file with the container's ip
+# write the data container's IP in the .env file
 IP_ADDRESS="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' chess_data_mysql)"
 sed -i "s/DB_HOST=.*/DB_HOST=${IP_ADDRESS}/g" .env

@@ -29,23 +29,11 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-If using Docker the `DB_HOST` variable may need to be updated with the new IP of the `chess_data_mysql` container when restarting the computer. Here's how to assign the new value to the `IP_ADDRESS` variable on the command line.
-
-```
-$ IP_ADDRESS="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' chess_data_mysql)"
-```
-
-And this is how to assign the IP to `DB_HOST`.
-
-```
-$ sed -i "s/DB_HOST=.*/DB_HOST=${IP_ADDRESS}/g" .env
-```
-
-> For further information, read the [`bash/prod/start.sh`](https://github.com/chesslablab/chess-data/blob/master/bash/prod/start.sh) script.
-
 Finally, create the `chess` database:
 
     $ php cli/db-create.php
+
+> If using Docker please read the [bash/start.sh](https://github.com/chesslablab/chess-data/blob/master/bash/start.sh) script for further information.
 
 ### Command Line Interface (CLI)
 

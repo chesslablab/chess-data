@@ -15,6 +15,6 @@ cd $APP_PATH
 # build the docker containers
 docker-compose up -d
 
-# write the data container's IP in the .env file
+# write the IP of the chess_data_mysql container in the .env file
 IP_ADDRESS="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' chess_data_mysql)"
 sed -i "s/DB_HOST=.*/DB_HOST=${IP_ADDRESS}/g" .env

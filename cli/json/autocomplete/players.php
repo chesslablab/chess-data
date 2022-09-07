@@ -1,6 +1,6 @@
 <?php
 
-namespace ChessData\Cli\Csv;
+namespace ChessData\Cli\Json\Autocomplete;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -25,11 +25,9 @@ class Players extends PdoCli
           SELECT DISTINCT Black FROM players AS name
           ORDER BY name";
 
-        $players = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
-        $json = json_encode($players);
-
-        file_put_contents(self::OUTPUT_FOLDER.'/'.self::OUTPUT_FILENAME, $json);
+        file_put_contents(self::OUTPUT_FOLDER.'/'.self::OUTPUT_FILENAME, json_encode($arr));
     }
 }
 

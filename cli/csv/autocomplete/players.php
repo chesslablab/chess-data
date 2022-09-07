@@ -11,35 +11,25 @@ class Players extends PdoCli
 {
     const OUTPUT_FOLDER = __DIR__.'/../../../output/';
 
-    const OUTPUT_FILENAME = 'autocomplete-players.csv';
+    const OUTPUT_FILENAME = 'autocomplete-players.json';
 
     protected function setup(Options $options)
     {
-        $options->setHelp('Creates the output/autocomplete-players.csv file.');
+        $options->setHelp('Creates the output/autocomplete-players.json file.');
     }
 
-    /**
-     * Run sql/cleanup-autocomplete-players.sql after the command is run.
-     */
     protected function main(Options $options)
     {
         $sql = "SELECT DISTINCT White AS name FROM players
           UNION
           SELECT DISTINCT Black FROM players AS name
           ORDER BY name";
+
         $players = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
-        $fp = fopen(self::OUTPUT_FOLDER.'/'.self::OUTPUT_FILENAME, 'w');
-        $row = [
-            'name',
-        ];
-        fputcsv($fp, $row, ',');
-        foreach ($players as $player) {
-            $row = [
-              $player['name'],
-            ];
-            fputcsv($fp, $row, ',');
-        }
-        fclose($fp);
+
+        $json = json_encode($players);
+
+        file_put_contents(self::OUTPUT_FOLDER.'/'.self::OUTPUT_FILENAME, $json);
     }
 }
 

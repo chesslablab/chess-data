@@ -1,7 +1,5 @@
 ## Chess Data
 
-[![Build Status](https://app.travis-ci.com/chesslablab/chess-data.svg?branch=master)](https://app.travis-ci.com/github/chesslablab/chess-data)
-
 A chess database, data science and machine learning with [Rubix ML](https://github.com/RubixML/ML).
 
 ### Setup

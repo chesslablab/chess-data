@@ -45,24 +45,6 @@ class DbCreateCli extends CLI
 
         $pdo->query($sql);
 
-        $sql = 'CREATE TABLE tournaments (' .
-            ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
-            Tag::EVENT                      . ' CHAR(64) NULL, ' .
-            Tag::SITE                       . ' CHAR(64) NULL, ' .
-            Tag::DATE                       . ' CHAR(16) NULL, ' .
-            Tag::WHITE                      . ' CHAR(32) NULL, ' .
-            Tag::BLACK                      . ' CHAR(32) NULL, ' .
-            Tag::RESULT                     . ' CHAR(8) NULL, ' .
-            Tag::WHITE_ELO                  . ' CHAR(8) NULL, ' .
-            Tag::BLACK_ELO                  . ' CHAR(8) NULL, ' .
-            Tag::ECO                        . ' CHAR(8) NULL, ' .
-            Tag::FEN                        . ' CHAR(64) NULL, ' .
-            ' movetext  VARCHAR(3072), ' .
-            'PRIMARY KEY (id) ' .
-        ') ENGINE = InnoDB';
-
-        $pdo->query($sql);
-
         $sql = 'CREATE TABLE players (' .
             ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
             Tag::EVENT                      . ' CHAR(64) NULL, ' .

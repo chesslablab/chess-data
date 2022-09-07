@@ -69,11 +69,6 @@ Seed the tables:
 
 	$ php cli/seed/players.php data/players/Carlsen.pgn
 
-
-`tournaments` with the files found in `data/tournaments`:
-
-	$ php cli/seed/tournaments.php data/tournaments
-
 #### Data Preparation for Further AI Training
 
 First things first, make sure the `endgames` and the `players` tables have been seeded with data.

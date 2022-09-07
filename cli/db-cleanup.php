@@ -22,6 +22,7 @@ class DbCleanupCli extends PdoCli
         'DELETE FROM players WHERE White="Yang,Wen:Yifan,Hou" OR Black="Yang,Wen:Yifan,Hou"',
         'DELETE FROM players WHERE White="Kasparov & Short" OR Black="Kasparov & Short"',
         'DELETE FROM players WHERE White="Carlsen,6" OR Black="Carlsen,6"',
+        'DELETE FROM players WHERE Event="?"',
     ];
 
     protected function setup(Options $options)

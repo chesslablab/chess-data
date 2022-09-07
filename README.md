@@ -31,8 +31,6 @@ Finally, create the `chess` database:
 
     $ php cli/db-create.php
 
-> If using Docker please read the [bash/start.sh](https://github.com/chesslablab/chess-data/blob/master/bash/start.sh) script for further information.
-
 ### Command Line Interface (CLI)
 
 - [Seed the Tables with Data](https://github.com/chesslablab/chess-data/tree/master/cli#seed-the-tables-with-data)

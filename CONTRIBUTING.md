@@ -63,5 +63,3 @@ It may not be as easy as it sounds, especially at the beginning of your career p
 - [**How to Take Normalized Heuristic Pictures** Think of a chess game in terms of snapshots describing what’s going on on the board](https://medium.com/geekculture/how-to-take-normalized-heuristic-pictures-79ca0df4cdec)
 - [**Visualizing Chess Openings Before MLP Classification** Chess positions are encoded as a combination of numbers between -1 and 1](https://medium.com/geekculture/visualizing-chess-openings-before-mlp-classification-fd2a3e8c266)
 - [**Using Restricted Permutations to Classify Chess Positions for Further Supervised Learning** Let the grandmasters label thousands of chess positions](https://medium.com/geekculture/using-restricted-permutations-to-classify-chess-positions-for-further-supervised-learning-27eeb3f71d82)
-
-If you're looking forward to working on a startupish product —  or want to transfer your skills to a different stack —  but it still feels a little over your head, you may want to work together with a mentor solving ChesslabLab issues on GitHub.

@@ -153,6 +153,10 @@ $ php cli/model/train/regression.php checkmate_king_and_rook_vs_king fen_100_164
 
 The following commands will create a bunch of JSON files in the `output` folder which are intended to be used by [Redux Chess](https://github.com/chesslablab/redux-chess).
 
+Create the `output/autocomplete-events.json` file:
+
+	$ php cli/json/autocomplete/events.php
+
 Create the `output/autocomplete-players.json` file:
 
 	$ php cli/json/autocomplete/players.php

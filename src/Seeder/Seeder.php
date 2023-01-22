@@ -4,6 +4,7 @@ namespace ChessData\Seeder;
 
 use Chess\Exception\UnknownNotationException;
 use Chess\PGN\Tag;
+use Chess\Variant\Classical\PGN\Move;
 use Chess\Movetext;
 use ChessData\Pdo;
 
@@ -45,6 +46,7 @@ class Seeder
         $tags = [];
         $movetext = '';
         $file = new \SplFileObject($this->filepath);
+        $move = new Move();
         while (!$file->eof()) {
             $line = rtrim($file->fgets());
             try {
@@ -53,7 +55,7 @@ class Seeder
             } catch (UnknownNotationException $e) {
                 if ($this->line->isOneLinerMovetext($line)) {
                     if (!array_diff(Tag::mandatory(), array_keys($tags)) &&
-                        $validMovetext = (new Movetext($line))->validate()
+                        $validMovetext = (new Movetext($move, $line))->validate()
                     ) {
                         if ($this->insert($tags, $validMovetext)) {
                             $this->result->valid++;
@@ -68,7 +70,7 @@ class Seeder
                     }
                 } elseif ($this->line->endsMovetext($line)) {
                     $movetext .= ' ' . $line;
-                    if ($validMovetext = (new Movetext($movetext))->validate()) {
+                    if ($validMovetext = (new Movetext($move, $movetext))->validate()) {
                         if ($this->insert($tags, $validMovetext)) {
                             $this->result->valid++;
                         }
@@ -114,7 +116,7 @@ class Seeder
         try {
             return $this->pdo->query($sql, $values);
         } catch (\Exception $e) {
-            
+
         }
 
         return false;

@@ -3,6 +3,7 @@
 namespace ChessData;
 
 use Chess\Movetext;
+use Chess\Variant\Classical\PGN\Move;
 use splitbrain\phpcli\Options;
 
 abstract class PdoOpeningCli extends AbstractPdoCli
@@ -19,7 +20,9 @@ abstract class PdoOpeningCli extends AbstractPdoCli
         if (is_file($filepath)) {
             $file = fopen($filepath, 'r');
             while (($line = fgetcsv($file)) !== FALSE) {
-                if ($movetext = (new Movetext($line[2]))->validate()) {
+                $move = new Move();
+                $text = $line[2];
+                if ($movetext = (new Movetext($move, $text))->validate()) {
                     $sql = "INSERT INTO {$this->table} (eco, name, movetext) VALUES (:eco, :name, :movetext)";
                     $values = [
                         [

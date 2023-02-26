@@ -9,8 +9,6 @@ use ChessData\PdoOpeningCli;
 class Openings extends PdoOpeningCli
 {
     protected $table = 'openings';
-
-    protected $inputFolder = __DIR__.'/../../data/openings';
 }
 
 $cli = new Openings();

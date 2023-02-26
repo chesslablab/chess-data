@@ -4,14 +4,38 @@ namespace ChessData;
 
 use Chess\Movetext;
 use Chess\Variant\Classical\PGN\Move;
+use Dotenv\Dotenv;
+use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
-abstract class PdoOpeningCli extends AbstractPdoCli
+abstract class PdoOpeningCli extends CLI
 {
+    protected $pdo;
+
+    protected $table;
+
+    public function __construct()
+    {
+        parent::__construct(true);
+
+        $dotenv = Dotenv::createImmutable(__DIR__.'/../');
+        $dotenv->load();
+
+        $conf = include(__DIR__.'/../config/database.php');
+
+        $this->pdo = Pdo::getInstance($conf);
+    }
+
+    protected function setup(Options $options)
+    {
+        $options->setHelp("Seeds the {$this->table} table.");
+        $options->registerArgument('filepath', 'CSV file or folder with CSV files.', true);
+    }
+
     protected function main(Options $options)
     {
-        foreach (scandir($this->inputFolder) as $item) {
-            $this->seed($this->inputFolder . "/$item");
+        foreach (scandir($options->getArgs()[0]) as $item) {
+            $this->seed($options->getArgs()[0] . "/$item");
         }
     }
 

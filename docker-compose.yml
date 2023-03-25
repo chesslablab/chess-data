@@ -22,6 +22,3 @@ services:
           - MYSQL_DATABASE=${DB_DATABASE}
           - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
           - MYSQL_PASSWORD=${DB_PASSWORD}
-networks:
-  chess_data:
-    driver: bridge

@@ -4,11 +4,7 @@ A chess database, data science and machine learning with [Rubix ML](https://gith
 
 ### Setup
 
-Clone the `chesslablab/chess-data` repo into your projects folder as it is described in the following example:
-
-    $ git clone git@github.com:chesslablab/chess-data.git
-
-Then `cd` the `chess-data` directory and install the Composer dependencies:
+Install the Composer packages:
 
     $ composer install
 

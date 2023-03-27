@@ -3,7 +3,7 @@
 namespace ChessData\Seeder;
 
 use Chess\Exception\UnknownNotationException;
-use Chess\PGN\Tag;
+use Chess\Variant\Classical\PGN\Tag;
 use Chess\Variant\Classical\PGN\Move;
 use Chess\Movetext;
 use ChessData\Pdo;

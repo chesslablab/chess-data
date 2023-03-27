@@ -2,7 +2,7 @@
 
 namespace ChessData\Seeder;
 
-use Chess\PGN\AN\Termination;
+use Chess\Variant\Classical\PGN\AN\Termination;
 
 class FileLine
 {

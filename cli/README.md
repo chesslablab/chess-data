@@ -163,12 +163,12 @@ Create the `output/autocomplete-players.json` file:
 
 Create the `output/draw-rate.json` file:
 
-	$ cli/json/stats/draw-rate.php
+	$ php cli/json/stats/draw-rate.php
 
 Create the `output/win-rate-for-black.json` file:
 
-	$ cli/json/stats/win-rate-for-black.php
+	$ php cli/json/stats/win-rate-for-black.php
 
 Create the `output/win-rate-for-white.json` file:
 
-	$ cli/json/stats/win-rate-for-white.php
+	$ php cli/json/stats/win-rate-for-white.php

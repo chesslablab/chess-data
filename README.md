@@ -5,12 +5,14 @@ A chess database, data science and machine learning with [Rubix ML](https://gith
 ### Setup
 
 Install the Composer packages:
-
-    $ composer install
+```
+composer install
+```
 
 Create an `.env` file:
-
-    $ cp .env.example .env
+```
+cp .env.example .env
+```
 
 Update the environment variables in your `.env` file if necessary:
 
@@ -24,8 +26,9 @@ DB_PASSWORD=
 ```
 
 Finally, create the `chess` database:
-
-    $ php cli/db-create.php
+```
+php cli/db-create.php
+```
 
 ### Command Line Interface (CLI)
 

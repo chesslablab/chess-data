@@ -4,9 +4,9 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\HeuristicsByFenString;
-use Chess\Movetext;
-use Chess\Player;
+use Chess\HeuristicsByFen;
+use Chess\Movetext\SanMovetext;
+use Chess\Play\SanPlay;
 use Chess\FEN\StrToBoard;
 use Chess\ML\Supervised\Regression\GeometricSumLabeller;
 use ChessData\PdoCli;
@@ -43,21 +43,21 @@ class FenCli extends PdoCli
         foreach ($endgames as $endgame) {
             try {
                 $board = (new StrToBoard($endgame['FEN']))->create();
-                $sequence = (new Movetext($endgame['movetext']))->sequence();
+                $sequence = (new SanMovetext($endgame['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
                     $wClone = unserialize(serialize($board));
                     $bClone = unserialize(serialize($board));
                     // Black's balance and label
-                    $bBoard = (new Player($movetext, $bClone))->play()->getBoard();
-                    $bBalance = (new HeuristicsByFenString($bBoard->toFen()))->getResizedBalance(0, 1);
+                    $bBoard = (new SanPlay($movetext, $bClone))->play()->getBoard();
+                    $bBalance = (new HeuristicsByFen($bBoard->toFen()))->getResizedBalance(0, 1);
                     $bLabel =  (new GeometricSumLabeller())->label($bBalance);
                     // White's movetext
                     $wMovetext = explode(' ', $movetext);
                     array_splice($wMovetext, -1);
                     $wMovetext = implode(' ', $wMovetext);
                     // White's balance
-                    $wBoard = (new Player($wMovetext, $wClone))->play()->getBoard();
-                    $wBalance = (new HeuristicsByFenString($wBoard->toFen()))->getResizedBalance(0, 1);
+                    $wBoard = (new SanPlay($wMovetext, $wClone))->play()->getBoard();
+                    $wBalance = (new HeuristicsByFen($wBoard->toFen()))->getResizedBalance(0, 1);
                     // White's balance is labelled with Black's label
                     $row = array_merge($wBalance, [$bLabel]);
                     fputcsv($fp, $row, ';');

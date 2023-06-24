@@ -2,7 +2,7 @@
 
 namespace ChessData;
 
-use Chess\Movetext;
+use Chess\Movetext\SanMovetext;
 use Chess\Variant\Classical\PGN\Move;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
@@ -46,7 +46,7 @@ abstract class PdoOpeningCli extends CLI
             while (($line = fgetcsv($file)) !== FALSE) {
                 $move = new Move();
                 $text = $line[2];
-                if ($movetext = (new Movetext($move, $text))->validate()) {
+                if ($movetext = (new SanMovetext($move, $text))->validate()) {
                     $sql = "INSERT INTO {$this->table} (eco, name, movetext) VALUES (:eco, :name, :movetext)";
                     $values = [
                         [

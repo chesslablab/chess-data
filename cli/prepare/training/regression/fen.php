@@ -48,7 +48,7 @@ class FenCli extends PdoCli
                     $wClone = unserialize(serialize($board));
                     $bClone = unserialize(serialize($board));
                     // Black's balance and label
-                    $bBoard = (new SanPlay($movetext, $bClone))->play()->getBoard();
+                    $bBoard = (new SanPlay($movetext, $bClone))->validate()->getBoard();
                     $bBalance = (new HeuristicsByFen($bBoard->toFen()))->getResizedBalance(0, 1);
                     $bLabel =  (new GeometricSumLabeller())->label($bBalance);
                     // White's movetext
@@ -56,7 +56,7 @@ class FenCli extends PdoCli
                     array_splice($wMovetext, -1);
                     $wMovetext = implode(' ', $wMovetext);
                     // White's balance
-                    $wBoard = (new SanPlay($wMovetext, $wClone))->play()->getBoard();
+                    $wBoard = (new SanPlay($wMovetext, $wClone))->validate()->getBoard();
                     $wBalance = (new HeuristicsByFen($wBoard->toFen()))->getResizedBalance(0, 1);
                     // White's balance is labelled with Black's label
                     $row = array_merge($wBalance, [$bLabel]);

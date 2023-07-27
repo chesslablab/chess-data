@@ -39,7 +39,7 @@ php cli/db-create.php
 
 ### License
 
-The GNU General Public License.
+[The GNU General Public License](https://github.com/chesslablab/chess-data/blob/master/LICENSE).
 
 ### Contributions
 

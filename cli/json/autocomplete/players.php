@@ -25,7 +25,7 @@ class Players extends PdoCli
           SELECT DISTINCT Black FROM players AS name
           ORDER BY name";
 
-        $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_COLUMN);
 
         file_put_contents(self::OUTPUT_FOLDER.'/'.self::OUTPUT_FILENAME, json_encode($arr));
     }

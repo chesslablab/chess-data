@@ -22,7 +22,7 @@ class Events extends PdoCli
     {
         $sql = "SELECT DISTINCT Event FROM players ORDER BY Event";
 
-        $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_COLUMN);
 
         file_put_contents(self::OUTPUT_FOLDER.'/'.self::OUTPUT_FILENAME, json_encode($arr));
     }

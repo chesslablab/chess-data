@@ -4,9 +4,8 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\Heuristics;
+use Chess\Heuristics\SanHeuristics;
 use Chess\PGN\Movetext;
-use Chess\PGN\Symbol;
 use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
 
@@ -41,7 +40,7 @@ class FenCli extends PdoCli
             try {
                 $sequence = (new Movetext($game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
-                    $balance = (new Heuristics($movetext))->getBalance();
+                    $balance = (new SanHeuristics($movetext))->getBalance();
                     $end = end($balance);
                     $label = array_sum($end);
                     $row = array_merge($end, [$label]);

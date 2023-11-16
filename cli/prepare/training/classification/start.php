@@ -4,8 +4,9 @@ namespace ChessData\Cli\Prepare\Training\Classification;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\Heuristics;
 use Chess\Combinatorics\RestrictedPermutationWithRepetition;
+use Chess\Heuristics\EvalFunction;
+use Chess\Heuristics\SanHeuristics;
 use Chess\ML\Supervised\Classification\PermutationLabeller;
 use Chess\PGN\Movetext;
 use Chess\PGN\Symbol;
@@ -37,12 +38,12 @@ class StartCli extends PdoCli
 
         $games = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
-        $dimensions = (new Heuristics(''))->getDimensions();
+        $eval = (new EvalFunction())->getEval();
 
         $permutations = (new RestrictedPermutationWithRepetition())
             ->get(
                 [ 4, 16 ],
-                count($dimensions),
+                count($eval),
                 100
             );
 
@@ -52,7 +53,7 @@ class StartCli extends PdoCli
             try {
                 $sequence = (new Movetext($game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
-                    $balance = (new Heuristics($movetext))->getBalance();
+                    $balance = (new SanHeuristics($movetext))->getBalance();
                     $end = end($balance);
                     $label = (new PermutationLabeller($permutations))->label($end);
                     $row = array_merge($end, [$label[Symbol::BLACK]]);

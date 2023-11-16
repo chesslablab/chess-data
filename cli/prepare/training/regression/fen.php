@@ -4,7 +4,7 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-use Chess\HeuristicsByFen;
+use Chess\Heuristics\FenHeuristics;
 use Chess\Movetext\SanMovetext;
 use Chess\Play\SanPlay;
 use Chess\FEN\StrToBoard;
@@ -49,7 +49,7 @@ class FenCli extends PdoCli
                     $bClone = unserialize(serialize($board));
                     // Black's balance and label
                     $bBoard = (new SanPlay($movetext, $bClone))->validate()->getBoard();
-                    $bBalance = (new HeuristicsByFen($bBoard->toFen()))->getResizedBalance(0, 1);
+                    $bBalance = (new FenHeuristics($bBoard->toFen()))->getBalance();
                     $bLabel =  (new GeometricSumLabeller())->label($bBalance);
                     // White's movetext
                     $wMovetext = explode(' ', $movetext);
@@ -57,7 +57,7 @@ class FenCli extends PdoCli
                     $wMovetext = implode(' ', $wMovetext);
                     // White's balance
                     $wBoard = (new SanPlay($wMovetext, $wClone))->validate()->getBoard();
-                    $wBalance = (new HeuristicsByFen($wBoard->toFen()))->getResizedBalance(0, 1);
+                    $wBalance = (new FenHeuristics($wBoard->toFen()))->getBalance();
                     // White's balance is labelled with Black's label
                     $row = array_merge($wBalance, [$bLabel]);
                     fputcsv($fp, $row, ';');

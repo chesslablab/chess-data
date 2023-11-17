@@ -104,7 +104,7 @@ $ php cli/ml/train/regression.php checkmate_king_and_rook_vs_king fen_100_164682
 
 ### Create JSON Files for the Frontend
 
-The following commands will create a bunch of JSON files in the `output` folder which are intended to be used by [Redux Chess](https://github.com/chesslablab/redux-chess).
+The following commands will create a bunch of JSON files in the `output` folder which are intended to be used by [React Chess](https://github.com/chesslablab/react-chess).
 
 Create the `output/autocomplete-events.json` file:
 

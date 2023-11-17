@@ -5,7 +5,8 @@ namespace ChessData\Cli\Prepare\Training\Regression;
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use Chess\Heuristics\SanHeuristics;
-use Chess\PGN\Movetext;
+use Chess\Movetext\SanMovetext;
+use Chess\Variant\Classical\PGN\Move;
 use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
 
@@ -28,7 +29,7 @@ class FenCli extends PdoCli
     {
         $filename = "start_{$options->getArgs()[0]}_".time().'.csv';
 
-        $sql = "SELECT * FROM games
+        $sql = "SELECT * FROM players
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
@@ -36,9 +37,11 @@ class FenCli extends PdoCli
 
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 
+        $move = new Move();
+
         foreach ($games as $game) {
             try {
-                $sequence = (new Movetext($game['movetext']))->sequence();
+                $sequence = (new SanMovetext($move, $game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
                     $balance = (new SanHeuristics($movetext))->getBalance();
                     $end = end($balance);

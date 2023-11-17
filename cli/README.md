@@ -85,9 +85,9 @@ It's particularly helpful to prepare [endgames](https://github.com/chesslablab/c
 
 Prepare the data by playing chess games from the start position as shown in the example below.
 
-    $ php cli/prepare/training/classification/start.php 100
+    $ php cli/prepare/training/classification/start.php 10
 
-This command will play `100` random chess games fetched from the `players` table to create a CSV file.
+This command will play `10` random chess games fetched from the `players` table to create a CSV file.
 
 ```text
 $ more dataset/training/classification/start_100_1649233461.csv

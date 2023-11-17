@@ -8,8 +8,9 @@ use Chess\Combinatorics\RestrictedPermutationWithRepetition;
 use Chess\Heuristics\EvalFunction;
 use Chess\Heuristics\SanHeuristics;
 use Chess\ML\Supervised\Classification\PermutationLabeller;
-use Chess\PGN\Movetext;
-use Chess\PGN\Symbol;
+use Chess\Movetext\SanMovetext;
+use Chess\Variant\Classical\PGN\Move;
+use Chess\Variant\Classical\PGN\AN\Color;
 use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
 
@@ -32,7 +33,7 @@ class StartCli extends PdoCli
     {
         $filename = "start_{$options->getArgs()[0]}_".time().'.csv';
 
-        $sql = "SELECT * FROM games
+        $sql = "SELECT * FROM players
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 
@@ -47,16 +48,18 @@ class StartCli extends PdoCli
                 100
             );
 
+        $move = new Move();
+
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 
         foreach ($games as $game) {
             try {
-                $sequence = (new Movetext($game['movetext']))->sequence();
+                $sequence = (new SanMovetext($move, $game['movetext']))->sequence();
                 foreach ($sequence as $movetext) {
                     $balance = (new SanHeuristics($movetext))->getBalance();
                     $end = end($balance);
                     $label = (new PermutationLabeller($permutations))->label($end);
-                    $row = array_merge($end, [$label[Symbol::BLACK]]);
+                    $row = array_merge($end, [$label[Color::B]]);
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

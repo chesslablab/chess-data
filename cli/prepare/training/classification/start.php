@@ -48,9 +48,9 @@ class StartCli extends PdoCli
                 100
             );
 
-        $move = new Move();
-
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
+
+        $move = new Move();
 
         foreach ($games as $game) {
             try {

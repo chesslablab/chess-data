@@ -60,9 +60,9 @@ Should you want to prepare the data for further AI training, make sure the `endg
 
 Prepare the data by playing chess games from a particular FEN position as shown in the example below.
 
-    $ php cli/prepare/training/classification/fen.php 100
+    $ php cli/prepare/training/classification/fen.php 10
 
-This command will play `100` random chess games fetched from the `endgames` table to create a CSV file.
+This command will play `10` random chess games fetched from the `endgames` table to create a CSV file.
 
 ```text
 $ more dataset/training/classification/fen_100_1649233046.csv

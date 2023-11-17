@@ -9,8 +9,9 @@ use Chess\FEN\StrToBoard;
 use Chess\Heuristics\EvalFunction;
 use Chess\Heuristics\SanHeuristics;
 use Chess\ML\Supervised\Classification\PermutationLabeller;
-use Chess\PGN\Movetext;
-use Chess\PGN\Symbol;
+use Chess\Movetext\SanMovetext;
+use Chess\Variant\Classical\PGN\Move;
+use Chess\Variant\Classical\PGN\AN\Color;
 use ChessData\PdoCli;
 use splitbrain\phpcli\Options;
 
@@ -33,7 +34,7 @@ class FenCli extends PdoCli
     {
         $filename = "fen_{$options->getArgs()[0]}_".time().'.csv';
 
-        $sql = "SELECT * FROM games
+        $sql = "SELECT * FROM endgames
             WHERE FEN IS NOT NULL
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
@@ -51,15 +52,17 @@ class FenCli extends PdoCli
 
         $fp = fopen(self::DATA_FOLDER."/$filename", 'w');
 
+        $move = new Move();
+
         foreach ($games as $game) {
             try {
-                $sequence = (new Movetext($game['movetext']))->sequence();
+                $sequence = (new SanMovetext($move, $game['movetext']))->sequence();
                 $board = (new StrToBoard($game['FEN']))->create();
                 foreach ($sequence as $movetext) {
                     $balance = (new SanHeuristics($movetext, $board))->getBalance();
                     $end = end($balance);
                     $label = (new PermutationLabeller($permutations))->label($end);
-                    $row = array_merge($end, [$label[Symbol::BLACK]]);
+                    $row = array_merge($end, [$label[Color::B]]);
                     fputcsv($fp, $row, ';');
                 }
             } catch (\Exception $e) {}

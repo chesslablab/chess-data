@@ -90,13 +90,13 @@ This command will play `10` random chess games fetched from the `players` table 
 
 ### AI Training
 
-Create the `ml/classification/checkmate_king_and_rook_vs_king.rbx` with a dataset.
+Create the `ml/classification/checkmate_king_and_rook_vs_king.rbx` file using a prepared dataset.
 
 ```text
 $ php cli/ml/train/classification.php checkmate_king_and_rook_vs_king fen_100_1646827021.csv
 ```
 
-Create the `ml/regression/checkmate_king_and_rook_vs_king.rbx` with a dataset.
+Create the `ml/regression/checkmate_king_and_rook_vs_king.rbx` file using a prepared dataset.
 
 ```text
 $ php cli/ml/train/regression.php checkmate_king_and_rook_vs_king fen_100_1646828057.csv

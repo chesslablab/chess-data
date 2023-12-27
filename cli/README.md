@@ -56,22 +56,6 @@ $ find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 
 Should you want to prepare the data for further AI training, make sure the `endgames` and the `players` tables have been previously seeded with data.
 
-#### Classification From a FEN Position
-
-Prepare the data by playing chess games from a particular FEN position as shown in the example below.
-
-    $ php cli/prepare/training/classification/fen.php 10
-
-This command will play `10` random chess games fetched from the `endgames` table to create a prepared CSV dataset in the `dataset/training/classification` folder. It is particularly helpful to prepare [endgames](https://github.com/chesslablab/chess-data/tree/master/data/endgames) data.
-
-#### Classification From the Start Position
-
-Prepare the data by playing chess games from the start position as shown in the example below.
-
-    $ php cli/prepare/training/classification/start.php 10
-
-This command will play `10` random chess games fetched from the `players` table to create a prepared CSV dataset in the `dataset/training/classification` folder. It is particularly helpful to prepare [players](https://github.com/chesslablab/chess-data/tree/master/data/players) data.
-
 #### Regression From a FEN Position
 
 Prepare the data by playing chess games from a particular FEN position as shown in the example below.
@@ -89,12 +73,6 @@ Prepare the data by playing chess games from the start position as shown in the 
 This command will play `10` random chess games fetched from the `players` table to create a prepared CSV dataset in the `dataset/training/regression` folder. It is particularly helpful to prepare [players](https://github.com/chesslablab/chess-data/tree/master/data/players) data.
 
 ### AI Training
-
-Create the `ml/classification/checkmate_king_and_rook_vs_king.rbx` file using a prepared dataset.
-
-```text
-$ php cli/ml/train/classification.php checkmate_king_and_rook_vs_king fen_100_1646827021.csv
-```
 
 Create the `ml/regression/checkmate_king_and_rook_vs_king.rbx` file using a prepared dataset.
 

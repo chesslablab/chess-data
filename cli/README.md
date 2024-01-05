@@ -4,18 +4,6 @@
 
 Listed below are some examples of commands to seed the chess tables with data.
 
-`compositions` with your own set of files in `data/compositions`:
-
-```
-$ php cli/seed/compositions.php data/compositions
-```
-
-`compositions` file by file in the `data/compositions` folder, for example:
-
-```
-$ php cli/seed/compositions.php data/compositions/foobar.pgn
-```
-
 `endgames` with your own set of files in `data/endgames`:
 
 ```

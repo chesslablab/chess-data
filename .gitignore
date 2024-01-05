@@ -1,8 +1,6 @@
 /composer.lock
 /vendor/
 
-/data/compositions/*.pgn
-!/data/compositions/.gitkeep
 /data/players/*.pgn
 !/data/players/.gitkeep
 

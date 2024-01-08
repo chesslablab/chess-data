@@ -4,40 +4,40 @@
 
 Listed below are some examples of commands to seed the chess tables with data.
 
-`endgames` with your own set of files in `data/endgames`:
-
-```
-$ php cli/seed/endgames.php data/endgames
-```
-
-`endgames` file by file in the `data/endgames` folder, for example:
-
-```
-$ php cli/seed/endgames.php data/endgames/foobar.pgn
-```
-
-`openings` with the files found in `data/openings`:
-
-```
-$ php cli/seed/openings.php data/openings
-```
-
-`games` with your own set of files in `data/games`:
+`games` with your own set of files in the `data/games` folder:
 
 ```
 $ php cli/seed/games.php data/games
 ```
 
-`games` file by file in the `data/games` folder, for example:
+`games` file by file:
 
 ```
 $ php cli/seed/games.php data/games/foobar.pgn
 ```
 
-Games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as in the example below.
+Please note that games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as in the example below.
 
 ```
 $ find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
+```
+
+`endgames` with your own set of files in the `data/endgames` folder:
+
+```
+$ php cli/seed/endgames.php data/endgames
+```
+
+`endgames` file by file:
+
+```
+$ php cli/seed/endgames.php data/endgames/foobar.pgn
+```
+
+`openings` with the files found in the `data/openings` folder:
+
+```
+$ php cli/seed/openings.php data/openings
 ```
 
 ### Prepare the Data

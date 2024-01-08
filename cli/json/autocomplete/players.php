@@ -20,9 +20,9 @@ class Players extends PdoCli
 
     protected function main(Options $options)
     {
-        $sql = "SELECT DISTINCT White AS name FROM players
+        $sql = "SELECT DISTINCT White AS name FROM games
           UNION
-          SELECT DISTINCT Black FROM players AS name
+          SELECT DISTINCT Black FROM games AS name
           ORDER BY name";
 
         $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_COLUMN);

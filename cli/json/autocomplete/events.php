@@ -20,7 +20,7 @@ class Events extends PdoCli
 
     protected function main(Options $options)
     {
-        $sql = "SELECT DISTINCT Event FROM players ORDER BY Event";
+        $sql = "SELECT DISTINCT Event FROM games ORDER BY Event";
 
         $arr = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_COLUMN);
 

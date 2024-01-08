@@ -29,7 +29,7 @@ class FenCli extends PdoCli
     {
         $filename = "start_{$options->getArgs()[0]}_".time().'.csv';
 
-        $sql = "SELECT * FROM players
+        $sql = "SELECT * FROM games
             ORDER BY RAND()
             LIMIT {$options->getArgs()[0]}";
 

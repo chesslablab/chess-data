@@ -21,7 +21,7 @@ class WinRateForWhite extends PdoCli
     protected function main(Options $options)
     {
         $sql = "SELECT ECO, COUNT(*) AS total
-            FROM players
+            FROM games
             WHERE Result = '1-0'
             GROUP BY ECO
             HAVING total >= 100

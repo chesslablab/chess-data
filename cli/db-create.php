@@ -66,7 +66,7 @@ class DbCreateCli extends CLI
 
         $pdo->query($sql);
 
-        $sql = $this->table('players');
+        $sql = $this->table('games');
         $pdo->query($sql);
 
         $sql = $this->table('endgames');

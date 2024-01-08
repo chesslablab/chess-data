@@ -1,7 +1,7 @@
 /composer.lock
 /vendor/
 
-/data/players/*.pgn
-!/data/players/.gitkeep
+/data/games/*.pgn
+!/data/games/.gitkeep
 
 .env

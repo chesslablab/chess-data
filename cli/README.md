@@ -2,7 +2,19 @@
 
 ### Seed the Tables with Data
 
-Listed below are some examples of commands to seed the chess tables with data.
+Tables are loaded using the files contained in the `data` folder and can be loaded all at once or file by file. Listed below are some examples of commands to seed the `games` table with data.
+
+`games` with the examples contained in the `data/example` folder:
+
+```
+$ php cli/seed/games.php data/example
+```
+
+`games` file by file:
+
+```
+$ php cli/seed/games.php data/example/Anand.pgn
+```
 
 `games` with your own set of files in the `data/games` folder:
 
@@ -10,31 +22,19 @@ Listed below are some examples of commands to seed the chess tables with data.
 $ php cli/seed/games.php data/games
 ```
 
-`games` file by file:
-
-```
-$ php cli/seed/games.php data/games/foobar.pgn
-```
-
-Please note that games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as in the example below.
+Please note that all files in the `data` folder are gitignored except those contained in `data/example`. Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as in the example below.
 
 ```
 $ find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 ```
 
-`endgames` with your own set of files in the `data/endgames` folder:
+Listed below are some examples of commands to seed the `endgames` table with data.
 
 ```
 $ php cli/seed/endgames.php data/endgames
 ```
 
-`endgames` file by file:
-
-```
-$ php cli/seed/endgames.php data/endgames/foobar.pgn
-```
-
-`openings` with the files found in the `data/openings` folder:
+Listed below are some examples of commands to seed the `openings` table with data.
 
 ```
 $ php cli/seed/openings.php data/openings

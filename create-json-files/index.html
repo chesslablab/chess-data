@@ -9,15 +9,15 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Installation - Chess Data</title>
+  <title>Create JSON Files - Chess Data</title>
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Installation";
-    var mkdocs_page_input_path = "installation.md";
+    var mkdocs_page_name = "Create JSON Files";
+    var mkdocs_page_input_path = "create-json-files.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -49,12 +49,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="..">Chess Data</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a>
-    </li>
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
                     </li>
                 </ul>
                 <ul>
@@ -69,8 +65,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../ai-training/">AI Training</a>
                     </li>
                 </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../create-json-files/">Create JSON Files</a>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Create JSON Files</a>
+    <ul class="current">
+    </ul>
                     </li>
                 </ul>
       </div>
@@ -94,7 +92,7 @@
     
       
     
-    <li>Installation</li>
+    <li>Create JSON Files</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -105,24 +103,22 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="installation">Installation</h1>
-<h2 id="setup">Setup</h2>
-<p>Install the Composer packages:</p>
-<pre><code class="language-text">composer install
+                <h1 id="create-json-files">Create JSON Files</h1>
+<p>The following commands will create a bunch of JSON files in the <code>output</code> folder for further use by other applications like the <a href="https://github.com/chesslablab/chess-api">Chess API</a>.</p>
+<p>Create the <code>output/autocomplete-events.json</code> file:</p>
+<pre><code class="language-text">$ php cli/json/autocomplete/events.php
 </code></pre>
-<p>Create an <code>.env</code> file:</p>
-<pre><code class="language-text">cp .env.example .env
+<p>Create the <code>output/autocomplete-players.json</code> file:</p>
+<pre><code class="language-text">$ php cli/json/autocomplete/players.php
 </code></pre>
-<p>Update the environment variables in your <code>.env</code> file if necessary:</p>
-<pre><code class="language-text">DB_DRIVER=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=chess
-DB_USERNAME=root
-DB_PASSWORD=
+<p>Create the <code>output/draw-rate.json</code> file:</p>
+<pre><code>$ php cli/json/stats/draw-rate.php
 </code></pre>
-<p>Finally, create the <code>chess</code> database:</p>
-<pre><code class="language-text">php cli/db-create.php
+<p>Create the <code>output/win-rate-for-black.json</code> file:</p>
+<pre><code>$ php cli/json/stats/win-rate-for-black.php
+</code></pre>
+<p>Create the <code>output/win-rate-for-white.json</code> file:</p>
+<pre><code>$ php cli/json/stats/win-rate-for-white.php
 </code></pre>
               
             </div>
@@ -131,10 +127,8 @@ DB_PASSWORD=
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../seed-the-tables-with-data/" class="btn btn-neutral float-right" title="Seed the Tables with Data">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-      
-        <a href=".." class="btn btn-neutral" title="Chess Data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ai-training/" class="btn btn-neutral" title="AI Training"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -160,10 +154,8 @@ DB_PASSWORD=
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../ai-training/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-      
-        <span style="margin-left: 15px"><a href="../seed-the-tables-with-data/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

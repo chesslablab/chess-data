@@ -1,0 +1,5 @@
+site_name: Chess Data
+nav:
+  - Installation: installation.md
+  - Command Line Interface (CLI): command-line-interface-cli.md
+theme: readthedocs

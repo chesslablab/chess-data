@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Command Line Interface (CLI) - Chess Data</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Command Line Interface (CLI)";
+    var mkdocs_page_input_path = "command-line-interface-cli.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Chess Data</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Command Line Interface (CLI)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#seed-the-tables-with-data">Seed the Tables with Data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-the-data">Prepare the Data</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#regression-from-a-fen-position">Regression From a FEN Position</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#regression-from-the-start-position">Regression From the Start Position</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ai-training">AI Training</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#create-json-files-for-the-frontend">Create JSON Files for the Frontend</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Chess Data</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Command Line Interface (CLI)</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="command-line-interface-cli">Command Line Interface (CLI)</h1>
+<h2 id="seed-the-tables-with-data">Seed the Tables with Data</h2>
+<p>Tables are loaded using the files contained in the <code>data</code> folder and can be loaded all at once or file by file. Listed below are some examples of commands to seed the <code>games</code> table with data.</p>
+<p>Seed the <code>games</code> table with the examples contained in the <code>data/example</code> folder:</p>
+<pre><code class="language-text">$ php cli/seed/games.php data/example
+✗ 2 games did not pass the validation.
+✓ 4142 games out of a total of 4144 are OK.
+✓ 597 games out of a total of 597 are OK.
+✗ 1 games did not pass the validation.
+✓ 1824 games out of a total of 1825 are OK.
+✓ 3878 games out of a total of 3878 are OK.
+✓ 4646 games out of a total of 4646 are OK.
+✗ 2 games did not pass the validation.
+✓ 2126 games out of a total of 2128 are OK.
+✓ 2275 games out of a total of 2275 are OK.
+✓ 1218 games out of a total of 1218 are OK.
+✓ 827 games out of a total of 827 are OK.
+✗ 5 games did not pass the validation.
+✓ 1341 games out of a total of 1346 are OK.
+✓ 5662 games out of a total of 5662 are OK.
+✓ 3444 games out of a total of 3444 are OK.
+</code></pre>
+<p>Seed the <code>games</code> table file by file:</p>
+<pre><code class="language-text">$ php cli/seed/games.php data/example/Anand.pgn
+✗ 2 games did not pass the validation.
+✓ 4142 games out of a total of 4144 are OK.
+</code></pre>
+<p>Seed the <code>games</code> table with your own set of files in the <code>data/games</code> folder:</p>
+<pre><code class="language-text">$ php cli/seed/games.php data/games
+</code></pre>
+<p>Please note that all files in the <code>data</code> folder are gitignored except those contained in <code>data/example</code>. Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as in the example below.</p>
+<pre><code class="language-text">$ find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
+</code></pre>
+<p>Listed below are some examples of commands to seed the <code>endgames</code> table with data.</p>
+<pre><code class="language-text">$ php cli/seed/endgames.php data/endgames
+</code></pre>
+<p>Listed below are some examples of commands to seed the <code>openings</code> table with data.</p>
+<pre><code class="language-text">$ php cli/seed/openings.php data/openings
+</code></pre>
+<h2 id="prepare-the-data">Prepare the Data</h2>
+<p>Should you want to prepare the data for further AI training, make sure the <code>endgames</code> and the <code>games</code> tables have been previously seeded with data.</p>
+<h3 id="regression-from-a-fen-position">Regression From a FEN Position</h3>
+<p>Prepare the data by playing chess games from a particular FEN position as shown in the example below.</p>
+<pre><code class="language-text">$ php cli/prepare/training/regression/fen.php 10
+</code></pre>
+<p>This command will play <code>10</code> random chess games fetched from the <code>endgames</code> table to create a prepared CSV dataset in the <code>dataset/training/regression</code> folder. It is particularly helpful to prepare <a href="https://github.com/chesslablab/chess-data/tree/master/data/endgames">endgames</a> data.</p>
+<h3 id="regression-from-the-start-position">Regression From the Start Position</h3>
+<p>Prepare the data by playing chess games from the start position as shown in the example below.</p>
+<pre><code class="language-text">$ php cli/prepare/training/regression/start.php 10
+</code></pre>
+<p>This command will play <code>10</code> random chess games fetched from the <code>games</code> table to create a prepared CSV dataset in the <code>dataset/training/regression</code> folder. It is particularly helpful to prepare <a href="https://github.com/chesslablab/chess-data/tree/master/data/games">games</a> data.</p>
+<h2 id="ai-training">AI Training</h2>
+<p>Create the <code>ml/regression/checkmate_king_and_rook_vs_king.rbx</code> file using a prepared dataset.</p>
+<pre><code class="language-text">$ php cli/ml/train/regression.php checkmate_king_and_rook_vs_king fen_100_1646828057.csv
+</code></pre>
+<h2 id="create-json-files-for-the-frontend">Create JSON Files for the Frontend</h2>
+<p>The following commands will create a bunch of JSON files in the <code>output</code> folder which are intended to be used by <a href="https://github.com/chesslablab/react-chess">React Chess</a>.</p>
+<p>Create the <code>output/autocomplete-events.json</code> file:</p>
+<pre><code class="language-text">$ php cli/json/autocomplete/events.php
+</code></pre>
+<p>Create the <code>output/autocomplete-players.json</code> file:</p>
+<pre><code class="language-text">$ php cli/json/autocomplete/players.php
+</code></pre>
+<p>Create the <code>output/draw-rate.json</code> file:</p>
+<pre><code>$ php cli/json/stats/draw-rate.php
+</code></pre>
+<p>Create the <code>output/win-rate-for-black.json</code> file:</p>
+<pre><code>$ php cli/json/stats/win-rate-for-black.php
+</code></pre>
+<p>Create the <code>output/win-rate-for-white.json</code> file:</p>
+<pre><code>$ php cli/json/stats/win-rate-for-white.php
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

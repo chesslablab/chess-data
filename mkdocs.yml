@@ -1,6 +1,6 @@
 site_name: Chess Data
 nav:
-  - Chess Data: index.md
+  - Home: index.md
   - Installation: installation.md
   - Seed the Tables with Data: seed-the-tables-with-data.md
   - Prepare the Data: prepare-the-data.md

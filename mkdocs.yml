@@ -1,4 +1,5 @@
 site_name: Chess Data
+site_url: https://chess-data.docs.chesslablab.org/
 nav:
   - Home: index.md
   - Installation: installation.md

@@ -15,7 +15,7 @@ Chess Data is open-sourced software licensed under the MIT license.
 
 ### Contributions
 
-We encourage you to contribute to Chess Data! Please follow the [Contributing Guidelines](https://github.com/chesslablab/chess-data/blob/master/CONTRIBUTING.md).
+We encourage you to contribute to Chess Data! Please follow the [Contributing Guidelines](https://github.com/chesslablab/chess-data/blob/main/CONTRIBUTING.md).
 
 <a href="https://github.com/chesslablab/chess-data/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=chesslablab/chess-data" />

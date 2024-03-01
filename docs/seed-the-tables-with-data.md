@@ -40,7 +40,7 @@ php cli/seed/games.php data/games
 
 Please note that all files in the `data` folder are gitignored except those contained in `data/example`.
 
-Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as shown in the example below.
+Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as shown in the example below.
 
 ```text
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"

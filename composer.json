@@ -32,7 +32,7 @@
   ],
   "require": {
     "php": ">=8.1",
-    "chesslablab/php-chess": "dev-master",
+    "chesslablab/php-chess": "dev-main",
     "vlucas/phpdotenv": "^5.0",
     "rubix/ml": "^2.0",
     "splitbrain/php-cli": "^1.1",

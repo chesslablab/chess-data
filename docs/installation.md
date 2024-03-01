@@ -2,13 +2,7 @@
 
 ## Setup
 
-Clone the `chesslablab/chess-data` repo into your projects folder as it is described in the following example:
-
-```txt
-git clone git@github.com:chesslablab/chess-data.git
-```
-
-Then `cd` the `chess-data` directory and install the Composer dependencies:
+Clone the `chesslablab/chess-data` repo into your projects folder. Then `cd` the `chess-data` directory and install the Composer dependencies:
 
 ```text
 composer install

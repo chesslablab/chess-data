@@ -2,32 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://chess-data.docs.chesslablab.org/</loc>
-         <lastmod>2024-02-01</lastmod>
+         <lastmod>2024-03-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chess-data.docs.chesslablab.org/ai-training/</loc>
-         <lastmod>2024-02-01</lastmod>
+         <lastmod>2024-03-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chess-data.docs.chesslablab.org/create-json-files/</loc>
-         <lastmod>2024-02-01</lastmod>
+         <lastmod>2024-03-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chess-data.docs.chesslablab.org/installation/</loc>
-         <lastmod>2024-02-01</lastmod>
+         <lastmod>2024-03-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chess-data.docs.chesslablab.org/prepare-the-data/</loc>
-         <lastmod>2024-02-01</lastmod>
+         <lastmod>2024-03-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chess-data.docs.chesslablab.org/seed-the-tables-with-data/</loc>
-         <lastmod>2024-02-01</lastmod>
+         <lastmod>2024-03-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

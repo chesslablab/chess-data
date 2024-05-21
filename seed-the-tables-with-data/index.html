@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://chess-data.docs.chesslablab.org/seed-the-tables-with-data/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://chesslablab.github.io/chess-data/seed-the-tables-with-data/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
     <title>Seed the Tables with Data - Chess Data</title>
     <link rel="stylesheet" href="../css/theme.css" />
@@ -14,7 +14,7 @@
         // Current page data
         var mkdocs_page_name = "Seed the Tables with Data";
         var mkdocs_page_input_path = "seed-the-tables-with-data.md";
-        var mkdocs_page_url = "/seed-the-tables-with-data/";
+        var mkdocs_page_url = "/chess-data/seed-the-tables-with-data/";
       </script>
     
     <!--[if lt IE 9]>
@@ -118,7 +118,7 @@
 <pre><code class="language-text">php cli/seed/games.php data/games
 </code></pre>
 <p>Please note that all files in the <code>data</code> folder are gitignored except those contained in <code>data/example</code>.</p>
-<p>Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/master/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
+<p>Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
 <pre><code class="language-text">find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
 </code></pre>
 <p>Listed below are some examples of commands to seed the <code>endgames</code> table with data.</p>

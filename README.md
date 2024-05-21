@@ -7,7 +7,7 @@ MySQL chess database CLI tools and machine learning with [Rubix ML](https://gith
 
 ### Documentation
 
-Read the latest docs [here](https://chess-data.docs.chesslablab.org/).
+Read the latest docs [here](https://chesslablab.github.io/chess-data/).
 
 ### License
 

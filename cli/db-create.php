@@ -66,20 +66,6 @@ class DbCreateCli extends CLI
 
         $pdo->query($sql);
 
-        $sql = 'CREATE TABLE inbox (' .
-            ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
-            'hash CHAR(32) NULL, ' .
-            'variant VARCHAR(32) NULL, ' .
-            'settings JSON, ' .
-            'fen VARCHAR(128) NULL, ' .
-            'movetext VARCHAR(1024) NULL, ' .
-            'createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ' .
-            'updatedAt TIMESTAMP NULL, ' .
-            'PRIMARY KEY (id) ' .
-        ') ENGINE = InnoDB';
-
-        $pdo->query($sql);
-
         $sql = $this->table('games');
         $pdo->query($sql);
 

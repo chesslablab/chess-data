@@ -46,13 +46,7 @@ Also, the chess games won't be loaded into the database if containing PGN tags o
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 ```
 
-Listed below are some examples of commands to seed the `endgames` table with data.
-
-```text
-php cli/seed/endgames.php data/endgames
-```
-
-Listed below are some examples of commands to seed the `openings` table with data.
+Listed below is how to seed the `openings` table with data.
 
 ```text
 php cli/seed/openings.php data/openings

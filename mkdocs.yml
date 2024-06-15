@@ -4,7 +4,5 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Seed the Tables with Data: seed-the-tables-with-data.md
-  - Prepare the Data: prepare-the-data.md
-  - AI Training: ai-training.md
   - Create JSON Files: create-json-files.md
 theme: readthedocs

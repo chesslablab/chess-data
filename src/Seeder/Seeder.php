@@ -46,15 +46,16 @@ class Seeder
         $tags = [];
         $movetext = '';
         $file = new \SplFileObject($this->filepath);
+        $tag = new Tag();
         $move = new Move();
         while (!$file->eof()) {
             $line = rtrim($file->fgets());
             try {
-                $tag = Tag::validate($line);
-                $tags[$tag->name] = $tag->value;
+                $valid = $tag->validate($line);
+                $tags[$valid['name']] = $valid['value'];
             } catch (UnknownNotationException $e) {
                 if ($this->line->isOneLinerMovetext($line)) {
-                    if (!array_diff(Tag::mandatory(), array_keys($tags)) &&
+                    if (!array_diff($tag->mandatory(), array_keys($tags)) &&
                         $validMovetext = (new SanMovetext($move, $line))
                             ->validate()
                     ) {
@@ -66,7 +67,7 @@ class Seeder
                     $movetext = '';
                     $this->result->total++;
                 } elseif ($this->line->startsMovetext($line)) {
-                    if (!array_diff(Tag::mandatory(), array_keys($tags))) {
+                    if (!array_diff($tag->mandatory(), array_keys($tags))) {
                         $movetext .= ' ' . $line;
                     }
                 } elseif ($this->line->endsMovetext($line)) {
@@ -94,7 +95,7 @@ class Seeder
         $params = '';
         $sql = "INSERT INTO {$this->table} (";
 
-        foreach (Tag::loadable() as $name) {
+        foreach ((new Tag())->loadable() as $name) {
             if (isset($tags[$name])) {
                 $values[] = [
                     'param' => ":$name",

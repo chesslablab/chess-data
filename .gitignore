@@ -4,9 +4,6 @@
 /data/games/*.pgn
 !/data/games/.gitkeep
 
-/output/*.json
-!/output/.gitkeep
-
 .env
 
 /site/

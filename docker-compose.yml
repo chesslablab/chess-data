@@ -10,7 +10,7 @@ services:
           - ./docker/php/8.2/cli/php.ini:/usr/local/etc/php/php.ini
       working_dir: /usr/share/chess-data
   mysql:
-      image: mysql:8.0
+      image: mysql:8.4
       container_name: chess_data_mysql
       ports:
           - "3306:3306"

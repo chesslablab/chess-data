@@ -46,7 +46,11 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#run-the-cli-commands-on-a-docker-container">Run the CLI Commands on a Docker Container</a>
     </li>
     </ul>
                 </li>
@@ -79,6 +83,10 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="installation">Installation</h1>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>PHP &gt;= 8.1</li>
+</ul>
 <h2 id="setup">Setup</h2>
 <p>Clone the <code>chesslablab/chess-data</code> repo into your projects folder. Then <code>cd</code> the <code>chess-data</code> directory and install the Composer dependencies:</p>
 <pre><code class="language-text">composer install
@@ -86,7 +94,7 @@
 <p>Create an <code>.env</code> file:</p>
 <pre><code class="language-text">cp .env.example .env
 </code></pre>
-<p>Update the environment variables in your <code>.env</code> file if necessary:</p>
+<p>Update the variables in your <code>.env</code> file as desired for your specific needs:</p>
 <pre><code class="language-text">DB_DRIVER=mysql
 DB_HOST=localhost
 DB_PORT=3306
@@ -96,6 +104,13 @@ DB_PASSWORD=
 </code></pre>
 <p>Finally, create the <code>chess</code> database:</p>
 <pre><code class="language-text">php cli/db-create.php
+</code></pre>
+<h2 id="run-the-cli-commands-on-a-docker-container">Run the CLI Commands on a Docker Container</h2>
+<p>Alternatively, you may want to start the Docker containers to run the CLI commands.</p>
+<pre><code class="language-text">docker-compose up -d
+</code></pre>
+<p>Then create the <code>chess</code> database:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php_fpm php cli/db-create.php
 </code></pre>
               
             </div>

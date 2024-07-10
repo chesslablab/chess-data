@@ -1,5 +1,9 @@
 # Installation
 
+## Requirements
+
+- PHP >= 8.1
+
 ## Setup
 
 Clone the `chesslablab/chess-data` repo into your projects folder. Then `cd` the `chess-data` directory and install the Composer dependencies:
@@ -14,7 +18,7 @@ Create an `.env` file:
 cp .env.example .env
 ```
 
-Update the environment variables in your `.env` file if necessary:
+Update the variables in your `.env` file as desired for your specific needs:
 
 ```text
 DB_DRIVER=mysql
@@ -29,4 +33,18 @@ Finally, create the `chess` database:
 
 ```text
 php cli/db-create.php
+```
+
+## Run the CLI Commands on a Docker Container
+
+Alternatively, you may want to start the Docker containers to run the CLI commands.
+
+```text
+docker-compose up -d
+```
+
+Then create the `chess` database:
+
+```text
+docker exec -itu 1000:1000 chess_data_php_fpm php cli/db-create.php
 ```

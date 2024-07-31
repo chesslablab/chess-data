@@ -79,7 +79,7 @@
                 <h1 id="seed-the-tables-with-data">Seed the Tables with Data</h1>
 <p>Tables are loaded using the files contained in the <code>data</code> folder and can be loaded either all at once or file by file. Listed below are some examples of commands to seed the <code>games</code> table with data.</p>
 <p>Seed the <code>games</code> table with all the files contained in the <code>data/example</code> folder:</p>
-<pre><code class="language-text">php cli/seed/games.php data/example
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example
 ✗ 2 games did not pass the validation.
 ✓ 4142 games out of a total of 4144 are OK.
 ✓ 597 games out of a total of 597 are OK.
@@ -98,19 +98,19 @@
 ✓ 3444 games out of a total of 3444 are OK.
 </code></pre>
 <p>Seed the <code>games</code> table file by file:</p>
-<pre><code class="language-text">php cli/seed/games.php data/example/Anand.pgn
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example/Anand.pgn
 ✗ 2 games did not pass the validation.
 ✓ 4142 games out of a total of 4144 are OK.
 </code></pre>
 <p>Seed the <code>games</code> table with your own set of files in the <code>data/games</code> folder:</p>
-<pre><code class="language-text">php cli/seed/games.php data/games
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/games
 </code></pre>
 <p>Please note that all files in the <code>data</code> folder are gitignored except those contained in <code>data/example</code>.</p>
 <p>Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
 <pre><code class="language-text">find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
 </code></pre>
 <p>Listed below is how to seed the <code>openings</code> table with data.</p>
-<pre><code class="language-text">php cli/seed/openings.php data/openings
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
 </code></pre>
               
             </div>

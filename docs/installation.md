@@ -46,5 +46,5 @@ docker-compose up -d
 Then create the `chess` database:
 
 ```text
-docker exec -itu 1000:1000 chess_data_php_fpm php cli/db-create.php
+docker exec -itu 1000:1000 chess_data_php php cli/db-create.php
 ```

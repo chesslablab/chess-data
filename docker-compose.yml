@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
-  php_fpm:
+  php:
       build: .
-      container_name: chess_data_php_fpm
+      container_name: chess_data_php
       restart: always
       volumes:
           - ./:/usr/share/chess-data

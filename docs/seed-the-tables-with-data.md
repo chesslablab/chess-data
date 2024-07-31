@@ -5,7 +5,7 @@ Tables are loaded using the files contained in the `data` folder and can be load
 Seed the `games` table with all the files contained in the `data/example` folder:
 
 ```text
-php cli/seed/games.php data/example
+docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example
 ✗ 2 games did not pass the validation.
 ✓ 4142 games out of a total of 4144 are OK.
 ✓ 597 games out of a total of 597 are OK.
@@ -27,7 +27,7 @@ php cli/seed/games.php data/example
 Seed the `games` table file by file:
 
 ```text
-php cli/seed/games.php data/example/Anand.pgn
+docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example/Anand.pgn
 ✗ 2 games did not pass the validation.
 ✓ 4142 games out of a total of 4144 are OK.
 ```
@@ -35,7 +35,7 @@ php cli/seed/games.php data/example/Anand.pgn
 Seed the `games` table with your own set of files in the `data/games` folder:
 
 ```text
-php cli/seed/games.php data/games
+docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/games
 ```
 
 Please note that all files in the `data` folder are gitignored except those contained in `data/example`.
@@ -49,5 +49,5 @@ find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 Listed below is how to seed the `openings` table with data.
 
 ```text
-php cli/seed/openings.php data/openings
+docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
 ```

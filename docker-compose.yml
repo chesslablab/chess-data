@@ -1,11 +1,13 @@
 services:
   php:
       build: .
+      user: 1000:1000
       container_name: chess_data_php
       restart: always
       volumes:
           - ./:/usr/share/chess-data
-          - ./docker/php/8.2/cli/php.ini:/usr/local/etc/php/php.ini
+          - /usr/share/nginx/chess-data/vendor
+          - ./docker/php/8.3/cli/php.ini:/usr/local/etc/php/php.ini
       working_dir: /usr/share/chess-data
   mysql:
       image: mysql:8.4

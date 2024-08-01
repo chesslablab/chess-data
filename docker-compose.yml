@@ -6,7 +6,7 @@ services:
       restart: always
       volumes:
           - ./:/usr/share/chess-data
-          - /usr/share/nginx/chess-data/vendor
+          - /usr/share/chess-data/vendor
           - ./docker/php/8.3/cli/php.ini:/usr/local/etc/php/php.ini
       working_dir: /usr/share/chess-data
   mysql:

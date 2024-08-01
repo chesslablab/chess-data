@@ -9,7 +9,7 @@ cp .env.example .env
 Run the Docker container in detached mode in the background:
 
 ```txt
-docker-compose up -d
+docker compose up -d
 ```
 
 Update the `.env` file to your specific needs and create the `chess` database:

@@ -4,4 +4,5 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Seed the Tables with Data: seed-the-tables-with-data.md
+  - Create JSON Files: create-json-files.md
 theme: readthedocs

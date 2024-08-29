@@ -3,15 +3,22 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="shortcut icon" href="/chess-data/img/favicon.ico" />
-    <title>Chess Data</title>
-    <link rel="stylesheet" href="/chess-data/css/theme.css" />
-    <link rel="stylesheet" href="/chess-data/css/theme_extra.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://chesslablab.github.io/chess-data/create-json-files/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Create JSON Files - Chess Data</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Create JSON Files";
+        var mkdocs_page_input_path = "create-json-files.md";
+        var mkdocs_page_url = "/chess-data/create-json-files/";
+      </script>
+    
     <!--[if lt IE 9]>
-      <script src="/chess-data/js/html5shiv.min.js"></script>
+      <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
       <script>hljs.highlightAll();</script> 
@@ -23,9 +30,9 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="/chess-data/." class="icon icon-home"> Chess Data
+          <a href=".." class="icon icon-home"> Chess Data
         </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="/chess-data//search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
@@ -33,19 +40,21 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/chess-data/.">Home</a>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/chess-data/installation/">Installation</a>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/chess-data/seed-the-tables-with-data/">Seed the Tables with Data</a>
+                <li class="toctree-l1"><a class="reference internal" href="../seed-the-tables-with-data/">Seed the Tables with Data</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="/chess-data/create-json-files/">Create JSON Files</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Create JSON Files</a>
+    <ul class="current">
+    </ul>
                 </li>
               </ul>
       </div>
@@ -55,13 +64,14 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="/chess-data/.">Chess Data</a>
+          <a href="..">Chess Data</a>
         
       </nav>
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="/chess-data/." class="icon icon-home" aria-label="Docs"></a></li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Create JSON Files</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -70,14 +80,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-
-  <h1 id="404-page-not-found">404</h1>
-
-  <p><strong>Page not found</strong></p>
-
-
+                <h1 id="create-json-files">Create JSON Files</h1>
+<p>The following commands will create JSON output for further use by other applications such as <a href="https://github.com/chesslablab/chess-server">PHP Chess Server</a>.</p>
+<p>Most played chess openings:</p>
+<pre><code class="language-text">php cli/json/most_played_openings.php &gt; most_played_openings.json
+</code></pre>
+              
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../seed-the-tables-with-data/" class="btn btn-neutral float-left" title="Seed the Tables with Data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
 
   <hr/>
 
@@ -99,14 +112,16 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
+      <span><a href="../seed-the-tables-with-data/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
     
   </span>
 </div>
-    <script src="/chess-data/js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = "/chess-data/";</script>
-    <script src="/chess-data/js/theme_extra.js"></script>
-    <script src="/chess-data/js/theme.js"></script>
-      <script src="/chess-data/search/main.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
     <script>
         jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);

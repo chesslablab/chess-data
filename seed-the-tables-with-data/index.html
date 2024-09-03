@@ -113,8 +113,11 @@
 <p>Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
 <pre><code class="language-text">find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
 </code></pre>
-<p>Listed below is how to seed the <code>openings</code> table with data.</p>
+<p>Seed the <code>openings</code> table:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
+</code></pre>
+<p>Seed the <code>users</code> table with fake random generated usernames:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php
 </code></pre>
               
             </div>

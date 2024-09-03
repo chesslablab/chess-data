@@ -46,8 +46,14 @@ Also, the chess games won't be loaded into the database if containing PGN tags o
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 ```
 
-Listed below is how to seed the `openings` table with data.
+Seed the `openings` table:
 
 ```text
 docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
+```
+
+Seed the `users` table with fake random generated usernames:
+
+```text
+docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php
 ```

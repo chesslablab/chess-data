@@ -1,6 +1,6 @@
 # Seed the Tables with Data
 
-Tables are loaded using the files contained in the `data` folder and can be loaded either all at once or file by file. Listed below are some examples of commands to seed the `games` table with data.
+As a rule of thumb, tables are loaded using the files contained in the `data` folder and can be loaded either all at once or file by file. Listed below are some examples of commands to seed the `games` table with data.
 
 Seed the `games` table with all the files contained in the `data/example` folder:
 
@@ -45,6 +45,8 @@ Also, the chess games won't be loaded into the database if containing PGN tags o
 ```text
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 ```
+
+In addition to the `games` table, there are also tables for chess `openings` and `users`.
 
 Seed the `openings` table:
 

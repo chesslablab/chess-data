@@ -37,7 +37,8 @@ class DbCreateCli extends CLI
 
         $sql = 'CREATE TABLE users (' .
             ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
-            'name VARCHAR(512) NULL, ' .
+            'username VARCHAR(128) NULL, ' .
+            'lastLoginAt TIMESTAMP NULL, ' .
             'PRIMARY KEY (id) ' .
         ') ENGINE = InnoDB';
 

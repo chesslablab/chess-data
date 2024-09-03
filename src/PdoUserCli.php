@@ -37,7 +37,7 @@ abstract class PdoUserCli extends CLI
     {
         foreach ($this->username->getAdjectives() as $adjective) {
             foreach ($this->username->getAnimals() as $animal) {
-                $this->seed($adjective . $animal);
+                $this->seed($adjective . '_' . mb_strtolower($animal));
             }
         }
     }

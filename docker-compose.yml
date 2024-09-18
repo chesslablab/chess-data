@@ -17,6 +17,7 @@ services:
       restart: always
       volumes:
           - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+          - ./docker/mysql/conf.d/custom.cnf:/etc/mysql/conf.d/custom.cnf
       environment:
           - MYSQL_ALLOW_EMPTY_PASSWORD=1
           - MYSQL_DATABASE=${DB_DATABASE}

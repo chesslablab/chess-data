@@ -46,17 +46,14 @@ class DbCreateCli extends CLI
         $pdo->query($sql);
 
         $sql = 'CREATE TABLE openings (' .
-            ' id smallint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
             'eco CHAR(3) NULL, ' .
             'name VARCHAR(512) NULL, ' .
-            'movetext VARCHAR(1024) NULL, ' .
-            'PRIMARY KEY (id) ' .
-        ') ENGINE = InnoDB';
+            'movetext VARCHAR(1024) NULL ' .
+        ') ENGINE = MyISAM';
 
         $pdo->query($sql);
 
         $sql = 'CREATE TABLE games (' .
-            ' id mediumint UNSIGNED NOT NULL AUTO_INCREMENT, ' .
             Tag::EVENT              . ' CHAR(64) NULL, ' .
             Tag::SITE               . ' CHAR(64) NULL, ' .
             Tag::DATE               . ' CHAR(16) NULL, ' .
@@ -67,9 +64,8 @@ class DbCreateCli extends CLI
             Tag::BLACK_ELO          . ' CHAR(8) NULL, ' .
             Tag::ECO                . ' CHAR(8) NULL, ' .
             Tag::FEN                . ' CHAR(64) NULL, ' .
-            ' movetext  VARCHAR(3072), ' .
-            'PRIMARY KEY (id) ' .
-        ') ENGINE = InnoDB';
+            ' movetext  VARCHAR(8192) ' .
+        ') ENGINE = MyISAM';
 
         $pdo->query($sql);
 

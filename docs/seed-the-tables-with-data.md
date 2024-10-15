@@ -57,5 +57,5 @@ docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/opening
 Seed the `users` table with fake random generated usernames:
 
 ```text
-docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php
+docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php 5000
 ```

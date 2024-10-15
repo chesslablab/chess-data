@@ -31,13 +31,24 @@ abstract class PdoUserCli extends CLI
     protected function setup(Options $options)
     {
         $options->setHelp("Seeds the {$this->table} table.");
+        $options->registerArgument('limit', 'Limit the number of users to be created.', true);
     }
 
     protected function main(Options $options)
     {
-        foreach ($this->username->getAdjectives() as $adjective) {
-            foreach ($this->username->getAnimals() as $animal) {
-                $this->seed($adjective . '_' . mb_strtolower($animal));
+        $i = 0;
+        $adjectives = $this->username->getAdjectives();
+        $animals = $this->username->getAnimals();
+        shuffle($adjectives);
+        shuffle($animals);
+        foreach ($animals as $animal) {
+            foreach ($adjectives as $adjective) {
+                if ($i < $options->getArgs()[0]) {
+                    $this->seed($adjective . '_' . mb_strtolower($animal));
+                    $i += 1;
+                } else {
+                    break 2;
+                }
             }
         }
     }

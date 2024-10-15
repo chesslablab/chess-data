@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://chesslablab.github.io/chess-data/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chesslablab.github.io/chess-data/create-json-files/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chesslablab.github.io/chess-data/installation/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chesslablab.github.io/chess-data/seed-the-tables-with-data/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

@@ -4,25 +4,73 @@ namespace ChessData\Cli\Calc;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use Chess\SanHeuristic;
+use Chess\Function\FastFunction;
+use ChessData\Pdo;
+use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
 
 class Heuristics extends CLI
 {
-    // register options and arguments
-    protected function setup(Options $options)
+    protected $pdo;
+
+    protected $table = 'games';
+
+    public function __construct()
     {
-        $options->setHelp('A very minimal example that does nothing but print a version');
-        $options->registerOption('version', 'print version', 'v');
+        parent::__construct(true);
+
+        $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
+        $dotenv->load();
+
+        $conf = include(__DIR__ . '/../../config/database.php');
+
+        $this->pdo = Pdo::getInstance($conf);
     }
 
-    // implement your code
+    protected function setup(Options $options)
+    {
+        $options->setHelp('Calculates the heuristics data for each game.');
+    }
+
     protected function main(Options $options)
     {
-        if ($options->getOpt('version')) {
-            $this->info('1.0.0');
-        } else {
-            echo $options->help();
+        $fastFunction = new FastFunction();
+
+        $sql = 'SELECT * FROM games';
+
+        $rows = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            $value = [];
+
+            foreach ($fastFunction->names() as $name) {
+                $value[] = (new SanHeuristic(
+                    $fastFunction,
+                    $name,
+                    $row['movetext']
+                ))->getBalance();
+            }
+
+            $sql = "UPDATE {$this->table} SET heuristics = :heuristics WHERE movetext = :movetext";
+
+            $values = [
+                [
+                    'param' => ':heuristics',
+                    'value' => json_encode($value, true),
+                    'type' => \PDO::PARAM_STR,
+                ],
+                [
+                    'param' => ':movetext',
+                    'value' => $row['movetext'],
+                    'type' => \PDO::PARAM_STR,
+                ],
+            ];
+
+            try {
+                $this->pdo->query($sql, $values);
+            } catch (\Exception $e) {}
         }
     }
 }

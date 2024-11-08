@@ -1,4 +1,4 @@
-# Seed the Tables with Data
+# Seed the Tables
 
 As a rule of thumb, tables are loaded using the files contained in the `data` folder and can be loaded either all at once or file by file. Listed below are some examples of commands to seed the `games` table with data.
 

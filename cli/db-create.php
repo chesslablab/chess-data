@@ -63,7 +63,6 @@ class DbCreateCli extends CLI
             Tag::WHITE_ELO          . ' CHAR(8) NULL, ' .
             Tag::BLACK_ELO          . ' CHAR(8) NULL, ' .
             Tag::ECO                . ' CHAR(8) NULL, ' .
-            Tag::FEN                . ' CHAR(64) NULL, ' .
             ' heuristics JSON NULL, ' .
             ' movetext  VARCHAR(8192) NOT NULL ' .
         ') ENGINE = MyISAM';

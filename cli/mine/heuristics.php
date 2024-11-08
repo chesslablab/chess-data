@@ -35,13 +35,22 @@ class Heuristics extends CLI
     protected function setup(Options $options)
     {
         $options->setHelp('Apply analytics to mine for heuristics insights.');
+        $options->registerArgument('player', 'The name of the player.', true);
     }
 
     protected function main(Options $options)
     {
-        $sql = 'SELECT * FROM games';
+        $values = [
+            [
+                'param' => ":player",
+                'value' => $options->getArgs()[0],
+                'type' => \PDO::PARAM_STR,
+            ],
+        ];
 
-        $rows = $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM games WHERE White = :player OR Black = :player";
+
+        $rows = $this->pdo->query($sql, $values)->fetchAll(\PDO::FETCH_ASSOC);
 
         foreach ($rows as $row) {
             $value = [];

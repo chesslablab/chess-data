@@ -1,6 +1,6 @@
 <?php
 
-namespace ChessData\Cli\Calc;
+namespace ChessData\Cli\Mine;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 

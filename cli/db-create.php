@@ -64,7 +64,8 @@ class DbCreateCli extends CLI
             Tag::BLACK_ELO          . ' CHAR(8) NULL, ' .
             Tag::ECO                . ' CHAR(8) NULL, ' .
             Tag::FEN                . ' CHAR(64) NULL, ' .
-            ' movetext  VARCHAR(8192) ' .
+            ' heuristics JSON NULL, ' .
+            ' movetext  VARCHAR(8192) NOT NULL ' .
         ') ENGINE = MyISAM';
 
         $pdo->query($sql);

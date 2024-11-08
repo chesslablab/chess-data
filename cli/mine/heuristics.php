@@ -31,7 +31,7 @@ class Heuristics extends CLI
 
     protected function setup(Options $options)
     {
-        $options->setHelp('Calculates the heuristics data for each game.');
+        $options->setHelp('Apply analytics to mine for heuristics insights.');
     }
 
     protected function main(Options $options)

@@ -1,6 +1,10 @@
 # Seed the Tables
 
-As a rule of thumb, tables are loaded using the files contained in the `data` folder and can be loaded either all at once or file by file. Listed below are some examples of commands to seed the `games` table with data.
+The chess database consists of these tables: `games`, `openings` and `users`. The `games` table is seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
+
+## `games`
+
+This table can be seeded with the PGN files contained in the `data/example` folder, and can be loaded either all at once or file by file as it is shown in the examples below.
 
 Seed the `games` table with all the files contained in the `data/example` folder:
 
@@ -32,29 +36,29 @@ docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example/An
 ✓ 4142 games out of a total of 4144 are OK.
 ```
 
-Seed the `games` table with your own set of files in the `data/games` folder:
+The `games` table can also be seeded with your own set of PGN files in the `data/games` folder:
 
 ```text
 docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/games
 ```
 
-Please note that all files in the `data` folder are gitignored except those contained in `data/example`.
-
-Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as shown in the example below.
+Please note that all files in the `data` folder are gitignored except those contained in `data/example`. The chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as shown in the example below.
 
 ```text
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 ```
 
-In addition to the `games` table, there are also tables for chess `openings` and `users`.
+## `openings`
 
-Seed the `openings` table:
+This table is seeded with the CSV files contained in the `data/openings` folder.
 
 ```text
 docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
 ```
 
-Seed the `users` table with fake random generated usernames:
+## `users`
+
+This is how to seed the `users` table with fake random generated usernames:
 
 ```text
 docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php 5000

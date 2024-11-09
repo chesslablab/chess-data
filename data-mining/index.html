@@ -91,7 +91,9 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="data-mining">Data Mining</h1>
-<p>The precondition for data mining is to seed the tables with data. The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the database tables. Please note the difference with the seed commands, which are meant for loading the tables with data. Listed below are some examples of commands to populate the <code>_mine</code> columns with pre-calculated data.</p>
+<p>The precondition for data mining is to seed the tables with data.</p>
+<p>The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the database tables. Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
+<p>Listed below are some examples of commands to populate the <code>_mine</code> columns with pre-calculated data.</p>
 <p>Populate the <code>heuristics_mine</code> column in the <code>games</code> table with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre></div>

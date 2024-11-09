@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://chesslablab.github.io/chess-data/bootstrap-the-database/</loc>
+         <lastmod>2024-11-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://chesslablab.github.io/chess-data/create-json-files/</loc>
          <lastmod>2024-11-09</lastmod>
          <changefreq>daily</changefreq>
@@ -17,11 +22,6 @@
     </url>
     <url>
          <loc>https://chesslablab.github.io/chess-data/installation/</loc>
-         <lastmod>2024-11-09</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://chesslablab.github.io/chess-data/seed-the-tables/</loc>
          <lastmod>2024-11-09</lastmod>
          <changefreq>daily</changefreq>
     </url>

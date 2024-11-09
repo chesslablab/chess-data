@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="https://chesslablab.github.io/chess-data/seed-the-tables-with-data/">
+        <link rel="canonical" href="https://chesslablab.github.io/chess-data/data-mining/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Seed the Tables with Data - Chess Data</title>
+        <title>Data Mining - Chess Data</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -36,8 +36,8 @@
                             <li class="navitem">
                                 <a href="../installation/" class="nav-link">Installation</a>
                             </li>
-                            <li class="navitem active">
-                                <a href="./" class="nav-link">Seed the Tables with Data</a>
+                            <li class="navitem">
+                                <a href="../seed-the-tables/" class="nav-link">Seed the Tables</a>
                             </li>
                             <li class="navitem">
                                 <a href="../create-json-files/" class="nav-link">Create JSON Files</a>
@@ -50,16 +50,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../installation/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../create-json-files/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -78,7 +68,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#seed-the-tables-with-data" class="nav-link">Seed the Tables with Data</a>
+            <li class="nav-item" data-level="1"><a href="#data-mining" class="nav-link">Data Mining</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -87,45 +77,10 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="seed-the-tables-with-data">Seed the Tables with Data</h1>
-<p>As a rule of thumb, tables are loaded using the files contained in the <code>data</code> folder and can be loaded either all at once or file by file. Listed below are some examples of commands to seed the <code>games</code> table with data.</p>
-<p>Seed the <code>games</code> table with all the files contained in the <code>data/example</code> folder:</p>
-<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example
-✗ 2 games did not pass the validation.
-✓ 4142 games out of a total of 4144 are OK.
-✓ 597 games out of a total of 597 are OK.
-✗ 1 games did not pass the validation.
-✓ 1824 games out of a total of 1825 are OK.
-✓ 3878 games out of a total of 3878 are OK.
-✓ 4646 games out of a total of 4646 are OK.
-✗ 2 games did not pass the validation.
-✓ 2126 games out of a total of 2128 are OK.
-✓ 2275 games out of a total of 2275 are OK.
-✓ 1218 games out of a total of 1218 are OK.
-✓ 827 games out of a total of 827 are OK.
-✗ 5 games did not pass the validation.
-✓ 1341 games out of a total of 1346 are OK.
-✓ 5662 games out of a total of 5662 are OK.
-✓ 3444 games out of a total of 3444 are OK.
-</code></pre>
-<p>Seed the <code>games</code> table file by file:</p>
-<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example/Anand.pgn
-✗ 2 games did not pass the validation.
-✓ 4142 games out of a total of 4144 are OK.
-</code></pre>
-<p>Seed the <code>games</code> table with your own set of files in the <code>data/games</code> folder:</p>
-<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/games
-</code></pre>
-<p>Please note that all files in the <code>data</code> folder are gitignored except those contained in <code>data/example</code>.</p>
-<p>Also, the chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
-<pre><code class="language-text">find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
-</code></pre>
-<p>In addition to the <code>games</code> table, there are also tables for chess <code>openings</code> and <code>users</code>.</p>
-<p>Seed the <code>openings</code> table:</p>
-<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
-</code></pre>
-<p>Seed the <code>users</code> table with fake random generated usernames:</p>
-<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php 5000
+<h1 id="data-mining">Data Mining</h1>
+<p>The precondition for data mining is to seed the tables with data. The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the database tables. Please note the difference with the seed commands, which are meant for loading the tables with data. Listed below are some examples of commands to populate the <code>_mine</code> columns with pre-calculated data.</p>
+<p>Populate the <code>heuristics_mine</code> column in the <code>games</code> table with heuristics data on a player basis:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre></div>
             </div>
         </div>

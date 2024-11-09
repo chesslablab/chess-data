@@ -4,5 +4,6 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Seed the Tables: seed-the-tables.md
+  - Data Mining: data-mining.md
   - Create JSON Files: create-json-files.md
 theme: mkdocs

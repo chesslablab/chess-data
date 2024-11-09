@@ -1,6 +1,6 @@
-# Seed the Tables
+# Bootstrap the Database
 
-The chess database consists of these tables: `games`, `openings` and `users`. The `games` table is seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
+The chess database consists of these tables: `games`, `openings` and `users`. The `games` table is to be seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
 
 ## `games`
 

@@ -3,6 +3,6 @@ site_url: https://chesslablab.github.io/chess-data/
 nav:
   - Home: index.md
   - Installation: installation.md
-  - Seed the Tables with Data: seed-the-tables-with-data.md
+  - Seed the Tables: seed-the-tables.md
   - Create JSON Files: create-json-files.md
 theme: mkdocs

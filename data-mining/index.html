@@ -83,6 +83,14 @@
             
             <li class="nav-item" data-level="1"><a href="#data-mining" class="nav-link">Data Mining</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#heuristics_mine" class="nav-link">heuristics_mine</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#fen_mine" class="nav-link">fen_mine</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -91,11 +99,17 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="data-mining">Data Mining</h1>
-<p>The precondition for data mining is to seed the tables with data.</p>
+<p>The precondition for data mining is to seed the <code>games</code> table with data.</p>
 <p>The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the database tables. Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
-<p>Listed below are some examples of commands to populate the <code>_mine</code> columns with pre-calculated data.</p>
-<p>Populate the <code>heuristics_mine</code> column in the <code>games</code> table with heuristics data on a player basis:</p>
+<h2 id="heuristics_mine"><code>heuristics_mine</code></h2>
+<p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves.</p>
+<p>The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
+</code></pre>
+<h2 id="fen_mine"><code>fen_mine</code></h2>
+<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
+<p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
 </code></pre></div>
             </div>
         </div>

@@ -100,15 +100,13 @@
 
 <h1 id="data-mining">Data Mining</h1>
 <p>The precondition for data mining is to seed the <code>games</code> table with data.</p>
-<p>The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the database tables. Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
+<p>The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the <code>games</code> table. Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
 <h2 id="heuristics_mine"><code>heuristics_mine</code></h2>
-<p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves.</p>
-<p>The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
+<p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves. The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
 <h2 id="fen_mine"><code>fen_mine</code></h2>
-<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
-<p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
+<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format. The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
 </code></pre></div>
             </div>

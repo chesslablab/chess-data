@@ -4,9 +4,9 @@ namespace ChessData\Cli\Seed;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use ChessData\PdoUserCli;
+use splitbrain\phpcli\CLI;
 
-class Users extends PdoUserCli
+class Users extends CLI
 {
     protected $table = 'users';
 }

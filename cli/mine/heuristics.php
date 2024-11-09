@@ -63,11 +63,11 @@ class Heuristics extends CLI
                 ))->getBalance();
             }
 
-            $sql = "UPDATE {$this->table} SET heuristics = :heuristics WHERE movetext = :movetext";
+            $sql = "UPDATE {$this->table} SET heuristics_mine = :heuristics_mine WHERE movetext = :movetext";
 
             $values = [
                 [
-                    'param' => ':heuristics',
+                    'param' => ':heuristics_mine',
                     'value' => json_encode($value, true),
                     'type' => \PDO::PARAM_STR,
                 ],

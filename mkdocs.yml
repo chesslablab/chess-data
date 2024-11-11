@@ -3,5 +3,4 @@ site_url: https://chesslablab.github.io/chess-data/
 nav:
   - Home: index.md
   - Data Mining: data-mining.md
-  - Create JSON Files: create-json-files.md
 theme: mkdocs

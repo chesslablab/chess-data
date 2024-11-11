@@ -6,13 +6,15 @@ The CLI commands described below are to populate the columns suffixed with the w
 
 | Diamonds | Description |
 | :------- | :---------- |
-| 💎 | The data mining command is not time-consuming |
-| 💎💎 | The data mining command is not too time-consuming  |
-| 💎💎💎 | The data mining command is time-consuming |
+| 💎 | The data mining command is not time-consuming. |
+| 💎💎 | The data mining command is not too time-consuming.  |
+| 💎💎💎 | The data mining command is time-consuming. |
 
 Please note the difference with the seed commands, which are meant for loading the tables with data.
 
-## 💎 `fen.php`
+## CLI Commands
+
+### 💎 `fen.php`
 
 The example below populates the `fen_mine` column with chess positions in FEN format on a player basis:
 
@@ -22,7 +24,7 @@ docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php "Anand,V"
 
 This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.
 
-## 💎💎💎 `heuristics.php`
+### 💎💎💎 `heuristics.php`
 
 The example below populates the `heuristics_mine` column with heuristics data on a player basis:
 
@@ -32,7 +34,7 @@ docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php "Anand,V"
 
 This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of [MySQL JSON functions](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html) to perform operations on JSON values like in the following examples.
 
-### Example
+#### Example
 
 Fetch the material evaluation in all games won by Anand with the white pieces.
 
@@ -55,7 +57,7 @@ See:
 
 Thus, `$[0]` corresponds to the material evaluation in the fast function array.
 
-### Example
+#### Example
 
 Fetch the material evaluation for the tenth move (20 plies) in all games won by Anand with the black pieces.
 
@@ -70,7 +72,7 @@ WHERE
   AND Result = '0-1';
 ```
 
-### Example
+#### Example
 
 Fetch the games won by Anand with the black pieces having a material disadvantage of at least 0.1 in the tenth move.
 
@@ -91,7 +93,7 @@ HAVING
   Material >= 0.1;
 ```
 
-### Example
+#### Example
 
 Convert a material evaluation array from JSON to MySQL for further processing.
 
@@ -119,7 +121,7 @@ FROM
   ) material;
 ```
 
-### Example
+#### Example
 
 Sum all elements in the previous material evaluation array.
 

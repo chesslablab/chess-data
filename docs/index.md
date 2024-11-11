@@ -27,7 +27,21 @@ docker exec -itu 1000:1000 chess_data_php php cli/db-create.php
 
 ## Bootstrapping
 
-The chess database consists of these tables: `games`, `openings` and `users`. The `games` table is to be seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
+The chess database consists of these tables: `games`, `openings` and `users`.
+
+```text
+mysql> show tables;
++-----------------+
+| Tables_in_chess |
++-----------------+
+| games           |
+| openings        |
+| users           |
++-----------------+
+3 rows in set (0.00 sec)
+```
+
+The `games` table is to be seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
 
 ### 🗓 `games`
 

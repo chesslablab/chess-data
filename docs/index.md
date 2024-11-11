@@ -29,7 +29,7 @@ docker exec -itu 1000:1000 chess_data_php php cli/db-create.php
 
 The chess database consists of these tables: `games`, `openings` and `users`. The `games` table is to be seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
 
-## `games`
+### 🗓 `games`
 
 This table can be seeded with the PGN files contained in the `data/example` folder, and can be loaded either all at once or file by file as it is shown in the examples below.
 
@@ -75,7 +75,7 @@ Please note that all files in the `data` folder are gitignored except those cont
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 ```
 
-## `openings`
+### 🗓 `openings`
 
 This table is seeded with the CSV files contained in the `data/openings` folder.
 
@@ -83,7 +83,7 @@ This table is seeded with the CSV files contained in the `data/openings` folder.
 docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
 ```
 
-## `users`
+### 🗓 `users`
 
 This is how to seed the `users` table with fake random generated usernames:
 

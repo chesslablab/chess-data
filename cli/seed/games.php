@@ -20,7 +20,7 @@ class Games extends CLI
     {
         parent::__construct();
 
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         $conf = include(__DIR__ . '/../../config/database.php');
@@ -40,7 +40,7 @@ class Games extends CLI
             $result = $this->seed($options->getArgs()[0]);
             $this->display($result);
         } elseif (is_dir($options->getArgs()[0])) {
-            $dir = __DIR__.'/../../'.$options->getArgs()[0];
+            $dir = __DIR__ . '/../../' . $options->getArgs()[0];
             $dirIterator = new \DirectoryIterator($dir);
             foreach ($dirIterator as $fileinfo) {
                 if (!$fileinfo->isDot()) {
@@ -71,7 +71,6 @@ class Games extends CLI
         try {
             $seeder->seed();
         } catch (\Exception $e) {
-
         }
 
         return $seeder->getResult();

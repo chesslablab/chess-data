@@ -21,7 +21,7 @@ class Openings extends CLI
     {
         parent::__construct();
 
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         $conf = include(__DIR__ . '/../../config/database.php');
@@ -46,7 +46,7 @@ class Openings extends CLI
     {
         if (is_file($filepath)) {
             $file = fopen($filepath, 'r');
-            while (($line = fgetcsv($file)) !== FALSE) {
+            while (($line = fgetcsv($file)) !== false) {
                 $move = new Move();
                 $text = $line[2];
                 if ($movetext = (new SanMovetext($move, $text))->validate()) {
@@ -70,7 +70,8 @@ class Openings extends CLI
                     ];
                     try {
                         $this->pdo->query($sql, $values);
-                    } catch (\Exception $e) {}
+                    } catch (\Exception $e) {
+                    }
                 }
             }
             fclose($file);

@@ -15,7 +15,7 @@ class DbCreateCli extends CLI
     {
         parent::__construct();
 
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
     }
 

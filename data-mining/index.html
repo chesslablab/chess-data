@@ -134,7 +134,7 @@
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
 <p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
-<h3 id="example-1">Example 1</h3>
+<h3 id="example">Example</h3>
 <p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
 <pre><code class="language-sql">SELECT
   JSON_EXTRACT(heuristics_mine, '$[0]')
@@ -151,7 +151,7 @@ WHERE
 <li><a href="https://github.com/chesslablab/php-chess/blob/main/src/Function/FastFunction.php">Chess\Function\FastFunction</a></li>
 </ul>
 <p>Thus, <code>$[0]</code> corresponds to the material evaluation in the fast function array.</p>
-<h3 id="example-2">Example 2</h3>
+<h3 id="example_1">Example</h3>
 <p>Fetch the material evaluation for the tenth move (20 plies) in all games won by Anand with the black pieces.</p>
 <pre><code class="language-sql">SELECT
   JSON_EXTRACT(heuristics_mine, '$[0][19]') as Material
@@ -162,7 +162,7 @@ WHERE
   AND Black = &quot;Anand,V&quot;
   AND Result = '0-1';
 </code></pre>
-<h3 id="example-3">Example 3</h3>
+<h3 id="example_2">Example</h3>
 <p>Fetch the games won by Anand with the black pieces having a material disadvantage of at least 0.1 in the tenth move.</p>
 <pre><code class="language-sql">SELECT
   movetext,
@@ -179,7 +179,7 @@ GROUP BY
 HAVING
   Material &gt;= 0.1;
 </code></pre>
-<h3 id="example-4">Example 4</h3>
+<h3 id="example_3">Example</h3>
 <p>Convert a material evaluation array from JSON to MySQL for further processing.</p>
 <pre><code class="language-sql">SET
   @j = (
@@ -201,7 +201,7 @@ FROM
     &quot;$[*]&quot; COLUMNS(balance FLOAT PATH &quot;$&quot;)
   ) material;
 </code></pre>
-<h3 id="example-5">Example 5</h3>
+<h3 id="example_4">Example</h3>
 <p>Sum all elements in the previous material evaluation array.</p>
 <pre><code class="language-sql">SELECT
   SUM(balance) as Sum

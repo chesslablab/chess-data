@@ -83,11 +83,11 @@
             
             <li class="nav-item" data-level="1"><a href="#data-mining" class="nav-link">Data Mining</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#fen_mine" class="nav-link">💎 fen_mine</a>
+            <li class="nav-item" data-level="2"><a href="#fenphp" class="nav-link">💎 fen.php</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#heuristics_mine" class="nav-link">💎💎💎 heuristics_mine</a>
+            <li class="nav-item" data-level="2"><a href="#heuristicsphp" class="nav-link">💎💎💎 heuristics.php</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -99,9 +99,8 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="data-mining">Data Mining</h1>
-<p>Data mining provides an additional boost to the SQL queries that can be performed on the chess database. The precondition for data mining is to seed the <code>games</code> table with data.</p>
-<p>The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the <code>games</code> table. Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
-<p>The algorithm used to mine data may be more or less time-consuming as per the number of diamonds below.</p>
+<p>Data mining provides an additional boost to the SQL queries that can be performed on the <code>games</code> table. The precondition for data mining is to seed the <code>games</code> table with data.</p>
+<p>An algorithm is required to process the data in the <code>games</code> table. The CLI commands described below are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. The algorithm used to mine data may be more or less time-consuming.</p>
 <table>
 <thead>
 <tr>
@@ -112,29 +111,29 @@
 <tbody>
 <tr>
 <td align="left">💎</td>
-<td align="left">A little time-consuming</td>
+<td align="left">The data mining command is a little time-consuming</td>
 </tr>
 <tr>
 <td align="left">💎💎</td>
-<td align="left">Not too time-consuming</td>
+<td align="left">The data mining command is not too time-consuming</td>
 </tr>
 <tr>
 <td align="left">💎💎💎</td>
-<td align="left">Time-consuming</td>
+<td align="left">The data mining command is time-consuming</td>
 </tr>
 </tbody>
 </table>
-<h2 id="fen_mine">💎 <code>fen_mine</code></h2>
-<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
+<p>Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
+<h2 id="fenphp">💎 <code>fen.php</code></h2>
 <p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
 </code></pre>
-<h2 id="heuristics_mine">💎💎💎 <code>heuristics_mine</code></h2>
-<p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves.</p>
+<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
+<h2 id="heuristicsphp">💎💎💎 <code>heuristics.php</code></h2>
 <p>The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
-<p>With the data from the heuristics mine, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
+<p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
 <h3 id="example-1">Example 1</h3>
 <p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
 <pre><code class="language-sql">SELECT

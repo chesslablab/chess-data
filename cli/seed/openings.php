@@ -13,9 +13,9 @@ use splitbrain\phpcli\Options;
 
 class Openings extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table = 'openings';
+    protected string $table = 'openings';
 
     public function __construct()
     {

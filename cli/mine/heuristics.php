@@ -13,9 +13,9 @@ use splitbrain\phpcli\Options;
 
 class Heuristics extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table = 'games';
+    protected string $table = 'games';
 
     protected FastFunction $fastFunction;
 

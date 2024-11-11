@@ -11,7 +11,7 @@ use splitbrain\phpcli\Options;
 
 class MostPlayedOpenings extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
     public function __construct()
     {

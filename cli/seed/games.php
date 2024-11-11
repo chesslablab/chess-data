@@ -8,7 +8,7 @@ use ChessData\PdoCli;
 
 class Games extends PdoCli
 {
-    protected $table = 'games';
+    protected string $table = 'games';
 }
 
 $cli = new Games();

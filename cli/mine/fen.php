@@ -12,9 +12,9 @@ use splitbrain\phpcli\Options;
 
 class Fen extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table = 'games';
+    protected string $table = 'games';
 
     public function __construct()
     {

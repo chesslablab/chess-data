@@ -34,9 +34,6 @@
                                 <a href="." class="nav-link">Home</a>
                             </li>
                             <li class="navitem">
-                                <a href="installation/" class="nav-link">Installation</a>
-                            </li>
-                            <li class="navitem">
                                 <a href="bootstrap-the-database/" class="nav-link">Bootstrap the Database</a>
                             </li>
                             <li class="navitem">
@@ -59,7 +56,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="installation/" class="nav-link">
+                                <a rel="next" href="bootstrap-the-database/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -83,6 +80,10 @@
             
             <li class="nav-item" data-level="1"><a href="#chess-data" class="nav-link">Chess Data</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#installation" class="nav-link">Installation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -93,7 +94,17 @@
 <h1 id="chess-data">Chess Data</h1>
 <p><a href="https://opensource.org/license/mit/"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /></a>
 <a href="https://github.com/chesslablab/chess-data/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/chesslablab/chess-data" /></a></p>
-<p>The simplest yet powerful MySQL chess database to learn and play chess online.</p></div>
+<p>The simplest yet powerful MySQL chess database to learn and play chess online.</p>
+<h2 id="installation">Installation</h2>
+<p>Clone the <code>chesslablab/chess-data</code> repo into your projects folder. Then <code>cd</code> the <code>chess-data</code> directory and create an <code>.env</code> file:</p>
+<pre><code class="language-txt">cp .env.example .env
+</code></pre>
+<p>Run the Docker container in detached mode in the background:</p>
+<pre><code class="language-txt">docker compose up -d
+</code></pre>
+<p>Update the <code>.env</code> file to your specific needs and create the <code>chess</code> database:</p>
+<p>```text
+docker exec -itu 1000:1000 chess_data_php php cli/db-create.php</p></div>
             </div>
         </div>
 
@@ -176,5 +187,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-11-11 12:16:24.765262+00:00
+Build Date UTC : 2024-11-11 13:14:47.770727+00:00
 -->

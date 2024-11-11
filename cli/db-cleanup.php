@@ -33,7 +33,7 @@ class DbCleanupCli extends CLI
     {
         parent::__construct();
 
-        $dotenv = Dotenv::createImmutable(__DIR_ . '/../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
 
         $conf = include(__DIR__ . '/../config/database.php');

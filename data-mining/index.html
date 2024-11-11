@@ -83,11 +83,11 @@
             
             <li class="nav-item" data-level="1"><a href="#data-mining" class="nav-link">Data Mining</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#heuristics_mine" class="nav-link">heuristics_mine</a>
+            <li class="nav-item" data-level="2"><a href="#fen_mine" class="nav-link">💎 fen_mine</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#fen_mine" class="nav-link">fen_mine</a>
+            <li class="nav-item" data-level="2"><a href="#heuristics_mine" class="nav-link">💎💎💎 heuristics_mine</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -101,15 +101,116 @@
 <h1 id="data-mining">Data Mining</h1>
 <p>Data mining provides an additional boost to the SQL queries that can be performed on the chess database. The precondition for data mining is to seed the <code>games</code> table with data.</p>
 <p>The following commands are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. With the <code>mine</code> commands, an algorithm is required to process the data in the <code>games</code> table. Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
-<h2 id="heuristics_mine"><code>heuristics_mine</code></h2>
+<p>The algorithm used to mine data may be more or less time-consuming as per the number of diamonds below.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Diamonds</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">💎</td>
+<td align="left">A little time-consuming</td>
+</tr>
+<tr>
+<td align="left">💎💎</td>
+<td align="left">Not too time-consuming</td>
+</tr>
+<tr>
+<td align="left">💎💎💎</td>
+<td align="left">Time-consuming</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fen_mine">💎 <code>fen_mine</code></h2>
+<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
+<p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
+</code></pre>
+<h2 id="heuristics_mine">💎💎💎 <code>heuristics_mine</code></h2>
 <p>This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves.</p>
 <p>The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
-<h2 id="fen_mine"><code>fen_mine</code></h2>
-<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
-<p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
-<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
+<p>With the data from the heuristics mine, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
+<h3 id="example-1">Example 1</h3>
+<p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
+<pre><code class="language-sql">SELECT
+  JSON_EXTRACT(heuristics_mine, '$[0]')
+FROM
+  games
+WHERE
+  heuristics_mine IS NOT NULL
+  AND White = &quot;Anand,V&quot;
+  AND Result = '1-0';
+</code></pre>
+<p>The index in the second parameter of the <code>JSON_EXTRACT</code> function <code>$[0]</code> corresponds to the index of the PHP Chess function being used in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php">cli/mine/heuristics.php</a> script.</p>
+<p>See:</p>
+<ul>
+<li><a href="https://github.com/chesslablab/php-chess/blob/main/src/Function/FastFunction.php">Chess\Function\FastFunction</a></li>
+</ul>
+<p>Thus, <code>$[0]</code> corresponds to the material evaluation in the fast function array.</p>
+<h3 id="example-2">Example 2</h3>
+<p>Fetch the material evaluation for the tenth move (20 plies) in all games won by Anand with the black pieces.</p>
+<pre><code class="language-sql">SELECT
+  JSON_EXTRACT(heuristics_mine, '$[0][19]') as Material
+FROM
+  games
+WHERE
+  heuristics_mine IS NOT NULL
+  AND Black = &quot;Anand,V&quot;
+  AND Result = '0-1';
+</code></pre>
+<h3 id="example-3">Example 3</h3>
+<p>Fetch the games won by Anand with the black pieces having a material disadvantage of at least 0.1 in the tenth move.</p>
+<pre><code class="language-sql">SELECT
+  movetext,
+  JSON_EXTRACT(heuristics_mine, '$[0][19]') as Material
+FROM
+  games
+WHERE
+  heuristics_mine IS NOT NULL
+  AND Black = &quot;Anand,V&quot;
+  AND Result = '0-1'
+GROUP BY
+  Material,
+  movetext
+HAVING
+  Material &gt;= 0.1;
+</code></pre>
+<h3 id="example-4">Example 4</h3>
+<p>Convert a material evaluation array from JSON to MySQL for further processing.</p>
+<pre><code class="language-sql">SET
+  @j = (
+    SELECT
+      JSON_EXTRACT(heuristics_mine, '$[0]') as Material
+    FROM
+      games
+    WHERE
+      heuristics_mine IS NOT NULL
+    LIMIT
+      1
+  );
+</code></pre>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  JSON_TABLE(
+    @j,
+    &quot;$[*]&quot; COLUMNS(balance FLOAT PATH &quot;$&quot;)
+  ) material;
+</code></pre>
+<h3 id="example-5">Example 5</h3>
+<p>Sum all elements in the previous material evaluation array.</p>
+<pre><code class="language-sql">SELECT
+  SUM(balance) as Sum
+FROM
+  JSON_TABLE(
+    @j,
+    &quot;$[*]&quot; COLUMNS(balance FLOAT PATH &quot;$&quot;)
+  ) material;
 </code></pre></div>
             </div>
         </div>

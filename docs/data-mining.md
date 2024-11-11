@@ -2,11 +2,11 @@
 
 Data mining provides an additional boost to the SQL queries that can be performed on the `games` table. The precondition for data mining is to seed the `games` table with data.
 
-An algorithm is required to process the data in the `games` table. The CLI commands described below are to populate the columns suffixed with the word `_mine` with pre-calculated data for further analysis. The algorithm used to mine data may be more or less time-consuming.
+The CLI commands described below are to populate the columns suffixed with the word `_mine` with pre-calculated data for further analysis. The algorithm used to mine the data may be more or less time-consuming.
 
 | Diamonds | Description |
 | :------- | :---------- |
-| 💎 | The data mining command is a little time-consuming |
+| 💎 | The data mining command is not time-consuming |
 | 💎💎 | The data mining command is not too time-consuming  |
 | 💎💎💎 | The data mining command is time-consuming |
 

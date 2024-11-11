@@ -9,9 +9,9 @@ use splitbrain\phpcli\Options;
 
 abstract class AbstractPdoCli extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table;
+    protected string $table;
 
     public function __construct()
     {

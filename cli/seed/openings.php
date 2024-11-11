@@ -19,7 +19,7 @@ class Openings extends CLI
 
     public function __construct()
     {
-        parent::__construct(true);
+        parent::__construct();
 
         $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
         $dotenv->load();

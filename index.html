@@ -104,7 +104,18 @@
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/db-create.php
 </code></pre>
 <h2 id="bootstrapping">Bootstrapping</h2>
-<p>The chess database consists of these tables: <code>games</code>, <code>openings</code> and <code>users</code>. The <code>games</code> table is to be seeded with PGN files, the <code>openings</code> table with CSV files, and the <code>users</code> table with fake random generated usernames.</p>
+<p>The chess database consists of these tables: <code>games</code>, <code>openings</code> and <code>users</code>.</p>
+<pre><code class="language-text">mysql&gt; show tables;
++-----------------+
+| Tables_in_chess |
++-----------------+
+| games           |
+| openings        |
+| users           |
++-----------------+
+3 rows in set (0.00 sec)
+</code></pre>
+<p>The <code>games</code> table is to be seeded with PGN files, the <code>openings</code> table with CSV files, and the <code>users</code> table with fake random generated usernames.</p>
 <h3 id="games">🗓 <code>games</code></h3>
 <p>This table can be seeded with the PGN files contained in the <code>data/example</code> folder, and can be loaded either all at once or file by file as it is shown in the examples below.</p>
 <p>Seed the <code>games</code> table with all the files contained in the <code>data/example</code> folder:</p>
@@ -227,5 +238,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-11-11 16:10:40.662994+00:00
+Build Date UTC : 2024-11-11 18:06:26.070869+00:00
 -->

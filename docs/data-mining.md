@@ -32,7 +32,7 @@ The example below populates the `heuristics_mine` column with heuristics data on
 docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php "Anand,V"
 ```
 
-This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of [MySQL JSON functions](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html) to perform operations on JSON values like in the following examples.
+This column is intended to store a JSON object representing the [PHP Chess heuristics](https://chesslablab.github.io/php-chess/heuristics/) in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of [MySQL JSON functions](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html) to perform operations on JSON values like in the following examples.
 
 #### Example
 

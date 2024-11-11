@@ -11,11 +11,16 @@ use splitbrain\phpcli\Options;
 
 class DbCreateCli extends CLI
 {
-    protected function setup(Options $options)
+    public function __construct()
     {
+        parent::__construct();
+
         $dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $dotenv->load();
+    }
 
+    protected function setup(Options $options)
+    {
         $options->setHelp('Creates the chess database.');
     }
 

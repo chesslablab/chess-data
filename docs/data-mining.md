@@ -32,7 +32,7 @@ docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php "Anand,V"
 
 This column is intended to store a JSON object representing the heuristics in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of [MySQL JSON functions](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html) to perform operations on JSON values like in the following examples.
 
-### Example 1
+### Example
 
 Fetch the material evaluation in all games won by Anand with the white pieces.
 
@@ -55,7 +55,7 @@ See:
 
 Thus, `$[0]` corresponds to the material evaluation in the fast function array.
 
-### Example 2
+### Example
 
 Fetch the material evaluation for the tenth move (20 plies) in all games won by Anand with the black pieces.
 
@@ -70,7 +70,7 @@ WHERE
   AND Result = '0-1';
 ```
 
-### Example 3
+### Example
 
 Fetch the games won by Anand with the black pieces having a material disadvantage of at least 0.1 in the tenth move.
 
@@ -91,7 +91,7 @@ HAVING
   Material >= 0.1;
 ```
 
-### Example 4
+### Example
 
 Convert a material evaluation array from JSON to MySQL for further processing.
 
@@ -119,7 +119,7 @@ FROM
   ) material;
 ```
 
-### Example 5
+### Example
 
 Sum all elements in the previous material evaluation array.
 

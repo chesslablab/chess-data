@@ -116,7 +116,7 @@
 3 rows in set (0.00 sec)
 </code></pre>
 <p>The <code>games</code> table is to be seeded with PGN files, the <code>openings</code> table with CSV files, and the <code>users</code> table with fake random generated usernames.</p>
-<h3 id="games">🗓 <code>games</code></h3>
+<h3 id="games">🗒 <code>games</code></h3>
 <p>This table can be seeded with the PGN files contained in the <code>data/example</code> folder, and can be loaded either all at once or file by file as it is shown in the examples below.</p>
 <p>Seed the <code>games</code> table with all the files contained in the <code>data/example</code> folder:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example
@@ -148,11 +148,11 @@
 <p>Please note that all files in the <code>data</code> folder are gitignored except those contained in <code>data/example</code>. The chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
 <pre><code class="language-text">find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
 </code></pre>
-<h3 id="openings">🗓 <code>openings</code></h3>
+<h3 id="openings">🗒 <code>openings</code></h3>
 <p>This table is seeded with the CSV files contained in the <code>data/openings</code> folder.</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
 </code></pre>
-<h3 id="users">🗓 <code>users</code></h3>
+<h3 id="users">🗒 <code>users</code></h3>
 <p>This is how to seed the <code>users</code> table with fake random generated usernames:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php 5000
 </code></pre></div>
@@ -238,5 +238,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-11-11 20:02:54.936986+00:00
+Build Date UTC : 2024-11-12 15:42:48.787713+00:00
 -->

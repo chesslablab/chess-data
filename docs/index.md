@@ -24,27 +24,34 @@ docker exec -itu 1000:1000 chess_data_php php cli/db-create.php
 
 ## Bootstrapping
 
-The chess database consists of these tables: `games`, `openings` and `users`.
+The chess database consists of these tables: `annotations`, `games`, `openings` and `users`.
 
 ```text
 mysql> show tables;
 +-----------------+
 | Tables_in_chess |
 +-----------------+
+| annotations     |
 | games           |
 | openings        |
 | users           |
 +-----------------+
-3 rows in set (0.00 sec)
+4 rows in set (0.00 sec)
 ```
 
-The `games` table is to be seeded with PGN files, the `openings` table with CSV files, and the `users` table with fake random generated usernames.
+### 🗒 `annotations`
+
+This table is seeded with the CSV files in the `data/annotations` folder.
+
+```text
+docker exec -itu 1000:1000 chess_data_php php cli/seed/annotations.php data/annotations
+```
 
 ### 🗒 `games`
 
-This table can be seeded with the PGN files contained in the `data/example` folder, and can be loaded either all at once or file by file as it is shown in the examples below.
+This table can be seeded with the PGN files in the `data/example` folder, and can be loaded either all at once or file by file as it is shown in the examples below.
 
-Seed the `games` table with all the files contained in the `data/example` folder:
+Seed the `games` table with all the files in the `data/example` folder:
 
 ```text
 docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example
@@ -80,7 +87,7 @@ The `games` table can also be seeded with your own set of PGN files in the `data
 docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/games
 ```
 
-Please note that all files in the `data` folder are gitignored except those contained in `data/example`. The chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as shown in the example below.
+Please note that all files in the `data` folder are gitignored except those in `data/example`. The chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the [cli/db-create.php](https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php) script. If that is the case you may want to remove the unsupported tags as shown in the example below.
 
 ```text
 find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
@@ -88,7 +95,7 @@ find . -name '*.pgn' -print0 | xargs -0 sed -i "/\[PlyCount .*\]/d"
 
 ### 🗒 `openings`
 
-This table is seeded with the CSV files contained in the `data/openings` folder.
+This table is seeded with the CSV files in the `data/openings` folder.
 
 ```text
 docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings

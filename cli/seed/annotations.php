@@ -47,7 +47,31 @@ class Annotations extends CLI
             $file = fopen($filepath, 'r');
             while (($line = fgetcsv($file)) !== false) {
                 if ($count > 0) {
-                    $sql = "INSERT INTO {$this->table} (Event, Round, Site, Date, White, Black, Result, WhiteElo, BlackElo, ECO, movetext) VALUES (:Event, :Round, :Site, :Date, :White, :Black, :Result, :WhiteElo, :BlackElo, :ECO, :movetext)";
+                    $sql = "INSERT INTO {$this->table} (
+                        Event,
+                        Round,
+                        Site,
+                        Date,
+                        White,
+                        Black,
+                        Result,
+                        WhiteElo,
+                        BlackElo,
+                        ECO,
+                        movetext
+                    ) VALUES (
+                        :Event,
+                        :Round,
+                        :Site,
+                        :Date,
+                        :White,
+                        :Black,
+                        :Result,
+                        :WhiteElo,
+                        :BlackElo,
+                        :ECO,
+                        :movetext
+                    )";
                     $values = [
                         [
                             'param' => ':Event',

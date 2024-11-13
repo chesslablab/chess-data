@@ -50,7 +50,15 @@ class Openings extends CLI
                 $move = new Move();
                 $text = $line[2];
                 if ($movetext = (new SanMovetext($move, $text))->validate()) {
-                    $sql = "INSERT INTO {$this->table} (eco, name, movetext) VALUES (:eco, :name, :movetext)";
+                    $sql = "INSERT INTO {$this->table} (
+                        eco,
+                        name,
+                        movetext
+                    ) VALUES (
+                        :eco,
+                        :name,
+                        :movetext
+                    )";
                     $values = [
                         [
                             'param' => ':eco',

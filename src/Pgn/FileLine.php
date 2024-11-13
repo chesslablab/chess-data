@@ -1,6 +1,6 @@
 <?php
 
-namespace ChessData\Seeder;
+namespace ChessData\Pgn;
 
 use Chess\Variant\Classical\PGN\AN\Termination;
 

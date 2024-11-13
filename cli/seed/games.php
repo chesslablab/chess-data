@@ -5,7 +5,7 @@ namespace ChessData\Cli\Seed;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use ChessData\Pdo;
-use ChessData\Seeder\Seeder;
+use ChessData\Pgn\Seeder;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;

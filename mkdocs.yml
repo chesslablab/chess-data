@@ -2,8 +2,5 @@ site_name: Chess Data
 site_url: https://chesslablab.github.io/chess-data/
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Bootstrap the Database: bootstrap-the-database.md
   - Data Mining: data-mining.md
-  - Create JSON Files: create-json-files.md
 theme: mkdocs

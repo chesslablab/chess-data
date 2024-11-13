@@ -9,11 +9,11 @@ use splitbrain\phpcli\Options;
 
 abstract class PdoUserCli extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table;
+    protected string $table;
 
-    protected $username;
+    protected Username $username;
 
     public function __construct()
     {

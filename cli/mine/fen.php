@@ -12,15 +12,15 @@ use splitbrain\phpcli\Options;
 
 class Fen extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table = 'games';
+    protected string $table = 'games';
 
     public function __construct()
     {
-        parent::__construct(true);
+        parent::__construct();
 
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         $conf = include(__DIR__ . '/../../config/database.php');
@@ -51,28 +51,31 @@ class Fen extends CLI
         foreach ($rows as $row) {
             $value = '';
 
-            foreach ((new SanPlay($row['movetext']))->validate()->board->history as $val) {
-                $value .= $val['fen'] . ',';
-            }
-
-            $sql = "UPDATE {$this->table} SET fen_mine = :fen_mine WHERE movetext = :movetext";
-
-            $values = [
-                [
-                    'param' => ':fen_mine',
-                    'value' => substr_replace($value, '', -1),
-                    'type' => \PDO::PARAM_STR,
-                ],
-                [
-                    'param' => ':movetext',
-                    'value' => $row['movetext'],
-                    'type' => \PDO::PARAM_STR,
-                ],
-            ];
-
             try {
+                $board = (new SanPlay($row['movetext']))->validate()->board;
+
+                foreach ($board->history as $val) {
+                    $value .= $val['fen'] . ',';
+                }
+
+                $sql = "UPDATE {$this->table} SET fen_mine = :fen_mine WHERE movetext = :movetext";
+
+                $values = [
+                    [
+                        'param' => ':fen_mine',
+                        'value' => substr_replace($value, '', -1),
+                        'type' => \PDO::PARAM_STR,
+                    ],
+                    [
+                        'param' => ':movetext',
+                        'value' => $row['movetext'],
+                        'type' => \PDO::PARAM_STR,
+                    ],
+                ];
+
                 $this->pdo->query($sql, $values);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
     }
 }

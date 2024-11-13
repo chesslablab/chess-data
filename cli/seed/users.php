@@ -8,7 +8,7 @@ use splitbrain\phpcli\CLI;
 
 class Users extends CLI
 {
-    protected $table = 'users';
+    protected string $table = 'users';
 }
 
 $cli = new Users();

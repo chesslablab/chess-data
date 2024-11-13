@@ -13,17 +13,17 @@ use splitbrain\phpcli\Options;
 
 class Heuristics extends CLI
 {
-    protected $pdo;
+    protected Pdo $pdo;
 
-    protected $table = 'games';
+    protected string $table = 'games';
 
     protected FastFunction $fastFunction;
 
     public function __construct()
     {
-        parent::__construct(true);
+        parent::__construct();
 
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         $conf = include(__DIR__ . '/../../config/database.php');
@@ -80,7 +80,8 @@ class Heuristics extends CLI
 
             try {
                 $this->pdo->query($sql, $values);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {                
+            }
         }
     }
 }

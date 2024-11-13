@@ -11,11 +11,16 @@ use splitbrain\phpcli\Options;
 
 class DbCreateCli extends CLI
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv->load();
+    }
+
     protected function setup(Options $options)
     {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../');
-        $dotenv->load();
-
         $options->setHelp('Creates the chess database.');
     }
 
@@ -66,6 +71,22 @@ class DbCreateCli extends CLI
             ' fen_mine TEXT NULL, ' .
             ' heuristics_mine JSON NULL, ' .
             ' movetext  VARCHAR(8192) NOT NULL ' .
+        ') ENGINE = MyISAM';
+
+        $pdo->query($sql);
+
+        $sql = 'CREATE TABLE annotations (' .
+            Tag::EVENT              . ' CHAR(64) NULL, ' .
+            Tag::ROUND              . ' CHAR(4) NULL, ' .
+            Tag::SITE               . ' CHAR(64) NULL, ' .
+            Tag::DATE               . ' CHAR(16) NULL, ' .
+            Tag::WHITE              . ' CHAR(32) NULL, ' .
+            Tag::BLACK              . ' CHAR(32) NULL, ' .
+            Tag::RESULT             . ' CHAR(8) NULL, ' .
+            Tag::WHITE_ELO          . ' CHAR(8) NULL, ' .
+            Tag::BLACK_ELO          . ' CHAR(8) NULL, ' .
+            Tag::ECO                . ' CHAR(8) NULL, ' .
+            ' movetext TEXT NOT NULL ' .
         ') ENGINE = MyISAM';
 
         $pdo->query($sql);

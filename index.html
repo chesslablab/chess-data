@@ -102,21 +102,25 @@
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/db-create.php
 </code></pre>
 <h2 id="bootstrapping">Bootstrapping</h2>
-<p>The chess database consists of these tables: <code>games</code>, <code>openings</code> and <code>users</code>.</p>
+<p>The chess database consists of these tables: <code>annotations</code>, <code>games</code>, <code>openings</code> and <code>users</code>.</p>
 <pre><code class="language-text">mysql&gt; show tables;
 +-----------------+
 | Tables_in_chess |
 +-----------------+
+| annotations     |
 | games           |
 | openings        |
 | users           |
 +-----------------+
-3 rows in set (0.00 sec)
+4 rows in set (0.00 sec)
 </code></pre>
-<p>The <code>games</code> table is to be seeded with PGN files, the <code>openings</code> table with CSV files, and the <code>users</code> table with fake random generated usernames.</p>
+<h3 id="annotations">🗒 <code>annotations</code></h3>
+<p>This table is seeded with the CSV files in the <code>data/annotations</code> folder.</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/annotations.php data/annotations
+</code></pre>
 <h3 id="games">🗒 <code>games</code></h3>
-<p>This table can be seeded with the PGN files contained in the <code>data/example</code> folder, and can be loaded either all at once or file by file as it is shown in the examples below.</p>
-<p>Seed the <code>games</code> table with all the files contained in the <code>data/example</code> folder:</p>
+<p>This table can be seeded with the PGN files in the <code>data/example</code> folder, and can be loaded either all at once or file by file as it is shown in the examples below.</p>
+<p>Seed the <code>games</code> table with all the files in the <code>data/example</code> folder:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/example
 ✗ 2 games did not pass the validation.
 ✓ 4142 games out of a total of 4144 are OK.
@@ -143,11 +147,11 @@
 <p>The <code>games</code> table can also be seeded with your own set of PGN files in the <code>data/games</code> folder:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/games.php data/games
 </code></pre>
-<p>Please note that all files in the <code>data</code> folder are gitignored except those contained in <code>data/example</code>. The chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
+<p>Please note that all files in the <code>data</code> folder are gitignored except those in <code>data/example</code>. The chess games won't be loaded into the database if containing PGN tags other than the ones supported by the tables created in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/db-create.php">cli/db-create.php</a> script. If that is the case you may want to remove the unsupported tags as shown in the example below.</p>
 <pre><code class="language-text">find . -name '*.pgn' -print0 | xargs -0 sed -i &quot;/\[PlyCount .*\]/d&quot;
 </code></pre>
 <h3 id="openings">🗒 <code>openings</code></h3>
-<p>This table is seeded with the CSV files contained in the <code>data/openings</code> folder.</p>
+<p>This table is seeded with the CSV files in the <code>data/openings</code> folder.</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/openings.php data/openings
 </code></pre>
 <h3 id="users">🗒 <code>users</code></h3>
@@ -236,5 +240,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-11-12 18:58:01.954582+00:00
+Build Date UTC : 2024-11-13 15:44:08.961039+00:00
 -->

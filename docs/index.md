@@ -49,7 +49,7 @@ docker exec -itu 1000:1000 chess_data_php php cli/seed/annotations.php data/anno
 
 ### 🗒 `games`
 
-This table can be seeded with the PGN files in the `data/example` folder, and can be loaded either all at once or file by file as it is shown in the examples below.
+This table can be seeded with the PGN files in the `data/example` folder either all at once or file by file as it is shown in the examples below.
 
 Seed the `games` table with all the files in the `data/example` folder:
 

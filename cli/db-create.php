@@ -75,6 +75,22 @@ class DbCreateCli extends CLI
 
         $pdo->query($sql);
 
+        $sql = 'CREATE TABLE annotations (' .
+            Tag::EVENT              . ' CHAR(64) NULL, ' .
+            Tag::ROUND              . ' CHAR(4) NULL, ' .
+            Tag::SITE               . ' CHAR(64) NULL, ' .
+            Tag::DATE               . ' CHAR(16) NULL, ' .
+            Tag::WHITE              . ' CHAR(32) NULL, ' .
+            Tag::BLACK              . ' CHAR(32) NULL, ' .
+            Tag::RESULT             . ' CHAR(8) NULL, ' .
+            Tag::WHITE_ELO          . ' CHAR(8) NULL, ' .
+            Tag::BLACK_ELO          . ' CHAR(8) NULL, ' .
+            Tag::ECO                . ' CHAR(8) NULL, ' .
+            ' movetext TEXT NOT NULL ' .
+        ') ENGINE = MyISAM';
+
+        $pdo->query($sql);
+
         unset($pdo);
     }
 }

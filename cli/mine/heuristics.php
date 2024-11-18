@@ -4,7 +4,7 @@ namespace ChessData\Cli\Mine;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Chess\SanHeuristic;
+use Chess\SanHeuristics;
 use Chess\Function\FastFunction;
 use ChessData\Pdo;
 use Dotenv\Dotenv;
@@ -53,15 +53,7 @@ class Heuristics extends CLI
         $rows = $this->pdo->query($sql, $values)->fetchAll(\PDO::FETCH_ASSOC);
 
         foreach ($rows as $row) {
-            $value = [];
-
-            foreach ($this->fastFunction->names() as $name) {
-                $value[] = (new SanHeuristic(
-                    $this->fastFunction,
-                    $name,
-                    $row['movetext']
-                ))->getBalance();
-            }
+            $value = (new SanHeuristics($this->fastFunction, $row['movetext']))->getBalance();
 
             $sql = "UPDATE {$this->table} SET heuristics_mine = :heuristics_mine WHERE movetext = :movetext";
 
@@ -80,7 +72,7 @@ class Heuristics extends CLI
 
             try {
                 $this->pdo->query($sql, $values);
-            } catch (\Exception $e) {                
+            } catch (\Exception $e) {
             }
         }
     }

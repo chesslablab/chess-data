@@ -97,27 +97,27 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">💎</td>
+<td align="left">🐢</td>
 <td align="left">The data mining command is not time-consuming.</td>
 </tr>
 <tr>
-<td align="left">💎💎</td>
+<td align="left">🐢🐢</td>
 <td align="left">The data mining command is not too time-consuming.</td>
 </tr>
 <tr>
-<td align="left">💎💎💎</td>
+<td align="left">🐢🐢🐢</td>
 <td align="left">The data mining command is time-consuming.</td>
 </tr>
 </tbody>
 </table>
 <p>Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
 <h2 id="cli-commands">CLI Commands</h2>
-<h3 id="fenphp">💎 <code>fen.php</code></h3>
+<h3 id="fenphp">🐢 <code>fen.php</code></h3>
 <p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
 </code></pre>
 <p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
-<h3 id="heuristicsphp">💎💎💎 <code>heuristics.php</code></h3>
+<h3 id="heuristicsphp">🐢🐢🐢 <code>heuristics.php</code></h3>
 <p>The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>

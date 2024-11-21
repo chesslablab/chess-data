@@ -117,12 +117,21 @@
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
 </code></pre>
 <p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
+<h4 id="example">Example</h4>
+<p>Fetch all games matching a particular position.</p>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  games
+WHERE
+  fen_mine LIKE '%r1bqkbnr/pp1ppppp/2n5/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R%';
+</code></pre>
 <h3 id="heuristicsphp">💎💎💎 <code>heuristics.php</code></h3>
 <p>The example below populates the <code>heuristics_mine</code> column with heuristics data on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
 <p>This column is intended to store a JSON object representing the <a href="https://chesslablab.github.io/php-chess/heuristics/">PHP Chess heuristics</a> in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
-<h4 id="example">Example</h4>
+<h4 id="example_1">Example</h4>
 <p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
 <pre><code class="language-sql">SELECT
   JSON_EXTRACT(heuristics_mine, '$[*][0]') as Material
@@ -139,7 +148,7 @@ WHERE
 <li><a href="https://github.com/chesslablab/php-chess/blob/main/src/Function/FastFunction.php">Chess\Function\FastFunction</a></li>
 </ul>
 <p>Thus, <code>[0]</code> corresponds to the material evaluation in the fast function array.</p>
-<h4 id="example_1">Example</h4>
+<h4 id="example_2">Example</h4>
 <p>Convert the material evaluation array of a random game won by Anand with the white pieces from JSON to MySQL.</p>
 <pre><code class="language-sql">SET
   @j = (
@@ -260,7 +269,7 @@ FROM
 +------+-------+
 86 rows in set (0.00 sec)
 </code></pre>
-<h4 id="example_2">Example</h4>
+<h4 id="example_3">Example</h4>
 <p>Sum all elements in the previous material evaluation array.</p>
 <pre><code class="language-sql">SELECT
   SUM(value) as Sum
@@ -277,7 +286,7 @@ FROM
 +------+
 1 row in set (0.01 sec)
 </code></pre>
-<h4 id="example_3">Example</h4>
+<h4 id="example_4">Example</h4>
 <p>Select the indexes in the previous material evaluation array where White has a material advantage.</p>
 <pre><code class="language-sql">SELECT
   id

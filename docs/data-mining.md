@@ -6,15 +6,15 @@ The CLI commands described below are to populate the columns suffixed with the w
 
 | Time | Description |
 | :------- | :---------- |
-| 🐢 | The data mining command is not time-consuming. |
-| 🐢🐢 | The data mining command is not too time-consuming.  |
-| 🐢🐢🐢 | The data mining command is time-consuming. |
+| 💎 | The data mining command is not time-consuming. |
+| 💎💎 | The data mining command is not too time-consuming.  |
+| 💎💎💎 | The data mining command is time-consuming. |
 
 Please note the difference with the seed commands, which are meant for loading the tables with data.
 
 ## CLI Commands
 
-### 🐢 `fen.php`
+### 💎 `fen.php`
 
 The example below populates the `fen_mine` column with chess positions in FEN format on a player basis:
 
@@ -24,7 +24,7 @@ docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php "Anand,V"
 
 This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.
 
-### 🐢🐢🐢 `heuristics.php`
+### 💎💎💎 `heuristics.php`
 
 The example below populates the `heuristics_mine` column with heuristics data on a player basis:
 

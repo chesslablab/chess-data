@@ -4,7 +4,9 @@ namespace ChessData\Cli\Mine;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Chess\Play\SanPlay;
+use Chess\Movetext\SanMovetext;
+use Chess\Variant\Classical\Board;
+use Chess\Variant\Classical\PGN\Move;
 use ChessData\Pdo;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
@@ -48,14 +50,16 @@ class Fen extends CLI
 
         $rows = $this->pdo->query($sql, $values)->fetchAll(\PDO::FETCH_ASSOC);
 
+        $move = new Move();
+
         foreach ($rows as $row) {
-            $value = '';
-
             try {
-                $board = (new SanPlay($row['movetext']))->validate()->board;
+                $value = '';
+                $board = new Board();
 
-                foreach ($board->history as $val) {
-                    $value .= $val['fen'] . ',';
+                foreach ((new SanMovetext($move, $row['movetext']))->moves as $val) {
+                    $board->play($board->turn, $val);
+                    $value .= $board->history[count($board->history) - 1]['fen'] . ',';
                 }
 
                 $sql = "UPDATE {$this->table} SET fen_mine = :fen_mine WHERE movetext = :movetext";

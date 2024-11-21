@@ -59,7 +59,7 @@ Thus, `[0]` corresponds to the material evaluation in the fast function array.
 
 #### Example
 
-Convert a material evaluation array from JSON to MySQL for further processing.
+Convert the material evaluation array of a random game won by Anand with the white pieces from JSON to MySQL.
 
 ```sql
 SET
@@ -70,9 +70,13 @@ SET
       games
     WHERE
       heuristics_mine IS NOT NULL
+      AND White = "Anand,V"
+      AND Result = '1-0'
+    ORDER BY
+      RAND()
     LIMIT
       1
-  );
+);
 ```
 
 ```sql

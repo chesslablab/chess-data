@@ -140,7 +140,7 @@ WHERE
 </ul>
 <p>Thus, <code>[0]</code> corresponds to the material evaluation in the fast function array.</p>
 <h4 id="example_1">Example</h4>
-<p>Convert a material evaluation array from JSON to MySQL for further processing.</p>
+<p>Convert the material evaluation array of a random game won by Anand with the white pieces from JSON to MySQL.</p>
 <pre><code class="language-sql">SET
   @j = (
     SELECT
@@ -149,9 +149,13 @@ WHERE
       games
     WHERE
       heuristics_mine IS NOT NULL
+      AND White = &quot;Anand,V&quot;
+      AND Result = '1-0'
+    ORDER BY
+      RAND()
     LIMIT
       1
-  );
+);
 </code></pre>
 <pre><code class="language-sql">SELECT
   *

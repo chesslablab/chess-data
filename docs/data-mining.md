@@ -40,7 +40,7 @@ Fetch the material evaluation in all games won by Anand with the white pieces.
 
 ```sql
 SELECT
-  JSON_EXTRACT(heuristics_mine, '$[0]')
+  JSON_EXTRACT(heuristics_mine, '$[*][0]') as Material
 FROM
   games
 WHERE
@@ -49,49 +49,13 @@ WHERE
   AND Result = '1-0';
 ```
 
-The index in the second parameter of the `JSON_EXTRACT` function `$[0]` corresponds to the index of the PHP Chess function being used in the [cli/mine/heuristics.php](https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php) script.
+The index in the second parameter of the `JSON_EXTRACT` function `$[*][0]` corresponds to the index of the PHP Chess function being used in the [cli/mine/heuristics.php](https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php) script.
 
 See:
 
 - [Chess\Function\FastFunction](https://github.com/chesslablab/php-chess/blob/main/src/Function/FastFunction.php)
 
-Thus, `$[0]` corresponds to the material evaluation in the fast function array.
-
-#### Example
-
-Fetch the material evaluation for the tenth move (20 plies) in all games won by Anand with the black pieces.
-
-```sql
-SELECT
-  JSON_EXTRACT(heuristics_mine, '$[0][19]') as Material
-FROM
-  games
-WHERE
-  heuristics_mine IS NOT NULL
-  AND Black = "Anand,V"
-  AND Result = '0-1';
-```
-
-#### Example
-
-Fetch the games won by Anand with the black pieces having a material disadvantage of at least 0.1 in the tenth move.
-
-```sql
-SELECT
-  movetext,
-  JSON_EXTRACT(heuristics_mine, '$[0][19]') as Material
-FROM
-  games
-WHERE
-  heuristics_mine IS NOT NULL
-  AND Black = "Anand,V"
-  AND Result = '0-1'
-GROUP BY
-  Material,
-  movetext
-HAVING
-  Material >= 0.1;
-```
+Thus, `[0]` corresponds to the material evaluation in the fast function array.
 
 #### Example
 
@@ -101,7 +65,7 @@ Convert a material evaluation array from JSON to MySQL for further processing.
 SET
   @j = (
     SELECT
-      JSON_EXTRACT(heuristics_mine, '$[0]') as Material
+      JSON_EXTRACT(heuristics_mine, '$[*][0]') as Material
     FROM
       games
     WHERE
@@ -117,8 +81,105 @@ SELECT
 FROM
   JSON_TABLE(
     @j,
-    "$[*]" COLUMNS(balance FLOAT PATH "$")
+    "$[*]" COLUMNS(
+      id FOR ORDINALITY,
+      value INT PATH "$"
+    )
   ) material;
+```
+
+```text
++------+-------+
+| id   | value |
++------+-------+
+|    1 |     0 |
+|    2 |     0 |
+|    3 |     0 |
+|    4 |     0 |
+|    5 |     0 |
+|    6 |     0 |
+|    7 |     0 |
+|    8 |     0 |
+|    9 |     0 |
+|   10 |     0 |
+|   11 |     0 |
+|   12 |     0 |
+|   13 |     0 |
+|   14 |     0 |
+|   15 |     0 |
+|   16 |     0 |
+|   17 |     0 |
+|   18 |     0 |
+|   19 |     0 |
+|   20 |     0 |
+|   21 |     0 |
+|   22 |     0 |
+|   23 |     0 |
+|   24 |     0 |
+|   25 |     0 |
+|   26 |     0 |
+|   27 |     1 |
+|   28 |     0 |
+|   29 |     0 |
+|   30 |     0 |
+|   31 |     0 |
+|   32 |     0 |
+|   33 |     0 |
+|   34 |     0 |
+|   35 |     0 |
+|   36 |     0 |
+|   37 |     1 |
+|   38 |     0 |
+|   39 |     0 |
+|   40 |     0 |
+|   41 |     0 |
+|   42 |     0 |
+|   43 |     0 |
+|   44 |    -1 |
+|   45 |     0 |
+|   46 |     0 |
+|   47 |     0 |
+|   48 |     0 |
+|   49 |     0 |
+|   50 |     0 |
+|   51 |     0 |
+|   52 |     0 |
+|   53 |     0 |
+|   54 |     0 |
+|   55 |     1 |
+|   56 |     0 |
+|   57 |     0 |
+|   58 |     0 |
+|   59 |     0 |
+|   60 |     0 |
+|   61 |     0 |
+|   62 |     0 |
+|   63 |     0 |
+|   64 |     0 |
+|   65 |     0 |
+|   66 |     0 |
+|   67 |     0 |
+|   68 |     0 |
+|   69 |     0 |
+|   70 |    -1 |
+|   71 |     0 |
+|   72 |     0 |
+|   73 |     0 |
+|   74 |     0 |
+|   75 |     0 |
+|   76 |     0 |
+|   77 |     1 |
+|   78 |     0 |
+|   79 |     0 |
+|   80 |     0 |
+|   81 |     0 |
+|   82 |     0 |
+|   83 |     1 |
+|   84 |     0 |
+|   85 |     0 |
+|   86 |     0 |
++------+-------+
+86 rows in set (0.00 sec)
 ```
 
 #### Example
@@ -127,10 +188,50 @@ Sum all elements in the previous material evaluation array.
 
 ```sql
 SELECT
-  SUM(balance) as Sum
+  SUM(value) as Sum
 FROM
   JSON_TABLE(
     @j,
-    "$[*]" COLUMNS(balance FLOAT PATH "$")
+    "$[*]" COLUMNS(value INT PATH "$")
   ) material;
+```
+
+```text
++------+
+| Sum  |
++------+
+|    3 |
++------+
+1 row in set (0.01 sec)
+```
+
+#### Example
+
+Select the indexes in the previous material evaluation array where White has a material advantage.
+
+```sql
+SELECT
+  id
+FROM
+  JSON_TABLE(
+    @j,
+    "$[*]" COLUMNS(
+      id FOR ORDINALITY, value INT PATH "$"
+    )
+  ) material
+WHERE
+  value = 1;
+```
+
+```text
++------+
+| id   |
++------+
+|   27 |
+|   37 |
+|   55 |
+|   77 |
+|   83 |
++------+
+5 rows in set (0.00 sec)
 ```

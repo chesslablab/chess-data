@@ -24,6 +24,19 @@ docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php "Anand,V"
 
 This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.
 
+#### Example
+
+Fetch all games matching a particular position.
+
+```sql
+SELECT
+  *
+FROM
+  games
+WHERE
+  fen_mine LIKE '%r1bqkbnr/pp1ppppp/2n5/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R%';
+```
+
 ### 💎💎💎 `heuristics.php`
 
 The example below populates the `heuristics_mine` column with heuristics data on a player basis:

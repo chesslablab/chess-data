@@ -4,8 +4,11 @@ namespace ChessData\Cli\Mine;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Chess\SanHeuristics;
+use Chess\FenHeuristics;
 use Chess\Function\FastFunction;
+use Chess\Movetext\SanMovetext;
+use Chess\Variant\Classical\Board;
+use Chess\Variant\Classical\PGN\Move;
 use ChessData\Pdo;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
@@ -17,7 +20,7 @@ class Heuristics extends CLI
 
     protected string $table = 'games';
 
-    protected FastFunction $fastFunction;
+    protected FastFunction $function;
 
     public function __construct()
     {
@@ -29,12 +32,12 @@ class Heuristics extends CLI
         $conf = include(__DIR__ . '/../../config/database.php');
 
         $this->pdo = Pdo::getInstance($conf);
-        $this->fastFunction = new FastFunction();
+        $this->function = new FastFunction();
     }
 
     protected function setup(Options $options)
     {
-        $options->setHelp('Apply analytics to mine for heuristics insights.');
+        $options->setHelp('Extract heuristics analytics from chess positions in FEN format.');
         $options->registerArgument('player', 'The name of the player.', true);
     }
 
@@ -52,15 +55,23 @@ class Heuristics extends CLI
 
         $rows = $this->pdo->query($sql, $values)->fetchAll(\PDO::FETCH_ASSOC);
 
+        $move = new Move();
+
         foreach ($rows as $row) {
-            $value = (new SanHeuristics($this->fastFunction, $row['movetext']))->getBalance();
+            $heuristics = [];
+            $board = new Board();
+
+            foreach ((new SanMovetext($move, $row['movetext']))->moves as $val) {
+                $board->play($board->turn, $val);
+                $heuristics[] = (new FenHeuristics($this->function, $board))->getBalance();
+            }
 
             $sql = "UPDATE {$this->table} SET heuristics_mine = :heuristics_mine WHERE movetext = :movetext";
 
             $values = [
                 [
                     'param' => ':heuristics_mine',
-                    'value' => json_encode($value, true),
+                    'value' => json_encode($heuristics, true),
                     'type' => \PDO::PARAM_STR,
                 ],
                 [

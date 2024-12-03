@@ -562,7 +562,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/chesslablab/php-chess.git",
-                "reference": "5803f9ac459421785f6a643ba2c82d6320a57000"
+                "reference": "2f4def64ac2ac9b5c79090895fa9cae6f49a27bc"
             },
             "require": {
                 "imagine/imagine": "^1.2",
@@ -620,7 +620,7 @@
                 "validate",
                 "validator"
             ],
-            "time": "2024-11-20T20:07:00+00:00"
+            "time": "2024-12-03T22:18:45+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -686,20 +686,20 @@
         },
         {
             "name": "imagine/imagine",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-imagine/Imagine.git",
-                "reference": "2c8887dc7e84e97283037f02dd9c957d4b3a0b82"
+                "reference": "80ab21434890dee9ba54969d31c51ac8d4d551e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-imagine/Imagine/zipball/2c8887dc7e84e97283037f02dd9c957d4b3a0b82",
-                "reference": "2c8887dc7e84e97283037f02dd9c957d4b3a0b82",
+                "url": "https://api.github.com/repos/php-imagine/Imagine/zipball/80ab21434890dee9ba54969d31c51ac8d4d551e0",
+                "reference": "80ab21434890dee9ba54969d31c51ac8d4d551e0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5"
+                "php": ">=7.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.4 || ^9.3"
@@ -732,7 +732,7 @@
                     "homepage": "http://avalanche123.com"
                 }
             ],
-            "description": "Image processing for PHP 5.3",
+            "description": "Image processing for PHP",
             "homepage": "http://imagine.readthedocs.org/",
             "keywords": [
                 "drawing",
@@ -742,9 +742,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-imagine/Imagine/issues",
-                "source": "https://github.com/php-imagine/Imagine/tree/1.4.0"
+                "source": "https://github.com/php-imagine/Imagine/tree/1.5.0"
             },
-            "time": "2024-11-18T07:44:52+00:00"
+            "time": "2024-12-03T14:37:55+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1197,16 +1197,16 @@
         },
         {
             "name": "splitbrain/php-cli",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/splitbrain/php-cli.git",
-                "reference": "844609ef16b8486691b7fd892d54478918f27fe8"
+                "reference": "360ed0b3704fa8fcd1ce976ed79012aa2c67d22f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splitbrain/php-cli/zipball/844609ef16b8486691b7fd892d54478918f27fe8",
-                "reference": "844609ef16b8486691b7fd892d54478918f27fe8",
+                "url": "https://api.github.com/repos/splitbrain/php-cli/zipball/360ed0b3704fa8fcd1ce976ed79012aa2c67d22f",
+                "reference": "360ed0b3704fa8fcd1ce976ed79012aa2c67d22f",
                 "shasum": ""
             },
             "require": {
@@ -1246,9 +1246,9 @@
             ],
             "support": {
                 "issues": "https://github.com/splitbrain/php-cli/issues",
-                "source": "https://github.com/splitbrain/php-cli/tree/1.3.1"
+                "source": "https://github.com/splitbrain/php-cli/tree/1.3.2"
             },
-            "time": "2024-01-17T12:03:34+00:00"
+            "time": "2024-12-03T07:57:18+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

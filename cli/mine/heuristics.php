@@ -63,7 +63,7 @@ class Heuristics extends CLI
 
             foreach ((new SanMovetext($move, $row['movetext']))->moves as $val) {
                 $board->play($board->turn, $val);
-                $heuristics[] = (new FenHeuristics($this->function, $board))->getBalance();
+                $heuristics[] = (new FenHeuristics($this->function, $board))->balance;
             }
 
             $sql = "UPDATE {$this->table} SET heuristics_mine = :heuristics_mine WHERE movetext = :movetext";

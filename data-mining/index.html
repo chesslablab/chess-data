@@ -131,7 +131,7 @@ WHERE
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
 <p>This command requires the <code>fen_mine</code> column to be populated with data.</p>
-<p>The <code>heuristics_mine</code> column is intended to store a JSON object representing the <a href="https://chesslablab.github.io/php-chess/heuristics/">PHP Chess heuristics</a> in a game. It allows to gather insights about the decisions that have been made to make the moves. With the data from the heuristics mine, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
+<p>The <code>heuristics_mine</code> column is intended to store a JSON object representing the <a href="https://chesslablab.github.io/php-chess/heuristics/">PHP Chess heuristics</a> in a game. It allows to gather insights about the decisions that have been made to make the moves. With this data, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
 <h4 id="example_1">Example</h4>
 <p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
 <pre><code class="language-sql">SELECT

@@ -304,16 +304,16 @@
         },
         {
             "name": "amphp/process",
-            "version": "v1.1.7",
+            "version": "v1.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/process.git",
-                "reference": "1949d85b6d71af2818ff68144304a98495628f19"
+                "reference": "55b837d4f1857b9bd7efb7bb859ae6b0e804f13f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/process/zipball/1949d85b6d71af2818ff68144304a98495628f19",
-                "reference": "1949d85b6d71af2818ff68144304a98495628f19",
+                "url": "https://api.github.com/repos/amphp/process/zipball/55b837d4f1857b9bd7efb7bb859ae6b0e804f13f",
+                "reference": "55b837d4f1857b9bd7efb7bb859ae6b0e804f13f",
                 "shasum": ""
             },
             "require": {
@@ -357,7 +357,7 @@
             "homepage": "https://github.com/amphp/process",
             "support": {
                 "issues": "https://github.com/amphp/process/issues",
-                "source": "https://github.com/amphp/process/tree/v1.1.7"
+                "source": "https://github.com/amphp/process/tree/v1.1.9"
             },
             "funding": [
                 {
@@ -365,7 +365,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-19T03:00:28+00:00"
+            "time": "2024-12-13T17:38:25+00:00"
         },
         {
             "name": "amphp/serialization",
@@ -562,7 +562,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/chesslablab/php-chess.git",
-                "reference": "f0e980b467d729482a30b002c93e1c3f395f775e"
+                "reference": "49df3283fc6ce730720a7b29d688d35f63fcc7de"
             },
             "require": {
                 "imagine/imagine": "^1.2",
@@ -620,7 +620,7 @@
                 "validate",
                 "validator"
             ],
-            "time": "2024-12-12T16:00:17+00:00"
+            "time": "2024-12-15T15:49:05+00:00"
         },
         {
             "name": "graham-campbell/result-type",

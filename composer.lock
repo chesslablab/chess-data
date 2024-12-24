@@ -562,7 +562,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/chesslablab/php-chess.git",
-                "reference": "49df3283fc6ce730720a7b29d688d35f63fcc7de"
+                "reference": "449ba6e440e53f9dd7df2a568967ff4d064a1702"
             },
             "require": {
                 "imagine/imagine": "^1.2",
@@ -620,7 +620,7 @@
                 "validate",
                 "validator"
             ],
-            "time": "2024-12-15T15:49:05+00:00"
+            "time": "2024-12-24T15:26:25+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -1197,16 +1197,16 @@
         },
         {
             "name": "splitbrain/php-cli",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/splitbrain/php-cli.git",
-                "reference": "360ed0b3704fa8fcd1ce976ed79012aa2c67d22f"
+                "reference": "8189c68cbde3fd8c3e0fc26295b776b143b6e481"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/splitbrain/php-cli/zipball/360ed0b3704fa8fcd1ce976ed79012aa2c67d22f",
-                "reference": "360ed0b3704fa8fcd1ce976ed79012aa2c67d22f",
+                "url": "https://api.github.com/repos/splitbrain/php-cli/zipball/8189c68cbde3fd8c3e0fc26295b776b143b6e481",
+                "reference": "8189c68cbde3fd8c3e0fc26295b776b143b6e481",
                 "shasum": ""
             },
             "require": {
@@ -1246,9 +1246,9 @@
             ],
             "support": {
                 "issues": "https://github.com/splitbrain/php-cli/issues",
-                "source": "https://github.com/splitbrain/php-cli/tree/1.3.2"
+                "source": "https://github.com/splitbrain/php-cli/tree/1.3.3"
             },
-            "time": "2024-12-03T07:57:18+00:00"
+            "time": "2024-12-18T08:16:26+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1355,8 +1355,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {

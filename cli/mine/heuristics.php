@@ -18,7 +18,7 @@ class Heuristics extends CLI
 
     protected string $table = 'games';
 
-    protected FastFunction $function;
+    protected FastFunction $f;
 
     public function __construct()
     {
@@ -30,7 +30,7 @@ class Heuristics extends CLI
         $conf = include(__DIR__ . '/../../config/database.php');
 
         $this->pdo = Pdo::getInstance($conf);
-        $this->function = new FastFunction();
+        $this->f = new FastFunction();
     }
 
     protected function setup(Options $options)
@@ -55,7 +55,7 @@ class Heuristics extends CLI
 
         foreach ($rows as $row) {
             try {
-                $spectrumComponent = (new SanSignal($this->function, $row['movetext'], new Board()))->spectrumComponent;
+                $spectrumComponent = (new SanSignal($this->f, $row['movetext'], new Board()))->spectrumComponent;
 
                 array_shift($spectrumComponent);
 

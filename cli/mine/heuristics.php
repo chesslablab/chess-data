@@ -55,11 +55,9 @@ class Heuristics extends CLI
 
         foreach ($rows as $row) {
             try {
-                $spectrumComponent = (new SanSignal($this->f, $row['movetext'], new Board()))->spectrumComponent;
+                $heuristics = (new SanSignal($this->f, $row['movetext'], new Board()))->spectrumComponent;
 
-                array_shift($spectrumComponent);
-
-                $heuristics[] = $spectrumComponent;
+                array_shift($heuristics);
 
                 $sql = "UPDATE {$this->table} SET heuristics_mine = :heuristics_mine WHERE movetext = :movetext";
 

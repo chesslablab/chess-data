@@ -55,7 +55,7 @@ Fetch the material evaluation in all games won by Anand with the white pieces.
 
 ```sql
 SELECT
-  JSON_EXTRACT(heuristics_mine, '$[*][0]') as Material
+  JSON_EXTRACT(heuristics_mine, '$[*][0]') as material
 FROM
   games
 WHERE
@@ -80,7 +80,7 @@ Convert the material evaluation array of a random game won by Anand with the whi
 SET
   @j = (
     SELECT
-      JSON_EXTRACT(heuristics_mine, '$[*][0]') as Material
+      JSON_EXTRACT(heuristics_mine, '$[*][0]') as material
     FROM
       games
     WHERE
@@ -104,7 +104,7 @@ FROM
       id FOR ORDINALITY,
       value FLOAT PATH "$"
     )
-  ) material;
+  ) time;
 ```
 
 ```text
@@ -202,7 +202,7 @@ FROM
 
 #### Example
 
-Sum all elements in the previous material evaluation array.
+Sum all elements in the previous array.
 
 ```sql
 SELECT
@@ -211,7 +211,7 @@ FROM
   JSON_TABLE(
     @j,
     "$[*]" COLUMNS(value FLOAT PATH "$")
-  ) material;
+  ) time;
 ```
 
 ```text

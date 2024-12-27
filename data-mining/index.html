@@ -130,7 +130,6 @@ WHERE
 <p>The example below calculates the <code>heuristics_mine</code> column on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>
-<p>This command requires the <code>fen_mine</code> column to be populated with data.</p>
 <p>The <code>heuristics_mine</code> column is intended to store a JSON object representing the <a href="https://chesslablab.github.io/php-chess/heuristics/">PHP Chess heuristics</a> in a game. It allows to gather insights about the decisions that have been made to make the moves. With this data, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
 <h4 id="example_1">Example</h4>
 <p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
@@ -154,7 +153,7 @@ WHERE
 <pre><code class="language-sql">SET
   @j = (
     SELECT
-      JSON_EXTRACT(heuristics_mine, '$[*][0]') as material
+      JSON_EXTRACT(heuristics_mine, '$[*][0]')
     FROM
       games
     WHERE
@@ -176,7 +175,7 @@ FROM
       id FOR ORDINALITY,
       value FLOAT PATH &quot;$&quot;
     )
-  ) time;
+) material;
 </code></pre>
 <pre><code class="language-text">+------+-------+
 | id   | value |
@@ -201,89 +200,111 @@ FROM
 |   18 |     0 |
 |   19 |     0 |
 |   20 |     0 |
-|   21 |     0 |
-|   22 | -0.25 |
-|   23 |     0 |
-|   24 |     0 |
-|   25 |     0 |
-|   26 |     0 |
-|   27 |     0 |
-|   28 |     0 |
-|   29 |     0 |
-|   30 |     0 |
-|   31 |  0.55 |
-|   32 |     0 |
-|   33 |     0 |
-|   34 | -0.09 |
-|   35 |     0 |
-|   36 |     0 |
-|   37 |     0 |
-|   38 | -0.11 |
-|   39 |     0 |
-|   40 |     0 |
-|   41 |     0 |
-|   42 |     0 |
-|   43 |     0 |
-|   44 | -0.35 |
-|   45 |     0 |
-|   46 |     0 |
-|   47 |     0 |
-|   48 |     0 |
-|   49 |     0 |
-|   50 |     0 |
-|   51 |     0 |
-|   52 |     0 |
-|   53 |     0 |
-|   54 |     0 |
-|   55 |     0 |
-|   56 |     0 |
-|   57 |     0 |
-|   58 |     0 |
-|   59 |     0 |
-|   60 |     0 |
-|   61 |     0 |
-|   62 |     0 |
-|   63 |     0 |
-|   64 |     0 |
-|   65 |     0 |
-|   66 |     0 |
-|   67 |     0 |
-|   68 | -0.18 |
-|   69 | -0.41 |
-|   70 | -0.16 |
-|   71 |  -0.1 |
-|   72 | -0.13 |
-|   73 | -0.28 |
-|   74 | -0.75 |
-|   75 | -0.18 |
-|   76 | -0.15 |
-|   77 | -0.08 |
-|   78 | -0.08 |
-|   79 |     0 |
-|   80 |     0 |
-|   81 |  0.57 |
-|   82 |     0 |
-|   83 |     0 |
-|   84 |     0 |
-|   85 |     0 |
+|   21 |  0.13 |
+|   22 | -0.07 |
+|   23 | -0.07 |
+|   24 | -0.07 |
+|   25 | -0.07 |
+|   26 | -0.07 |
+|   27 | -0.07 |
+|   28 | -0.07 |
+|   29 | -0.07 |
+|   30 | -0.07 |
+|   31 | -0.07 |
+|   32 | -0.07 |
+|   33 | -0.07 |
+|   34 | -0.07 |
+|   35 | -0.07 |
+|   36 | -0.07 |
+|   37 | -0.07 |
+|   38 | -0.13 |
+|   39 | -0.13 |
+|   40 | -0.13 |
+|   41 |   0.1 |
+|   42 | -0.78 |
+|   43 | -0.66 |
+|   44 |    -1 |
+|   45 | -0.66 |
+|   46 |    -1 |
+|   47 | -0.44 |
+|   48 |    -1 |
+|   49 | -0.26 |
+|   50 | -0.26 |
+|   51 |   0.2 |
+|   52 |  0.03 |
+|   53 |  0.02 |
+|   54 |  0.02 |
+|   55 |  0.02 |
+|   56 |  0.02 |
+|   57 |  0.06 |
+|   58 | -0.19 |
+|   59 |  0.02 |
+|   60 |  0.01 |
+|   61 |  0.02 |
+|   62 |  0.02 |
+|   63 |  0.08 |
+|   64 | -0.12 |
+|   65 |  0.08 |
+|   66 |  0.08 |
+|   67 |  0.07 |
+|   68 |  0.06 |
+|   69 |  0.14 |
+|   70 |  0.14 |
+|   71 |  0.08 |
+|   72 |  0.08 |
+|   73 |  0.06 |
+|   74 | -0.14 |
+|   75 | -0.14 |
+|   76 | -0.21 |
+|   77 | -0.21 |
+|   78 |  -0.1 |
+|   79 |    -1 |
+|   80 | -0.21 |
+|   81 | -0.43 |
+|   82 | -0.43 |
+|   83 |    -1 |
+|   84 |    -1 |
+|   85 | -0.21 |
+|   86 | -0.21 |
+|   87 | -0.21 |
+|   88 | -0.21 |
+|   89 | -0.21 |
+|   90 | -0.14 |
+|   91 |  0.01 |
+|   92 |    -1 |
+|   93 | -0.44 |
+|   94 | -0.12 |
+|   95 |  0.11 |
+|   96 | -0.72 |
+|   97 |  0.24 |
+|   98 |  0.59 |
+|   99 |  0.88 |
+|  100 |  0.21 |
+|  101 |  0.25 |
+|  102 |  0.13 |
+|  103 |  0.11 |
+|  104 |  0.39 |
+|  105 |  0.24 |
+|  106 |  0.14 |
+|  107 |  0.06 |
 +------+-------+
-85 rows in set (0.00 sec)
+107 rows in set (0.00 sec)
 </code></pre>
 <h4 id="example_3">Example</h4>
 <p>Sum all elements in the previous array.</p>
 <pre><code class="language-sql">SELECT
-  ROUND(SUM(value), 2) as Sum
+  ROUND(SUM(value), 2) as sum
 FROM
   JSON_TABLE(
     @j,
     &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
-  ) time;
+) material;
 </code></pre>
-<pre><code class="language-text">+-------+
-| Sum   |
-+-------+
-| -2.18 |
-+-------+
+<pre><code class="language-text">+--------+
+| sum    |
++--------+
+| -11.32 |
++--------+
 1 row in set (0.00 sec)
 </code></pre>
 <h4 id="example_4">Example</h4>
@@ -303,10 +324,44 @@ WHERE
 <pre><code class="language-text">+------+
 | id   |
 +------+
-|   31 |
-|   81 |
+|   21 |
+|   41 |
+|   51 |
+|   52 |
+|   53 |
+|   54 |
+|   55 |
+|   56 |
+|   57 |
+|   59 |
+|   60 |
+|   61 |
+|   62 |
+|   63 |
+|   65 |
+|   66 |
+|   67 |
+|   68 |
+|   69 |
+|   70 |
+|   71 |
+|   72 |
+|   73 |
+|   91 |
+|   95 |
+|   97 |
+|   98 |
+|   99 |
+|  100 |
+|  101 |
+|  102 |
+|  103 |
+|  104 |
+|  105 |
+|  106 |
+|  107 |
 +------+
-2 rows in set (0.00 sec)
+36 rows in set (0.00 sec)
 </code></pre></div>
             </div>
         </div>

@@ -306,6 +306,14 @@ WHERE
 
 Average count of an evaluation feature.
 
+#### `res`
+
+The result of the game.
+
+#### `i`
+
+The index of the PHP Chess function being used in the [cli/mine/heuristics.php](https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php) script.
+
 ```sql
 DELIMITER //
 DROP FUNCTION IF EXISTS EVAL_ARRAY_COUNT//
@@ -365,6 +373,14 @@ mysql> SELECT ROUND(EVAL_ARRAY_COUNT('1-0', 1), 2) as center_count;
 ### `EVAL_ARRAY_SUM()`
 
 Average sum of an evaluation feature.
+
+#### `res`
+
+The result of the game.
+
+#### `i`
+
+The index of the PHP Chess function being used in the [cli/mine/heuristics.php](https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php) script.
 
 ```sql
 DELIMITER //

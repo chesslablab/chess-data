@@ -302,20 +302,18 @@ WHERE
 
 ## Stored Procedures
 
-### `eval_array_count()`
+### `EVAL_ARRAY_COUNT()`
 
 Average count of an evaluation feature given a result.
 
 ```sql
 DELIMITER //
-DROP PROCEDURE IF EXISTS eval_array_count//
-CREATE PROCEDURE eval_array_count(
-    IN res VARCHAR(7),
-    IN i INT,
-    OUT avg FLOAT)
+DROP FUNCTION IF EXISTS EVAL_ARRAY_COUNT//
+CREATE FUNCTION EVAL_ARRAY_COUNT(res VARCHAR(7), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
 BEGIN
     DECLARE count INT DEFAULT 0;
-    DECLARE sum FLOAT DEFAULT 0;
     DECLARE total FLOAT DEFAULT 0;
     DECLARE done INT DEFAULT 0;
     DECLARE heuristic JSON;
@@ -347,7 +345,7 @@ BEGIN
         SET count = count + 1;
     END LOOP label;
     CLOSE cur;
-    SET avg = total / count;
+    RETURN total / count;
 END//
 DELIMITER ;
 ```
@@ -355,16 +353,13 @@ DELIMITER ;
 The example below returns the average count of the center evaluation of all games won with the white pieces.
 
 ```text
-CALL eval_array_count('1-0', 1, @center_count);
-Query OK, 0 rows affected (0.10 sec)
-
-mysql> SELECT ROUND(@center_count, 2) AS center_count;
+mysql> SELECT ROUND(EVAL_ARRAY_COUNT('1-0', 1), 2) as center_count;
 +--------------+
 | center_count |
 +--------------+
 |        25.28 |
 +--------------+
-1 row in set (0.00 sec)
+1 row in set (0.19 sec)
 ```
 
 ### `eval_array_sum()`

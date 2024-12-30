@@ -90,8 +90,8 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="data-mining">Data Mining</h1>
-<p>Data mining provides an additional boost to the SQL queries that can be performed on the <code>games</code> table. The precondition for data mining is to seed the <code>games</code> table with data.</p>
-<p>The CLI commands described below are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis. The algorithm used to mine the data may be more or less time-consuming.</p>
+<p>Data mining provides an additional boost to the SQL queries that can be performed on the <code>games</code> table. The precondition for it is to seed the <code>games</code> table with data. The CLI commands described below are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis.</p>
+<h2 id="cli-commands">CLI Commands</h2>
 <table>
 <thead>
 <tr>
@@ -102,20 +102,14 @@
 <tbody>
 <tr>
 <td align="left">💎</td>
-<td align="left">The data mining command is not time-consuming.</td>
+<td align="left">The command is not too time-consuming.</td>
 </tr>
 <tr>
 <td align="left">💎💎</td>
-<td align="left">The data mining command is not too time-consuming.</td>
-</tr>
-<tr>
-<td align="left">💎💎💎</td>
-<td align="left">The data mining command is time-consuming.</td>
+<td align="left">The command is time-consuming.</td>
 </tr>
 </tbody>
 </table>
-<p>Please note the difference with the seed commands, which are meant for loading the tables with data.</p>
-<h2 id="cli-commands">CLI Commands</h2>
 <h3 id="fenphp">💎 <code>fen.php</code></h3>
 <p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
@@ -130,7 +124,7 @@ FROM
 WHERE
   fen_mine LIKE '%r1bqkbnr/pp1ppppp/2n5/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R%';
 </code></pre>
-<h3 id="heuristicsphp">💎💎💎 <code>heuristics.php</code></h3>
+<h3 id="heuristicsphp">💎💎 <code>heuristics.php</code></h3>
 <p>The example below calculates the <code>heuristics_mine</code> column on a player basis:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
 </code></pre>

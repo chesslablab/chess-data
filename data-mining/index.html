@@ -78,7 +78,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#stored-procedures" class="nav-link">Stored Procedures</a>
+            <li class="nav-item" data-level="2"><a href="#functions" class="nav-link">Functions</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -361,18 +361,69 @@ WHERE
 +------+
 36 rows in set (0.00 sec)
 </code></pre>
-<h2 id="stored-procedures">Stored Procedures</h2>
-<h3 id="eval_array_sum"><code>eval_array_sum()</code></h3>
-<p>Average sum of an evaluation feature given a result.</p>
+<h2 id="functions">Functions</h2>
+<h3 id="eval_array_count"><code>EVAL_ARRAY_COUNT()</code></h3>
+<p>Average count of an evaluation feature given a result.</p>
 <pre><code class="language-sql">DELIMITER //
-DROP PROCEDURE IF EXISTS eval_array_sum//
-CREATE PROCEDURE eval_array_sum(
-    IN res VARCHAR(7),
-    IN i INT,
-    OUT avg FLOAT)
+DROP FUNCTION IF EXISTS EVAL_ARRAY_COUNT//
+CREATE FUNCTION EVAL_ARRAY_COUNT(res VARCHAR(7), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
 BEGIN
     DECLARE count INT DEFAULT 0;
-    DECLARE sum FLOAT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Result = res;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+            SUM(CASE WHEN value &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN value &lt; 0 THEN 1 ELSE 0 END) AS diff
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<p>The example below returns the average count of the center evaluation of all games won with the white pieces.</p>
+<pre><code class="language-text">mysql&gt; SELECT ROUND(EVAL_ARRAY_COUNT('1-0', 1), 2) as center_count;
++--------------+
+| center_count |
++--------------+
+|        25.28 |
++--------------+
+1 row in set (0.19 sec)
+</code></pre>
+<h3 id="eval_array_sum"><code>EVAL_ARRAY_SUM()</code></h3>
+<p>Average sum of an evaluation feature given a result.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS EVAL_ARRAY_SUM//
+CREATE FUNCTION EVAL_ARRAY_SUM(res VARCHAR(7), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
     DECLARE total FLOAT DEFAULT 0;
     DECLARE done INT DEFAULT 0;
     DECLARE heuristic JSON;
@@ -400,26 +451,22 @@ BEGIN
             heuristic,
             &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
         ) material;
-
         SET total = total + @sum;
         SET count = count + 1;
     END LOOP label;
     CLOSE cur;
-    SET avg = total / count;
+    RETURN total / count;
 END//
 DELIMITER ;
 </code></pre>
 <p>The example below returns the average sum of the center evaluation of all games won with the white pieces.</p>
-<pre><code class="language-text">CALL eval_array_sum('1-0', 1, @center_avg);
-Query OK, 0 rows affected (0.10 sec)
-
-mysql&gt; SELECT ROUND(@center_avg, 2) AS center_avg;
+<pre><code class="language-text">mysql&gt; SELECT ROUND(EVAL_ARRAY_SUM('1-0', 1), 2) as center_sum;
 +------------+
-| center_avg |
+| center_sum |
 +------------+
-|      28.47 |
+|       24.2 |
 +------------+
-1 row in set (0.00 sec)
+1 row in set (0.18 sec)
 </code></pre></div>
             </div>
         </div>

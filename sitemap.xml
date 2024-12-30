@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://chesslablab.github.io/chess-data/</loc>
-         <lastmod>2024-12-27</lastmod>
+         <lastmod>2024-12-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chesslablab.github.io/chess-data/data-mining/</loc>
-         <lastmod>2024-12-27</lastmod>
+         <lastmod>2024-12-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

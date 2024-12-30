@@ -304,3 +304,71 @@ WHERE
 +------+
 36 rows in set (0.00 sec)
 ```
+
+## Stored Procedures
+
+### `eval_array_sum()`
+
+Average sum of an evaluation feature given a result.
+
+```sql
+DELIMITER //
+DROP PROCEDURE IF EXISTS eval_array_sum//
+CREATE PROCEDURE eval_array_sum(
+    IN res VARCHAR(7),
+    IN i INT,
+    OUT avg FLOAT)
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE sum FLOAT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Result = res;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          ROUND(SUM(value), 2)
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            "$[*]" COLUMNS(value FLOAT PATH "$")
+        ) material;
+
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    SET avg = total / count;
+END//
+DELIMITER ;
+```
+
+The example below returns the average sum of the center evaluation of all games won with the white pieces.
+
+```text
+CALL eval_array_sum('1-0', 1, @center_avg);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> SELECT ROUND(@center_avg, 2) AS center_avg;
++------------+
+| center_avg |
++------------+
+|      28.47 |
++------------+
+1 row in set (0.00 sec)
+```

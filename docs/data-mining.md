@@ -1,18 +1,13 @@
 # Data Mining
 
-Data mining provides an additional boost to the SQL queries that can be performed on the `games` table. The precondition for data mining is to seed the `games` table with data.
+Data mining provides an additional boost to the SQL queries that can be performed on the `games` table. The precondition for it is to seed the `games` table with data. The CLI commands described below are to populate the columns suffixed with the word `_mine` with pre-calculated data for further analysis.
 
-The CLI commands described below are to populate the columns suffixed with the word `_mine` with pre-calculated data for further analysis. The algorithm used to mine the data may be more or less time-consuming.
+## CLI Commands
 
 | Time | Description |
 | :------- | :---------- |
-| 💎 | The data mining command is not time-consuming. |
-| 💎💎 | The data mining command is not too time-consuming.  |
-| 💎💎💎 | The data mining command is time-consuming. |
-
-Please note the difference with the seed commands, which are meant for loading the tables with data.
-
-## CLI Commands
+| 💎 | The command is not too time-consuming. |
+| 💎💎 | The command is time-consuming. |
 
 ### 💎 `fen.php`
 
@@ -37,7 +32,7 @@ WHERE
   fen_mine LIKE '%r1bqkbnr/pp1ppppp/2n5/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R%';
 ```
 
-### 💎💎💎 `heuristics.php`
+### 💎💎 `heuristics.php`
 
 The example below calculates the `heuristics_mine` column on a player basis:
 

@@ -304,7 +304,7 @@ WHERE
 
 ### `EVAL_ARRAY_COUNT()`
 
-Average count of an evaluation feature given a result.
+Average count of an evaluation feature.
 
 ```sql
 DELIMITER //
@@ -364,7 +364,7 @@ mysql> SELECT ROUND(EVAL_ARRAY_COUNT('1-0', 1), 2) as center_count;
 
 ### `EVAL_ARRAY_SUM()`
 
-Average sum of an evaluation feature given a result.
+Average sum of an evaluation feature.
 
 ```sql
 DELIMITER //

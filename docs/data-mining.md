@@ -302,9 +302,9 @@ WHERE
 
 ## Functions
 
-### `EVAL_ARRAY_COUNT()`
+### `EVAL_ARRAY_STEINITZ()`
 
-Average count of an evaluation feature.
+Steinitz evaluation as per the docs at [Evaluation Function](https://chesslablab.github.io/php-chess/heuristics/#evaluation-function).
 
 #### `res`
 
@@ -316,8 +316,8 @@ The index of the PHP Chess function being used in the [cli/mine/heuristics.php](
 
 ```sql
 DELIMITER //
-DROP FUNCTION IF EXISTS EVAL_ARRAY_COUNT//
-CREATE FUNCTION EVAL_ARRAY_COUNT(res VARCHAR(7), i INT) RETURNS FLOAT
+DROP FUNCTION IF EXISTS EVAL_ARRAY_STEINITZ//
+CREATE FUNCTION EVAL_ARRAY_STEINITZ(res VARCHAR(7), i INT) RETURNS FLOAT
 READS SQL DATA
 DETERMINISTIC
 BEGIN
@@ -357,22 +357,19 @@ BEGIN
 END//
 DELIMITER ;
 ```
-
-The example below returns the average count of the center evaluation of all games won with the white pieces.
-
 ```text
-mysql> SELECT ROUND(EVAL_ARRAY_COUNT('1-0', 1), 2) as center_count;
-+--------------+
-| center_count |
-+--------------+
-|        25.28 |
-+--------------+
-1 row in set (0.19 sec)
+mysql> SELECT ROUND(EVAL_ARRAY_STEINITZ('1-0', 1), 2) as center_steinitz;
++-----------------+
+| center_steinitz |
++-----------------+
+|           25.28 |
++-----------------+
+1 row in set (0.21 sec)
 ```
 
-### `EVAL_ARRAY_SUM()`
+### `EVAL_ARRAY_MEAN()`
 
-Average sum of an evaluation feature.
+Mean evaluation as per the docs at [Evaluation Function](https://chesslablab.github.io/php-chess/heuristics/#evaluation-function).
 
 #### `res`
 
@@ -384,8 +381,8 @@ The index of the PHP Chess function being used in the [cli/mine/heuristics.php](
 
 ```sql
 DELIMITER //
-DROP FUNCTION IF EXISTS EVAL_ARRAY_SUM//
-CREATE FUNCTION EVAL_ARRAY_SUM(res VARCHAR(7), i INT) RETURNS FLOAT
+DROP FUNCTION IF EXISTS EVAL_ARRAY_MEAN//
+CREATE FUNCTION EVAL_ARRAY_MEAN(res VARCHAR(7), i INT) RETURNS FLOAT
 READS SQL DATA
 DETERMINISTIC
 BEGIN
@@ -425,15 +422,12 @@ BEGIN
 END//
 DELIMITER ;
 ```
-
-The example below returns the average sum of the center evaluation of all games won with the white pieces.
-
 ```text
-mysql> SELECT ROUND(EVAL_ARRAY_SUM('1-0', 1), 2) as center_sum;
-+------------+
-| center_sum |
-+------------+
-|       24.2 |
-+------------+
-1 row in set (0.18 sec)
+mysql> SELECT ROUND(EVAL_ARRAY_MEAN('1-0', 1), 2) as center_mean;
++-------------+
+| center_mean |
++-------------+
+|        24.2 |
++-------------+
+1 row in set (0.19 sec)
 ```

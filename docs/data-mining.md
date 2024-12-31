@@ -304,7 +304,7 @@ WHERE
 
 ### `EVAL_ARRAY_STEINITZ()`
 
-Steinitz evaluation as per the docs at [Evaluation Function](https://chesslablab.github.io/php-chess/heuristics/#evaluation-function).
+Steinitz evaluation as per the docs at [Evaluation Functions](https://chesslablab.github.io/php-chess/heuristics/#evaluation-functions).
 
 #### `res`
 
@@ -369,7 +369,7 @@ mysql> SELECT ROUND(EVAL_ARRAY_STEINITZ('1-0', 1), 2) as center_steinitz;
 
 ### `EVAL_ARRAY_MEAN()`
 
-Mean evaluation as per the docs at [Evaluation Function](https://chesslablab.github.io/php-chess/heuristics/#evaluation-function).
+Mean evaluation as per the docs at [Evaluation Functions](https://chesslablab.github.io/php-chess/heuristics/#evaluation-functions).
 
 #### `res`
 

@@ -302,9 +302,9 @@ WHERE
 
 ## Functions
 
-### `EVAL_ARRAY_STEINITZ()`
+### `EVAL_COUNT()`
 
-Steinitz evaluation as per the docs at [Evaluation Functions](https://chesslablab.github.io/php-chess/heuristics/#evaluation-functions).
+Count of an evaluation feature.
 
 #### `res`
 
@@ -316,8 +316,8 @@ The index of the PHP Chess function being used in the [cli/mine/heuristics.php](
 
 ```sql
 DELIMITER //
-DROP FUNCTION IF EXISTS EVAL_ARRAY_STEINITZ//
-CREATE FUNCTION EVAL_ARRAY_STEINITZ(res VARCHAR(7), i INT) RETURNS FLOAT
+DROP FUNCTION IF EXISTS EVAL_COUNT//
+CREATE FUNCTION EVAL_COUNT(res VARCHAR(7), i INT) RETURNS FLOAT
 READS SQL DATA
 DETERMINISTIC
 BEGIN
@@ -358,18 +358,18 @@ END//
 DELIMITER ;
 ```
 ```text
-mysql> SELECT ROUND(EVAL_ARRAY_STEINITZ('1-0', 1), 2) as center_steinitz;
-+-----------------+
-| center_steinitz |
-+-----------------+
-|           25.28 |
-+-----------------+
-1 row in set (0.21 sec)
+mysql> SELECT ROUND(EVAL_COUNT('1-0', 1), 2) as center_count;
++--------------+
+| center_count |
++--------------+
+|        25.28 |
++--------------+
+1 row in set (0.33 sec)
 ```
 
-### `EVAL_ARRAY_MEAN()`
+### `EVAL_MEAN()`
 
-Mean evaluation as per the docs at [Evaluation Functions](https://chesslablab.github.io/php-chess/heuristics/#evaluation-functions).
+Mean of an evaluation feature.
 
 #### `res`
 
@@ -381,8 +381,8 @@ The index of the PHP Chess function being used in the [cli/mine/heuristics.php](
 
 ```sql
 DELIMITER //
-DROP FUNCTION IF EXISTS EVAL_ARRAY_MEAN//
-CREATE FUNCTION EVAL_ARRAY_MEAN(res VARCHAR(7), i INT) RETURNS FLOAT
+DROP FUNCTION IF EXISTS EVAL_MEAN//
+CREATE FUNCTION EVAL_MEAN(res VARCHAR(7), i INT) RETURNS FLOAT
 READS SQL DATA
 DETERMINISTIC
 BEGIN
@@ -423,11 +423,11 @@ END//
 DELIMITER ;
 ```
 ```text
-mysql> SELECT ROUND(EVAL_ARRAY_MEAN('1-0', 1), 2) as center_mean;
+mysql> SELECT ROUND(EVAL_MEAN('1-0', 1), 2) as center_mean;
 +-------------+
 | center_mean |
 +-------------+
 |        24.2 |
 +-------------+
-1 row in set (0.19 sec)
+1 row in set (0.20 sec)
 ```

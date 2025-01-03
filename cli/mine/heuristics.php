@@ -55,7 +55,7 @@ class Heuristics extends CLI
 
         foreach ($rows as $row) {
             try {
-                $heuristics = (new SanExtractor($this->f, $row['movetext'], new Board()))->eval;
+                $heuristics = SanExtractor::eval($this->f, new Board(), $row['movetext']);
 
                 array_shift($heuristics);
 

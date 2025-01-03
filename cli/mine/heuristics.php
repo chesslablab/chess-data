@@ -4,7 +4,7 @@ namespace ChessData\Cli\Mine;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Chess\SanSignal;
+use Chess\SanExtractor;
 use Chess\Function\FastFunction;
 use Chess\Variant\Classical\Board;
 use ChessData\Pdo;
@@ -55,7 +55,7 @@ class Heuristics extends CLI
 
         foreach ($rows as $row) {
             try {
-                $heuristics = (new SanSignal($this->f, $row['movetext'], new Board()))->spectrumComponent;
+                $heuristics = (new SanExtractor($this->f, $row['movetext'], new Board()))->eval;
 
                 array_shift($heuristics);
 

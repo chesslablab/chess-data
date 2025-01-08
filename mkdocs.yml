@@ -1,6 +1,5 @@
 site_name: Chess Data
 site_url: https://chess-data.chesslablab.org
 nav:
-  - Home: index.md
   - Data Mining: data-mining.md
 theme: mkdocs

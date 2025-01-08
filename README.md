@@ -7,7 +7,7 @@ The simplest yet powerful MySQL chess database to learn and play chess online.
 
 ### Documentation
 
-Read the latest docs [here](https://chesslablab.github.io/chess-data/).
+Read the latest docs [here](https://chess-data.chesslablab.org).
 
 ### License
 

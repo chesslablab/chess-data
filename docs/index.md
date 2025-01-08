@@ -406,11 +406,15 @@ WHERE
 36 rows in set (0.00 sec)
 ```
 
-### Functions
+### MySQL User-Defined Functions
 
-#### `EVAL_COUNT()`
+What makes a game won or lost? What are the most relevant heuristics? How does one player's style differ from another's? What are the features that make Stockfish stand out? Is there any difference between games with the black pieces and games with the white pieces?
 
-Count of an evaluation feature.
+MySQL user-defined functions can help answer these questions!
+
+#### `SCORE()`
+
+Score of a heuristic by result. Similarly to the Steinitz evaluation of a chess position, the score of a heuristic is the difference between the positive and negative values in the array. The score of a heuristic is an accurate indicator of an advantage. If the result is positive, the player with the white pieces has had the advantage, while if it is negative, it is the player with the black pieces who has had it.
 
 ##### `res`
 
@@ -418,12 +422,12 @@ The result of the game.
 
 ##### `i`
 
-The index of the PHP Chess function being used in the [cli/mine/heuristics.php](https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php) script.
+The index of the PHP Chess evaluation feature in the evaluation function.
 
 ```sql
 DELIMITER //
-DROP FUNCTION IF EXISTS EVAL_COUNT//
-CREATE FUNCTION EVAL_COUNT(res VARCHAR(7), i INT) RETURNS FLOAT
+DROP FUNCTION IF EXISTS SCORE//
+CREATE FUNCTION SCORE(res VARCHAR(7), i INT) RETURNS FLOAT
 READS SQL DATA
 DETERMINISTIC
 BEGIN
@@ -464,18 +468,12 @@ END//
 DELIMITER ;
 ```
 ```text
-mysql> SELECT ROUND(EVAL_COUNT('1-0', 1), 2) as center_count;
-+--------------+
-| center_count |
-+--------------+
-|        25.28 |
-+--------------+
-1 row in set (0.33 sec)
+SELECT SCORE('1-0', 1);
 ```
 
-#### `EVAL_MEAN()`
+#### `MEAN()`
 
-Mean of an evaluation feature.
+The mean of a heuristic by result is just another way of looking at the data. If the result is positive, the player with the white pieces has had the advantage, while if negative, it is the player with the black pieces who has had it.
 
 ##### `res`
 
@@ -483,12 +481,12 @@ The result of the game.
 
 ##### `i`
 
-The index of the PHP Chess function being used in the [cli/mine/heuristics.php](https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php) script.
+The index of the PHP Chess evaluation feature in the evaluation function.
 
 ```sql
 DELIMITER //
-DROP FUNCTION IF EXISTS EVAL_MEAN//
-CREATE FUNCTION EVAL_MEAN(res VARCHAR(7), i INT) RETURNS FLOAT
+DROP FUNCTION IF EXISTS MEAN//
+CREATE FUNCTION MEAN(res VARCHAR(7), i INT) RETURNS FLOAT
 READS SQL DATA
 DETERMINISTIC
 BEGIN
@@ -529,11 +527,245 @@ END//
 DELIMITER ;
 ```
 ```text
-mysql> SELECT ROUND(EVAL_MEAN('1-0', 1), 2) as center_mean;
-+-------------+
-| center_mean |
-+-------------+
-|        24.2 |
-+-------------+
-1 row in set (0.20 sec)
+SELECT MEAN('1-0', 1);
+```
+
+#### `SCORE_W()`
+
+Score of the given heuristic for the player who has won with the white pieces.
+
+##### `player`
+
+The name of the player.
+
+##### `i`
+
+The index of the PHP Chess evaluation feature in the evaluation function.
+
+```sql
+DELIMITER //
+DROP FUNCTION IF EXISTS SCORE_W//
+CREATE FUNCTION SCORE_W(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND White = player
+          AND Result = "1-0";
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          SUM(CASE WHEN value > 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN value < 0 THEN 1 ELSE 0 END) AS diff
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            "$[*]" COLUMNS(value FLOAT PATH "$")
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+```
+```text
+SELECT SCORE_W("Anand,V", 1);
+```
+
+#### `SCORE_B()`
+
+Score of the given heuristic for the player who has won with the black pieces.
+
+##### `player`
+
+The name of the player.
+
+##### `i`
+
+The index of the PHP Chess evaluation feature in the evaluation function.
+
+```sql
+DELIMITER //
+DROP FUNCTION IF EXISTS SCORE_B//
+CREATE FUNCTION SCORE_B(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Black = player
+          AND Result = "0-1";
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          SUM(CASE WHEN value > 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN value < 0 THEN 1 ELSE 0 END) AS diff
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            "$[*]" COLUMNS(value FLOAT PATH "$")
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+```
+```text
+SELECT SCORE_B("Anand,V", 1);
+```
+
+#### `MEAN_W()`
+
+The mean of the given heuristic for the player who has won with the white pieces.
+
+##### `player`
+
+The name of the player.
+
+##### `i`
+
+The index of the PHP Chess evaluation feature in the evaluation function.
+
+```sql
+DELIMITER //
+DROP FUNCTION IF EXISTS MEAN_W//
+CREATE FUNCTION MEAN_W(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND White = player
+          AND Result = "1-0";
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          ROUND(SUM(value), 2)
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            "$[*]" COLUMNS(value FLOAT PATH "$")
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+```
+```text
+SELECT MEAN_W("Anand,V", 1);
+```
+
+#### `MEAN_B()`
+
+The mean of the given heuristic for the player who has won with the black pieces.
+
+##### `player`
+
+The name of the player.
+
+##### `i`
+
+The index of the PHP Chess evaluation feature in the evaluation function.
+
+```sql
+DELIMITER //
+DROP FUNCTION IF EXISTS MEAN_B//
+CREATE FUNCTION MEAN_B(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Black = player
+          AND Result = "0-1";
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          ROUND(SUM(value), 2)
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            "$[*]" COLUMNS(value FLOAT PATH "$")
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+```
+```text
+SELECT MEAN_B("Anand,V", 1);
 ```

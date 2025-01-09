@@ -1,6 +1,6 @@
 # Chess Data
 
-The simplest yet powerful MySQL chess database to learn and play chess online.
+✨ [Chess Data](https://github.com/chesslablab/chess-data) is the simplest yet powerful MySQL chess database to learn and play chess online.
 
 ## Installation
 

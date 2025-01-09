@@ -6,37 +6,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="None">
         
-        <link rel="canonical" href="https://chesslablab.github.io/chess-data/">
+        <link rel="canonical" href="https://chess-data.chesslablab.org/">
         <link rel="shortcut icon" href="img/favicon.ico">
         <title>Chess Data</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body class="homepage">
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href=".">Chess Data</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
                 <!-- Expanded navigation -->
                 <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="navitem active">
-                                <a href="." class="nav-link">Home</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="data-mining/" class="nav-link">Data Mining</a>
-                            </li>
-                        </ul>
 
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
@@ -44,16 +34,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="data-mining/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -69,7 +49,7 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
         <ul class="nav flex-column">
             
             <li class="nav-item" data-level="1"><a href="#chess-data" class="nav-link">Chess Data</a>
@@ -82,6 +62,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#data-mining" class="nav-link">Data Mining</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -90,7 +74,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="chess-data">Chess Data</h1>
-<p>The simplest yet powerful MySQL chess database to learn and play chess online.</p>
+<p>✨ <a href="https://github.com/chesslablab/chess-data">Chess Data</a> is the simplest yet powerful MySQL chess database to learn and play chess online.</p>
 <h2 id="installation">Installation</h2>
 <p>Clone the <code>chesslablab/chess-data</code> repo into your projects folder. Then <code>cd</code> the <code>chess-data</code> directory and create an <code>.env</code> file:</p>
 <pre><code class="language-txt">cp .env.example .env
@@ -157,6 +141,567 @@
 <h3 id="users">🗒 <code>users</code></h3>
 <p>This is how to seed the <code>users</code> table with fake random generated usernames:</p>
 <pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/seed/users.php 5000
+</code></pre>
+<h2 id="data-mining">Data Mining</h2>
+<p>Data mining provides an additional boost to the SQL queries that can be performed on the <code>games</code> table. The precondition for it is to seed the <code>games</code> table with data. The CLI commands described below are to populate the columns suffixed with the word <code>_mine</code> with pre-calculated data for further analysis.</p>
+<h3 id="cli-commands">CLI Commands</h3>
+<h4 id="fenphp"><code>fen.php</code></h4>
+<p>The example below populates the <code>fen_mine</code> column with chess positions in FEN format on a player basis:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/fen.php &quot;Anand,V&quot;
+</code></pre>
+<p>This column is intended to store a text string of comma-separated values representing the chess positions in a game. It allows to search games by piece placement in FEN format.</p>
+<h5 id="example">Example</h5>
+<p>Fetch all games matching a particular position.</p>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  games
+WHERE
+  fen_mine LIKE '%r1bqkbnr/pp1ppppp/2n5/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R%';
+</code></pre>
+<h4 id="heuristicsphp"><code>heuristics.php</code></h4>
+<p>The example below calculates the <code>heuristics_mine</code> column on a player basis:</p>
+<pre><code class="language-text">docker exec -itu 1000:1000 chess_data_php php cli/mine/heuristics.php &quot;Anand,V&quot;
+</code></pre>
+<p>The <code>heuristics_mine</code> column is intended to store a JSON object representing the <a href="https://php-chess.chesslablab.org/heuristics/">PHP Chess heuristics</a> in a game. It allows to gather insights about the decisions that have been made to make the moves. With this data, you can take advantage of <a href="https://dev.mysql.com/doc/refman/8.0/en/json-functions.html">MySQL JSON functions</a> to perform operations on JSON values like in the following examples.</p>
+<h5 id="example_1">Example</h5>
+<p>Fetch the material evaluation in all games won by Anand with the white pieces.</p>
+<pre><code class="language-sql">SELECT
+  JSON_EXTRACT(heuristics_mine, '$[*][0]') as material
+FROM
+  games
+WHERE
+  heuristics_mine IS NOT NULL
+  AND White = &quot;Anand,V&quot;
+  AND Result = '1-0';
+</code></pre>
+<p>The index in the second parameter of the <code>JSON_EXTRACT</code> function <code>$[*][0]</code> corresponds to the index of the PHP Chess function being used in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/mine/heuristics.php">cli/mine/heuristics.php</a> script.</p>
+<p>See:</p>
+<ul>
+<li><a href="https://github.com/chesslablab/php-chess/blob/main/src/Function/FastFunction.php">Chess\Function\FastFunction</a></li>
+</ul>
+<p>Thus, <code>[0]</code> corresponds to the material evaluation in the fast function array.</p>
+<h5 id="example_2">Example</h5>
+<p>Convert the material evaluation array of a random game won by Anand with the white pieces from JSON to MySQL.</p>
+<pre><code class="language-sql">SET
+  @j = (
+    SELECT
+      JSON_EXTRACT(heuristics_mine, '$[*][0]')
+    FROM
+      games
+    WHERE
+      heuristics_mine IS NOT NULL
+      AND White = &quot;Anand,V&quot;
+      AND Result = '1-0'
+    ORDER BY
+      RAND()
+    LIMIT
+      1
+);
+</code></pre>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  JSON_TABLE(
+    @j,
+    &quot;$[*]&quot; COLUMNS(
+      id FOR ORDINALITY,
+      value FLOAT PATH &quot;$&quot;
+    )
+) material;
+</code></pre>
+<pre><code class="language-text">+------+-------+
+| id   | value |
++------+-------+
+|    1 |     0 |
+|    2 |     0 |
+|    3 |     0 |
+|    4 |     0 |
+|    5 |     0 |
+|    6 |     0 |
+|    7 |     0 |
+|    8 |     0 |
+|    9 |     0 |
+|   10 |     0 |
+|   11 |     0 |
+|   12 |     0 |
+|   13 |     0 |
+|   14 |     0 |
+|   15 |     0 |
+|   16 |     0 |
+|   17 |     0 |
+|   18 |     0 |
+|   19 |     0 |
+|   20 |     0 |
+|   21 |  0.13 |
+|   22 | -0.07 |
+|   23 | -0.07 |
+|   24 | -0.07 |
+|   25 | -0.07 |
+|   26 | -0.07 |
+|   27 | -0.07 |
+|   28 | -0.07 |
+|   29 | -0.07 |
+|   30 | -0.07 |
+|   31 | -0.07 |
+|   32 | -0.07 |
+|   33 | -0.07 |
+|   34 | -0.07 |
+|   35 | -0.07 |
+|   36 | -0.07 |
+|   37 | -0.07 |
+|   38 | -0.13 |
+|   39 | -0.13 |
+|   40 | -0.13 |
+|   41 |   0.1 |
+|   42 | -0.78 |
+|   43 | -0.66 |
+|   44 |    -1 |
+|   45 | -0.66 |
+|   46 |    -1 |
+|   47 | -0.44 |
+|   48 |    -1 |
+|   49 | -0.26 |
+|   50 | -0.26 |
+|   51 |   0.2 |
+|   52 |  0.03 |
+|   53 |  0.02 |
+|   54 |  0.02 |
+|   55 |  0.02 |
+|   56 |  0.02 |
+|   57 |  0.06 |
+|   58 | -0.19 |
+|   59 |  0.02 |
+|   60 |  0.01 |
+|   61 |  0.02 |
+|   62 |  0.02 |
+|   63 |  0.08 |
+|   64 | -0.12 |
+|   65 |  0.08 |
+|   66 |  0.08 |
+|   67 |  0.07 |
+|   68 |  0.06 |
+|   69 |  0.14 |
+|   70 |  0.14 |
+|   71 |  0.08 |
+|   72 |  0.08 |
+|   73 |  0.06 |
+|   74 | -0.14 |
+|   75 | -0.14 |
+|   76 | -0.21 |
+|   77 | -0.21 |
+|   78 |  -0.1 |
+|   79 |    -1 |
+|   80 | -0.21 |
+|   81 | -0.43 |
+|   82 | -0.43 |
+|   83 |    -1 |
+|   84 |    -1 |
+|   85 | -0.21 |
+|   86 | -0.21 |
+|   87 | -0.21 |
+|   88 | -0.21 |
+|   89 | -0.21 |
+|   90 | -0.14 |
+|   91 |  0.01 |
+|   92 |    -1 |
+|   93 | -0.44 |
+|   94 | -0.12 |
+|   95 |  0.11 |
+|   96 | -0.72 |
+|   97 |  0.24 |
+|   98 |  0.59 |
+|   99 |  0.88 |
+|  100 |  0.21 |
+|  101 |  0.25 |
+|  102 |  0.13 |
+|  103 |  0.11 |
+|  104 |  0.39 |
+|  105 |  0.24 |
+|  106 |  0.14 |
+|  107 |  0.06 |
++------+-------+
+107 rows in set (0.00 sec)
+</code></pre>
+<h5 id="example_3">Example</h5>
+<p>Sum all elements in the previous array.</p>
+<pre><code class="language-sql">SELECT
+  ROUND(SUM(value), 2) as sum
+FROM
+  JSON_TABLE(
+    @j,
+    &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+) material;
+</code></pre>
+<pre><code class="language-text">+--------+
+| sum    |
++--------+
+| -11.32 |
++--------+
+1 row in set (0.00 sec)
+</code></pre>
+<h5 id="example_4">Example</h5>
+<p>Select the indexes in the previous material evaluation array where White has a material advantage.</p>
+<pre><code class="language-sql">SELECT
+  id
+FROM
+  JSON_TABLE(
+    @j,
+    &quot;$[*]&quot; COLUMNS(
+      id FOR ORDINALITY, value FLOAT PATH &quot;$&quot;
+    )
+  ) material
+WHERE
+  value &gt; 0;
+</code></pre>
+<pre><code class="language-text">+------+
+| id   |
++------+
+|   21 |
+|   41 |
+|   51 |
+|   52 |
+|   53 |
+|   54 |
+|   55 |
+|   56 |
+|   57 |
+|   59 |
+|   60 |
+|   61 |
+|   62 |
+|   63 |
+|   65 |
+|   66 |
+|   67 |
+|   68 |
+|   69 |
+|   70 |
+|   71 |
+|   72 |
+|   73 |
+|   91 |
+|   95 |
+|   97 |
+|   98 |
+|   99 |
+|  100 |
+|  101 |
+|  102 |
+|  103 |
+|  104 |
+|  105 |
+|  106 |
+|  107 |
++------+
+36 rows in set (0.00 sec)
+</code></pre>
+<h3 id="mysql-user-defined-functions">MySQL User-Defined Functions</h3>
+<p>What makes a game won or lost? What are the most relevant heuristics? How does one player's style differ from another's? What are the features that make Stockfish stand out? Is there any difference between games with the black pieces and games with the white pieces?</p>
+<p>MySQL user-defined functions can help answer these questions!</p>
+<h4 id="score"><code>SCORE()</code></h4>
+<p>Score of a heuristic by result. Similarly to the Steinitz evaluation of a chess position, the score of a heuristic is the difference between the positive and negative values in the array. The score of a heuristic is an accurate indicator of an advantage. If the result is positive, the player with the white pieces has had the advantage, while if it is negative, it is the player with the black pieces who has had it.</p>
+<h5 id="res"><code>res</code></h5>
+<p>The result of the game.</p>
+<h5 id="i"><code>i</code></h5>
+<p>The index of the PHP Chess evaluation feature in the evaluation function.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS SCORE//
+CREATE FUNCTION SCORE(res VARCHAR(7), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Result = res;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+            SUM(CASE WHEN value &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN value &lt; 0 THEN 1 ELSE 0 END) AS diff
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<pre><code class="language-text">SELECT SCORE('1-0', 1);
+</code></pre>
+<h4 id="mean"><code>MEAN()</code></h4>
+<p>The mean of a heuristic by result is just another way of looking at the data. If the result is positive, the player with the white pieces has had the advantage, while if negative, it is the player with the black pieces who has had it.</p>
+<h5 id="res_1"><code>res</code></h5>
+<p>The result of the game.</p>
+<h5 id="i_1"><code>i</code></h5>
+<p>The index of the PHP Chess evaluation feature in the evaluation function.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS MEAN//
+CREATE FUNCTION MEAN(res VARCHAR(7), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Result = res;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          ROUND(SUM(value), 2)
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<pre><code class="language-text">SELECT MEAN('1-0', 1);
+</code></pre>
+<h4 id="score_w"><code>SCORE_W()</code></h4>
+<p>Score of the given heuristic for the player who has won with the white pieces.</p>
+<h5 id="player"><code>player</code></h5>
+<p>The name of the player.</p>
+<h5 id="i_2"><code>i</code></h5>
+<p>The index of the PHP Chess evaluation feature in the evaluation function.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS SCORE_W//
+CREATE FUNCTION SCORE_W(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND White = player
+          AND Result = &quot;1-0&quot;;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          SUM(CASE WHEN value &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN value &lt; 0 THEN 1 ELSE 0 END) AS diff
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<pre><code class="language-text">SELECT SCORE_W(&quot;Anand,V&quot;, 1);
+</code></pre>
+<h4 id="score_b"><code>SCORE_B()</code></h4>
+<p>Score of the given heuristic for the player who has won with the black pieces.</p>
+<h5 id="player_1"><code>player</code></h5>
+<p>The name of the player.</p>
+<h5 id="i_3"><code>i</code></h5>
+<p>The index of the PHP Chess evaluation feature in the evaluation function.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS SCORE_B//
+CREATE FUNCTION SCORE_B(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Black = player
+          AND Result = &quot;0-1&quot;;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          SUM(CASE WHEN value &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN value &lt; 0 THEN 1 ELSE 0 END) AS diff
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<pre><code class="language-text">SELECT SCORE_B(&quot;Anand,V&quot;, 1);
+</code></pre>
+<h4 id="mean_w"><code>MEAN_W()</code></h4>
+<p>The mean of the given heuristic for the player who has won with the white pieces.</p>
+<h5 id="player_2"><code>player</code></h5>
+<p>The name of the player.</p>
+<h5 id="i_4"><code>i</code></h5>
+<p>The index of the PHP Chess evaluation feature in the evaluation function.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS MEAN_W//
+CREATE FUNCTION MEAN_W(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND White = player
+          AND Result = &quot;1-0&quot;;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          ROUND(SUM(value), 2)
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<pre><code class="language-text">SELECT MEAN_W(&quot;Anand,V&quot;, 1);
+</code></pre>
+<h4 id="mean_b"><code>MEAN_B()</code></h4>
+<p>The mean of the given heuristic for the player who has won with the black pieces.</p>
+<h5 id="player_3"><code>player</code></h5>
+<p>The name of the player.</p>
+<h5 id="i_5"><code>i</code></h5>
+<p>The index of the PHP Chess evaluation feature in the evaluation function.</p>
+<pre><code class="language-sql">DELIMITER //
+DROP FUNCTION IF EXISTS MEAN_B//
+CREATE FUNCTION MEAN_B(player VARCHAR(32), i INT) RETURNS FLOAT
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+    DECLARE count INT DEFAULT 0;
+    DECLARE total FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT 0;
+    DECLARE heuristic JSON;
+    DECLARE cur CURSOR FOR
+        SELECT
+          JSON_EXTRACT(heuristics_mine, concat('$[*][', i, ']'))
+        FROM
+          games
+        WHERE
+          heuristics_mine IS NOT NULL
+          AND Black = player
+          AND Result = &quot;0-1&quot;;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;     
+    OPEN cur;
+    label:LOOP
+        FETCH cur INTO heuristic;
+        IF done = 1 THEN
+            LEAVE label;
+        END IF;
+        SELECT
+          ROUND(SUM(value), 2)
+        INTO
+          @sum
+        FROM
+          JSON_TABLE(
+            heuristic,
+            &quot;$[*]&quot; COLUMNS(value FLOAT PATH &quot;$&quot;)
+        ) material;
+        SET total = total + @sum;
+        SET count = count + 1;
+    END LOOP label;
+    CLOSE cur;
+    RETURN total / count;
+END//
+DELIMITER ;
+</code></pre>
+<pre><code class="language-text">SELECT MEAN_B(&quot;Anand,V&quot;, 1);
 </code></pre></div>
             </div>
         </div>
@@ -165,14 +710,12 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="js/jquery-3.6.0.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
         <script>
             var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js"></script>
-        <script src="search/main.js"></script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -182,13 +725,16 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
@@ -239,6 +785,6 @@
 </html>
 
 <!--
-MkDocs version : 1.5.3
-Build Date UTC : 2024-12-30 16:33:57.791027+00:00
+MkDocs version : 1.1.2
+Build Date UTC : 2025-01-09 17:54:42.482025+00:00
 -->

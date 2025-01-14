@@ -2,7 +2,7 @@
 
 namespace ChessData\Pgn;
 
-use Chess\Variant\Classical\PGN\AN\Termination;
+use Chess\Variant\Classical\PGN\Termination;
 
 class FileLine
 {

@@ -5,7 +5,7 @@ namespace ChessData\Cli\Mine;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Chess\SanExtractor;
-use Chess\Function\FastFunction;
+use Chess\Eval\FastFunction;
 use Chess\Variant\Classical\Board;
 use ChessData\Pdo;
 use Dotenv\Dotenv;

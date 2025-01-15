@@ -167,7 +167,7 @@ The index in the second parameter of the `JSON_EXTRACT` function `$[*][0]` corre
 
 See:
 
-- [Chess\Function\FastFunction](https://github.com/chesslablab/php-chess/blob/main/src/Function/FastFunction.php)
+- [Chess\Eval\FastFunction](https://github.com/chesslablab/php-chess/blob/main/src/Eval/FastFunction.php)
 
 Thus, `[0]` corresponds to the material evaluation in the fast function array.
 

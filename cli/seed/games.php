@@ -4,8 +4,10 @@ namespace ChessData\Cli\Seed;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use Chess\PgnParser;
+use Chess\Variant\Classical\PGN\Move;
+use Chess\Variant\Classical\PGN\Tag;
 use ChessData\Pdo;
-use ChessData\Pgn\Seeder;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\CLI;
 use splitbrain\phpcli\Options;
@@ -51,29 +53,53 @@ class Games extends CLI
         }
     }
 
-    protected function display(\stdClass $result)
+    protected function display(array $result)
     {
-        if ($result->valid === 0) {
+        if ($result['valid'] === 0) {
             $this->error('Whoops! It seems as if no valid games were found in this file.');
         } else {
-            $invalid = $result->total - $result->valid;
+            $invalid = $result['total'] - $result['valid'];
             if ($invalid > 0) {
                 $this->error("{$invalid} games did not pass the validation.");
             }
-            $this->success("{$result->valid} games out of a total of {$result->total} are OK.");
+            $this->success("{$result['valid']} games out of a total of {$result['total']} are OK.");
         }
     }
 
-    protected function seed(string $filepath): \stdClass
+    protected function seed(string $filepath): array
     {
-        $seeder = new Seeder($this->pdo, $this->table, $filepath);
+        $parser = new PgnParser(new Move(), $filepath);
 
-        try {
-            $seeder->seed();
-        } catch (\Exception $e) {
-        }
+        $parser->onValidation(function($tags, $movetext) {
+            $values = [];
+            $params = '';
+            $sql = "INSERT INTO {$this->table} (";    
+            foreach ((new Tag())->loadable() as $name) {
+                if (isset($tags[$name])) {
+                    $values[] = [
+                        'param' => ":$name",
+                        'value' => $tags[$name],
+                        'type' => \PDO::PARAM_STR
+                    ];
+                    $params .= ":$name, ";
+                    $sql .= "$name, ";
+                }
+            }    
+            $sql .= "movetext) VALUES ($params:movetext)";    
+            $values[] = [
+                'param' => ':movetext',
+                'value' => $movetext,
+                'type' => \PDO::PARAM_STR
+            ];    
+            try {
+                $this->pdo->query($sql, $values);
+            } catch (\Exception $e) {                
+            }
+        });
 
-        return $seeder->getResult();
+        $parser->parse();
+
+        return $parser->getResult();
     }
 }
 

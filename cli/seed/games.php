@@ -70,7 +70,7 @@ class Games extends CLI
     {
         $parser = new PgnParser(new Move(), $filepath);
 
-        $parser->onValidation(function($tags, $movetext) {
+        $parser->onValidation(function(array $tags, string $movetext) {
             $values = [];
             $params = '';
             $sql = "INSERT INTO {$this->table} (";    

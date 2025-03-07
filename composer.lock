@@ -562,7 +562,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/chesslablab/php-chess.git",
-                "reference": "7b62b4a6b161be7f62ac5ecbf0cc24144fabc8ec"
+                "reference": "0804289040a5de937b8f43aabe19e6566cedc807"
             },
             "require": {
                 "imagine/imagine": "^1.2",
@@ -619,7 +619,7 @@
                 "validate",
                 "validator"
             ],
-            "time": "2025-02-21T18:52:47+00:00"
+            "time": "2025-03-07T17:16:39+00:00"
         },
         {
             "name": "graham-campbell/result-type",

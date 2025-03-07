@@ -1,20 +1,16 @@
 FROM php:8.4-fpm
 
+WORKDIR /usr/share/chess-data
+
 RUN apt-get update && apt-get install -y \
     git \
-    libzip-dev \
     unzip \
-    zip \
-    libpng-dev
+    zip
 
 RUN docker-php-ext-install mysqli pdo_mysql
 
-COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
-
-WORKDIR /usr/share/chess-data
-
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.json
-
 COPY composer.lock composer.lock
 
 RUN composer install \
@@ -23,10 +19,3 @@ RUN composer install \
     --no-scripts \
     --no-dev \
     --prefer-dist
-
-# By default, Composer runs as root inside the container.
-# This can lead to permission issues on your host filesystem.
-
-RUN chown -R 1000:1000 vendor
-
-RUN chmod -R 775 vendor

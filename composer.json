@@ -1,0 +1,52 @@
+{
+  "name": "chesslablab/chess-data",
+  "description": "CLI tools to manage a chess database of PGN games.",
+  "type": "project",
+  "license": "GPL-3.0-only",
+  "keywords": [
+      "chess",
+      "database",
+      "pgn",
+      "parser",
+      "validate",
+      "mysql",
+      "pdo",
+      "game",
+      "engine",
+      "api",
+      "query",
+      "position"
+  ],
+  "authors": [
+    {
+      "name": "Jordi Bassagaña",
+      "email": "info@chesslablab.org",
+      "homepage": "https://github.com/chesslablab"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/chesslablab/php-chess.git"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "chesslablab/php-chess": "dev-main",
+    "vlucas/phpdotenv": "^5.0",
+    "splitbrain/php-cli": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ChessData\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ChessData\\Tests\\": "tests/"
+    }
+  }
+}

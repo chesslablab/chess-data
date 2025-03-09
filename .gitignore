@@ -1,0 +1,8 @@
+/vendor/
+
+/data/games/*.pgn
+!/data/games/.gitkeep
+
+.env
+
+/site/
